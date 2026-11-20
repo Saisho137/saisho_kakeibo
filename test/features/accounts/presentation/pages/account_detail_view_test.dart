@@ -160,6 +160,11 @@ void main() {
       expect(find.text('+500'), findsOneWidget);
       expect(find.text('Balance adjustment'), findsOneWidget);
       expect(find.text('+30'), findsOneWidget);
+
+      await tester.tap(find.text('Eating out'));
+      verify(() => router.push<Object?>('/movements/1')).called(1);
+      await tester.tap(find.text('To Fund'));
+      verifyNever(() => router.push<Object?>('/movements/3'));
     });
 
     testWidgets('deletes an adjustment after confirming', (tester) async {

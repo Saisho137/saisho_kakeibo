@@ -835,5 +835,118 @@
   "dayYesterday": "Yesterday",
   "@dayYesterday": {
     "description": "Header of yesterday's movements."
+  },
+  "homeNewExpense": "New expense",
+  "@homeNewExpense": {
+    "description": "Home button that starts an expense."
+  },
+  "homeNewIncome": "New income",
+  "@homeNewIncome": {
+    "description": "Home button that starts an income."
+  },
+  "entryExpenseTitle": "New expense",
+  "@entryExpenseTitle": {
+    "description": "Title of the category grid for expenses."
+  },
+  "entryIncomeTitle": "New income",
+  "@entryIncomeTitle": {
+    "description": "Title of the category grid for incomes."
+  },
+  "entrySearchHint": "Search categories and entities",
+  "@entrySearchHint": {
+    "description": "Hint of the search field of the category grid."
+  },
+  "entryEntities": "Entities",
+  "@entryEntities": {
+    "description": "Header of the payees found by the search."
+  },
+  "entryNoMatches": "Nothing matches.",
+  "@entryNoMatches": {
+    "description": "Shown when the search finds nothing."
+  },
+  "movementAccount": "Account",
+  "@movementAccount": {
+    "description": "Label of the account picker."
+  },
+  "movementPayee": "Entity",
+  "@movementPayee": {
+    "description": "Label of the payee field."
+  },
+  "movementNote": "Note",
+  "@movementNote": {
+    "description": "Label of the note field."
+  },
+  "movementStartsPeriod": "Starts period",
+  "@movementStartsPeriod": {
+    "description": "Switch that makes a salary start a new period."
+  },
+  "movementStartsPeriodHint": "A new period starts on this date.",
+  "@movementStartsPeriodHint": {
+    "description": "Subtitle of the starts period switch."
+  },
+  "movementConfirm": "Confirm",
+  "@movementConfirm": {
+    "description": "Button that confirms a pending movement."
+  },
+  "movementChangeCategory": "Change category",
+  "@movementChangeCategory": {
+    "description": "Tooltip of the category in the form title."
+  },
+  "movementDeleteTooltip": "Delete movement",
+  "@movementDeleteTooltip": {
+    "description": "Tooltip of the delete action of the form."
+  },
+  "movementDeleteTitle": "Delete this movement?",
+  "@movementDeleteTitle": {
+    "description": "Title of the delete confirmation."
+  },
+  "movementDeleteMessage": "This can't be undone.",
+  "@movementDeleteMessage": {
+    "description": "Message of the delete confirmation."
+  },
+  "movementNotFound": "This movement no longer exists.",
+  "@movementNotFound": {
+    "description": "Shown when the edited movement is missing."
+  },
+  "movementErrorAmount": "Enter an amount above zero.",
+  "@movementErrorAmount": {
+    "description": "Error of a missing or invalid amount."
+  },
+  "movementErrorAccount": "Pick an account.",
+  "@movementErrorAccount": {
+    "description": "Error of a missing account."
+  },
+  "movementErrorCategory": "Pick a category.",
+  "@movementErrorCategory": {
+    "description": "Error of a missing category."
+  },
+  "movementResult": "= {amount}",
+  "@movementResult": {
+    "description": "Result of the operations typed on the keypad.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "keypadBackspace": "Delete",
+  "@keypadBackspace": {
+    "description": "Semantic label of the keypad backspace key."
+  },
+  "keypadAdd": "Plus",
+  "@keypadAdd": {
+    "description": "Semantic label of the keypad plus key."
+  },
+  "keypadSubtract": "Minus",
+  "@keypadSubtract": {
+    "description": "Semantic label of the keypad minus key."
+  },
+  "keypadMultiply": "Times",
+  "@keypadMultiply": {
+    "description": "Semantic label of the keypad times key."
+  },
+  "keypadDivide": "Divided by",
+  "@keypadDivide": {
+    "description": "Semantic label of the keypad divide key."
   }
 }

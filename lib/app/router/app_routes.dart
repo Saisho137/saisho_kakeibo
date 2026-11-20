@@ -1,4 +1,5 @@
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 
 /// Route paths and names, so navigation never relies on string literals.
 abstract final class AppRoutes {
@@ -14,6 +15,24 @@ abstract final class AppRoutes {
   static String accountDetail(int id) => '/accounts/$id';
 
   static String editAccount(int id) => '/accounts/$id/edit';
+
+  /// Quick entry: the category grid of an income or expense.
+  static String entry(MovementType type) => '/entry/${type.name}';
+
+  static String newMovement(
+    MovementType type, {
+    int? categoryId,
+    int? payeeId,
+  }) => Uri(
+    path: '/movements/new',
+    queryParameters: {
+      'type': type.name,
+      'category': ?categoryId?.toString(),
+      'payee': ?payeeId?.toString(),
+    },
+  ).toString();
+
+  static String editMovement(int id) => '/movements/$id';
 
   static String newCategory(CategoryType type) =>
       '/categories/new?type=${type.name}';

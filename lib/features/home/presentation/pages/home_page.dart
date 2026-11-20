@@ -2,11 +2,13 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
+import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
-/// Placeholder entry screen until the Home feature is implemented. The
-/// Accounts, Categories and Settings buttons are temporary: phase 6 moves
-/// them to the ⋮ navigation menu.
+/// Placeholder entry screen until the Home feature is implemented. Its
+/// buttons are temporary: phase 6 moves the screens to the ⋮ navigation
+/// menu and the quick entry to the Home's minus and plus buttons.
 class HomePage extends StatelessWidget {
   const new({super.key});
 
@@ -33,9 +35,34 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text(
-          context.l10n.appTitle,
-          style: context.textTheme.headlineMedium,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              context.l10n.appTitle,
+              style: context.textTheme.headlineMedium,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: AppSpacing.md,
+              runSpacing: AppSpacing.sm,
+              children: [
+                FilledButton.tonalIcon(
+                  icon: const Icon(Icons.remove_rounded),
+                  label: Text(context.l10n.homeNewExpense),
+                  onPressed: () =>
+                      context.push(AppRoutes.entry(MovementType.expense)),
+                ),
+                FilledButton.tonalIcon(
+                  icon: const Icon(Icons.add_rounded),
+                  label: Text(context.l10n.homeNewIncome),
+                  onPressed: () =>
+                      context.push(AppRoutes.entry(MovementType.income)),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

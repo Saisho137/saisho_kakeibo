@@ -1,4 +1,5 @@
 import 'package:saisho_kakeibo/core/error/result.dart';
+import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
@@ -12,6 +13,17 @@ abstract interface class MovementRepository {
   Stream<List<Payee>> watchPayees();
 
   Future<Result<Movement?>> findById(int id);
+
+  Future<Result<List<Payee>>> getPayees();
+
+  /// Latest movement of [categoryId], if any.
+  Future<Result<Movement?>> lastOfCategory(int categoryId);
+
+  /// Latest movement of [type] of every payee that has one.
+  Future<Result<List<Movement>>> lastOfEachPayee(MovementType type);
+
+  /// Date of the latest salary that started a period, if any (RF-05).
+  Future<Result<LocalDate?>> lastPeriodStart();
 
   /// Inserts or replaces [movement]. With a [payee], it is found by key or
   /// created, and set on the movement, in the same transaction. Returns the

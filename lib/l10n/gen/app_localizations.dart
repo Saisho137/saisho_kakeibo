@@ -1191,6 +1191,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get dayYesterday;
+
+  /// Home button that starts an expense.
+  ///
+  /// In en, this message translates to:
+  /// **'New expense'**
+  String get homeNewExpense;
+
+  /// Home button that starts an income.
+  ///
+  /// In en, this message translates to:
+  /// **'New income'**
+  String get homeNewIncome;
+
+  /// Title of the category grid for expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'New expense'**
+  String get entryExpenseTitle;
+
+  /// Title of the category grid for incomes.
+  ///
+  /// In en, this message translates to:
+  /// **'New income'**
+  String get entryIncomeTitle;
+
+  /// Hint of the search field of the category grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Search categories and entities'**
+  String get entrySearchHint;
+
+  /// Header of the payees found by the search.
+  ///
+  /// In en, this message translates to:
+  /// **'Entities'**
+  String get entryEntities;
+
+  /// Shown when the search finds nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches.'**
+  String get entryNoMatches;
+
+  /// Label of the account picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get movementAccount;
+
+  /// Label of the payee field.
+  ///
+  /// In en, this message translates to:
+  /// **'Entity'**
+  String get movementPayee;
+
+  /// Label of the note field.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get movementNote;
+
+  /// Switch that makes a salary start a new period.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts period'**
+  String get movementStartsPeriod;
+
+  /// Subtitle of the starts period switch.
+  ///
+  /// In en, this message translates to:
+  /// **'A new period starts on this date.'**
+  String get movementStartsPeriodHint;
+
+  /// Button that confirms a pending movement.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get movementConfirm;
+
+  /// Tooltip of the category in the form title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change category'**
+  String get movementChangeCategory;
+
+  /// Tooltip of the delete action of the form.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete movement'**
+  String get movementDeleteTooltip;
+
+  /// Title of the delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this movement?'**
+  String get movementDeleteTitle;
+
+  /// Message of the delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'This can\'t be undone.'**
+  String get movementDeleteMessage;
+
+  /// Shown when the edited movement is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This movement no longer exists.'**
+  String get movementNotFound;
+
+  /// Error of a missing or invalid amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount above zero.'**
+  String get movementErrorAmount;
+
+  /// Error of a missing account.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick an account.'**
+  String get movementErrorAccount;
+
+  /// Error of a missing category.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a category.'**
+  String get movementErrorCategory;
+
+  /// Result of the operations typed on the keypad.
+  ///
+  /// In en, this message translates to:
+  /// **'= {amount}'**
+  String movementResult(String amount);
+
+  /// Semantic label of the keypad backspace key.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get keypadBackspace;
+
+  /// Semantic label of the keypad plus key.
+  ///
+  /// In en, this message translates to:
+  /// **'Plus'**
+  String get keypadAdd;
+
+  /// Semantic label of the keypad minus key.
+  ///
+  /// In en, this message translates to:
+  /// **'Minus'**
+  String get keypadSubtract;
+
+  /// Semantic label of the keypad times key.
+  ///
+  /// In en, this message translates to:
+  /// **'Times'**
+  String get keypadMultiply;
+
+  /// Semantic label of the keypad divide key.
+  ///
+  /// In en, this message translates to:
+  /// **'Divided by'**
+  String get keypadDivide;
 }
 
 class _AppLocalizationsDelegate

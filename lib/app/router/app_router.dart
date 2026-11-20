@@ -7,6 +7,9 @@ import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart
 import 'package:saisho_kakeibo/features/categories/presentation/pages/categories_page.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/pages/category_form_page.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
+import 'package:saisho_kakeibo/features/movements/presentation/pages/category_grid_page.dart';
+import 'package:saisho_kakeibo/features/movements/presentation/pages/movement_form_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/currency_form_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/settings_page.dart';
 
@@ -71,6 +74,30 @@ GoRouter createAppRouter() => GoRouter(
       ],
     ),
     GoRoute(
+      path: '/entry/:type',
+      name: 'entry',
+      builder: (context, state) =>
+          CategoryGridPage(type: _movementType(state.pathParameters['type'])),
+    ),
+    GoRoute(
+      path: '/movements/new',
+      name: 'newMovement',
+      builder: (context, state) {
+        final query = state.uri.queryParameters;
+        return MovementFormPage(
+          type: _movementType(query['type']),
+          categoryId: int.tryParse(query['category'] ?? ''),
+          payeeId: int.tryParse(query['payee'] ?? ''),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/movements/:id',
+      name: 'editMovement',
+      builder: (context, state) =>
+          MovementFormPage(id: int.tryParse(state.pathParameters['id']!) ?? -1),
+    ),
+    GoRoute(
       path: AppRoutes.settings,
       name: 'settings',
       builder: (context, state) => const SettingsPage(),
@@ -90,3 +117,8 @@ GoRouter createAppRouter() => GoRouter(
     ),
   ],
 );
+
+/// Income or expense from a route; anything else is an expense.
+MovementType _movementType(String? name) => name == MovementType.income.name
+    ? MovementType.income
+    : MovementType.expense;
