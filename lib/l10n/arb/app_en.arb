@@ -219,5 +219,317 @@
   "settingsOpenTooltip": "Settings",
   "@settingsOpenTooltip": {
     "description": "Tooltip of the button that opens Settings."
+  },
+  "settingsSectionBalance": "Balance",
+  "@settingsSectionBalance": {
+    "description": "Settings section header: accounts included in the Balance."
+  },
+  "currencyInUseLocked": "Currencies used by an account can't be deleted.",
+  "@currencyInUseLocked": {
+    "description": "Why a currency in use has no delete action."
+  },
+  "iconPickerTitle": "Icon",
+  "@iconPickerTitle": {
+    "description": "Icon picker dialog title."
+  },
+  "colorPickerTitle": "Color",
+  "@colorPickerTitle": {
+    "description": "Color picker dialog title."
+  },
+  "iconGroupFood": "Food",
+  "@iconGroupFood": {
+    "description": "Icon picker group."
+  },
+  "iconGroupTransport": "Transport",
+  "@iconGroupTransport": {
+    "description": "Icon picker group."
+  },
+  "iconGroupHome": "Home",
+  "@iconGroupHome": {
+    "description": "Icon picker group."
+  },
+  "iconGroupHealth": "Health",
+  "@iconGroupHealth": {
+    "description": "Icon picker group."
+  },
+  "iconGroupShopping": "Shopping",
+  "@iconGroupShopping": {
+    "description": "Icon picker group."
+  },
+  "iconGroupLeisure": "Leisure",
+  "@iconGroupLeisure": {
+    "description": "Icon picker group."
+  },
+  "iconGroupEducation": "Education",
+  "@iconGroupEducation": {
+    "description": "Icon picker group."
+  },
+  "iconGroupFinance": "Finance",
+  "@iconGroupFinance": {
+    "description": "Icon picker group."
+  },
+  "iconGroupPeople": "People",
+  "@iconGroupPeople": {
+    "description": "Icon picker group."
+  },
+  "iconGroupOther": "Other",
+  "@iconGroupOther": {
+    "description": "Icon picker group."
+  },
+  "accountsOpenTooltip": "Accounts",
+  "@accountsOpenTooltip": {
+    "description": "Tooltip of the button that opens Accounts."
+  },
+  "accountsTitle": "Accounts",
+  "@accountsTitle": {
+    "description": "Accounts screen title."
+  },
+  "accountsTotalBalance": "Total balance",
+  "@accountsTotalBalance": {
+    "description": "Sum of every account of the selected currency."
+  },
+  "accountsBalance": "Balance",
+  "@accountsBalance": {
+    "description": "Sum of the accounts included in the Balance."
+  },
+  "accountsCurrencyTooltip": "Currency",
+  "@accountsCurrencyTooltip": {
+    "description": "Tooltip of the currency selector on Accounts."
+  },
+  "accountsShowArchived": "Show archived",
+  "@accountsShowArchived": {
+    "description": "Menu option that also lists archived accounts."
+  },
+  "accountsEmpty": "No accounts in {currency} yet.",
+  "@accountsEmpty": {
+    "description": "Accounts screen without accounts in the selected currency.",
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "accountGroupCashAndBank": "Cash & bank",
+  "@accountGroupCashAndBank": {
+    "description": "Accounts group header."
+  },
+  "accountGroupCreditCards": "Credit cards",
+  "@accountGroupCreditCards": {
+    "description": "Accounts group header."
+  },
+  "accountGroupInvestments": "Investments",
+  "@accountGroupInvestments": {
+    "description": "Accounts group header."
+  },
+  "accountMainMarker": "Main account",
+  "@accountMainMarker": {
+    "description": "Accessibility label of the star next to the main account."
+  },
+  "accountInBalanceMarker": "Included in Balance",
+  "@accountInBalanceMarker": {
+    "description": "Accessibility label of the dot next to accounts included in the Balance."
+  },
+  "accountArchived": "Archived",
+  "@accountArchived": {
+    "description": "Label of an archived account."
+  },
+  "accountFree": "Free",
+  "@accountFree": {
+    "description": "Money of an account outside its pockets."
+  },
+  "accountCreditLeft": "{amount} left",
+  "@accountCreditLeft": {
+    "description": "Credit limit left on a card.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "accountCreditLeftWithDay": "{amount} left · day {day}",
+  "@accountCreditLeftWithDay": {
+    "description": "Credit limit left and the card's payment day.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "accountNewTooltip": "New account",
+  "@accountNewTooltip": {
+    "description": "Tooltip of the button that creates an account."
+  },
+  "accountNewTitle": "New account",
+  "@accountNewTitle": {
+    "description": "Account form title when creating."
+  },
+  "accountEditTitle": "Edit {name}",
+  "@accountEditTitle": {
+    "description": "Account form title when editing.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "accountNotFound": "This account no longer exists.",
+  "@accountNotFound": {
+    "description": "Shown when the edited account was deleted."
+  },
+  "accountType": "Type",
+  "@accountType": {
+    "description": "Account type field."
+  },
+  "accountTypeLocked": "The type can't be changed after creating the account.",
+  "@accountTypeLocked": {
+    "description": "Note under the read-only type."
+  },
+  "accountTypeCash": "Cash",
+  "@accountTypeCash": {
+    "description": "Account type."
+  },
+  "accountTypeBank": "Bank",
+  "@accountTypeBank": {
+    "description": "Account type."
+  },
+  "accountTypeCreditCard": "Credit card",
+  "@accountTypeCreditCard": {
+    "description": "Account type."
+  },
+  "accountTypeInvestment": "Investment",
+  "@accountTypeInvestment": {
+    "description": "Account type."
+  },
+  "accountTypePocket": "Pocket",
+  "@accountTypePocket": {
+    "description": "Account type: a part of a bank account, such as an emergency fund."
+  },
+  "accountIconTooltip": "Change icon",
+  "@accountIconTooltip": {
+    "description": "Tooltip of the account icon in the form."
+  },
+  "accountName": "Name",
+  "@accountName": {
+    "description": "Account name field."
+  },
+  "accountErrorName": "Enter a name.",
+  "@accountErrorName": {
+    "description": "Error when the account name is empty."
+  },
+  "accountChangeColor": "Change color",
+  "@accountChangeColor": {
+    "description": "Button that opens the color picker."
+  },
+  "accountParent": "Parent account",
+  "@accountParent": {
+    "description": "Bank account that holds a pocket."
+  },
+  "accountErrorParent": "Choose a bank account.",
+  "@accountErrorParent": {
+    "description": "Error when a pocket has no valid parent."
+  },
+  "accountParentNone": "Create a bank account first: pockets live inside one.",
+  "@accountParentNone": {
+    "description": "Note when there is no bank account for a pocket."
+  },
+  "accountPocketFollowsParent": "A pocket uses the currency and the Balance setting of its parent account.",
+  "@accountPocketFollowsParent": {
+    "description": "Note under the pocket's parent field."
+  },
+  "accountCurrency": "Currency",
+  "@accountCurrency": {
+    "description": "Account currency field."
+  },
+  "accountCurrencyLocked": "The currency can't be changed: the account has movements.",
+  "@accountCurrencyLocked": {
+    "description": "Note under a locked currency."
+  },
+  "accountOpening": "Opening balance",
+  "@accountOpening": {
+    "description": "Opening balance field."
+  },
+  "accountCurrentDebt": "Current debt",
+  "@accountCurrentDebt": {
+    "description": "Opening balance field of a credit card: what is owed when it is created."
+  },
+  "accountOpeningBankHint": "Money outside its pockets",
+  "@accountOpeningBankHint": {
+    "description": "Hint under a bank account's opening balance."
+  },
+  "accountErrorAmount": "Enter a valid amount.",
+  "@accountErrorAmount": {
+    "description": "Error when an amount can't be read."
+  },
+  "accountOpeningDate": "Opening date",
+  "@accountOpeningDate": {
+    "description": "Date of the opening balance."
+  },
+  "accountCreditLimit": "Credit limit",
+  "@accountCreditLimit": {
+    "description": "Credit card limit field."
+  },
+  "accountErrorCreditLimit": "Enter a limit above zero.",
+  "@accountErrorCreditLimit": {
+    "description": "Error when a card has no valid limit."
+  },
+  "accountPaymentDay": "Payment day",
+  "@accountPaymentDay": {
+    "description": "Day of the month the card is paid."
+  },
+  "accountPaymentDayUnset": "Not set",
+  "@accountPaymentDayUnset": {
+    "description": "Payment day before choosing one."
+  },
+  "accountIncludeInBalance": "Include in Balance",
+  "@accountIncludeInBalance": {
+    "description": "Switch that adds the account to the main Balance."
+  },
+  "accountMain": "Main account",
+  "@accountMain": {
+    "description": "Switch that makes a bank account the main one."
+  },
+  "accountMainHint": "Used when a category has no history yet.",
+  "@accountMainHint": {
+    "description": "What the main account is for."
+  },
+  "accountMainLocked": "Mark another bank account as main to change it.",
+  "@accountMainLocked": {
+    "description": "Why the main switch can't be turned off."
+  },
+  "accountMainStays": "The main account can't be archived or deleted.",
+  "@accountMainStays": {
+    "description": "Why the main account has no archive or delete action."
+  },
+  "accountHasPockets": "Delete its pockets first to delete this account.",
+  "@accountHasPockets": {
+    "description": "Why an account with pockets can't be deleted."
+  },
+  "accountArchiveTooltip": "Archive",
+  "@accountArchiveTooltip": {
+    "description": "Tooltip of the archive action."
+  },
+  "accountUnarchiveTooltip": "Restore",
+  "@accountUnarchiveTooltip": {
+    "description": "Tooltip of the action that restores an archived account."
+  },
+  "accountDeleteTooltip": "Delete account",
+  "@accountDeleteTooltip": {
+    "description": "Tooltip of the delete action."
+  },
+  "accountDeleteTitle": "Delete {name}?",
+  "@accountDeleteTitle": {
+    "description": "Delete confirmation title.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDeleteMessage": "The account will be removed. Archive it instead to keep it out of sight.",
+  "@accountDeleteMessage": {
+    "description": "Delete confirmation message."
   }
 }

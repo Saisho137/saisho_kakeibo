@@ -211,6 +211,18 @@ void main() {
       expect(find.text("The main currency can't be deleted."), findsOne);
     });
 
+    testWidgets('currencies in use cannot be deleted', (tester) async {
+      when(() => cubit.state).thenReturn(editing.copyWith(inUse: true));
+
+      await pumpView(tester);
+
+      expect(find.byTooltip('Delete currency'), findsNothing);
+      expect(
+        find.text("Currencies used by an account can't be deleted."),
+        findsOne,
+      );
+    });
+
     testWidgets('goes back after saving', (tester) async {
       whenListen(
         cubit,

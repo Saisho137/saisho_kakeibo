@@ -9,6 +9,7 @@ import 'package:saisho_kakeibo/features/settings/domain/rules/currency_rules.dar
 import 'package:saisho_kakeibo/features/settings/domain/usecases/create_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/delete_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currency.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/is_currency_in_use.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_currency.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 
@@ -20,11 +21,14 @@ class _MockUpdateCurrency extends Mock implements UpdateCurrency;
 
 class _MockDeleteCurrency extends Mock implements DeleteCurrency;
 
+class _MockIsCurrencyInUse extends Mock implements IsCurrencyInUse;
+
 void main() {
   late _MockGetCurrency getCurrency;
   late _MockCreateCurrency createCurrency;
   late _MockUpdateCurrency updateCurrency;
   late _MockDeleteCurrency deleteCurrency;
+  late _MockIsCurrencyInUse isCurrencyInUse;
 
   const eur = Currency(
     code: 'EUR',
@@ -61,6 +65,8 @@ void main() {
     createCurrency = _MockCreateCurrency();
     updateCurrency = _MockUpdateCurrency();
     deleteCurrency = _MockDeleteCurrency();
+    isCurrencyInUse = _MockIsCurrencyInUse();
+    when(() => isCurrencyInUse(any())).thenAnswer((_) async => const Ok(false));
     when(() => getCurrency(any())).thenAnswer((_) async => const Ok(null));
     when(() => createCurrency(any())).thenAnswer((_) async => const Ok(null));
     when(() => updateCurrency(any())).thenAnswer((_) async => const Ok(null));
@@ -72,6 +78,7 @@ void main() {
     createCurrency: createCurrency,
     updateCurrency: updateCurrency,
     deleteCurrency: deleteCurrency,
+    isCurrencyInUse: isCurrencyInUse,
   );
 
   group('CurrencyFormCubit.load', () {
@@ -91,6 +98,18 @@ void main() {
       build: buildCubit,
       act: (cubit) => cubit.load('EUR'),
       expect: () => [editing],
+    );
+
+    blocTest<CurrencyFormCubit, CurrencyFormState>(
+      'marks a currency used by accounts',
+      setUp: () {
+        when(() => getCurrency('EUR')).thenAnswer((_) async => const Ok(eur));
+        when(() => isCurrencyInUse('EUR'))
+            .thenAnswer((_) async => const Ok(true));
+      },
+      build: buildCubit,
+      act: (cubit) => cubit.load('EUR'),
+      expect: () => [editing.copyWith(inUse: true)],
     );
 
     blocTest<CurrencyFormCubit, CurrencyFormState>(

@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:saisho_kakeibo/core/config/app_info.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
+import 'package:saisho_kakeibo/features/accounts/accounts_injection.dart';
 import 'package:saisho_kakeibo/features/settings/settings_injection.dart';
 
 /// Global service locator.
@@ -19,4 +20,5 @@ Future<void> configureDependencies({
     dispose: (db) => db.close(),
   );
   registerSettingsDependencies(getIt);
+  registerAccountsDependencies(getIt);
 }

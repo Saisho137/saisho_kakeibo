@@ -4,8 +4,8 @@ import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/settings/domain/repositories/currency_repository.dart';
 import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
 
-/// Deletes a user currency (RF-16). Built-in currencies and the main
-/// currency cannot be deleted.
+/// Deletes a user currency (RF-16). Built-in currencies, the main currency
+/// and currencies used by an account cannot be deleted.
 class DeleteCurrency implements UseCase<Future<Result<void>>, String> {
   const new(this._currencies, this._settings);
 
@@ -23,6 +23,11 @@ class DeleteCurrency implements UseCase<Future<Result<void>>, String> {
     if (settings case Err(:final failure)) return Err(failure);
     if (settings case Ok(:final value) when value.mainCurrencyCode == code) {
       return const Err(ValidationFailure('The main currency stays.'));
+    }
+    final inUse = await _currencies.isInUse(code);
+    if (inUse case Err(:final failure)) return Err(failure);
+    if (inUse case Ok(value: true)) {
+      return const Err(ValidationFailure('Accounts use this currency.'));
     }
     return await _currencies.delete(code);
   }

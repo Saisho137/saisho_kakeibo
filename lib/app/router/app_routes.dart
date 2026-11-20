@@ -3,6 +3,10 @@ abstract final class AppRoutes {
   static const String home = '/';
   static const String settings = '/settings';
   static const String newCurrency = '/settings/currencies/new';
+  static const String accounts = '/accounts';
+  static const String newAccount = '/accounts/new';
 
   static String editCurrency(String code) => '/settings/currencies/$code';
+
+  static String editAccount(int id) => '/accounts/$id';
 }

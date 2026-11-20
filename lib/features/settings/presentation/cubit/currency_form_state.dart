@@ -9,6 +9,10 @@ abstract class CurrencyFormState with _$CurrencyFormState {
 
     /// The stored currency when editing; `null` when creating.
     Currency? original,
+
+    /// Whether an account uses the edited currency, which cannot then be
+    /// deleted.
+    @Default(false) bool inUse,
     @Default('') String code,
     @Default('') String symbol,
     @Default(2) int decimals,

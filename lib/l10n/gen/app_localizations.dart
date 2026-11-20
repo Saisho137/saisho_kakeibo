@@ -381,6 +381,432 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsOpenTooltip;
+
+  /// Settings section header: accounts included in the Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get settingsSectionBalance;
+
+  /// Why a currency in use has no delete action.
+  ///
+  /// In en, this message translates to:
+  /// **'Currencies used by an account can\'t be deleted.'**
+  String get currencyInUseLocked;
+
+  /// Icon picker dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get iconPickerTitle;
+
+  /// Color picker dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get colorPickerTitle;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get iconGroupFood;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get iconGroupTransport;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get iconGroupHome;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get iconGroupHealth;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get iconGroupShopping;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Leisure'**
+  String get iconGroupLeisure;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get iconGroupEducation;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get iconGroupFinance;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get iconGroupPeople;
+
+  /// Icon picker group.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get iconGroupOther;
+
+  /// Tooltip of the button that opens Accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsOpenTooltip;
+
+  /// Accounts screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsTitle;
+
+  /// Sum of every account of the selected currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Total balance'**
+  String get accountsTotalBalance;
+
+  /// Sum of the accounts included in the Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get accountsBalance;
+
+  /// Tooltip of the currency selector on Accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get accountsCurrencyTooltip;
+
+  /// Menu option that also lists archived accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Show archived'**
+  String get accountsShowArchived;
+
+  /// Accounts screen without accounts in the selected currency.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts in {currency} yet.'**
+  String accountsEmpty(String currency);
+
+  /// Accounts group header.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash & bank'**
+  String get accountGroupCashAndBank;
+
+  /// Accounts group header.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit cards'**
+  String get accountGroupCreditCards;
+
+  /// Accounts group header.
+  ///
+  /// In en, this message translates to:
+  /// **'Investments'**
+  String get accountGroupInvestments;
+
+  /// Accessibility label of the star next to the main account.
+  ///
+  /// In en, this message translates to:
+  /// **'Main account'**
+  String get accountMainMarker;
+
+  /// Accessibility label of the dot next to accounts included in the Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Included in Balance'**
+  String get accountInBalanceMarker;
+
+  /// Label of an archived account.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get accountArchived;
+
+  /// Money of an account outside its pockets.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get accountFree;
+
+  /// Credit limit left on a card.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left'**
+  String accountCreditLeft(String amount);
+
+  /// Credit limit left and the card's payment day.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left · day {day}'**
+  String accountCreditLeftWithDay(String amount, int day);
+
+  /// Tooltip of the button that creates an account.
+  ///
+  /// In en, this message translates to:
+  /// **'New account'**
+  String get accountNewTooltip;
+
+  /// Account form title when creating.
+  ///
+  /// In en, this message translates to:
+  /// **'New account'**
+  String get accountNewTitle;
+
+  /// Account form title when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {name}'**
+  String accountEditTitle(String name);
+
+  /// Shown when the edited account was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This account no longer exists.'**
+  String get accountNotFound;
+
+  /// Account type field.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get accountType;
+
+  /// Note under the read-only type.
+  ///
+  /// In en, this message translates to:
+  /// **'The type can\'t be changed after creating the account.'**
+  String get accountTypeLocked;
+
+  /// Account type.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get accountTypeCash;
+
+  /// Account type.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get accountTypeBank;
+
+  /// Account type.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit card'**
+  String get accountTypeCreditCard;
+
+  /// Account type.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get accountTypeInvestment;
+
+  /// Account type: a part of a bank account, such as an emergency fund.
+  ///
+  /// In en, this message translates to:
+  /// **'Pocket'**
+  String get accountTypePocket;
+
+  /// Tooltip of the account icon in the form.
+  ///
+  /// In en, this message translates to:
+  /// **'Change icon'**
+  String get accountIconTooltip;
+
+  /// Account name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get accountName;
+
+  /// Error when the account name is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name.'**
+  String get accountErrorName;
+
+  /// Button that opens the color picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Change color'**
+  String get accountChangeColor;
+
+  /// Bank account that holds a pocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent account'**
+  String get accountParent;
+
+  /// Error when a pocket has no valid parent.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a bank account.'**
+  String get accountErrorParent;
+
+  /// Note when there is no bank account for a pocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a bank account first: pockets live inside one.'**
+  String get accountParentNone;
+
+  /// Note under the pocket's parent field.
+  ///
+  /// In en, this message translates to:
+  /// **'A pocket uses the currency and the Balance setting of its parent account.'**
+  String get accountPocketFollowsParent;
+
+  /// Account currency field.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get accountCurrency;
+
+  /// Note under a locked currency.
+  ///
+  /// In en, this message translates to:
+  /// **'The currency can\'t be changed: the account has movements.'**
+  String get accountCurrencyLocked;
+
+  /// Opening balance field.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get accountOpening;
+
+  /// Opening balance field of a credit card: what is owed when it is created.
+  ///
+  /// In en, this message translates to:
+  /// **'Current debt'**
+  String get accountCurrentDebt;
+
+  /// Hint under a bank account's opening balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Money outside its pockets'**
+  String get accountOpeningBankHint;
+
+  /// Error when an amount can't be read.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount.'**
+  String get accountErrorAmount;
+
+  /// Date of the opening balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening date'**
+  String get accountOpeningDate;
+
+  /// Credit card limit field.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit limit'**
+  String get accountCreditLimit;
+
+  /// Error when a card has no valid limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a limit above zero.'**
+  String get accountErrorCreditLimit;
+
+  /// Day of the month the card is paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment day'**
+  String get accountPaymentDay;
+
+  /// Payment day before choosing one.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get accountPaymentDayUnset;
+
+  /// Switch that adds the account to the main Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Include in Balance'**
+  String get accountIncludeInBalance;
+
+  /// Switch that makes a bank account the main one.
+  ///
+  /// In en, this message translates to:
+  /// **'Main account'**
+  String get accountMain;
+
+  /// What the main account is for.
+  ///
+  /// In en, this message translates to:
+  /// **'Used when a category has no history yet.'**
+  String get accountMainHint;
+
+  /// Why the main switch can't be turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark another bank account as main to change it.'**
+  String get accountMainLocked;
+
+  /// Why the main account has no archive or delete action.
+  ///
+  /// In en, this message translates to:
+  /// **'The main account can\'t be archived or deleted.'**
+  String get accountMainStays;
+
+  /// Why an account with pockets can't be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete its pockets first to delete this account.'**
+  String get accountHasPockets;
+
+  /// Tooltip of the archive action.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get accountArchiveTooltip;
+
+  /// Tooltip of the action that restores an archived account.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get accountUnarchiveTooltip;
+
+  /// Tooltip of the delete action.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get accountDeleteTooltip;
+
+  /// Delete confirmation title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String accountDeleteTitle(String name);
+
+  /// Delete confirmation message.
+  ///
+  /// In en, this message translates to:
+  /// **'The account will be removed. Archive it instead to keep it out of sight.'**
+  String get accountDeleteMessage;
 }
 
 class _AppLocalizationsDelegate

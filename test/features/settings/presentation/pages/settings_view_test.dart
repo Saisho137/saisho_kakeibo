@@ -8,15 +8,19 @@ import 'package:saisho_kakeibo/core/error/failure.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/settings_page.dart';
 
+import '../../../../helpers/account_fixtures.dart';
 import '../../../../helpers/helpers.dart';
 
 void main() {
   late MockSettingsCubit settingsCubit;
   late MockCurrenciesCubit currenciesCubit;
+  late MockAccountsCubit accountsCubit;
   late MockGoRouter router;
 
   const currencies = [
@@ -40,11 +44,33 @@ void main() {
   ];
   const ready = SettingsState(status: SettingsStatus.ready);
 
-  setUpAll(() => registerFallbackValue((AppSettings s) => s));
+  setUpAll(() {
+    registerFallbackValue((AppSettings s) => s);
+    registerFallbackValue(account(id: 0));
+  });
 
   setUp(() {
     settingsCubit = MockSettingsCubit();
     currenciesCubit = MockCurrenciesCubit();
+    accountsCubit = MockAccountsCubit();
+    when(() => accountsCubit.state).thenReturn(
+      AccountsState(
+        accounts: [
+          account(id: 1, name: 'Lulo', includeInBalance: true),
+          account(
+            id: 2,
+            type: AccountType.pocket,
+            name: 'Trip',
+            parentAccountId: 1,
+          ),
+          account(id: 3, name: 'Old bank', isArchived: true),
+        ],
+      ),
+    );
+    when(
+      () =>
+          accountsCubit.setIncludeInBalance(any(), value: any(named: 'value')),
+    ).thenAnswer((_) async {});
     router = MockGoRouter();
     when(() => settingsCubit.state).thenReturn(ready);
     when(() => settingsCubit.update(any())).thenAnswer((_) async {});
@@ -65,6 +91,7 @@ void main() {
         providers: [
           BlocProvider<SettingsCubit>.value(value: settingsCubit),
           BlocProvider<CurrenciesCubit>.value(value: currenciesCubit),
+          BlocProvider<AccountsCubit>.value(value: accountsCubit),
         ],
         child: const SettingsView(
           appInfo: AppInfo(version: '1.2.3', buildNumber: '4'),
@@ -182,6 +209,27 @@ void main() {
 
       verify(() => router.push<Object?>('/settings/currencies/EUR')).called(1);
       verify(() => router.push<Object?>('/settings/currencies/new')).called(1);
+    });
+
+    testWidgets('lists active accounts with their Balance switch', (
+      tester,
+    ) async {
+      await pumpView(tester);
+
+      expect(find.text('Lulo'), findsOneWidget);
+      expect(find.text('Trip'), findsNothing);
+      expect(find.text('Old bank'), findsNothing);
+
+      await tester.tap(find.text('Lulo'));
+
+      final captured = verify(
+        () => accountsCubit.setIncludeInBalance(
+          captureAny(),
+          value: captureAny(named: 'value'),
+        ),
+      ).captured;
+      expect((captured.first as Account).id, 1);
+      expect(captured.last, isFalse);
     });
 
     testWidgets('shows a snackbar when a change fails', (tester) async {

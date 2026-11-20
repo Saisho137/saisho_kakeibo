@@ -589,6 +589,27 @@ abstract final class IconCatalog {
   ];
 
   // Suggested colors: Material 600 shades, readable under a white glyph.
+  /// Colors offered when the user changes an icon's suggested color.
+  static const List<Color> palette = [
+    _red,
+    _pink,
+    _purple,
+    _deepPurple,
+    _indigo,
+    _blue,
+    _lightBlue,
+    _cyan,
+    _teal,
+    _green,
+    _lightGreen,
+    _amber,
+    _orange,
+    _deepOrange,
+    _brown,
+    _blueGrey,
+    _grey,
+  ];
+
   static const Color _red = Color(0xFFE53935);
   static const Color _pink = Color(0xFFD81B60);
   static const Color _purple = Color(0xFF8E24AA);

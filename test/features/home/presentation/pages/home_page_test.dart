@@ -21,5 +21,15 @@ void main() {
 
       verify(() => router.push<Object?>('/settings')).called(1);
     });
+
+    testWidgets('opens Accounts', (tester) async {
+      final router = MockGoRouter();
+      when(() => router.push<Object?>(any())).thenAnswer((_) async => null);
+
+      await tester.pumpApp(const HomePage(), router: router);
+      await tester.tap(find.byTooltip('Accounts'));
+
+      verify(() => router.push<Object?>('/accounts')).called(1);
+    });
   });
 }

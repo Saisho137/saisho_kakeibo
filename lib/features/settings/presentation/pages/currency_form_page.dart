@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
+import 'package:saisho_kakeibo/core/widgets/form_parts.dart';
 import 'package:saisho_kakeibo/features/settings/domain/rules/currency_rules.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -83,7 +84,7 @@ class CurrencyFormView extends StatelessWidget {
 
   static bool _canDelete(BuildContext context, CurrencyFormState state) {
     final original = state.original;
-    if (original == null || original.isBuiltIn) return false;
+    if (original == null || original.isBuiltIn || state.inUse) return false;
     final mainCode = context.select<SettingsCubit, String>(
       (cubit) => cubit.state.settings.mainCurrencyCode,
     );
@@ -107,7 +108,7 @@ class _CurrencyForm extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.md),
       children: [
         if (state.isEditing)
-          _ReadOnlyField(label: l10n.currencyCode, value: state.code)
+          ReadOnlyField(label: l10n.currencyCode, value: state.code)
         else
           TextFormField(
             initialValue: state.code,
@@ -143,13 +144,13 @@ class _CurrencyForm extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.lg),
         if (state.isEditing) ...[
-          _ReadOnlyField(
+          ReadOnlyField(
             label: l10n.currencyDecimals,
             value: '${state.decimals}',
           ),
-          _Note(l10n.currencyDecimalsLocked),
+          FormNote(l10n.currencyDecimalsLocked),
         ] else ...[
-          _Label(l10n.currencyDecimals),
+          FormLabel(l10n.currencyDecimals),
           SegmentedButton<int>(
             segments: [
               for (var d = 0; d <= CurrencyRules.maxDecimals; d++)
@@ -158,10 +159,10 @@ class _CurrencyForm extends StatelessWidget {
             selected: {state.decimals},
             onSelectionChanged: (value) => cubit.decimalsChanged(value.single),
           ),
-          _Note(l10n.currencyDecimalsWarning, isWarning: true),
+          FormNote(l10n.currencyDecimalsWarning, isWarning: true),
         ],
         const SizedBox(height: AppSpacing.lg),
-        _Label(l10n.currencyThousandsSeparator),
+        FormLabel(l10n.currencyThousandsSeparator),
         SegmentedButton<String>(
           segments: [
             for (final separator in CurrencyRules.thousandsSeparators)
@@ -175,7 +176,7 @@ class _CurrencyForm extends StatelessWidget {
               cubit.thousandsSeparatorChanged(value.single),
         ),
         const SizedBox(height: AppSpacing.md),
-        _Label(l10n.currencyDecimalSeparator),
+        FormLabel(l10n.currencyDecimalSeparator),
         SegmentedButton<String>(
           segments: [
             for (final separator in CurrencyRules.decimalSeparators)
@@ -189,7 +190,7 @@ class _CurrencyForm extends StatelessWidget {
               cubit.decimalSeparatorChanged(value.single),
         ),
         if (errors.contains(CurrencyError.sameSeparators))
-          _Note(l10n.currencyErrorSeparators, isError: true),
+          FormNote(l10n.currencyErrorSeparators, isError: true),
         const SizedBox(height: AppSpacing.lg),
         if (format != null)
           Text(
@@ -203,7 +204,7 @@ class _CurrencyForm extends StatelessWidget {
               : cubit.submit,
           child: Text(l10n.actionSave),
         ),
-        if (lockReason != null) _Note(lockReason),
+        if (lockReason != null) FormNote(lockReason),
       ],
     );
   }
@@ -212,6 +213,7 @@ class _CurrencyForm extends StatelessWidget {
     final original = state.original;
     if (original == null) return null;
     if (original.isBuiltIn) return context.l10n.currencyBuiltInLocked;
+    if (state.inUse) return context.l10n.currencyInUseLocked;
     final mainCode = context.select<SettingsCubit, String>(
       (cubit) => cubit.state.settings.mainCurrencyCode,
     );
@@ -258,59 +260,6 @@ class _DeleteButton extends StatelessWidget {
         );
         if (confirmed ?? false) await cubit.delete();
       },
-    );
-  }
-}
-
-class _ReadOnlyField extends StatelessWidget {
-  const new({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return InputDecorator(
-      decoration: InputDecoration(labelText: label, enabled: false),
-      child: Text(value),
-    );
-  }
-}
-
-class _Label extends StatelessWidget {
-  const new(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Text(text, style: context.textTheme.labelLarge),
-    );
-  }
-}
-
-class _Note extends StatelessWidget {
-  const new(this.text, {this.isWarning = false, this.isError = false});
-
-  final String text;
-  final bool isWarning;
-  final bool isError;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = isError
-        ? context.colors.error
-        : isWarning
-        ? context.colors.tertiary
-        : context.colors.onSurfaceVariant;
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.sm),
-      child: Text(
-        text,
-        style: context.textTheme.bodySmall?.copyWith(color: color),
-      ),
     );
   }
 }
