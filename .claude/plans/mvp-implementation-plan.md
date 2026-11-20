@@ -52,11 +52,11 @@ Entregable: utilidades de `core` probadas al 100 % de sus reglas.
 
 ## Fase 1 — Monedas y configuración
 
-- [ ] Tablas `currencies` y `settings` (fila única tipada: moneda principal, tipo de periodo, día de corte, N días, hora de recordatorios, tema, filtro del Balance, número de respaldos).
-- [ ] Datos iniciales: COP (0 decimales, `.` miles, `,` decimal) y USD (2 decimales), COP como principal.
-- [ ] Reglas: decimales inmutables tras crear la moneda; COP y USD no se borran; una moneda personalizada solo se borra sin cuentas (RF-16).
-- [ ] `SettingsCubit` global, leído por el tema (`ThemeMode`) y por las demás features.
-- [ ] Pantalla **Settings** (versión inicial): General, Periods, Currencies (lista, crear con advertencia, editar símbolo y separadores, borrar), Notifications (hora), About. Las secciones Balance y Backup se completan en fases 2 y 11.
+- [x] Tablas `currencies` y `settings` (fila única tipada: moneda principal, tipo de periodo, día de corte, N días, hora de recordatorios, tema, filtro del Balance, número de respaldos).
+- [x] Datos iniciales: COP (0 decimales, `.` miles, `,` decimal) y USD (2 decimales), COP como principal.
+- [x] Reglas: decimales inmutables tras crear la moneda; COP y USD no se borran; la moneda principal no se borra. La condición "solo sin cuentas" se conecta en la fase 2 (RF-16).
+- [x] `SettingsCubit` global, leído por el tema (`ThemeMode`) y por las demás features.
+- [x] Pantalla **Settings** (versión inicial): General, Periods, Currencies (lista, crear con advertencia, editar símbolo y separadores, borrar), Notifications (hora), About. Las secciones Balance y Backup se completan en fases 2 y 11.
 
 ## Fase 2 — Cuentas
 
@@ -67,6 +67,7 @@ Entregable: utilidades de `core` probadas al 100 % de sus reglas.
 - [ ] Pantalla **Accounts**: grupos por tipo, orden arrastrando, bolsillos con línea "Free", barra de cupo de TC, archivadas ocultas, selector de moneda, Total balance y Balance.
 - [ ] Formulario de cuenta con campos según el tipo.
 - [ ] Settings → Balance: interruptores "Include in Balance".
+- [ ] Regla de monedas: una moneda personalizada solo se borra si ninguna cuenta la usa (RF-16, pendiente de la fase 1).
 
 ## Fase 3 — Pilares y categorías
 

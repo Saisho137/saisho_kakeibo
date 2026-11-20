@@ -7,5 +7,217 @@
   "genericError": "Something went wrong. Please try again.",
   "@genericError": {
     "description": "Fallback message for unexpected failures."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings screen title and navigation entry."
+  },
+  "settingsSectionGeneral": "General",
+  "@settingsSectionGeneral": {
+    "description": "Settings section header."
+  },
+  "settingsSectionPeriods": "Periods",
+  "@settingsSectionPeriods": {
+    "description": "Settings section header."
+  },
+  "settingsSectionCurrencies": "Currencies",
+  "@settingsSectionCurrencies": {
+    "description": "Settings section header."
+  },
+  "settingsSectionNotifications": "Notifications",
+  "@settingsSectionNotifications": {
+    "description": "Settings section header."
+  },
+  "settingsSectionAbout": "About",
+  "@settingsSectionAbout": {
+    "description": "Settings section header."
+  },
+  "settingsMainCurrency": "Main currency",
+  "@settingsMainCurrency": {
+    "description": "Setting: currency shown by default."
+  },
+  "settingsCutoffDay": "Cutoff day",
+  "@settingsCutoffDay": {
+    "description": "Setting: day monthly periods start."
+  },
+  "settingsCutoffDayHint": "Monthly periods start on this day. Days missing in a month fall on its last day.",
+  "@settingsCutoffDayHint": {
+    "description": "Explains the cutoff day."
+  },
+  "settingsMinDays": "Min days between salary periods",
+  "@settingsMinDays": {
+    "description": "Setting: days before Salary suggests a new period."
+  },
+  "settingsMinDaysValue": "{count, plural, =1{1 day} other{{count} days}}",
+  "@settingsMinDaysValue": {
+    "description": "Number of days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsReminders": "Reminders",
+  "@settingsReminders": {
+    "description": "Setting: global switch for notifications."
+  },
+  "settingsReminderTime": "Reminder time",
+  "@settingsReminderTime": {
+    "description": "Setting: time every reminder arrives."
+  },
+  "settingsVersion": "Version",
+  "@settingsVersion": {
+    "description": "About: app version label."
+  },
+  "settingsVersionValue": "{version} ({build})",
+  "@settingsVersionValue": {
+    "description": "App version and build number.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyAdd": "Add currency",
+  "@currencyAdd": {
+    "description": "Action to create a currency."
+  },
+  "currencyBuiltIn": "Built-in",
+  "@currencyBuiltIn": {
+    "description": "Marks COP and USD, which cannot be deleted."
+  },
+  "currencyNewTitle": "New currency",
+  "@currencyNewTitle": {
+    "description": "Currency form title when creating."
+  },
+  "currencyEditTitle": "Edit {code}",
+  "@currencyEditTitle": {
+    "description": "Currency form title when editing.",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyCode": "Code",
+  "@currencyCode": {
+    "description": "Currency code field."
+  },
+  "currencyCodeHint": "Three letters, such as EUR",
+  "@currencyCodeHint": {
+    "description": "Hint of the currency code field."
+  },
+  "currencySymbol": "Symbol",
+  "@currencySymbol": {
+    "description": "Currency symbol field."
+  },
+  "currencyDecimals": "Decimals",
+  "@currencyDecimals": {
+    "description": "Currency decimals field."
+  },
+  "currencyDecimalsWarning": "Decimals can't be changed after creating the currency.",
+  "@currencyDecimalsWarning": {
+    "description": "Warning shown when creating a currency."
+  },
+  "currencyDecimalsLocked": "Decimals can't be changed: every amount is stored with them.",
+  "@currencyDecimalsLocked": {
+    "description": "Shown when editing a currency."
+  },
+  "currencyThousandsSeparator": "Thousands separator",
+  "@currencyThousandsSeparator": {
+    "description": "Currency field."
+  },
+  "currencyDecimalSeparator": "Decimal separator",
+  "@currencyDecimalSeparator": {
+    "description": "Currency field."
+  },
+  "currencySeparatorDot": "Dot",
+  "@currencySeparatorDot": {
+    "description": "Separator option: a dot (.)."
+  },
+  "currencySeparatorComma": "Comma",
+  "@currencySeparatorComma": {
+    "description": "Separator option: a comma (,)."
+  },
+  "currencySeparatorSpace": "Space",
+  "@currencySeparatorSpace": {
+    "description": "Separator option: a space."
+  },
+  "currencySeparatorNone": "None",
+  "@currencySeparatorNone": {
+    "description": "Separator option: no separator."
+  },
+  "currencyPreview": "Preview: {amount}",
+  "@currencyPreview": {
+    "description": "Live preview of the currency format.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyErrorCode": "Use three letters, A to Z.",
+  "@currencyErrorCode": {
+    "description": "Validation error."
+  },
+  "currencyErrorDuplicate": "That currency already exists.",
+  "@currencyErrorDuplicate": {
+    "description": "Validation error."
+  },
+  "currencyErrorSymbol": "Use 1 to 4 characters.",
+  "@currencyErrorSymbol": {
+    "description": "Validation error."
+  },
+  "currencyErrorSeparators": "Separators must be different.",
+  "@currencyErrorSeparators": {
+    "description": "Validation error."
+  },
+  "currencyDeleteTooltip": "Delete currency",
+  "@currencyDeleteTooltip": {
+    "description": "Tooltip of the delete action."
+  },
+  "currencyDeleteTitle": "Delete {code}?",
+  "@currencyDeleteTitle": {
+    "description": "Confirmation dialog title.",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyDeleteMessage": "This can't be undone.",
+  "@currencyDeleteMessage": {
+    "description": "Confirmation dialog body."
+  },
+  "currencyBuiltInLocked": "Built-in currencies can't be deleted.",
+  "@currencyBuiltInLocked": {
+    "description": "Why a currency can't be deleted."
+  },
+  "currencyMainLocked": "The main currency can't be deleted.",
+  "@currencyMainLocked": {
+    "description": "Why a currency can't be deleted."
+  },
+  "currencyNotFound": "This currency no longer exists.",
+  "@currencyNotFound": {
+    "description": "Shown when the edited currency is missing."
+  },
+  "actionSave": "Save",
+  "@actionSave": {
+    "description": "Generic save button."
+  },
+  "actionCancel": "Cancel",
+  "@actionCancel": {
+    "description": "Generic cancel button."
+  },
+  "actionDelete": "Delete",
+  "@actionDelete": {
+    "description": "Generic delete button."
+  },
+  "settingsOpenTooltip": "Settings",
+  "@settingsOpenTooltip": {
+    "description": "Tooltip of the button that opens Settings."
   }
 }

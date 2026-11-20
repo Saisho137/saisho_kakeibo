@@ -5,6 +5,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "lib/l10n/gen/**"
+    - "test/drift/**/generated/**"
     - "build/**"
     - "android/**"
 

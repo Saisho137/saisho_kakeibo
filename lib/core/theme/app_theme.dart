@@ -15,14 +15,10 @@ abstract final class AppTheme {
       seedColor: _seed,
       brightness: brightness,
     );
-    final base = ThemeData(
+    return ThemeData(
       colorScheme: colorScheme,
       fontFamily: AppTypography.fontFamily,
       extensions: [tokens],
-    );
-    return base.copyWith(
-      textTheme: AppTypography.apply(base.textTheme),
-      primaryTextTheme: AppTypography.apply(base.primaryTextTheme),
     );
   }
 }

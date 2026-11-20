@@ -1,14 +1,87 @@
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/app.dart';
+import 'package:saisho_kakeibo/app/di/injector.dart';
+import 'package:saisho_kakeibo/core/config/app_info.dart';
+import 'package:saisho_kakeibo/core/database/app_database.dart';
+import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
+import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
+
+import '../helpers/helpers.dart';
 
 void main() {
+  setUp(() async {
+    await configureDependencies(
+      database: AppDatabase(NativeDatabase.memory()),
+      appInfo: const AppInfo(version: '0.1.0', buildNumber: '1'),
+    );
+  });
+
+  tearDown(getIt.reset);
+
   group('App', () {
     testWidgets('renders HomePage as the initial route', (tester) async {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
       expect(find.byType(HomePage), findsOneWidget);
+
+      await tester.disposeDriftStreams();
+    });
+
+    testWidgets('follows the stored theme mode', (tester) async {
+      await getIt<SettingsRepository>().save(
+        const AppSettings(themeMode: AppThemeMode.dark),
+      );
+
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+      expect(app.themeMode, ThemeMode.dark);
+
+      await tester.disposeDriftStreams();
+    });
+
+    testWidgets('creates, edits and deletes a currency from Settings', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 4000);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Settings'));
+      await tester.pumpAndSettle();
+      expect(find.text('COP'), findsWidgets);
+      expect(find.text('0.1.0 (1)'), findsOneWidget);
+
+      await tester.tap(find.text('Add currency'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextFormField).at(0), 'eur');
+      await tester.enterText(find.byType(TextFormField).at(1), '€');
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(find.text('€ 1.234.567,89'), findsOneWidget);
+
+      await tester.tap(find.text('EUR'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextFormField), 'EU');
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(find.text('EU 1.234.567,89'), findsOneWidget);
+
+      await tester.tap(find.text('EUR'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Delete currency'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(find.text('EUR'), findsNothing);
+
+      await tester.disposeDriftStreams();
     });
   });
 }
