@@ -1,21 +1,25 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
+import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/home_balance_bar.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/navigation_menu.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/period_totals_view.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/quick_menu.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_label.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_page_view.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
-/// The Home: one period per page with its totals, then the Balance and
-/// the entry buttons. ☰ opens the quick menu and ⋮ the navigation.
+/// The Home: one period per page with its donut and totals, then the
+/// Balance and the entry buttons. ☰ opens the quick menu and ⋮ the navigation.
 class HomePage extends StatelessWidget {
   const new({super.key});
 
@@ -116,10 +120,20 @@ class _PeriodPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Center(
-            child: PeriodTotalsView(
-              totals: state.totalsOf(period),
-              currency: currency,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: DonutChart(
+              data: state.donutOf(period),
+              center: PeriodTotalsView(
+                totals: state.totalsOf(period),
+                currency: currency,
+              ),
+              onCategoryTap: (category) => context.push(
+                AppRoutes.newMovement(
+                  MovementType.expense,
+                  categoryId: category.id,
+                ),
+              ),
             ),
           ),
         ),

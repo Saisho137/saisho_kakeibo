@@ -17,7 +17,7 @@ mixin _$HomeState {
 
  HomeStatus get status;/// The day the Home opened; its period is shown first.
  LocalDate? get today;/// Every stream's latest value; `null` until it arrives.
- AppSettings? get settings; List<Account>? get accounts; Map<int, int>? get balances; List<Currency> get currencies; List<Movement>? get movements; List<LocalDate>? get periodStarts;/// Currency picked in the quick menu; the main one until then.
+ AppSettings? get settings; List<Account>? get accounts; Map<int, int>? get balances; List<Currency> get currencies; List<Movement>? get movements; List<LocalDate>? get periodStarts; List<Category>? get categories; List<Pillar>? get pillars;/// Currency picked in the quick menu; the main one until then.
  String? get selectedCurrencyCode; Failure? get failure;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -30,20 +30,20 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 @override
 bool operator ==(Object other) {
   final _this = this as HomeState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.today, _this.today) || other.today == _this.today)&&(identical(other.settings, _this.settings) || other.settings == _this.settings)&&const DeepCollectionEquality().equals(other.accounts, _this.accounts)&&const DeepCollectionEquality().equals(other.balances, _this.balances)&&const DeepCollectionEquality().equals(other.currencies, _this.currencies)&&const DeepCollectionEquality().equals(other.movements, _this.movements)&&const DeepCollectionEquality().equals(other.periodStarts, _this.periodStarts)&&(identical(other.selectedCurrencyCode, _this.selectedCurrencyCode) || other.selectedCurrencyCode == _this.selectedCurrencyCode)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.today, _this.today) || other.today == _this.today)&&(identical(other.settings, _this.settings) || other.settings == _this.settings)&&const DeepCollectionEquality().equals(other.accounts, _this.accounts)&&const DeepCollectionEquality().equals(other.balances, _this.balances)&&const DeepCollectionEquality().equals(other.currencies, _this.currencies)&&const DeepCollectionEquality().equals(other.movements, _this.movements)&&const DeepCollectionEquality().equals(other.periodStarts, _this.periodStarts)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&const DeepCollectionEquality().equals(other.pillars, _this.pillars)&&(identical(other.selectedCurrencyCode, _this.selectedCurrencyCode) || other.selectedCurrencyCode == _this.selectedCurrencyCode)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
 }
 
 
 @override
 int get hashCode {
   final _this = this as HomeState;
-  return Object.hash(runtimeType,_this.status,_this.today,_this.settings,const DeepCollectionEquality().hash(_this.accounts),const DeepCollectionEquality().hash(_this.balances),const DeepCollectionEquality().hash(_this.currencies),const DeepCollectionEquality().hash(_this.movements),const DeepCollectionEquality().hash(_this.periodStarts),_this.selectedCurrencyCode,_this.failure);
+  return Object.hash(runtimeType,_this.status,_this.today,_this.settings,const DeepCollectionEquality().hash(_this.accounts),const DeepCollectionEquality().hash(_this.balances),const DeepCollectionEquality().hash(_this.currencies),const DeepCollectionEquality().hash(_this.movements),const DeepCollectionEquality().hash(_this.periodStarts),const DeepCollectionEquality().hash(_this.categories),const DeepCollectionEquality().hash(_this.pillars),_this.selectedCurrencyCode,_this.failure);
 }
 
 @override
 String toString() {
   final _this = this as HomeState;
-  return 'HomeState(status: ${_this.status}, today: ${_this.today}, settings: ${_this.settings}, accounts: ${_this.accounts}, balances: ${_this.balances}, currencies: ${_this.currencies}, movements: ${_this.movements}, periodStarts: ${_this.periodStarts}, selectedCurrencyCode: ${_this.selectedCurrencyCode}, failure: ${_this.failure})';
+  return 'HomeState(status: ${_this.status}, today: ${_this.today}, settings: ${_this.settings}, accounts: ${_this.accounts}, balances: ${_this.balances}, currencies: ${_this.currencies}, movements: ${_this.movements}, periodStarts: ${_this.periodStarts}, categories: ${_this.categories}, pillars: ${_this.pillars}, selectedCurrencyCode: ${_this.selectedCurrencyCode}, failure: ${_this.failure})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- HomeStatus status, LocalDate? today, AppSettings? settings, List<Account>? accounts, Map<int, int>? balances, List<Currency> currencies, List<Movement>? movements, List<LocalDate>? periodStarts, String? selectedCurrencyCode, Failure? failure
+ HomeStatus status, LocalDate? today, AppSettings? settings, List<Account>? accounts, Map<int, int>? balances, List<Currency> currencies, List<Movement>? movements, List<LocalDate>? periodStarts, List<Category>? categories, List<Pillar>? pillars, String? selectedCurrencyCode, Failure? failure
 });
 
 
@@ -71,7 +71,7 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? today = freezed,Object? settings = freezed,Object? accounts = freezed,Object? balances = freezed,Object? currencies = null,Object? movements = freezed,Object? periodStarts = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? today = freezed,Object? settings = freezed,Object? accounts = freezed,Object? balances = freezed,Object? currencies = null,Object? movements = freezed,Object? periodStarts = freezed,Object? categories = freezed,Object? pillars = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
   return _then(HomeState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as HomeStatus,today: freezed == today ? _self.today : today // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,9 @@ as List<Account>?,balances: freezed == balances ? _self.balances : balances // i
 as Map<int, int>?,currencies: null == currencies ? _self.currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,movements: freezed == movements ? _self.movements : movements // ignore: cast_nullable_to_non_nullable
 as List<Movement>?,periodStarts: freezed == periodStarts ? _self.periodStarts : periodStarts // ignore: cast_nullable_to_non_nullable
-as List<LocalDate>?,selectedCurrencyCode: freezed == selectedCurrencyCode ? _self.selectedCurrencyCode : selectedCurrencyCode // ignore: cast_nullable_to_non_nullable
+as List<LocalDate>?,categories: freezed == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<Category>?,pillars: freezed == pillars ? _self.pillars : pillars // ignore: cast_nullable_to_non_nullable
+as List<Pillar>?,selectedCurrencyCode: freezed == selectedCurrencyCode ? _self.selectedCurrencyCode : selectedCurrencyCode // ignore: cast_nullable_to_non_nullable
 as String?,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
@@ -180,10 +182,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( HomeStatus status,  LocalDate? today,  AppSettings? settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies,  List<Movement>? movements,  List<LocalDate>? periodStarts,  String? selectedCurrencyCode,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( HomeStatus status,  LocalDate? today,  AppSettings? settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies,  List<Movement>? movements,  List<LocalDate>? periodStarts,  List<Category>? categories,  List<Pillar>? pillars,  String? selectedCurrencyCode,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.balances,_that.currencies,_that.movements,_that.periodStarts,_that.selectedCurrencyCode,_that.failure);case _:
+return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.balances,_that.currencies,_that.movements,_that.periodStarts,_that.categories,_that.pillars,_that.selectedCurrencyCode,_that.failure);case _:
   return orElse();
 
 }
@@ -201,10 +203,10 @@ return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.bal
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( HomeStatus status,  LocalDate? today,  AppSettings? settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies,  List<Movement>? movements,  List<LocalDate>? periodStarts,  String? selectedCurrencyCode,  Failure? failure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( HomeStatus status,  LocalDate? today,  AppSettings? settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies,  List<Movement>? movements,  List<LocalDate>? periodStarts,  List<Category>? categories,  List<Pillar>? pillars,  String? selectedCurrencyCode,  Failure? failure)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.balances,_that.currencies,_that.movements,_that.periodStarts,_that.selectedCurrencyCode,_that.failure);case _:
+return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.balances,_that.currencies,_that.movements,_that.periodStarts,_that.categories,_that.pillars,_that.selectedCurrencyCode,_that.failure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -221,10 +223,10 @@ return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.bal
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( HomeStatus status,  LocalDate? today,  AppSettings? settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies,  List<Movement>? movements,  List<LocalDate>? periodStarts,  String? selectedCurrencyCode,  Failure? failure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( HomeStatus status,  LocalDate? today,  AppSettings? settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies,  List<Movement>? movements,  List<LocalDate>? periodStarts,  List<Category>? categories,  List<Pillar>? pillars,  String? selectedCurrencyCode,  Failure? failure)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.balances,_that.currencies,_that.movements,_that.periodStarts,_that.selectedCurrencyCode,_that.failure);case _:
+return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.balances,_that.currencies,_that.movements,_that.periodStarts,_that.categories,_that.pillars,_that.selectedCurrencyCode,_that.failure);case _:
   return null;
 
 }
@@ -236,7 +238,7 @@ return $default(_that.status,_that.today,_that.settings,_that.accounts,_that.bal
 
 
 class _HomeState extends HomeState {
-  const _HomeState({this.status = HomeStatus.loading, this.today, this.settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies = const <Currency>[],  List<Movement>? movements,  List<LocalDate>? periodStarts, this.selectedCurrencyCode, this.failure}): _accounts = accounts,_balances = balances,_currencies = currencies,_movements = movements,_periodStarts = periodStarts,super._();
+  const _HomeState({this.status = HomeStatus.loading, this.today, this.settings,  List<Account>? accounts,  Map<int, int>? balances,  List<Currency> currencies = const <Currency>[],  List<Movement>? movements,  List<LocalDate>? periodStarts,  List<Category>? categories,  List<Pillar>? pillars, this.selectedCurrencyCode, this.failure}): _accounts = accounts,_balances = balances,_currencies = currencies,_movements = movements,_periodStarts = periodStarts,_categories = categories,_pillars = pillars,super._();
   
 
 @override@JsonKey() final  HomeStatus status;
@@ -287,6 +289,24 @@ class _HomeState extends HomeState {
   return EqualUnmodifiableListView(value);
 }
 
+ final  List<Category>? _categories;
+@override List<Category>? get categories {
+  final value = _categories;
+  if (value == null) return null;
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<Pillar>? _pillars;
+@override List<Pillar>? get pillars {
+  final value = _pillars;
+  if (value == null) return null;
+  if (_pillars is EqualUnmodifiableListView) return _pillars;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 /// Currency picked in the quick menu; the main one until then.
 @override final  String? selectedCurrencyCode;
 @override final  Failure? failure;
@@ -301,18 +321,18 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.status, status) || other.status == status)&&(identical(other.today, today) || other.today == today)&&(identical(other.settings, settings) || other.settings == settings)&&const DeepCollectionEquality().equals(other.accounts, _accounts)&&const DeepCollectionEquality().equals(other.balances, _balances)&&const DeepCollectionEquality().equals(other.currencies, _currencies)&&const DeepCollectionEquality().equals(other.movements, _movements)&&const DeepCollectionEquality().equals(other.periodStarts, _periodStarts)&&(identical(other.selectedCurrencyCode, selectedCurrencyCode) || other.selectedCurrencyCode == selectedCurrencyCode)&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.status, status) || other.status == status)&&(identical(other.today, today) || other.today == today)&&(identical(other.settings, settings) || other.settings == settings)&&const DeepCollectionEquality().equals(other.accounts, _accounts)&&const DeepCollectionEquality().equals(other.balances, _balances)&&const DeepCollectionEquality().equals(other.currencies, _currencies)&&const DeepCollectionEquality().equals(other.movements, _movements)&&const DeepCollectionEquality().equals(other.periodStarts, _periodStarts)&&const DeepCollectionEquality().equals(other.categories, _categories)&&const DeepCollectionEquality().equals(other.pillars, _pillars)&&(identical(other.selectedCurrencyCode, selectedCurrencyCode) || other.selectedCurrencyCode == selectedCurrencyCode)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,today,settings,const DeepCollectionEquality().hash(_accounts),const DeepCollectionEquality().hash(_balances),const DeepCollectionEquality().hash(_currencies),const DeepCollectionEquality().hash(_movements),const DeepCollectionEquality().hash(_periodStarts),selectedCurrencyCode,failure);
+    return Object.hash(runtimeType,status,today,settings,const DeepCollectionEquality().hash(_accounts),const DeepCollectionEquality().hash(_balances),const DeepCollectionEquality().hash(_currencies),const DeepCollectionEquality().hash(_movements),const DeepCollectionEquality().hash(_periodStarts),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_pillars),selectedCurrencyCode,failure);
 }
 
 @override
 String toString() {
-    return 'HomeState(status: $status, today: $today, settings: $settings, accounts: $accounts, balances: $balances, currencies: $currencies, movements: $movements, periodStarts: $periodStarts, selectedCurrencyCode: $selectedCurrencyCode, failure: $failure)';
+    return 'HomeState(status: $status, today: $today, settings: $settings, accounts: $accounts, balances: $balances, currencies: $currencies, movements: $movements, periodStarts: $periodStarts, categories: $categories, pillars: $pillars, selectedCurrencyCode: $selectedCurrencyCode, failure: $failure)';
 }
 
 
@@ -323,7 +343,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- HomeStatus status, LocalDate? today, AppSettings? settings, List<Account>? accounts, Map<int, int>? balances, List<Currency> currencies, List<Movement>? movements, List<LocalDate>? periodStarts, String? selectedCurrencyCode, Failure? failure
+ HomeStatus status, LocalDate? today, AppSettings? settings, List<Account>? accounts, Map<int, int>? balances, List<Currency> currencies, List<Movement>? movements, List<LocalDate>? periodStarts, List<Category>? categories, List<Pillar>? pillars, String? selectedCurrencyCode, Failure? failure
 });
 
 
@@ -340,7 +360,7 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? today = freezed,Object? settings = freezed,Object? accounts = freezed,Object? balances = freezed,Object? currencies = null,Object? movements = freezed,Object? periodStarts = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? today = freezed,Object? settings = freezed,Object? accounts = freezed,Object? balances = freezed,Object? currencies = null,Object? movements = freezed,Object? periodStarts = freezed,Object? categories = freezed,Object? pillars = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
   return _then(_HomeState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as HomeStatus,today: freezed == today ? _self.today : today // ignore: cast_nullable_to_non_nullable
@@ -350,7 +370,9 @@ as List<Account>?,balances: freezed == balances ? _self._balances : balances // 
 as Map<int, int>?,currencies: null == currencies ? _self._currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,movements: freezed == movements ? _self._movements : movements // ignore: cast_nullable_to_non_nullable
 as List<Movement>?,periodStarts: freezed == periodStarts ? _self._periodStarts : periodStarts // ignore: cast_nullable_to_non_nullable
-as List<LocalDate>?,selectedCurrencyCode: freezed == selectedCurrencyCode ? _self.selectedCurrencyCode : selectedCurrencyCode // ignore: cast_nullable_to_non_nullable
+as List<LocalDate>?,categories: freezed == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<Category>?,pillars: freezed == pillars ? _self._pillars : pillars // ignore: cast_nullable_to_non_nullable
+as List<Pillar>?,selectedCurrencyCode: freezed == selectedCurrencyCode ? _self.selectedCurrencyCode : selectedCurrencyCode // ignore: cast_nullable_to_non_nullable
 as String?,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));

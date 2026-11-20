@@ -12,6 +12,11 @@ import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_account_balances.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_accounts.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/pillar.dart';
+import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_categories.dart';
+import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_pillars.dart';
+import 'package:saisho_kakeibo/features/home/domain/services/donut_data.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/home_balance.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
@@ -25,8 +30,8 @@ import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.
 part 'home_cubit.freezed.dart';
 part 'home_state.dart';
 
-/// The Home: the periods of the active currency with their totals, and the
-/// Balance (RF-14, RF-17).
+/// The Home: the periods of the active currency with their donut and
+/// totals, and the Balance (RF-02, RF-14, RF-17).
 class HomeCubit extends Cubit<HomeState> {
   new({
     required this._watchSettings,
@@ -35,6 +40,8 @@ class HomeCubit extends Cubit<HomeState> {
     required this._watchCurrencies,
     required this._watchMovements,
     required this._watchPeriodStarts,
+    required this._watchCategories,
+    required this._watchPillars,
   }) : super(const HomeState());
 
   final WatchSettings _watchSettings;
@@ -43,6 +50,8 @@ class HomeCubit extends Cubit<HomeState> {
   final WatchCurrencies _watchCurrencies;
   final WatchMovements _watchMovements;
   final WatchPeriodStarts _watchPeriodStarts;
+  final WatchCategories _watchCategories;
+  final WatchPillars _watchPillars;
   final List<StreamSubscription<Object>> _subscriptions = [];
 
   void load() {
@@ -73,6 +82,14 @@ class HomeCubit extends Cubit<HomeState> {
         (starts) => _received(state.copyWith(periodStarts: starts)),
         onError: _failed,
       ),
+      _watchCategories(const NoParams()).listen(
+        (categories) => _received(state.copyWith(categories: categories)),
+        onError: _failed,
+      ),
+      _watchPillars(const NoParams()).listen(
+        (pillars) => _received(state.copyWith(pillars: pillars)),
+        onError: _failed,
+      ),
     ]);
   }
 
@@ -87,7 +104,9 @@ class HomeCubit extends Cubit<HomeState> {
         next.balances != null &&
         next.currencies.isNotEmpty &&
         next.movements != null &&
-        next.periodStarts != null;
+        next.periodStarts != null &&
+        next.categories != null &&
+        next.pillars != null;
     emit(ready ? next.copyWith(status: HomeStatus.success) : next);
   }
 

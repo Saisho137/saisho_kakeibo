@@ -17,6 +17,8 @@ abstract class HomeState with _$HomeState {
     @Default(<Currency>[]) List<Currency> currencies,
     List<Movement>? movements,
     List<LocalDate>? periodStarts,
+    List<Category>? categories,
+    List<Pillar>? pillars,
 
     /// Currency picked in the quick menu; the main one until then.
     String? selectedCurrencyCode,
@@ -75,6 +77,21 @@ abstract class HomeState with _$HomeState {
     );
     return PeriodTotals.of(inPeriod, accounts ?? const [])[code] ??
         const CurrencyTotals();
+  }
+
+  /// Expenses of [period] in the active currency by pillar and category.
+  DonutData donutOf(Period period) {
+    final code = currencyCode;
+    if (code == null) return const DonutData(total: 0, pillars: []);
+    return DonutData.of(
+      movements: (movements ?? const <Movement>[]).where(
+        (m) => period.contains(m.date),
+      ),
+      accounts: accounts ?? const [],
+      categories: categories ?? const [],
+      pillars: pillars ?? const [],
+      currencyCode: code,
+    );
   }
 
   /// Balance of the main view in the active currency; `null` until loaded.

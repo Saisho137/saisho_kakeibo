@@ -1617,6 +1617,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// Donut group of expenses without a pillar (Loan given, Uncategorized).
+  ///
+  /// In en, this message translates to:
+  /// **'No pillar'**
+  String get donutNoPillar;
 }
 
 class _AppLocalizationsDelegate

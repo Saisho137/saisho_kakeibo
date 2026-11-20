@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -9,10 +11,12 @@ import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 
 import '../../../../helpers/account_fixtures.dart';
+import '../../../../helpers/category_fixtures.dart';
 import '../../../../helpers/helpers.dart';
 import '../../../../helpers/movement_fixtures.dart';
 
@@ -35,11 +39,13 @@ void main() {
     accounts: [cash, bank, dollars],
     balances: const {1: 4250000, 2: 0, 3: 0},
     currencies: const [cop, usd],
+    categories: [category(id: 10, name: 'Food')],
+    pillars: pillars,
     // Two periods: since yesterday, and from 2025 to the day before.
     periodStarts: [LocalDate(2025, 1, 1), today.addDays(-1)],
     movements: [
       movement(type: MovementType.income, amount: 5000000, date: today),
-      movement(amount: 2040000, date: today),
+      movement(amount: 2040000, date: today, categoryId: 10),
       movement(
         type: MovementType.transfer,
         toAccountId: 2,
@@ -111,6 +117,22 @@ void main() {
         find.text('Balance COP 4.250.000', findRichText: true),
         findsOneWidget,
       );
+    });
+
+    testWidgets('a category of the donut starts an expense of it', (
+      tester,
+    ) async {
+      await pumpView(tester);
+
+      final donut = find.byType(DonutChart);
+      final box = tester.getSize(donut);
+      // Middle of the ring: half the square less the icons (44), the
+      // border (8), the separation (2) and half the ring (18).
+      final radius = min(box.width, box.height) / 2 - 72;
+      await tester.tapAt(tester.getCenter(donut) + Offset(radius, 0));
+      verify(
+        () => router.push<Object?>('/movements/new?type=expense&category=10'),
+      ).called(1);
     });
 
     testWidgets('swiping right shows the previous period', (tester) async {
