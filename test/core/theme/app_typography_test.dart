@@ -1,9 +1,28 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/theme/app_theme.dart';
 import 'package:saisho_kakeibo/core/theme/app_typography.dart';
 
+double _width(TextStyle style) {
+  final painter = TextPainter(
+    text: TextSpan(text: 'Balance 4.250.000', style: style),
+    textDirection: TextDirection.ltr,
+  )..layout();
+  return painter.width;
+}
+
 void main() {
+  setUpAll(() async {
+    final bytes = File('assets/fonts/roboto_flex/RobotoFlex.ttf')
+        .readAsBytesSync();
+    final loader = FontLoader(AppTypography.fontFamily)
+      ..addFont(Future.value(ByteData.sublistView(bytes)));
+    await loader.load();
+  });
+
   group('AppTypography', () {
     test('themes use Roboto Flex', () {
       for (final theme in [AppTheme.light, AppTheme.dark]) {
@@ -12,32 +31,16 @@ void main() {
       }
     });
 
-    test('every style drives the weight axis from its font weight', () {
-      final styles = [
-        AppTheme.light.textTheme.displayLarge,
-        AppTheme.light.textTheme.titleMedium,
-        AppTheme.light.textTheme.labelSmall,
-      ];
+    // Guards the variable font: a fixed `wght` axis in the theme would make
+    // `copyWith(fontWeight: ...)` render at the theme's weight.
+    test('copyWith(fontWeight) changes the rendered weight', () {
+      final body = AppTheme.light.textTheme.bodyMedium!;
 
-      for (final style in styles) {
-        final weight = style!.fontWeight ?? FontWeight.normal;
-        expect(style.fontVariations, [
-          FontVariation('wght', weight.value.toDouble()),
-        ]);
-      }
-    });
-
-    test('withWeight sets both the weight and the axis', () {
-      final style = const TextStyle().withWeight(FontWeight.w700);
-
-      expect(style.fontWeight, FontWeight.w700);
-      expect(style.fontVariations, [const FontVariation('wght', 700)]);
-    });
-
-    test('keeps missing styles empty', () {
-      final theme = AppTypography.apply(const TextTheme());
-
-      expect(theme.bodyMedium, isNull);
+      expect(body.fontVariations, isNull);
+      expect(
+        _width(body.copyWith(fontWeight: FontWeight.w700)),
+        greaterThan(_width(body)),
+      );
     });
   });
 }
