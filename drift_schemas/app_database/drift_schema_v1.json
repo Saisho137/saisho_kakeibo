@@ -6,5 +6,300 @@
   "options": {
     "store_date_time_values_as_text": true
   },
-  "entities": []
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "currencies",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 3,
+                  "max": 3
+                }
+              }
+            ]
+          },
+          {
+            "name": "symbol",
+            "getter_name": "symbol",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 4
+                }
+              }
+            ]
+          },
+          {
+            "name": "decimals",
+            "getter_name": "decimals",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "thousands_separator",
+            "getter_name": "thousandsSeparator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": null,
+                  "max": 1
+                }
+              }
+            ]
+          },
+          {
+            "name": "decimal_separator",
+            "getter_name": "decimalSeparator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            ]
+          },
+          {
+            "name": "is_built_in",
+            "getter_name": "isBuiltIn",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_built_in\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_built_in\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "code"
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "settings",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "check": {
+                  "dart_expression": {
+                    "elements": [
+                      {
+                        "lexeme": "id",
+                        "tag": "id"
+                      },
+                      ".equals(1)"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "main_currency_code",
+            "getter_name": "mainCurrencyCode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES currencies (code)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES currencies (code)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "currencies",
+                    "column": "code"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "period_type",
+            "getter_name": "periodType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<PeriodType>(PeriodType.values)",
+              "dart_type_name": "PeriodType"
+            }
+          },
+          {
+            "name": "cutoff_day",
+            "getter_name": "cutoffDay",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "min_days_between_periods",
+            "getter_name": "minDaysBetweenPeriods",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "notifications_enabled",
+            "getter_name": "notificationsEnabled",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"notifications_enabled\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"notifications_enabled\" IN (0, 1))"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reminder_minutes",
+            "getter_name": "reminderMinutes",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "theme_mode",
+            "getter_name": "themeMode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<AppThemeMode>(AppThemeMode.values)",
+              "dart_type_name": "AppThemeMode"
+            }
+          },
+          {
+            "name": "balance_filter",
+            "getter_name": "balanceFilter",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<BalanceFilter>(BalanceFilter.values)",
+              "dart_type_name": "BalanceFilter"
+            }
+          },
+          {
+            "name": "backups_to_keep",
+            "getter_name": "backupsToKeep",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "currencies",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"currencies\" (\"code\" TEXT NOT NULL, \"symbol\" TEXT NOT NULL, \"decimals\" INTEGER NOT NULL, \"thousands_separator\" TEXT NOT NULL, \"decimal_separator\" TEXT NOT NULL, \"is_built_in\" INTEGER NOT NULL DEFAULT 0 CHECK (\"is_built_in\" IN (0, 1)), PRIMARY KEY (\"code\"));"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"settings\" (\"id\" INTEGER NOT NULL CHECK(\"id\" = 1), \"main_currency_code\" TEXT NOT NULL REFERENCES currencies (code), \"period_type\" TEXT NOT NULL, \"cutoff_day\" INTEGER NOT NULL, \"min_days_between_periods\" INTEGER NOT NULL, \"notifications_enabled\" INTEGER NOT NULL CHECK (\"notifications_enabled\" IN (0, 1)), \"reminder_minutes\" INTEGER NOT NULL, \"theme_mode\" TEXT NOT NULL, \"balance_filter\" TEXT NOT NULL, \"backups_to_keep\" INTEGER NOT NULL, PRIMARY KEY (\"id\"));"
+        }
+      ]
+    }
+  ]
 }

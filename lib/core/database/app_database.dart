@@ -1,12 +1,21 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/features/settings/data/datasources/currencies_table.dart';
+import 'package:saisho_kakeibo/features/settings/data/datasources/currency_dao.dart';
+import 'package:saisho_kakeibo/features/settings/data/datasources/settings_dao.dart';
+import 'package:saisho_kakeibo/features/settings/data/datasources/settings_seed.dart';
+import 'package:saisho_kakeibo/features/settings/data/datasources/settings_table.dart';
 
 part 'app_database.g.dart';
 
 /// Local SQLite database. Each feature declares its tables and DAOs in its
 /// `data/datasources` folder and registers them here. Every schema change
 /// bumps [schemaVersion] and adds a migration step.
-@DriftDatabase()
+@DriftDatabase(
+  tables: [Currencies, SettingsTable],
+  daos: [CurrencyDao, SettingsDao],
+)
 class AppDatabase extends _$AppDatabase {
   new([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
@@ -17,6 +26,10 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) async {
+      await m.createAll();
+      await SettingsSeed.insert(this);
+    },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     },
