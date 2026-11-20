@@ -348,7 +348,6 @@ class _AccountForm extends StatelessWidget {
     final original = state.original;
     if (original == null) return null;
     if (original.isMain) return context.l10n.accountMainStays;
-    if (state.hasPockets) return context.l10n.accountHasPockets;
     return null;
   }
 }
@@ -383,11 +382,19 @@ class _DeleteButton extends StatelessWidget {
       icon: const Icon(Icons.delete_outline_rounded),
       onPressed: () async {
         final cubit = context.read<AccountFormCubit>();
+        final pockets = cubit.state.pockets;
         final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
             title: Text(l10n.accountDeleteTitle(cubit.state.original!.name)),
-            content: Text(l10n.accountDeleteMessage),
+            content: Text(
+              pockets.isEmpty
+                  ? l10n.accountDeleteMessage
+                  : l10n.accountDeleteWithPocketsMessage(
+                      pockets.length,
+                      pockets.map((p) => p.name).join(', '),
+                    ),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
@@ -395,7 +402,14 @@ class _DeleteButton extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text(l10n.actionDelete),
+                style: TextButton.styleFrom(
+                  foregroundColor: context.colors.error,
+                ),
+                child: Text(
+                  pockets.isEmpty
+                      ? l10n.actionDelete
+                      : l10n.accountDeleteWithPocketsAction,
+                ),
               ),
             ],
           ),

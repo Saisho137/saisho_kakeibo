@@ -503,10 +503,6 @@
   "@accountMainStays": {
     "description": "Why the main account has no archive or delete action."
   },
-  "accountHasPockets": "Delete its pockets first to delete this account.",
-  "@accountHasPockets": {
-    "description": "Why an account with pockets can't be deleted."
-  },
   "accountArchiveTooltip": "Archive",
   "@accountArchiveTooltip": {
     "description": "Tooltip of the archive action."
@@ -531,5 +527,222 @@
   "accountDeleteMessage": "The account will be removed. Archive it instead to keep it out of sight.",
   "@accountDeleteMessage": {
     "description": "Delete confirmation message."
+  },
+  "accountDeleteWithPocketsMessage": "Its {count, plural, =1{pocket} other{{count} pockets}} will be deleted too: {names}. This can't be undone. Archive it instead to keep it out of sight.",
+  "@accountDeleteWithPocketsMessage": {
+    "description": "Delete confirmation message of an account that has pockets.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDeleteWithPocketsAction": "Delete all",
+  "@accountDeleteWithPocketsAction": {
+    "description": "Confirm button that deletes an account and its pockets."
+  },
+  "categoriesOpenTooltip": "Categories",
+  "@categoriesOpenTooltip": {
+    "description": "Tooltip of the temporary Home button that opens Categories."
+  },
+  "categoriesTitle": "Categories",
+  "@categoriesTitle": {
+    "description": "Title of the Categories screen."
+  },
+  "categoryTypeExpense": "Expense",
+  "@categoryTypeExpense": {
+    "description": "Expense category type and tab."
+  },
+  "categoryTypeIncome": "Income",
+  "@categoryTypeIncome": {
+    "description": "Income category type and tab."
+  },
+  "categoryTypeTransfer": "Transfer",
+  "@categoryTypeTransfer": {
+    "description": "Transfer category type and tab."
+  },
+  "categoriesArchived": "Archived ({count})",
+  "@categoriesArchived": {
+    "description": "Header of the archived categories of a tab.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoriesEmpty": "No categories yet.",
+  "@categoriesEmpty": {
+    "description": "Shown when a tab has no active categories."
+  },
+  "categoryCoreMarker": "Core category",
+  "@categoryCoreMarker": {
+    "description": "Semantic label of the lock shown on core categories."
+  },
+  "categoryNoPillar": "No pillar",
+  "@categoryNoPillar": {
+    "description": "Pillar label of Loan given and Uncategorized."
+  },
+  "categoryDebtPillar": "Debt's pillar",
+  "@categoryDebtPillar": {
+    "description": "Pillar label of Debt payment, which takes the pillar of each debt."
+  },
+  "categoryNewTooltip": "New category",
+  "@categoryNewTooltip": {
+    "description": "Tooltip of the add button."
+  },
+  "categoryNewTitle": "New category",
+  "@categoryNewTitle": {
+    "description": "Title of the form that creates a category."
+  },
+  "categoryEditTitle": "Edit {name}",
+  "@categoryEditTitle": {
+    "description": "Title of the form that edits a category.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryNotFound": "This category no longer exists.",
+  "@categoryNotFound": {
+    "description": "Shown when the edited category is missing."
+  },
+  "categoryType": "Type",
+  "@categoryType": {
+    "description": "Label of the category type."
+  },
+  "categoryTypeLocked": "The type can't be changed after creating the category.",
+  "@categoryTypeLocked": {
+    "description": "Why the type of a stored category is read-only."
+  },
+  "categoryIconTooltip": "Change icon",
+  "@categoryIconTooltip": {
+    "description": "Tooltip of the category icon in the form."
+  },
+  "categoryName": "Name",
+  "@categoryName": {
+    "description": "Label of the category name field."
+  },
+  "categoryErrorName": "Enter a name.",
+  "@categoryErrorName": {
+    "description": "Error of an empty category name."
+  },
+  "categoryErrorDuplicate": "Another {type} category has this name.",
+  "@categoryErrorDuplicate": {
+    "description": "Error of a repeated name inside a type.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryChangeColor": "Change color",
+  "@categoryChangeColor": {
+    "description": "Subtle button that opens the color picker."
+  },
+  "categoryPillar": "Pillar",
+  "@categoryPillar": {
+    "description": "Label of the pillar picker."
+  },
+  "categoryErrorPillar": "Pick a pillar.",
+  "@categoryErrorPillar": {
+    "description": "Error of a custom expense without a pillar."
+  },
+  "categoryDebtPillarHint": "Each payment takes the pillar of the debt it pays.",
+  "@categoryDebtPillarHint": {
+    "description": "Note of the Debt payment category."
+  },
+  "categoryNoPillarHint": "It doesn't belong to a pillar: it shows as No pillar in the chart.",
+  "@categoryNoPillarHint": {
+    "description": "Note of Loan given and Uncategorized."
+  },
+  "categoryCoreHint": "Core category: it can be renamed, but not archived or deleted.",
+  "@categoryCoreHint": {
+    "description": "Note shown on core categories."
+  },
+  "categoryReset": "Reset to default",
+  "@categoryReset": {
+    "description": "Button that restores the default name, icon and color of a core category."
+  },
+  "categoryArchiveTooltip": "Archive",
+  "@categoryArchiveTooltip": {
+    "description": "Tooltip of the archive action."
+  },
+  "categoryUnarchiveTooltip": "Restore",
+  "@categoryUnarchiveTooltip": {
+    "description": "Tooltip of the action that restores an archived category."
+  },
+  "categoryArchivedHint": "Archived: it's out of the quick entry grid and keeps its history.",
+  "@categoryArchivedHint": {
+    "description": "Note shown on an archived category."
+  },
+  "categoryDeleteTooltip": "Delete category",
+  "@categoryDeleteTooltip": {
+    "description": "Tooltip of the delete action."
+  },
+  "categoryDeleteTitle": "Delete {name}?",
+  "@categoryDeleteTitle": {
+    "description": "Delete confirmation title.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryDeleteNoMovements": "It has no movements. This can't be undone.",
+  "@categoryDeleteNoMovements": {
+    "description": "Delete confirmation of a category without movements."
+  },
+  "categoryDeleteMovements": "{count, plural, =1{Its movement moves} other{Its {count} movements move}} to the category you pick. This can't be undone.",
+  "@categoryDeleteMovements": {
+    "description": "Delete confirmation of a category with movements.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryDeleteTarget": "Move to",
+  "@categoryDeleteTarget": {
+    "description": "Label of the picker of the category that receives the movements."
+  },
+  "pillarsTooltip": "Pillars",
+  "@pillarsTooltip": {
+    "description": "Tooltip of the button that opens the pillars."
+  },
+  "pillarsTitle": "Pillars",
+  "@pillarsTitle": {
+    "description": "Title of the pillars dialog."
+  },
+  "pillarsHint": "Pillars classify expenses. Rename them or change their color.",
+  "@pillarsHint": {
+    "description": "Explanation in the pillars dialog."
+  },
+  "pillarEditTitle": "Edit pillar",
+  "@pillarEditTitle": {
+    "description": "Title of the dialog that edits a pillar."
+  },
+  "pillarName": "Name",
+  "@pillarName": {
+    "description": "Label of the pillar name field."
+  },
+  "pillarErrorName": "Enter a name.",
+  "@pillarErrorName": {
+    "description": "Error of an empty pillar name."
+  },
+  "pillarErrorDuplicate": "Another pillar has this name.",
+  "@pillarErrorDuplicate": {
+    "description": "Error of a repeated pillar name."
+  },
+  "pillarColorInUse": "Colors of other pillars are not available.",
+  "@pillarColorInUse": {
+    "description": "Note under the pillar colors."
+  },
+  "actionClose": "Close",
+  "@actionClose": {
+    "description": "Generic close button."
   }
 }

@@ -5,8 +5,9 @@ import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/accounts_x.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/repositories/account_repository.dart';
 
-/// Deletes an account without movements (RF-15). The main account and
-/// accounts with pockets cannot be deleted.
+/// Deletes an account and its pockets together (RF-15). The main account
+/// cannot be deleted, and nothing is deleted if the account or any of its
+/// pockets has movements.
 class DeleteAccount implements UseCase<Future<Result<void>>, int> {
   const new(this._repository);
 
@@ -22,14 +23,14 @@ class DeleteAccount implements UseCase<Future<Result<void>>, int> {
     if (account.isMain) {
       return const Err(ValidationFailure('The main account stays.'));
     }
-    if (accounts.pocketsOf(id).isNotEmpty) {
-      return const Err(ValidationFailure('Delete its pockets first.'));
+    final ids = [for (final pocket in accounts.pocketsOf(id)) pocket.id, id];
+    for (final each in ids) {
+      final moved = await _repository.hasMovements(each);
+      if (moved case Err(:final failure)) return Err(failure);
+      if (moved is Ok<bool> && moved.value) {
+        return const Err(ValidationFailure('Accounts with movements stay.'));
+      }
     }
-    final moved = await _repository.hasMovements(id);
-    if (moved case Err(:final failure)) return Err(failure);
-    if (moved case Ok(value: true)) {
-      return const Err(ValidationFailure('Accounts with movements stay.'));
-    }
-    return await _repository.delete(id);
+    return await _repository.delete(ids);
   }
 }

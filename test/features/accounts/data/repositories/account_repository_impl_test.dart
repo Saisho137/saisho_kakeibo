@@ -86,15 +86,15 @@ void main() {
       expect((await repository.hasMovements(1) as Ok<bool>).value, isFalse);
     });
 
-    test('deletes an account', () async {
-      final cash = (await all()).first;
+    test('deletes a parent and its pockets together', () async {
+      final bank = (await all()).firstWhere((a) => a.isMain);
+      final pocketId = (await repository.create(
+        account(id: 0, type: AccountType.pocket, parentAccountId: bank.id),
+      ) as Ok<int>).value;
 
-      await repository.delete(cash.id);
+      expect(await repository.delete([pocketId, bank.id]), isA<Ok<void>>());
 
-      expect(
-        (await repository.findById(cash.id) as Ok<Account?>).value,
-        isNull,
-      );
+      expect((await all()).map((a) => a.name), ['Cash']);
     });
 
     test('the database rejects an unknown currency', () async {

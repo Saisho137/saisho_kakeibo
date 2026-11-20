@@ -10,8 +10,8 @@ abstract class AccountFormState with _$AccountFormState {
     /// The stored account when editing; `null` when creating.
     Account? original,
 
-    /// Whether the edited account has movements: its currency is locked and
-    /// it cannot be deleted.
+    /// Whether the edited account or one of its pockets has movements: its
+    /// currency is locked and it cannot be deleted.
     @Default(false) bool hasMovements,
 
     /// Every account, for the parent picker and the delete rule.
@@ -74,13 +74,14 @@ abstract class AccountFormState with _$AccountFormState {
 
   bool get currencyLocked => isEditing && hasMovements;
 
-  bool get hasPockets {
+  /// Pockets of the edited account, deleted with it.
+  List<Account> get pockets {
     final self = original;
-    return self != null && accounts.pocketsOf(self.id).isNotEmpty;
+    return self == null ? const [] : accounts.pocketsOf(self.id).toList();
   }
 
   bool get canArchive => isEditing && !(original?.isMain ?? false);
 
   bool get canDelete =>
-      isEditing && !(original?.isMain ?? false) && !hasMovements && !hasPockets;
+      isEditing && !(original?.isMain ?? false) && !hasMovements;
 }

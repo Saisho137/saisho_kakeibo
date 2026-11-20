@@ -144,12 +144,21 @@ void main() {
       expect(cubit.state.currencyCode, 'COP');
     });
 
-    test('the main account and parents cannot be removed', () async {
+    test('the main account cannot be removed', () async {
       final state = (await loaded(id: 2)).state;
 
-      expect(state.hasPockets, isTrue);
+      expect(state.pockets, [pocket]);
       expect(state.canArchive, isFalse);
       expect(state.canDelete, isFalse);
+    });
+
+    test('a pocket with movements locks its parent', () async {
+      when(() => hasMovements(4)).thenAnswer((_) async => const Ok(true));
+
+      final state = (await loaded(id: 2)).state;
+
+      expect(state.hasMovements, isTrue);
+      expect(state.currencyLocked, isTrue);
     });
 
     test('reports a missing account and a failed read', () async {

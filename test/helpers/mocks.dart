@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_form_cubit.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
+import 'package:saisho_kakeibo/features/categories/presentation/cubit/categories_cubit.dart';
+import 'package:saisho_kakeibo/features/categories/presentation/cubit/category_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -23,3 +25,9 @@ class MockAccountsCubit extends MockCubit<AccountsState>
 
 class MockAccountFormCubit extends MockCubit<AccountFormState>
     implements AccountFormCubit;
+
+class MockCategoriesCubit extends MockCubit<CategoriesState>
+    implements CategoriesCubit;
+
+class MockCategoryFormCubit extends MockCubit<CategoryFormState>
+    implements CategoryFormCubit;

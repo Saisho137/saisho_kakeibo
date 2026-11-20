@@ -81,7 +81,10 @@ class AccountFormCubit extends Cubit<AccountFormState> {
       emit(loaded.copyWith(status: AccountFormStatus.notFound));
       return;
     }
-    final moved = await _hasMovements(id);
+    var moved = false;
+    for (final each in [id, ...accounts.pocketsOf(id).map((p) => p.id)]) {
+      if (await _hasMovements(each) case Ok(value: true)) moved = true;
+    }
     final currency = currencies
         .where((c) => c.code == account.currencyCode)
         .firstOrNull;
@@ -93,7 +96,7 @@ class AccountFormCubit extends Cubit<AccountFormState> {
       loaded.copyWith(
         status: AccountFormStatus.editing,
         original: account,
-        hasMovements: moved is Ok<bool> && moved.value,
+        hasMovements: moved,
         name: account.name,
         iconKey: account.iconKey,
         color: account.color,
