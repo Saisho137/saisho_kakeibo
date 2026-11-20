@@ -2,10 +2,11 @@ import 'package:drift/drift.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
 import 'package:saisho_kakeibo/features/categories/data/datasources/categories_table.dart';
 import 'package:saisho_kakeibo/features/categories/data/datasources/pillars_table.dart';
+import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
 
 part 'category_dao.g.dart';
 
-@DriftAccessor(tables: [Categories, Pillars])
+@DriftAccessor(tables: [Categories, Pillars, Movements])
 class CategoryDao extends DatabaseAccessor<AppDatabase>
     with _$CategoryDaoMixin {
   new(super.attachedDatabase);
@@ -51,11 +52,24 @@ class CategoryDao extends DatabaseAccessor<AppDatabase>
     }
   });
 
-  /// Movements arrive in phase 4; until then no category has any.
-  Future<int> countMovements(int id) async => 0;
+  Future<int> countMovements(int id) async {
+    final count = movements.id.count();
+    final query = selectOnly(movements)
+      ..addColumns([count])
+      ..where(movements.categoryId.equals(id));
+    final row = await query.getSingle();
+    final value = row.read(count);
+    return value ?? 0;
+  }
 
-  /// Movements move to [reassignTo] here once they exist (phase 4).
+  /// Moves the movements of [id] to [reassignTo], if given, then deletes
+  /// the category.
   Future<void> deleteById(int id, {int? reassignTo}) => transaction(() async {
+    if (reassignTo != null) {
+      await (update(movements)..where((m) => m.categoryId.equals(id))).write(
+        MovementsCompanion(categoryId: Value(reassignTo)),
+      );
+    }
     await (delete(categories)..where((c) => c.id.equals(id))).go();
   });
 }

@@ -12,6 +12,10 @@ import 'package:saisho_kakeibo/features/categories/data/datasources/categories_t
 import 'package:saisho_kakeibo/features/categories/data/datasources/category_dao.dart';
 import 'package:saisho_kakeibo/features/categories/data/datasources/pillars_table.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/movements/data/datasources/movement_dao.dart';
+import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
+import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/currencies_table.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/currency_dao.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/settings_dao.dart';
@@ -24,8 +28,16 @@ part 'app_database.g.dart';
 /// `data/datasources` folder and registers them here. Every schema change
 /// bumps [schemaVersion] and adds a migration step.
 @DriftDatabase(
-  tables: [Currencies, SettingsTable, Accounts, Pillars, Categories],
-  daos: [CurrencyDao, SettingsDao, AccountDao, CategoryDao],
+  tables: [
+    Currencies,
+    SettingsTable,
+    Accounts,
+    Pillars,
+    Categories,
+    Payees,
+    Movements,
+  ],
+  daos: [CurrencyDao, SettingsDao, AccountDao, CategoryDao, MovementDao],
 )
 class AppDatabase extends _$AppDatabase {
   new([QueryExecutor? executor]) : super(executor ?? _openConnection());

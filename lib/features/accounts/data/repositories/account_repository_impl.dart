@@ -19,6 +19,10 @@ class AccountRepositoryImpl implements AccountRepository {
   Stream<Map<int, int>> watchBalances() => _dao.watchBalances();
 
   @override
+  Future<Result<Map<int, int>>> getBalances() =>
+      guardDatabase(_dao.getBalances);
+
+  @override
   Future<Result<List<Account>>> getAccounts() => guardDatabase(
     () async => (await _dao.getAll())
         .map((row) => row.toEntity())
@@ -49,9 +53,9 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<Result<void>> reorder(List<int> ids) =>
       guardDatabase(() => _dao.reorder(ids));
 
-  // Movements arrive in phase 4; until then no account has any.
   @override
-  Future<Result<bool>> hasMovements(int id) async => const Ok(false);
+  Future<Result<bool>> hasMovements(int id) =>
+      guardDatabase(() => _dao.hasMovements(id));
 
   @override
   Future<Result<void>> delete(List<int> ids) =>

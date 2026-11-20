@@ -744,5 +744,96 @@
   "actionClose": "Close",
   "@actionClose": {
     "description": "Generic close button."
+  },
+  "accountEditTooltip": "Edit account",
+  "@accountEditTooltip": {
+    "description": "Tooltip of the edit action on the account detail."
+  },
+  "accountAdjustBalance": "Adjust balance",
+  "@accountAdjustBalance": {
+    "description": "Action that corrects an account balance."
+  },
+  "accountUpdateValue": "Update value",
+  "@accountUpdateValue": {
+    "description": "Action that corrects the value of an investment."
+  },
+  "accountNoMovements": "No movements yet.",
+  "@accountNoMovements": {
+    "description": "Shown when an account has no movements."
+  },
+  "accountDetailNotFound": "This account no longer exists.",
+  "@accountDetailNotFound": {
+    "description": "Shown when the account of the detail screen is missing."
+  },
+  "adjustRealBalance": "Real balance",
+  "@adjustRealBalance": {
+    "description": "Label of the real balance field."
+  },
+  "adjustCurrentValue": "Current value",
+  "@adjustCurrentValue": {
+    "description": "Label of the current value field of an investment."
+  },
+  "adjustCurrentDebt": "Current debt",
+  "@adjustCurrentDebt": {
+    "description": "Label of the real debt field of a credit card."
+  },
+  "adjustHint": "The difference is saved as an adjustment: it moves no income, expense or transfer total.",
+  "@adjustHint": {
+    "description": "Explanation in the adjust balance dialog."
+  },
+  "adjustDifference": "Difference: {amount}",
+  "@adjustDifference": {
+    "description": "Difference between the real balance and the app's.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustErrorAmount": "Enter an amount.",
+  "@adjustErrorAmount": {
+    "description": "Error of an unreadable amount in the adjust dialog."
+  },
+  "movementAdjustment": "Balance adjustment",
+  "@movementAdjustment": {
+    "description": "Title of an adjustment in a list."
+  },
+  "movementPending": "Pending",
+  "@movementPending": {
+    "description": "Marker of a movement waiting for confirmation."
+  },
+  "movementTransferTo": "To {name}",
+  "@movementTransferTo": {
+    "description": "Subtitle of an outgoing transfer.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "movementTransferFrom": "From {name}",
+  "@movementTransferFrom": {
+    "description": "Subtitle of an incoming transfer.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "movementDeleteAdjustmentTitle": "Delete this adjustment?",
+  "@movementDeleteAdjustmentTitle": {
+    "description": "Title of the dialog that deletes an adjustment."
+  },
+  "movementDeleteAdjustmentMessage": "The balance goes back to what it was without it.",
+  "@movementDeleteAdjustmentMessage": {
+    "description": "Message of the dialog that deletes an adjustment."
+  },
+  "dayToday": "Today",
+  "@dayToday": {
+    "description": "Header of today's movements."
+  },
+  "dayYesterday": "Yesterday",
+  "@dayYesterday": {
+    "description": "Header of yesterday's movements."
   }
 }

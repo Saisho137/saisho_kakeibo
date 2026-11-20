@@ -6,6 +6,10 @@ part of 'account_dao.dart';
 mixin _$AccountDaoMixin on DatabaseAccessor<AppDatabase> {
   $CurrenciesTable get currencies => attachedDatabase.currencies;
   $AccountsTable get accounts => attachedDatabase.accounts;
+  $PillarsTable get pillars => attachedDatabase.pillars;
+  $CategoriesTable get categories => attachedDatabase.categories;
+  $PayeesTable get payees => attachedDatabase.payees;
+  $MovementsTable get movements => attachedDatabase.movements;
   AccountDaoManager get managers => AccountDaoManager(this);
 }
 
@@ -16,4 +20,12 @@ class AccountDaoManager {
       $$CurrenciesTableTableManager(_db.attachedDatabase, _db.currencies);
   $$AccountsTableTableManager get accounts =>
       $$AccountsTableTableManager(_db.attachedDatabase, _db.accounts);
+  $$PillarsTableTableManager get pillars =>
+      $$PillarsTableTableManager(_db.attachedDatabase, _db.pillars);
+  $$CategoriesTableTableManager get categories =>
+      $$CategoriesTableTableManager(_db.attachedDatabase, _db.categories);
+  $$PayeesTableTableManager get payees =>
+      $$PayeesTableTableManager(_db.attachedDatabase, _db.payees);
+  $$MovementsTableTableManager get movements =>
+      $$MovementsTableTableManager(_db.attachedDatabase, _db.movements);
 }

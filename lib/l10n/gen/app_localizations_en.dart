@@ -568,4 +568,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionClose => 'Close';
+
+  @override
+  String get accountEditTooltip => 'Edit account';
+
+  @override
+  String get accountAdjustBalance => 'Adjust balance';
+
+  @override
+  String get accountUpdateValue => 'Update value';
+
+  @override
+  String get accountNoMovements => 'No movements yet.';
+
+  @override
+  String get accountDetailNotFound => 'This account no longer exists.';
+
+  @override
+  String get adjustRealBalance => 'Real balance';
+
+  @override
+  String get adjustCurrentValue => 'Current value';
+
+  @override
+  String get adjustCurrentDebt => 'Current debt';
+
+  @override
+  String get adjustHint =>
+      'The difference is saved as an adjustment: it moves no income, expense or transfer total.';
+
+  @override
+  String adjustDifference(String amount) {
+    return 'Difference: $amount';
+  }
+
+  @override
+  String get adjustErrorAmount => 'Enter an amount.';
+
+  @override
+  String get movementAdjustment => 'Balance adjustment';
+
+  @override
+  String get movementPending => 'Pending';
+
+  @override
+  String movementTransferTo(String name) {
+    return 'To $name';
+  }
+
+  @override
+  String movementTransferFrom(String name) {
+    return 'From $name';
+  }
+
+  @override
+  String get movementDeleteAdjustmentTitle => 'Delete this adjustment?';
+
+  @override
+  String get movementDeleteAdjustmentMessage =>
+      'The balance goes back to what it was without it.';
+
+  @override
+  String get dayToday => 'Today';
+
+  @override
+  String get dayYesterday => 'Yesterday';
 }

@@ -1077,6 +1077,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get actionClose;
+
+  /// Tooltip of the edit action on the account detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit account'**
+  String get accountEditTooltip;
+
+  /// Action that corrects an account balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust balance'**
+  String get accountAdjustBalance;
+
+  /// Action that corrects the value of an investment.
+  ///
+  /// In en, this message translates to:
+  /// **'Update value'**
+  String get accountUpdateValue;
+
+  /// Shown when an account has no movements.
+  ///
+  /// In en, this message translates to:
+  /// **'No movements yet.'**
+  String get accountNoMovements;
+
+  /// Shown when the account of the detail screen is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This account no longer exists.'**
+  String get accountDetailNotFound;
+
+  /// Label of the real balance field.
+  ///
+  /// In en, this message translates to:
+  /// **'Real balance'**
+  String get adjustRealBalance;
+
+  /// Label of the current value field of an investment.
+  ///
+  /// In en, this message translates to:
+  /// **'Current value'**
+  String get adjustCurrentValue;
+
+  /// Label of the real debt field of a credit card.
+  ///
+  /// In en, this message translates to:
+  /// **'Current debt'**
+  String get adjustCurrentDebt;
+
+  /// Explanation in the adjust balance dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'The difference is saved as an adjustment: it moves no income, expense or transfer total.'**
+  String get adjustHint;
+
+  /// Difference between the real balance and the app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Difference: {amount}'**
+  String adjustDifference(String amount);
+
+  /// Error of an unreadable amount in the adjust dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount.'**
+  String get adjustErrorAmount;
+
+  /// Title of an adjustment in a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance adjustment'**
+  String get movementAdjustment;
+
+  /// Marker of a movement waiting for confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get movementPending;
+
+  /// Subtitle of an outgoing transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'To {name}'**
+  String movementTransferTo(String name);
+
+  /// Subtitle of an incoming transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'From {name}'**
+  String movementTransferFrom(String name);
+
+  /// Title of the dialog that deletes an adjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this adjustment?'**
+  String get movementDeleteAdjustmentTitle;
+
+  /// Message of the dialog that deletes an adjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'The balance goes back to what it was without it.'**
+  String get movementDeleteAdjustmentMessage;
+
+  /// Header of today's movements.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dayToday;
+
+  /// Header of yesterday's movements.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dayYesterday;
 }
 
 class _AppLocalizationsDelegate

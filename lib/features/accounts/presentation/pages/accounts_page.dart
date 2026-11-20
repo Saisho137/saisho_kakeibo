@@ -155,7 +155,7 @@ class _AccountsList extends StatelessWidget {
                   line: line,
                   format: currency.format,
                   onTap: (account) =>
-                      context.push(AppRoutes.editAccount(account.id)),
+                      context.push(AppRoutes.accountDetail(account.id)),
                 ),
             ],
           ),

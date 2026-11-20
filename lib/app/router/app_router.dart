@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/pages/account_detail_page.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/pages/account_form_page.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
@@ -29,10 +30,19 @@ GoRouter createAppRouter() => GoRouter(
         ),
         GoRoute(
           path: ':id',
-          name: 'editAccount',
-          builder: (context, state) => AccountFormPage(
+          name: 'accountDetail',
+          builder: (context, state) => AccountDetailPage(
             id: int.tryParse(state.pathParameters['id']!) ?? -1,
           ),
+          routes: [
+            GoRoute(
+              path: 'edit',
+              name: 'editAccount',
+              builder: (context, state) => AccountFormPage(
+                id: int.tryParse(state.pathParameters['id']!) ?? -1,
+              ),
+            ),
+          ],
         ),
       ],
     ),

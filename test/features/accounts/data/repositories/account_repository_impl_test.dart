@@ -82,7 +82,7 @@ void main() {
       expect(balances, hasLength(3));
     });
 
-    test('no account has movements yet', () async {
+    test('an account without movements has none', () async {
       expect((await repository.hasMovements(1) as Ok<bool>).value, isFalse);
     });
 

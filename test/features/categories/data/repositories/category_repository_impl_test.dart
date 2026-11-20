@@ -66,7 +66,7 @@ void main() {
       expect(names.last, 'Paycheck');
     });
 
-    test('deletes a category; none has movements yet', () async {
+    test('deletes a category without movements', () async {
       final car = (await all()).firstWhere((c) => c.name == 'Car');
 
       expect((await repository.countMovements(car.id) as Ok<int>).value, 0);
