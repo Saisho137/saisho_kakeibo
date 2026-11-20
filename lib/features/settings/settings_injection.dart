@@ -6,10 +6,13 @@ import 'package:saisho_kakeibo/features/settings/domain/repositories/currency_re
 import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/create_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/delete_currency.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_settings.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
+import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
+import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 
 /// Registers the feature's dependencies, from data source to cubit.
@@ -22,6 +25,7 @@ void registerSettingsDependencies(GetIt getIt) {
       () => SettingsRepositoryImpl(getIt<AppDatabase>().settingsDao),
     )
     ..registerFactory(() => WatchCurrencies(getIt()))
+    ..registerFactory(() => GetCurrency(getIt()))
     ..registerFactory(() => CreateCurrency(getIt()))
     ..registerFactory(() => UpdateCurrency(getIt()))
     ..registerFactory(() => DeleteCurrency(getIt(), getIt()))
@@ -29,5 +33,14 @@ void registerSettingsDependencies(GetIt getIt) {
     ..registerFactory(() => UpdateSettings(getIt()))
     ..registerFactory(
       () => SettingsCubit(watchSettings: getIt(), updateSettings: getIt()),
+    )
+    ..registerFactory(() => CurrenciesCubit(watchCurrencies: getIt()))
+    ..registerFactory(
+      () => CurrencyFormCubit(
+        getCurrency: getIt(),
+        createCurrency: getIt(),
+        updateCurrency: getIt(),
+        deleteCurrency: getIt(),
+      ),
     );
 }

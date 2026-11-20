@@ -105,6 +105,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get genericError;
+
+  /// Settings screen title and navigation entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get settingsSectionGeneral;
+
+  /// Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Periods'**
+  String get settingsSectionPeriods;
+
+  /// Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Currencies'**
+  String get settingsSectionCurrencies;
+
+  /// Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsSectionNotifications;
+
+  /// Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsSectionAbout;
+
+  /// Setting: currency shown by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Main currency'**
+  String get settingsMainCurrency;
+
+  /// Setting: day monthly periods start.
+  ///
+  /// In en, this message translates to:
+  /// **'Cutoff day'**
+  String get settingsCutoffDay;
+
+  /// Explains the cutoff day.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly periods start on this day. Days missing in a month fall on its last day.'**
+  String get settingsCutoffDayHint;
+
+  /// Setting: days before Salary suggests a new period.
+  ///
+  /// In en, this message translates to:
+  /// **'Min days between salary periods'**
+  String get settingsMinDays;
+
+  /// Number of days.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String settingsMinDaysValue(int count);
+
+  /// Setting: global switch for notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get settingsReminders;
+
+  /// Setting: time every reminder arrives.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get settingsReminderTime;
+
+  /// About: app version label.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settingsVersion;
+
+  /// App version and build number.
+  ///
+  /// In en, this message translates to:
+  /// **'{version} ({build})'**
+  String settingsVersionValue(String version, String build);
+
+  /// Action to create a currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Add currency'**
+  String get currencyAdd;
+
+  /// Marks COP and USD, which cannot be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in'**
+  String get currencyBuiltIn;
+
+  /// Currency form title when creating.
+  ///
+  /// In en, this message translates to:
+  /// **'New currency'**
+  String get currencyNewTitle;
+
+  /// Currency form title when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {code}'**
+  String currencyEditTitle(String code);
+
+  /// Currency code field.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get currencyCode;
+
+  /// Hint of the currency code field.
+  ///
+  /// In en, this message translates to:
+  /// **'Three letters, such as EUR'**
+  String get currencyCodeHint;
+
+  /// Currency symbol field.
+  ///
+  /// In en, this message translates to:
+  /// **'Symbol'**
+  String get currencySymbol;
+
+  /// Currency decimals field.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimals'**
+  String get currencyDecimals;
+
+  /// Warning shown when creating a currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimals can\'t be changed after creating the currency.'**
+  String get currencyDecimalsWarning;
+
+  /// Shown when editing a currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimals can\'t be changed: every amount is stored with them.'**
+  String get currencyDecimalsLocked;
+
+  /// Currency field.
+  ///
+  /// In en, this message translates to:
+  /// **'Thousands separator'**
+  String get currencyThousandsSeparator;
+
+  /// Currency field.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimal separator'**
+  String get currencyDecimalSeparator;
+
+  /// Separator option: a space.
+  ///
+  /// In en, this message translates to:
+  /// **'Space'**
+  String get currencySeparatorSpace;
+
+  /// Separator option: no separator.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get currencySeparatorNone;
+
+  /// Live preview of the currency format.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview: {amount}'**
+  String currencyPreview(String amount);
+
+  /// Validation error.
+  ///
+  /// In en, this message translates to:
+  /// **'Use three letters, A to Z.'**
+  String get currencyErrorCode;
+
+  /// Validation error.
+  ///
+  /// In en, this message translates to:
+  /// **'That currency already exists.'**
+  String get currencyErrorDuplicate;
+
+  /// Validation error.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 1 to 4 characters.'**
+  String get currencyErrorSymbol;
+
+  /// Validation error.
+  ///
+  /// In en, this message translates to:
+  /// **'Separators must be different.'**
+  String get currencyErrorSeparators;
+
+  /// Tooltip of the delete action.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete currency'**
+  String get currencyDeleteTooltip;
+
+  /// Confirmation dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {code}?'**
+  String currencyDeleteTitle(String code);
+
+  /// Confirmation dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'This can\'t be undone.'**
+  String get currencyDeleteMessage;
+
+  /// Why a currency can't be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in currencies can\'t be deleted.'**
+  String get currencyBuiltInLocked;
+
+  /// Why a currency can't be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'The main currency can\'t be deleted.'**
+  String get currencyMainLocked;
+
+  /// Shown when the edited currency is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This currency no longer exists.'**
+  String get currencyNotFound;
+
+  /// Generic save button.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get actionSave;
+
+  /// Generic cancel button.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get actionCancel;
+
+  /// Generic delete button.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get actionDelete;
+
+  /// Tooltip of the button that opens Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsOpenTooltip;
 }
 
 class _AppLocalizationsDelegate

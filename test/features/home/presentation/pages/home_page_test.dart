@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
 
 import '../../../../helpers/helpers.dart';
@@ -9,6 +10,16 @@ void main() {
       await tester.pumpApp(const HomePage());
 
       expect(find.text('Saisho Kakeibo'), findsOneWidget);
+    });
+
+    testWidgets('opens Settings', (tester) async {
+      final router = MockGoRouter();
+      when(() => router.push<Object?>(any())).thenAnswer((_) async => null);
+
+      await tester.pumpApp(const HomePage(), router: router);
+      await tester.tap(find.byTooltip('Settings'));
+
+      verify(() => router.push<Object?>('/settings')).called(1);
     });
   });
 }
