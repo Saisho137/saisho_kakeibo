@@ -95,11 +95,12 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 ## Fase 5 — Periodos
 
-- [ ] Servicio de dominio de periodos: dinámico (inicios por Salary con `startsPeriod` y por inicio manual; respaldo en el día de corte), mensual (día de corte) y anual (calendario) (RF-05, RF-14, RT-06).
-- [ ] Check *Starts period* en Salary: marcado por defecto solo si pasaron N días desde el último inicio.
-- [ ] Acción *Start new period now* en Settings → Periods → Advanced, con confirmación.
-- [ ] Totales del periodo por moneda: Income, Expenses y Transfers (ajustes excluidos).
-- [ ] Pruebas exhaustivas de bordes: salario el 23 vs. el 29, sin salario, cambio de tipo de periodo, año bisiesto.
+- [x] Servicio de dominio de periodos: dinámico (inicios por Salary con `startsPeriod` y por inicio manual; respaldo en el día de corte), mensual (día de corte) y anual (calendario) (RF-05, RF-14, RT-06). El respaldo aplica solo antes del primer inicio; el último periodo dinámico queda abierto hasta el siguiente inicio.
+- [x] Check *Starts period* en Salary: marcado por defecto solo si pasaron N días desde el último inicio (manuales incluidos).
+- [x] Acción *Start new period now* en Settings → Periods → Advanced, con confirmación. Los inicios manuales se listan ahí y se pueden deshacer, también con confirmación.
+- [x] Totales del periodo por moneda: Income, Expenses y Transfers (ajustes excluidos; ingresos *Pending* fuera hasta confirmar; transferencias internas excluidas) en `PeriodTotals`, más `WatchPeriodMovements`. La fase 6 los muestra.
+- [x] Pruebas exhaustivas de bordes: salario el 23 vs. el 29, sin salario, cambio de tipo de periodo, año bisiesto.
+- [x] Detalle de cuenta: solo el periodo actual; deslizar a la derecha muestra los anteriores.
 
 ## Fase 6 — Home e historial
 
@@ -111,7 +112,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [ ] Balance abajo (código de moneda pequeño) y botones Expense, Transfer e Income.
 - [ ] **Panel de historial** desde abajo: vista por día y vista por categoría con totales; *Pending* marcado (los ingresos *Pending* atenuados y fuera del saldo).
 - [ ] **Menú rápido** (☰, izquierda): tipo de periodo, moneda, filtro del Balance y tema, con botones segmentados anchos. **Navegación** (⋮, derecha): Accounts, Debts, Entities, Categories, Recurring y Settings.
-- [ ] El total de Transferencias excluye las transferencias dentro de una misma cuenta (cuenta ↔ sus bolsillos, `TransferRules.isInternal`).
+- [x] El total de Transferencias excluye las transferencias dentro de una misma cuenta (cuenta ↔ sus bolsillos, `TransferRules.isInternal`). Hecho en la fase 5, en `PeriodTotals`.
 
 ## Fase 7 — Notificaciones y recurrentes
 
