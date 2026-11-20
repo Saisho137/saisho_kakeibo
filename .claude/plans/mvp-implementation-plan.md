@@ -71,11 +71,11 @@ Entregable: utilidades de `core` probadas al 100 % de sus reglas.
 
 ## Fase 3 — Pilares y categorías
 
-- [ ] Tabla `pillars` (nombre, color, orden) con los 4 pilares iniciales: Survival, Leisure, Culture, Extras. Renombrar y recolorear (RF-02).
-- [ ] Tabla `categories`: tipo (`INCOME`, `EXPENSE`, `TRANSFER`), `role`, nombre, ícono, color, pilar (solo egresos personalizados), nombre e ícono originales para *Reset to default*, orden, archivada (RT-12).
-- [ ] Datos iniciales: categorías core de ingreso, egreso y transferencia, y las personalizadas por defecto (nombres de la tabla "Nombres en la app").
-- [ ] Reglas: core no se borra, no se archiva ni cambia de pilar; borrar una personalizada reasigna sus movimientos a la categoría elegida; color sugerido con variante libre.
-- [ ] Pantalla **Categories**: pestañas Expense, Income y Transfer; orden arrastrando; archivadas; edición de pilares; formulario con selector de íconos del catálogo.
+- [x] Tabla `pillars` (nombre, color, orden) con los 4 pilares iniciales: Survival, Leisure, Culture, Extras. Renombrar y recolorear (RF-02).
+- [x] Tabla `categories`: tipo (`INCOME`, `EXPENSE`, `TRANSFER`), `role`, nombre, ícono, color, pilar (solo egresos personalizados), nombre e ícono originales para *Reset to default*, orden, archivada (RT-12).
+- [x] Datos iniciales: categorías core de ingreso, egreso y transferencia, y las personalizadas por defecto (nombres de la tabla "Nombres en la app").
+- [x] Reglas: core no se borra, no se archiva ni cambia de pilar; borrar una personalizada reasigna sus movimientos a la categoría elegida; color sugerido con variante libre.
+- [x] Pantalla **Categories**: pestañas Expense, Income y Transfer; orden arrastrando; archivadas; edición de pilares; formulario con selector de íconos del catálogo.
 
 ## Fase 4 — Movimientos, entidades y registro rápido
 
@@ -85,6 +85,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [ ] Tabla `movements`: `type` (`INCOME`, `EXPENSE`, `TRANSFER`, `ADJUSTMENT`), fecha, cuenta origen o destino, monto de salida y de entrada (transferencias entre monedas), categoría, entidad, nota, `debtId`, `recurringTemplateId`, `isPending`, `startsPeriod` (RT-04, RT-05).
 - [ ] Saldos por cuenta: apertura + ingresos − egresos ± transferencias ± ajustes; el padre suma sus bolsillos; consultas reactivas.
 - [ ] Conectar a `movements` el contrato de cuentas que dejó la fase 2: `AccountDao.watchBalances` (hoy solo apertura) y `AccountRepository.hasMovements` (hoy siempre `false`), que bloquean cambiar la moneda y borrar.
+- [ ] Conectar a `movements` el contrato de categorías que dejó la fase 3: `CategoryDao.countMovements` (hoy siempre 0) y la reasignación de movimientos en `CategoryDao.deleteById`.
 - [ ] Ajuste de saldo: el usuario escribe el saldo real y se guarda la diferencia (RF-15). Conectar *Adjust balance* / *Update value* en el detalle de cuenta.
 - [ ] Prellenado por categoría: última cuenta y última entidad usadas; cuenta principal si no hay historial.
 - [ ] Transferencias: categoría prellenada por última usada con el mismo par de cuentas → regla por tipos de cuenta → *Between accounts* (RF-13).
