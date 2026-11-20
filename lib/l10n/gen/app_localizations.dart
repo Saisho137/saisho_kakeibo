@@ -1353,6 +1353,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Divided by'**
   String get keypadDivide;
+
+  /// Home button that starts a transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get homeNewTransfer;
+
+  /// Account detail action that starts a transfer from the account.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get accountTransfer;
+
+  /// Title of the form that creates a transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'New transfer'**
+  String get transferNewTitle;
+
+  /// Title of the form that edits a transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get transferEditTitle;
+
+  /// Label of the account that sends the transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get transferFrom;
+
+  /// Label of the account that receives the transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get transferTo;
+
+  /// Label of the amount that leaves the source account.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get transferSent;
+
+  /// Label of the amount that arrives between currencies.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get transferReceived;
+
+  /// Label of the transfer category picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get transferCategory;
+
+  /// Error of a transfer without destination.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the account that receives it.'**
+  String get transferErrorTo;
+
+  /// Error of a transfer to the same account.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two different accounts.'**
+  String get transferErrorSame;
+
+  /// Note of a transfer inside one account.
+  ///
+  /// In en, this message translates to:
+  /// **'Between an account and its own pockets: it doesn\'t add to the Transfers total.'**
+  String get transferInternalHint;
+
+  /// Tooltip of the delete action of a transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete transfer'**
+  String get transferDeleteTooltip;
+
+  /// Title of the transfer delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this transfer?'**
+  String get transferDeleteTitle;
 }
 
 class _AppLocalizationsDelegate

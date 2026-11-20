@@ -716,4 +716,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get keypadDivide => 'Divided by';
+
+  @override
+  String get homeNewTransfer => 'Transfer';
+
+  @override
+  String get accountTransfer => 'Transfer';
+
+  @override
+  String get transferNewTitle => 'New transfer';
+
+  @override
+  String get transferEditTitle => 'Transfer';
+
+  @override
+  String get transferFrom => 'From';
+
+  @override
+  String get transferTo => 'To';
+
+  @override
+  String get transferSent => 'Sent';
+
+  @override
+  String get transferReceived => 'Received';
+
+  @override
+  String get transferCategory => 'Category';
+
+  @override
+  String get transferErrorTo => 'Pick the account that receives it.';
+
+  @override
+  String get transferErrorSame => 'Pick two different accounts.';
+
+  @override
+  String get transferInternalHint =>
+      'Between an account and its own pockets: it doesn\'t add to the Transfers total.';
+
+  @override
+  String get transferDeleteTooltip => 'Delete transfer';
+
+  @override
+  String get transferDeleteTitle => 'Delete this transfer?';
 }

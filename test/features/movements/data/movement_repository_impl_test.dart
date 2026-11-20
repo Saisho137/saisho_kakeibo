@@ -237,5 +237,26 @@ void main() {
         movementDay.addDays(30),
       );
     });
+
+    test('finds the last transfer between two accounts', () async {
+      expect(
+        (await repository.lastTransfer(bank, cash) as Ok<Movement?>).value,
+        isNull,
+      );
+      Movement transfer(int from, int to) => movement(
+        type: MovementType.transfer,
+        accountId: from,
+        toAccountId: to,
+        toAmount: 1000,
+        categoryId: savings,
+      );
+      final id = await save(transfer(bank, cash));
+      await save(transfer(cash, bank));
+
+      expect(
+        (await repository.lastTransfer(bank, cash) as Ok<Movement?>).value?.id,
+        id,
+      );
+    });
   });
 }

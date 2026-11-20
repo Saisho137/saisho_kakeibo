@@ -42,7 +42,7 @@ void main() {
       verify(() => router.push<Object?>('/categories')).called(1);
     });
 
-    testWidgets('starts an expense or an income', (tester) async {
+    testWidgets('starts an expense, an income or a transfer', (tester) async {
       final router = MockGoRouter();
       when(() => router.push<Object?>(any())).thenAnswer((_) async => null);
 
@@ -52,6 +52,8 @@ void main() {
 
       verify(() => router.push<Object?>('/entry/expense')).called(1);
       verify(() => router.push<Object?>('/entry/income')).called(1);
+      await tester.tap(find.text('Transfer'));
+      verify(() => router.push<Object?>('/transfers/new')).called(1);
     });
   });
 }

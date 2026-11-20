@@ -229,5 +229,45 @@ void main() {
 
       await tester.disposeDriftStreams();
     });
+
+    testWidgets('transfers from an account and edits the transfer', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Accounts'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Bank'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Transfer'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(DropdownButtonFormField<int>).at(1));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Cash · COP').last);
+      await tester.pumpAndSettle();
+      expect(find.text('Cash withdrawal'), findsOneWidget);
+      for (final key in ['8', '000']) {
+        await tester.tap(find.text(key));
+      }
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('To Cash'), findsOneWidget);
+      expect(find.text('-8.000 COP'), findsOneWidget);
+
+      await tester.tap(find.text('To Cash'));
+      await tester.pumpAndSettle();
+      expect(find.text('COP 8.000'), findsOne);
+      await tester.tap(find.byTooltip('Delete transfer'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(find.text('No movements yet.'), findsOneWidget);
+
+      await tester.disposeDriftStreams();
+    });
   });
 }

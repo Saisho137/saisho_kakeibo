@@ -11,10 +11,12 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payees.dar
 import 'package:saisho_kakeibo/features/movements/domain/usecases/prefill_movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/save_movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/suggest_period_start.dart';
+import 'package:saisho_kakeibo/features/movements/domain/usecases/suggest_transfer_category.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_account_movements.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
+import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
 
 /// Registers the feature's dependencies. It uses the accounts, categories
 /// and settings features, so it is registered after them.
@@ -58,6 +60,20 @@ void registerMovementsDependencies(GetIt getIt) {
         getMovement: getIt(),
         prefill: getIt(),
         suggestPeriodStart: getIt(),
+        saveMovement: getIt(),
+        deleteMovement: getIt(),
+      ),
+    )
+    ..registerFactory(
+      () => SuggestTransferCategory(movements: getIt(), categories: getIt()),
+    )
+    ..registerFactory(
+      () => TransferFormCubit(
+        getAccounts: getIt(),
+        getCategories: getIt(),
+        getCurrencies: getIt(),
+        getMovement: getIt(),
+        suggestCategory: getIt(),
         saveMovement: getIt(),
         deleteMovement: getIt(),
       ),

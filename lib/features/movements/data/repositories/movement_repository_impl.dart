@@ -39,6 +39,13 @@ class MovementRepositoryImpl implements MovementRepository {
   );
 
   @override
+  Future<Result<Movement?>> lastTransfer(int fromAccountId, int toAccountId) =>
+      guardDatabase(
+        () async =>
+            (await _dao.lastTransfer(fromAccountId, toAccountId))?.toEntity(),
+      );
+
+  @override
   Future<Result<List<Movement>>> lastOfEachPayee(MovementType type) =>
       guardDatabase(
         () async =>

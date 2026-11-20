@@ -8,6 +8,7 @@ import 'package:saisho_kakeibo/features/categories/presentation/cubit/categories
 import 'package:saisho_kakeibo/features/categories/presentation/cubit/category_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
+import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -43,3 +44,6 @@ class MockCategoryGridCubit extends MockCubit<CategoryGridState>
 
 class MockMovementFormCubit extends MockCubit<MovementFormState>
     implements MovementFormCubit;
+
+class MockTransferFormCubit extends MockCubit<TransferFormState>
+    implements TransferFormCubit;

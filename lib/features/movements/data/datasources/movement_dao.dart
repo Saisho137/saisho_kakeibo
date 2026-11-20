@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
 
 part 'movement_dao.g.dart';
@@ -39,6 +40,22 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
   Future<MovementRow?> lastOfCategory(int categoryId) =>
       (select(movements)
             ..where((m) => m.categoryId.equals(categoryId))
+            ..orderBy([
+              (m) => OrderingTerm.desc(m.date),
+              (m) => OrderingTerm.desc(m.id),
+            ])
+            ..limit(1))
+          .getSingleOrNull();
+
+  /// Latest transfer from [fromAccountId] to [toAccountId].
+  Future<MovementRow?> lastTransfer(int fromAccountId, int toAccountId) =>
+      (select(movements)
+            ..where(
+              (m) =>
+                  m.type.equalsValue(MovementType.transfer) &
+                  m.accountId.equals(fromAccountId) &
+                  m.toAccountId.equals(toAccountId),
+            )
             ..orderBy([
               (m) => OrderingTerm.desc(m.date),
               (m) => OrderingTerm.desc(m.id),

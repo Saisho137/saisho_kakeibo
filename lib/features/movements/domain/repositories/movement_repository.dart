@@ -19,6 +19,9 @@ abstract interface class MovementRepository {
   /// Latest movement of [categoryId], if any.
   Future<Result<Movement?>> lastOfCategory(int categoryId);
 
+  /// Latest transfer from [fromAccountId] to [toAccountId], if any.
+  Future<Result<Movement?>> lastTransfer(int fromAccountId, int toAccountId);
+
   /// Latest movement of [type] of every payee that has one.
   Future<Result<List<Movement>>> lastOfEachPayee(MovementType type);
 

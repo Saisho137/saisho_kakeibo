@@ -10,6 +10,7 @@ import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/category_grid_page.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/movement_form_page.dart';
+import 'package:saisho_kakeibo/features/movements/presentation/pages/transfer_form_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/currency_form_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/settings_page.dart';
 
@@ -96,6 +97,19 @@ GoRouter createAppRouter() => GoRouter(
       name: 'editMovement',
       builder: (context, state) =>
           MovementFormPage(id: int.tryParse(state.pathParameters['id']!) ?? -1),
+    ),
+    GoRoute(
+      path: '/transfers/new',
+      name: 'newTransfer',
+      builder: (context, state) => TransferFormPage(
+        fromAccountId: int.tryParse(state.uri.queryParameters['from'] ?? ''),
+      ),
+    ),
+    GoRoute(
+      path: '/transfers/:id',
+      name: 'editTransfer',
+      builder: (context, state) =>
+          TransferFormPage(id: int.tryParse(state.pathParameters['id']!) ?? -1),
     ),
     GoRoute(
       path: AppRoutes.settings,
