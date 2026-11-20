@@ -16,7 +16,9 @@ T _$identity<T>(T value) => value;
 mixin _$CurrencyFormState {
 
  CurrencyFormStatus get status;/// The stored currency when editing; `null` when creating.
- Currency? get original; String get code; String get symbol; int get decimals; String get thousandsSeparator; String get decimalSeparator; Set<CurrencyError> get errors;/// Errors appear after the first submit, then update while typing.
+ Currency? get original;/// Whether an account uses the edited currency, which cannot then be
+/// deleted.
+ bool get inUse; String get code; String get symbol; int get decimals; String get thousandsSeparator; String get decimalSeparator; Set<CurrencyError> get errors;/// Errors appear after the first submit, then update while typing.
  bool get showErrors;/// Last failure of a save or delete, shown once by the UI.
  Failure? get failure;
 /// Create a copy of CurrencyFormState
@@ -30,20 +32,20 @@ $CurrencyFormStateCopyWith<CurrencyFormState> get copyWith => _$CurrencyFormStat
 @override
 bool operator ==(Object other) {
   final _this = this as CurrencyFormState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrencyFormState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.original, _this.original) || other.original == _this.original)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.symbol, _this.symbol) || other.symbol == _this.symbol)&&(identical(other.decimals, _this.decimals) || other.decimals == _this.decimals)&&(identical(other.thousandsSeparator, _this.thousandsSeparator) || other.thousandsSeparator == _this.thousandsSeparator)&&(identical(other.decimalSeparator, _this.decimalSeparator) || other.decimalSeparator == _this.decimalSeparator)&&const DeepCollectionEquality().equals(other.errors, _this.errors)&&(identical(other.showErrors, _this.showErrors) || other.showErrors == _this.showErrors)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrencyFormState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.original, _this.original) || other.original == _this.original)&&(identical(other.inUse, _this.inUse) || other.inUse == _this.inUse)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.symbol, _this.symbol) || other.symbol == _this.symbol)&&(identical(other.decimals, _this.decimals) || other.decimals == _this.decimals)&&(identical(other.thousandsSeparator, _this.thousandsSeparator) || other.thousandsSeparator == _this.thousandsSeparator)&&(identical(other.decimalSeparator, _this.decimalSeparator) || other.decimalSeparator == _this.decimalSeparator)&&const DeepCollectionEquality().equals(other.errors, _this.errors)&&(identical(other.showErrors, _this.showErrors) || other.showErrors == _this.showErrors)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CurrencyFormState;
-  return Object.hash(runtimeType,_this.status,_this.original,_this.code,_this.symbol,_this.decimals,_this.thousandsSeparator,_this.decimalSeparator,const DeepCollectionEquality().hash(_this.errors),_this.showErrors,_this.failure);
+  return Object.hash(runtimeType,_this.status,_this.original,_this.inUse,_this.code,_this.symbol,_this.decimals,_this.thousandsSeparator,_this.decimalSeparator,const DeepCollectionEquality().hash(_this.errors),_this.showErrors,_this.failure);
 }
 
 @override
 String toString() {
   final _this = this as CurrencyFormState;
-  return 'CurrencyFormState(status: ${_this.status}, original: ${_this.original}, code: ${_this.code}, symbol: ${_this.symbol}, decimals: ${_this.decimals}, thousandsSeparator: ${_this.thousandsSeparator}, decimalSeparator: ${_this.decimalSeparator}, errors: ${_this.errors}, showErrors: ${_this.showErrors}, failure: ${_this.failure})';
+  return 'CurrencyFormState(status: ${_this.status}, original: ${_this.original}, inUse: ${_this.inUse}, code: ${_this.code}, symbol: ${_this.symbol}, decimals: ${_this.decimals}, thousandsSeparator: ${_this.thousandsSeparator}, decimalSeparator: ${_this.decimalSeparator}, errors: ${_this.errors}, showErrors: ${_this.showErrors}, failure: ${_this.failure})';
 }
 
 
@@ -54,7 +56,7 @@ abstract mixin class $CurrencyFormStateCopyWith<$Res>  {
   factory $CurrencyFormStateCopyWith(CurrencyFormState value, $Res Function(CurrencyFormState) _then) = _$CurrencyFormStateCopyWithImpl;
 @useResult
 $Res call({
- CurrencyFormStatus status, Currency? original, String code, String symbol, int decimals, String thousandsSeparator, String decimalSeparator, Set<CurrencyError> errors, bool showErrors, Failure? failure
+ CurrencyFormStatus status, Currency? original, bool inUse, String code, String symbol, int decimals, String thousandsSeparator, String decimalSeparator, Set<CurrencyError> errors, bool showErrors, Failure? failure
 });
 
 
@@ -71,11 +73,12 @@ class _$CurrencyFormStateCopyWithImpl<$Res>
 
 /// Create a copy of CurrencyFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? original = freezed,Object? code = null,Object? symbol = null,Object? decimals = null,Object? thousandsSeparator = null,Object? decimalSeparator = null,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? original = freezed,Object? inUse = null,Object? code = null,Object? symbol = null,Object? decimals = null,Object? thousandsSeparator = null,Object? decimalSeparator = null,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
   return _then(CurrencyFormState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as CurrencyFormStatus,original: freezed == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
-as Currency?,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as Currency?,inUse: null == inUse ? _self.inUse : inUse // ignore: cast_nullable_to_non_nullable
+as bool,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as String,decimals: null == decimals ? _self.decimals : decimals // ignore: cast_nullable_to_non_nullable
 as int,thousandsSeparator: null == thousandsSeparator ? _self.thousandsSeparator : thousandsSeparator // ignore: cast_nullable_to_non_nullable
@@ -180,10 +183,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CurrencyFormStatus status,  Currency? original,  String code,  String symbol,  int decimals,  String thousandsSeparator,  String decimalSeparator,  Set<CurrencyError> errors,  bool showErrors,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CurrencyFormStatus status,  Currency? original,  bool inUse,  String code,  String symbol,  int decimals,  String thousandsSeparator,  String decimalSeparator,  Set<CurrencyError> errors,  bool showErrors,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CurrencyFormState() when $default != null:
-return $default(_that.status,_that.original,_that.code,_that.symbol,_that.decimals,_that.thousandsSeparator,_that.decimalSeparator,_that.errors,_that.showErrors,_that.failure);case _:
+return $default(_that.status,_that.original,_that.inUse,_that.code,_that.symbol,_that.decimals,_that.thousandsSeparator,_that.decimalSeparator,_that.errors,_that.showErrors,_that.failure);case _:
   return orElse();
 
 }
@@ -201,10 +204,10 @@ return $default(_that.status,_that.original,_that.code,_that.symbol,_that.decima
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CurrencyFormStatus status,  Currency? original,  String code,  String symbol,  int decimals,  String thousandsSeparator,  String decimalSeparator,  Set<CurrencyError> errors,  bool showErrors,  Failure? failure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CurrencyFormStatus status,  Currency? original,  bool inUse,  String code,  String symbol,  int decimals,  String thousandsSeparator,  String decimalSeparator,  Set<CurrencyError> errors,  bool showErrors,  Failure? failure)  $default,) {final _that = this;
 switch (_that) {
 case _CurrencyFormState():
-return $default(_that.status,_that.original,_that.code,_that.symbol,_that.decimals,_that.thousandsSeparator,_that.decimalSeparator,_that.errors,_that.showErrors,_that.failure);case _:
+return $default(_that.status,_that.original,_that.inUse,_that.code,_that.symbol,_that.decimals,_that.thousandsSeparator,_that.decimalSeparator,_that.errors,_that.showErrors,_that.failure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -221,10 +224,10 @@ return $default(_that.status,_that.original,_that.code,_that.symbol,_that.decima
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CurrencyFormStatus status,  Currency? original,  String code,  String symbol,  int decimals,  String thousandsSeparator,  String decimalSeparator,  Set<CurrencyError> errors,  bool showErrors,  Failure? failure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CurrencyFormStatus status,  Currency? original,  bool inUse,  String code,  String symbol,  int decimals,  String thousandsSeparator,  String decimalSeparator,  Set<CurrencyError> errors,  bool showErrors,  Failure? failure)?  $default,) {final _that = this;
 switch (_that) {
 case _CurrencyFormState() when $default != null:
-return $default(_that.status,_that.original,_that.code,_that.symbol,_that.decimals,_that.thousandsSeparator,_that.decimalSeparator,_that.errors,_that.showErrors,_that.failure);case _:
+return $default(_that.status,_that.original,_that.inUse,_that.code,_that.symbol,_that.decimals,_that.thousandsSeparator,_that.decimalSeparator,_that.errors,_that.showErrors,_that.failure);case _:
   return null;
 
 }
@@ -236,12 +239,15 @@ return $default(_that.status,_that.original,_that.code,_that.symbol,_that.decima
 
 
 class _CurrencyFormState extends CurrencyFormState {
-  const _CurrencyFormState({this.status = CurrencyFormStatus.loading, this.original, this.code = '', this.symbol = '', this.decimals = 2, this.thousandsSeparator = '.', this.decimalSeparator = ',',  Set<CurrencyError> errors = const <CurrencyError>{}, this.showErrors = false, this.failure}): _errors = errors,super._();
+  const _CurrencyFormState({this.status = CurrencyFormStatus.loading, this.original, this.inUse = false, this.code = '', this.symbol = '', this.decimals = 2, this.thousandsSeparator = '.', this.decimalSeparator = ',',  Set<CurrencyError> errors = const <CurrencyError>{}, this.showErrors = false, this.failure}): _errors = errors,super._();
   
 
 @override@JsonKey() final  CurrencyFormStatus status;
 /// The stored currency when editing; `null` when creating.
 @override final  Currency? original;
+/// Whether an account uses the edited currency, which cannot then be
+/// deleted.
+@override@JsonKey() final  bool inUse;
 @override@JsonKey() final  String code;
 @override@JsonKey() final  String symbol;
 @override@JsonKey() final  int decimals;
@@ -269,18 +275,18 @@ _$CurrencyFormStateCopyWith<_CurrencyFormState> get copyWith => __$CurrencyFormS
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrencyFormState&&(identical(other.status, status) || other.status == status)&&(identical(other.original, original) || other.original == original)&&(identical(other.code, code) || other.code == code)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.decimals, decimals) || other.decimals == decimals)&&(identical(other.thousandsSeparator, thousandsSeparator) || other.thousandsSeparator == thousandsSeparator)&&(identical(other.decimalSeparator, decimalSeparator) || other.decimalSeparator == decimalSeparator)&&const DeepCollectionEquality().equals(other.errors, _errors)&&(identical(other.showErrors, showErrors) || other.showErrors == showErrors)&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrencyFormState&&(identical(other.status, status) || other.status == status)&&(identical(other.original, original) || other.original == original)&&(identical(other.inUse, inUse) || other.inUse == inUse)&&(identical(other.code, code) || other.code == code)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.decimals, decimals) || other.decimals == decimals)&&(identical(other.thousandsSeparator, thousandsSeparator) || other.thousandsSeparator == thousandsSeparator)&&(identical(other.decimalSeparator, decimalSeparator) || other.decimalSeparator == decimalSeparator)&&const DeepCollectionEquality().equals(other.errors, _errors)&&(identical(other.showErrors, showErrors) || other.showErrors == showErrors)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,original,code,symbol,decimals,thousandsSeparator,decimalSeparator,const DeepCollectionEquality().hash(_errors),showErrors,failure);
+    return Object.hash(runtimeType,status,original,inUse,code,symbol,decimals,thousandsSeparator,decimalSeparator,const DeepCollectionEquality().hash(_errors),showErrors,failure);
 }
 
 @override
 String toString() {
-    return 'CurrencyFormState(status: $status, original: $original, code: $code, symbol: $symbol, decimals: $decimals, thousandsSeparator: $thousandsSeparator, decimalSeparator: $decimalSeparator, errors: $errors, showErrors: $showErrors, failure: $failure)';
+    return 'CurrencyFormState(status: $status, original: $original, inUse: $inUse, code: $code, symbol: $symbol, decimals: $decimals, thousandsSeparator: $thousandsSeparator, decimalSeparator: $decimalSeparator, errors: $errors, showErrors: $showErrors, failure: $failure)';
 }
 
 
@@ -291,7 +297,7 @@ abstract mixin class _$CurrencyFormStateCopyWith<$Res> implements $CurrencyFormS
   factory _$CurrencyFormStateCopyWith(_CurrencyFormState value, $Res Function(_CurrencyFormState) _then) = __$CurrencyFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- CurrencyFormStatus status, Currency? original, String code, String symbol, int decimals, String thousandsSeparator, String decimalSeparator, Set<CurrencyError> errors, bool showErrors, Failure? failure
+ CurrencyFormStatus status, Currency? original, bool inUse, String code, String symbol, int decimals, String thousandsSeparator, String decimalSeparator, Set<CurrencyError> errors, bool showErrors, Failure? failure
 });
 
 
@@ -308,11 +314,12 @@ class __$CurrencyFormStateCopyWithImpl<$Res>
 
 /// Create a copy of CurrencyFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? original = freezed,Object? code = null,Object? symbol = null,Object? decimals = null,Object? thousandsSeparator = null,Object? decimalSeparator = null,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? original = freezed,Object? inUse = null,Object? code = null,Object? symbol = null,Object? decimals = null,Object? thousandsSeparator = null,Object? decimalSeparator = null,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
   return _then(_CurrencyFormState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as CurrencyFormStatus,original: freezed == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
-as Currency?,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as Currency?,inUse: null == inUse ? _self.inUse : inUse // ignore: cast_nullable_to_non_nullable
+as bool,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as String,decimals: null == decimals ? _self.decimals : decimals // ignore: cast_nullable_to_non_nullable
 as int,thousandsSeparator: null == thousandsSeparator ? _self.thousandsSeparator : thousandsSeparator // ignore: cast_nullable_to_non_nullable

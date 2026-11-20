@@ -7,23 +7,33 @@ import 'package:saisho_kakeibo/core/config/app_info.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/widgets/number_grid_dialog.dart';
+import 'package:saisho_kakeibo/core/widgets/section_header.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/widgets/balance_accounts_section.dart';
 import 'package:saisho_kakeibo/features/settings/domain/rules/settings_rules.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/widgets/currency_tile.dart';
-import 'package:saisho_kakeibo/features/settings/presentation/widgets/number_grid_dialog.dart';
-import 'package:saisho_kakeibo/features/settings/presentation/widgets/section_header.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
 /// Settings screen. The global [SettingsCubit] comes from the app; the
-/// currency list is provided here.
+/// currency and account lists are provided here.
 class SettingsPage extends StatelessWidget {
   const new({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<CurrenciesCubit>()..load(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<CurrenciesCubit>()..load()),
+        BlocProvider(
+          create: (context) => getIt<AccountsCubit>()
+            ..load(
+              context.read<SettingsCubit>().state.settings.mainCurrencyCode,
+            ),
+        ),
+      ],
       child: SettingsView(appInfo: getIt<AppInfo>()),
     );
   }
@@ -72,6 +82,8 @@ class SettingsView extends StatelessWidget {
                   ),
                   onTap: () => _pickMinDays(context, settings),
                 ),
+                SectionHeader(l10n.settingsSectionBalance),
+                const BalanceAccountsSection(),
                 SectionHeader(l10n.settingsSectionCurrencies),
                 for (final currency in currencies)
                   CurrencyTile(

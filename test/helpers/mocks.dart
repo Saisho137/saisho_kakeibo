@@ -1,6 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_form_cubit.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -15,3 +17,9 @@ class MockCurrenciesCubit extends MockCubit<CurrenciesState>
 
 class MockCurrencyFormCubit extends MockCubit<CurrencyFormState>
     implements CurrencyFormCubit;
+
+class MockAccountsCubit extends MockCubit<AccountsState>
+    implements AccountsCubit;
+
+class MockAccountFormCubit extends MockCubit<AccountFormState>
+    implements AccountFormCubit;

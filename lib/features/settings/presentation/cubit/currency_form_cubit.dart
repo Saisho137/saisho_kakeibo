@@ -8,6 +8,7 @@ import 'package:saisho_kakeibo/features/settings/domain/rules/currency_rules.dar
 import 'package:saisho_kakeibo/features/settings/domain/usecases/create_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/delete_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currency.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/is_currency_in_use.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_currency.dart';
 
 part 'currency_form_cubit.freezed.dart';
@@ -20,12 +21,14 @@ class CurrencyFormCubit extends Cubit<CurrencyFormState> {
     required this._createCurrency,
     required this._updateCurrency,
     required this._deleteCurrency,
+    required this._isCurrencyInUse,
   }) : super(const CurrencyFormState());
 
   final GetCurrency _getCurrency;
   final CreateCurrency _createCurrency;
   final UpdateCurrency _updateCurrency;
   final DeleteCurrency _deleteCurrency;
+  final IsCurrencyInUse _isCurrencyInUse;
 
   /// Starts a new currency, or loads [code] to edit it.
   Future<void> load(String? code) async {
@@ -35,10 +38,12 @@ class CurrencyFormCubit extends Cubit<CurrencyFormState> {
     }
     switch (await _getCurrency(code)) {
       case Ok(value: final currency?):
+        final inUse = await _isCurrencyInUse(code);
         emit(
           state.copyWith(
             status: CurrencyFormStatus.editing,
             original: currency,
+            inUse: inUse is Ok<bool> && inUse.value,
             code: currency.code,
             symbol: currency.symbol,
             decimals: currency.format.decimals,

@@ -13,6 +13,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     required this.expense,
     required this.transfer,
     required this.neutral,
+    required this.iconGlyph,
     required this.radius,
     required this.radiusSmall,
     required this.donutRingWidth,
@@ -25,6 +26,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     expense: Color(0xFFC62828),
     transfer: Color(0xFF616161),
     neutral: Color(0xFFBDBDBD),
+    iconGlyph: Color(0xFFFFFFFF),
     radius: 16,
     radiusSmall: 8,
     donutRingWidth: 36,
@@ -37,6 +39,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     expense: Color(0xFFE57373),
     transfer: Color(0xFFBDBDBD),
     neutral: Color(0xFF616161),
+    iconGlyph: Color(0xFFFFFFFF),
     radius: 16,
     radiusSmall: 8,
     donutRingWidth: 36,
@@ -56,6 +59,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
   /// "No pillar" border and the empty donut ring.
   final Color neutral;
 
+  /// Glyph drawn on a category or account color circle.
+  final Color iconGlyph;
+
   final double radius;
   final double radiusSmall;
 
@@ -74,6 +80,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     Color? expense,
     Color? transfer,
     Color? neutral,
+    Color? iconGlyph,
     double? radius,
     double? radiusSmall,
     double? donutRingWidth,
@@ -85,6 +92,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
       expense: expense ?? this.expense,
       transfer: transfer ?? this.transfer,
       neutral: neutral ?? this.neutral,
+      iconGlyph: iconGlyph ?? this.iconGlyph,
       radius: radius ?? this.radius,
       radiusSmall: radiusSmall ?? this.radiusSmall,
       donutRingWidth: donutRingWidth ?? this.donutRingWidth,
@@ -101,6 +109,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
       expense: Color.lerp(expense, other.expense, t)!,
       transfer: Color.lerp(transfer, other.transfer, t)!,
       neutral: Color.lerp(neutral, other.neutral, t)!,
+      iconGlyph: Color.lerp(iconGlyph, other.iconGlyph, t)!,
       radius: lerpDouble(radius, other.radius, t)!,
       radiusSmall: lerpDouble(radiusSmall, other.radiusSmall, t)!,
       donutRingWidth: lerpDouble(donutRingWidth, other.donutRingWidth, t)!,

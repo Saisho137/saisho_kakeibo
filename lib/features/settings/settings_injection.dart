@@ -6,7 +6,9 @@ import 'package:saisho_kakeibo/features/settings/domain/repositories/currency_re
 import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/create_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/delete_currency.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currencies.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currency.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/is_currency_in_use.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_settings.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
@@ -26,9 +28,11 @@ void registerSettingsDependencies(GetIt getIt) {
     )
     ..registerFactory(() => WatchCurrencies(getIt()))
     ..registerFactory(() => GetCurrency(getIt()))
+    ..registerFactory(() => GetCurrencies(getIt()))
     ..registerFactory(() => CreateCurrency(getIt()))
     ..registerFactory(() => UpdateCurrency(getIt()))
     ..registerFactory(() => DeleteCurrency(getIt(), getIt()))
+    ..registerFactory(() => IsCurrencyInUse(getIt()))
     ..registerFactory(() => WatchSettings(getIt()))
     ..registerFactory(() => UpdateSettings(getIt()))
     ..registerFactory(
@@ -41,6 +45,7 @@ void registerSettingsDependencies(GetIt getIt) {
         createCurrency: getIt(),
         updateCurrency: getIt(),
         deleteCurrency: getIt(),
+        isCurrencyInUse: getIt(),
       ),
     );
 }

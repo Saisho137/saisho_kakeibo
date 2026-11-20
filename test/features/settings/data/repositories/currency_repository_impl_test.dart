@@ -87,6 +87,13 @@ void main() {
       expect(found.value, isNull);
     });
 
+    test('knows whether an account uses a currency', () async {
+      await repository.create(eur);
+
+      expect((await repository.isInUse('COP') as Ok<bool>).value, isTrue);
+      expect((await repository.isInUse('EUR') as Ok<bool>).value, isFalse);
+    });
+
     test('rejects a duplicated code', () async {
       final result = await repository.create(
         const Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop),

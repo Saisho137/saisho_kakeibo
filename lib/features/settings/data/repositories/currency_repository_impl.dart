@@ -16,8 +16,19 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
   );
 
   @override
+  Future<Result<List<Currency>>> getCurrencies() => guardDatabase(
+    () async => (await _dao.getAll())
+        .map((row) => row.toEntity())
+        .toList(growable: false),
+  );
+
+  @override
   Future<Result<Currency?>> findByCode(String code) =>
       guardDatabase(() async => (await _dao.findByCode(code))?.toEntity());
+
+  @override
+  Future<Result<bool>> isInUse(String code) =>
+      guardDatabase(() => _dao.isUsedByAccounts(code));
 
   @override
   Future<Result<void>> create(Currency currency) =>

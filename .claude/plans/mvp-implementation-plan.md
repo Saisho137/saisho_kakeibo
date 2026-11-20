@@ -60,14 +60,14 @@ Entregable: utilidades de `core` probadas al 100 % de sus reglas.
 
 ## Fase 2 — Cuentas
 
-- [ ] Tabla `accounts`: nombre, ícono, color, `type` (`CASH`, `BANK`, `CREDIT_CARD`, `INVESTMENT`, `POCKET`), moneda, saldo de apertura con fecha, `includeInBalance`, `isMain`, `parentAccountId`, cupo, día de pago, orden, archivada.
-- [ ] Reglas: tipo inmutable; moneda inmutable si hay movimientos; bolsillo hereda moneda e inclusión del padre; una sola cuenta principal; borrar solo sin movimientos; archivar (RF-15).
-- [ ] Datos iniciales: cuenta `Cash` y una cuenta `BANK` principal, ambas en el Balance.
-- [ ] Cálculo de saldo en el repositorio: apertura + movimientos (la tabla de movimientos llega en la fase 4; aquí se deja el contrato y la consulta preparada).
-- [ ] Pantalla **Accounts**: grupos por tipo, orden arrastrando, bolsillos con línea "Free", barra de cupo de TC, archivadas ocultas, selector de moneda, Total balance y Balance.
-- [ ] Formulario de cuenta con campos según el tipo.
-- [ ] Settings → Balance: interruptores "Include in Balance".
-- [ ] Regla de monedas: una moneda personalizada solo se borra si ninguna cuenta la usa (RF-16, pendiente de la fase 1).
+- [x] Tabla `accounts`: nombre, ícono, color, `type` (`CASH`, `BANK`, `CREDIT_CARD`, `INVESTMENT`, `POCKET`), moneda, saldo de apertura con fecha, `includeInBalance`, `isMain`, `parentAccountId`, cupo, día de pago, orden, archivada.
+- [x] Reglas: tipo inmutable; moneda inmutable si hay movimientos; bolsillo hereda moneda e inclusión del padre; una sola cuenta principal; borrar solo sin movimientos; archivar (RF-15).
+- [x] Datos iniciales: cuenta `Cash` y una cuenta `BANK` principal, ambas en el Balance.
+- [x] Cálculo de saldo en el repositorio: apertura + movimientos (la tabla de movimientos llega en la fase 4; aquí se deja el contrato y la consulta preparada).
+- [x] Pantalla **Accounts**: grupos por tipo, orden arrastrando, bolsillos con línea "Free", barra de cupo de TC, archivadas ocultas, selector de moneda, Total balance y Balance.
+- [x] Formulario de cuenta con campos según el tipo.
+- [x] Settings → Balance: interruptores "Include in Balance".
+- [x] Regla de monedas: una moneda personalizada solo se borra si ninguna cuenta la usa (RF-16, pendiente de la fase 1).
 
 ## Fase 3 — Pilares y categorías
 
@@ -84,6 +84,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [ ] Tabla `payees` (entidades) con `display` y `key` únicos (RT-08).
 - [ ] Tabla `movements`: `type` (`INCOME`, `EXPENSE`, `TRANSFER`, `ADJUSTMENT`), fecha, cuenta origen o destino, monto de salida y de entrada (transferencias entre monedas), categoría, entidad, nota, `debtId`, `recurringTemplateId`, `isPending`, `startsPeriod` (RT-04, RT-05).
 - [ ] Saldos por cuenta: apertura + ingresos − egresos ± transferencias ± ajustes; el padre suma sus bolsillos; consultas reactivas.
+- [ ] Conectar a `movements` el contrato de cuentas que dejó la fase 2: `AccountDao.watchBalances` (hoy solo apertura) y `AccountRepository.hasMovements` (hoy siempre `false`), que bloquean cambiar la moneda y borrar.
 - [ ] Ajuste de saldo: el usuario escribe el saldo real y se guarda la diferencia (RF-15). Conectar *Adjust balance* / *Update value* en el detalle de cuenta.
 - [ ] Prellenado por categoría: última cuenta y última entidad usadas; cuenta principal si no hay historial.
 - [ ] Transferencias: categoría prellenada por última usada con el mismo par de cuentas → regla por tipos de cuenta → *Between accounts* (RF-13).

@@ -10,6 +10,7 @@ import 'package:saisho_kakeibo/features/settings/domain/repositories/currency_re
 import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/create_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/delete_currency.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/is_currency_in_use.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_currency.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/update_settings.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
@@ -53,6 +54,8 @@ void main() {
     when(() => settings.save(any())).thenAnswer((_) async => const Ok(null));
     when(() => settings.getSettings())
         .thenAnswer((_) async => const Ok(AppSettings()));
+    when(() => currencies.isInUse(any()))
+        .thenAnswer((_) async => const Ok(false));
   });
 
   void givenCurrency(String code, Currency? currency) =>
@@ -198,6 +201,17 @@ void main() {
       verifyNever(() => currencies.delete(any()));
     });
 
+    test('keeps currencies used by accounts', () async {
+      givenCurrency('EUR', eur);
+      when(() => currencies.isInUse('EUR'))
+          .thenAnswer((_) async => const Ok(true));
+
+      final result = await DeleteCurrency(currencies, settings)('EUR');
+
+      expect((result as Err).failure, isA<ValidationFailure>());
+      verifyNever(() => currencies.delete(any()));
+    });
+
     test('propagates repository failures', () async {
       when(() => currencies.findByCode('EUR')).thenAnswer((_) async => dbError);
       expect(
@@ -211,6 +225,25 @@ void main() {
         (await DeleteCurrency(currencies, settings)('EUR') as Err).failure,
         isA<DatabaseFailure>(),
       );
+
+      when(() => settings.getSettings())
+          .thenAnswer((_) async => const Ok(AppSettings()));
+      when(() => currencies.isInUse('EUR')).thenAnswer((_) async => dbError);
+      expect(
+        (await DeleteCurrency(currencies, settings)('EUR') as Err).failure,
+        isA<DatabaseFailure>(),
+      );
+    });
+  });
+
+  group('IsCurrencyInUse', () {
+    test('asks the repository', () async {
+      when(() => currencies.isInUse('EUR'))
+          .thenAnswer((_) async => const Ok(true));
+
+      final result = await IsCurrencyInUse(currencies)('EUR');
+
+      expect((result as Ok<bool>).value, isTrue);
     });
   });
 

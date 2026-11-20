@@ -83,5 +83,45 @@ void main() {
 
       await tester.disposeDriftStreams();
     });
+
+    testWidgets('creates a pocket and shows it under its parent', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 4000);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Accounts'));
+      await tester.pumpAndSettle();
+      expect(find.text('Cash'), findsOneWidget);
+      expect(find.text('Bank'), findsOneWidget);
+
+      await tester.tap(find.byTooltip('New account'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Pocket'));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byType(TextFormField).at(0),
+        'emergency fund',
+      );
+      await tester.enterText(find.byType(TextFormField).at(1), '3.000.000');
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Emergency fund'), findsOneWidget);
+      expect(find.text('Free'), findsOneWidget);
+      expect(find.text('3.000.000'), findsWidgets);
+
+      await tester.tap(find.text('Emergency fund'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Delete account'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(find.text('Emergency fund'), findsNothing);
+
+      await tester.disposeDriftStreams();
+    });
   });
 }
