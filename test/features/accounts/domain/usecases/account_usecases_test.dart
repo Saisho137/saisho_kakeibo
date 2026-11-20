@@ -266,28 +266,39 @@ void main() {
   });
 
   group('DeleteAccount', () {
-    test('deletes an account without movements or pockets', () async {
+    test('deletes an account without movements', () async {
       await DeleteAccount(repository)(1);
 
-      verify(() => repository.delete(1)).called(1);
+      verify(() => repository.delete([1])).called(1);
     });
 
-    test(
-      'keeps the main account, parents and accounts with movements',
-      () async {
-        when(() => repository.hasMovements(1))
-            .thenAnswer((_) async => const Ok(true));
+    test('deletes a parent together with its pockets', () async {
+      await DeleteAccount(repository)(3);
 
-        for (final id in [2, 3, 1, 99]) {
-          expect(
-            await DeleteAccount(repository)(id),
-            isValidationError(),
-            reason: '$id',
-          );
-        }
-        verifyNever(() => repository.delete(any()));
-      },
-    );
+      verify(() => repository.delete([4, 3])).called(1);
+    });
+
+    test('keeps the main account and accounts with movements', () async {
+      when(() => repository.hasMovements(1))
+          .thenAnswer((_) async => const Ok(true));
+
+      for (final id in [2, 1, 99]) {
+        expect(
+          await DeleteAccount(repository)(id),
+          isValidationError(),
+          reason: '$id',
+        );
+      }
+      verifyNever(() => repository.delete(any()));
+    });
+
+    test('keeps a parent whose pocket has movements', () async {
+      when(() => repository.hasMovements(4))
+          .thenAnswer((_) async => const Ok(true));
+
+      expect(await DeleteAccount(repository)(3), isValidationError());
+      verifyNever(() => repository.delete(any()));
+    });
 
     test('propagates failures', () async {
       when(() => repository.hasMovements(1)).thenAnswer((_) async => dbError);

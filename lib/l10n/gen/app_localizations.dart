@@ -772,12 +772,6 @@ abstract class AppLocalizations {
   /// **'The main account can\'t be archived or deleted.'**
   String get accountMainStays;
 
-  /// Why an account with pockets can't be deleted.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete its pockets first to delete this account.'**
-  String get accountHasPockets;
-
   /// Tooltip of the archive action.
   ///
   /// In en, this message translates to:
@@ -807,6 +801,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The account will be removed. Archive it instead to keep it out of sight.'**
   String get accountDeleteMessage;
+
+  /// Delete confirmation message of an account that has pockets.
+  ///
+  /// In en, this message translates to:
+  /// **'Its {count, plural, =1{pocket} other{{count} pockets}} will be deleted too: {names}. This can\'t be undone. Archive it instead to keep it out of sight.'**
+  String accountDeleteWithPocketsMessage(int count, String names);
+
+  /// Confirm button that deletes an account and its pockets.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all'**
+  String get accountDeleteWithPocketsAction;
 }
 
 class _AppLocalizationsDelegate

@@ -503,10 +503,6 @@
   "@accountMainStays": {
     "description": "Why the main account has no archive or delete action."
   },
-  "accountHasPockets": "Delete its pockets first to delete this account.",
-  "@accountHasPockets": {
-    "description": "Why an account with pockets can't be deleted."
-  },
   "accountArchiveTooltip": "Archive",
   "@accountArchiveTooltip": {
     "description": "Tooltip of the archive action."
@@ -531,5 +527,21 @@
   "accountDeleteMessage": "The account will be removed. Archive it instead to keep it out of sight.",
   "@accountDeleteMessage": {
     "description": "Delete confirmation message."
+  },
+  "accountDeleteWithPocketsMessage": "Its {count, plural, =1{pocket} other{{count} pockets}} will be deleted too: {names}. This can't be undone. Archive it instead to keep it out of sight.",
+  "@accountDeleteWithPocketsMessage": {
+    "description": "Delete confirmation message of an account that has pockets.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDeleteWithPocketsAction": "Delete all",
+  "@accountDeleteWithPocketsAction": {
+    "description": "Confirm button that deletes an account and its pockets."
   }
 }

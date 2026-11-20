@@ -30,5 +30,6 @@ abstract interface class AccountRepository {
 
   Future<Result<bool>> hasMovements(int id);
 
-  Future<Result<void>> delete(int id);
+  /// Deletes every account in [ids] in one transaction.
+  Future<Result<void>> delete(List<int> ids);
 }

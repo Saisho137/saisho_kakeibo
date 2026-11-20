@@ -53,8 +53,9 @@ class AccountDao extends DatabaseAccessor<AppDatabase> with _$AccountDaoMixin {
     }
   });
 
-  Future<int> deleteById(int id) =>
-      (delete(accounts)..where((a) => a.id.equals(id))).go();
+  /// One statement, so pockets and their parent go together.
+  Future<int> deleteAll(List<int> ids) =>
+      (delete(accounts)..where((a) => a.id.isIn(ids))).go();
 
   Future<void> _replaceAll(List<AccountsCompanion> rows) async {
     for (final row in rows) {

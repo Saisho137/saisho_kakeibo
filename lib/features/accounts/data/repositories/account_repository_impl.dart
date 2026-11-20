@@ -54,6 +54,6 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<Result<bool>> hasMovements(int id) async => const Ok(false);
 
   @override
-  Future<Result<void>> delete(int id) =>
-      guardDatabase(() => _dao.deleteById(id));
+  Future<Result<void>> delete(List<int> ids) =>
+      guardDatabase(() => _dao.deleteAll(ids));
 }

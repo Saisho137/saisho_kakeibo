@@ -16,8 +16,8 @@ T _$identity<T>(T value) => value;
 mixin _$AccountFormState {
 
  AccountFormStatus get status;/// The stored account when editing; `null` when creating.
- Account? get original;/// Whether the edited account has movements: its currency is locked and
-/// it cannot be deleted.
+ Account? get original;/// Whether the edited account or one of its pockets has movements: its
+/// currency is locked and it cannot be deleted.
  bool get hasMovements;/// Every account, for the parent picker and the delete rule.
  List<Account> get accounts; List<Currency> get currencies; String get name; String get iconKey; int get color;/// Whether the user picked the icon; until then it follows the type.
  bool get iconChosen; AccountType get type; String get currencyCode;/// Opening balance as typed. For credit cards it is the debt, positive.
@@ -258,8 +258,8 @@ class _AccountFormState extends AccountFormState {
 @override@JsonKey() final  AccountFormStatus status;
 /// The stored account when editing; `null` when creating.
 @override final  Account? original;
-/// Whether the edited account has movements: its currency is locked and
-/// it cannot be deleted.
+/// Whether the edited account or one of its pockets has movements: its
+/// currency is locked and it cannot be deleted.
 @override@JsonKey() final  bool hasMovements;
 /// Every account, for the parent picker and the delete rule.
  final  List<Account> _accounts;

@@ -383,10 +383,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'The main account can\'t be archived or deleted.';
 
   @override
-  String get accountHasPockets =>
-      'Delete its pockets first to delete this account.';
-
-  @override
   String get accountArchiveTooltip => 'Archive';
 
   @override
@@ -403,4 +399,18 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountDeleteMessage =>
       'The account will be removed. Archive it instead to keep it out of sight.';
+
+  @override
+  String accountDeleteWithPocketsMessage(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pockets',
+      one: 'pocket',
+    );
+    return 'Its $_temp0 will be deleted too: $names. This can\'t be undone. Archive it instead to keep it out of sight.';
+  }
+
+  @override
+  String get accountDeleteWithPocketsAction => 'Delete all';
 }

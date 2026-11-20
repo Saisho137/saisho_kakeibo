@@ -254,11 +254,12 @@ void main() {
       expect(find.textContaining("can't be archived or deleted"), findsOne);
     });
 
-    testWidgets('an account with pockets explains why it stays', (
+    testWidgets('warns that the pockets are deleted with the account', (
       tester,
     ) async {
       final pocket = account(
         id: 4,
+        name: 'Emergency fund',
         type: AccountType.pocket,
         parentAccountId: 3,
       );
@@ -266,9 +267,16 @@ void main() {
           .thenReturn(editing(lulo).copyWith(accounts: [main, lulo, pocket]));
 
       await pumpView(tester);
+      await tester.tap(find.byTooltip('Delete account'));
+      await tester.pumpAndSettle();
+      expect(
+        find.textContaining('Its pocket will be deleted too: Emergency fund.'),
+        findsOne,
+      );
+      await tester.tap(find.text('Delete all'));
+      await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Delete account'), findsNothing);
-      expect(find.textContaining('Delete its pockets first'), findsOne);
+      verify(() => cubit.delete()).called(1);
     });
 
     testWidgets('archives and deletes after confirming', (tester) async {
