@@ -3,7 +3,7 @@ ENV ?= dev
 MIN_COVERAGE ?= 80
 
 .DEFAULT_GOAL := help
-.PHONY: help setup get gen gen-watch l10n run format format-check lint fix test coverage coverage-check build build-release check clean
+.PHONY: help setup get gen gen-watch db-schema l10n run format format-check lint fix test coverage coverage-check build build-release check clean
 
 help: ## List available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
@@ -20,6 +20,10 @@ gen: ## Run code generation (drift, freezed)
 
 gen-watch: ## Run code generation in watch mode
 	dart run build_runner watch --delete-conflicting-outputs
+
+db-schema: ## Export the drift schema and regenerate migration test helpers
+	dart run drift_dev make-migrations
+	dart run drift_dev schema generate drift_schemas/app_database/ test/drift/app_database/generated/
 
 l10n: ## Generate localizations from ARB files
 	flutter gen-l10n

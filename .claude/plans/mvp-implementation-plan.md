@@ -39,14 +39,14 @@
 
 Objetivo: piezas transversales, sin pantallas de negocio.
 
-- [ ] **Decisión de fechas en drift:** `build.yaml` con `store_date_time_values_as_text: true` (texto ISO-8601, legible en respaldos y sin ambigüedad de zona horaria). Tipo `LocalDate` propio (año, mes, día) para las fechas de movimientos y periodos, que no tienen hora.
-- [ ] **Exportar esquemas de drift** (`make db-schema`) y andamiaje de pruebas de migración, aunque hoy solo exista la versión 1.
-- [ ] **`Money`** en `core/money/`: monto entero en la unidad mínima + código de moneda; suma y resta solo entre la misma moneda (error si se mezclan); nunca `double` (RT-03).
-- [ ] **`MoneyFormatter`**: separador de miles, separador decimal y número de decimales por moneda (RF-16). Pruebas: `4.250.000` (COP) y `1.250,50` (USD).
-- [ ] **Normalización de texto** en `core/text/`: `display` (trim, espacios colapsados, capitalización consistente) y `key` (minúsculas, sin tildes) (RF-07, RT-08).
-- [ ] **Catálogo de íconos** en `core/icons/`: `Map<String, IconData>` constante, agrupado por tema, con color sugerido por ícono (RT-13). Algoritmo de "variante cercana libre" cuando el color ya está en uso (RF-13).
-- [ ] **Tipografía:** elegir la fuente, empaquetarla como asset y aplicarla en `AppTheme`.
-- [ ] **Tokens del tema:** colores de ingreso, egreso y transferencia, más lo que pida el diseño (radios, grosores de la dona) en `AppTokens`.
+- [x] **Decisión de fechas en drift:** `build.yaml` con `store_date_time_values_as_text: true` (texto ISO-8601, legible en respaldos y sin ambigüedad de zona horaria). Tipo `LocalDate` propio (año, mes, día) para las fechas de movimientos y periodos, que no tienen hora.
+- [x] **Exportar esquemas de drift** (`make db-schema`) y andamiaje de pruebas de migración, aunque hoy solo exista la versión 1.
+- [x] **`Money`** en `core/money/`: monto entero en la unidad mínima + código de moneda; suma y resta solo entre la misma moneda (error si se mezclan); nunca `double` (RT-03).
+- [x] **`MoneyFormatter`**: separador de miles, separador decimal y número de decimales por moneda (RF-16). Pruebas: `4.250.000` (COP) y `1.250,50` (USD).
+- [x] **Normalización de texto** en `core/text/`: `display` (trim, espacios colapsados, capitalización consistente) y `key` (minúsculas, sin tildes) (RF-07, RT-08).
+- [x] **Catálogo de íconos** en `core/icons/`: `Map<String, IconData>` constante, agrupado por tema, con color sugerido por ícono (RT-13). Algoritmo de "variante cercana libre" cuando el color ya está en uso (RF-13).
+- [x] **Tipografía:** elegir la fuente, empaquetarla como asset y aplicarla en `AppTheme`.
+- [x] **Tokens del tema:** colores de ingreso, egreso y transferencia, más lo que pida el diseño (radios, grosores de la dona) en `AppTokens`.
 
 Entregable: utilidades de `core` probadas al 100 % de sus reglas.
 
@@ -166,7 +166,7 @@ Lo último del MVP (RF-12, RT-09).
 
 Seguimiento detallado en la nota *Stack técnico* del vault, sección "Pendientes y revisiones técnicas".
 
-- [ ] Proteger `main` en GitHub exigiendo la CI.
+- [x] Proteger `main` en GitHub exigiendo la CI.
 - [ ] Revisar `workmanager` (fase 11).
 - [ ] Validar `fl_chart` con `material_ui` (fase 9).
 - [ ] Sincronizar mejoras útiles con el arquetipo (remoto `archetype`).
