@@ -190,5 +190,44 @@ void main() {
 
       await tester.disposeDriftStreams();
     });
+
+    testWidgets('records an expense from the quick entry and edits it', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('New expense'));
+      await tester.pumpAndSettle();
+      expect(find.text('Debt payment'), findsNothing);
+      await tester.tap(find.text('Eating out'));
+      await tester.pumpAndSettle();
+      for (final key in ['2', '5', '000']) {
+        await tester.tap(find.text(key));
+      }
+      await tester.enterText(find.byType(TextFormField).first, 'crepes');
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(find.text('New expense'), findsOneWidget);
+
+      await tester.tap(find.byTooltip('Accounts'));
+      await tester.pumpAndSettle();
+      expect(find.text('-25.000'), findsWidgets);
+      await tester.tap(find.text('Bank'));
+      await tester.pumpAndSettle();
+      expect(find.text('Crepes'), findsOneWidget);
+
+      await tester.tap(find.text('Eating out'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Delete movement'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(find.text('No movements yet.'), findsOneWidget);
+
+      await tester.disposeDriftStreams();
+    });
   });
 }

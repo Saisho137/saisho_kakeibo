@@ -176,9 +176,15 @@ class _Detail extends StatelessWidget {
                     ? movement.toAccountId
                     : movement.accountId,
               ),
-              onTap: movement.type == MovementType.adjustment
-                  ? () => _confirmDeleteAdjustment(context, movement)
-                  : null,
+              onTap: switch (movement.type) {
+                MovementType.adjustment => () => _confirmDeleteAdjustment(
+                  context,
+                  movement,
+                ),
+                MovementType.income || MovementType.expense =>
+                  () => context.push(AppRoutes.editMovement(movement.id)),
+                MovementType.transfer => null,
+              },
             ),
         ],
       ],

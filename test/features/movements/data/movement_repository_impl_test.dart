@@ -185,5 +185,57 @@ void main() {
       final moved = (await repository.findById(id) as Ok<Movement?>).value;
       expect(moved?.categoryId, uncategorized);
     });
+
+    test('finds the last use of a category and of each payee', () async {
+      expect(
+        (await repository.lastOfCategory(food) as Ok<Movement?>).value,
+        isNull,
+      );
+      await save(
+        movement(accountId: cash, categoryId: food),
+        payee: 'Uber',
+      );
+      final latest = await save(
+        movement(accountId: bank, categoryId: food, amount: 7),
+        payee: 'Uber',
+      );
+      await save(
+        movement(
+          type: MovementType.income,
+          accountId: cash,
+          categoryId: salary,
+        ),
+        payee: 'Pragma',
+      );
+
+      expect(
+        (await repository.lastOfCategory(food) as Ok<Movement?>).value?.id,
+        latest,
+      );
+      final last = (await repository.lastOfEachPayee(
+        MovementType.expense,
+      ) as Ok<List<Movement>>).value;
+      expect(last.map((m) => m.id), [latest]);
+      expect((await repository.getPayees() as Ok).value, hasLength(2));
+    });
+
+    test('finds the last period start', () async {
+      expect((await repository.lastPeriodStart() as Ok).value, isNull);
+      for (final day in [movementDay, movementDay.addDays(30)]) {
+        await save(
+          movement(
+            type: MovementType.income,
+            accountId: cash,
+            categoryId: salary,
+            date: day,
+          ).copyWith(startsPeriod: true),
+        );
+      }
+
+      expect(
+        (await repository.lastPeriodStart() as Ok).value,
+        movementDay.addDays(30),
+      );
+    });
   });
 }

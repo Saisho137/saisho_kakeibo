@@ -1,5 +1,6 @@
 import 'package:saisho_kakeibo/core/database/guard.dart';
 import 'package:saisho_kakeibo/core/error/result.dart';
+import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movement_dao.dart';
 import 'package:saisho_kakeibo/features/movements/data/models/movement_row_mapper.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
@@ -26,6 +27,29 @@ class MovementRepositoryImpl implements MovementRepository {
   @override
   Future<Result<Movement?>> findById(int id) =>
       guardDatabase(() async => (await _dao.findById(id))?.toEntity());
+
+  @override
+  Future<Result<List<Payee>>> getPayees() => guardDatabase(
+    () async => (await _dao.getPayees()).map((row) => row.toEntity()).toList(),
+  );
+
+  @override
+  Future<Result<Movement?>> lastOfCategory(int categoryId) => guardDatabase(
+    () async => (await _dao.lastOfCategory(categoryId))?.toEntity(),
+  );
+
+  @override
+  Future<Result<List<Movement>>> lastOfEachPayee(MovementType type) =>
+      guardDatabase(
+        () async =>
+            (await _dao.lastOfEachPayee(type.name))
+                .map((row) => row.toEntity())
+                .toList(),
+      );
+
+  @override
+  Future<Result<LocalDate?>> lastPeriodStart() =>
+      guardDatabase(_dao.lastPeriodStart);
 
   @override
   Future<Result<int>> save(Movement movement, {PayeeName? payee}) =>

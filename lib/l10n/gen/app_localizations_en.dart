@@ -633,4 +633,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dayYesterday => 'Yesterday';
+
+  @override
+  String get homeNewExpense => 'New expense';
+
+  @override
+  String get homeNewIncome => 'New income';
+
+  @override
+  String get entryExpenseTitle => 'New expense';
+
+  @override
+  String get entryIncomeTitle => 'New income';
+
+  @override
+  String get entrySearchHint => 'Search categories and entities';
+
+  @override
+  String get entryEntities => 'Entities';
+
+  @override
+  String get entryNoMatches => 'Nothing matches.';
+
+  @override
+  String get movementAccount => 'Account';
+
+  @override
+  String get movementPayee => 'Entity';
+
+  @override
+  String get movementNote => 'Note';
+
+  @override
+  String get movementStartsPeriod => 'Starts period';
+
+  @override
+  String get movementStartsPeriodHint => 'A new period starts on this date.';
+
+  @override
+  String get movementConfirm => 'Confirm';
+
+  @override
+  String get movementChangeCategory => 'Change category';
+
+  @override
+  String get movementDeleteTooltip => 'Delete movement';
+
+  @override
+  String get movementDeleteTitle => 'Delete this movement?';
+
+  @override
+  String get movementDeleteMessage => 'This can\'t be undone.';
+
+  @override
+  String get movementNotFound => 'This movement no longer exists.';
+
+  @override
+  String get movementErrorAmount => 'Enter an amount above zero.';
+
+  @override
+  String get movementErrorAccount => 'Pick an account.';
+
+  @override
+  String get movementErrorCategory => 'Pick a category.';
+
+  @override
+  String movementResult(String amount) {
+    return '= $amount';
+  }
+
+  @override
+  String get keypadBackspace => 'Delete';
+
+  @override
+  String get keypadAdd => 'Plus';
+
+  @override
+  String get keypadSubtract => 'Minus';
+
+  @override
+  String get keypadMultiply => 'Times';
+
+  @override
+  String get keypadDivide => 'Divided by';
 }

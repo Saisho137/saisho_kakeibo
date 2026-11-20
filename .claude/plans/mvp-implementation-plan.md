@@ -87,10 +87,10 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [x] Conectar a `movements` el contrato de cuentas que dejó la fase 2: `AccountDao.watchBalances` (hoy solo apertura) y `AccountRepository.hasMovements` (hoy siempre `false`), que bloquean cambiar la moneda y borrar.
 - [x] Conectar a `movements` el contrato de categorías que dejó la fase 3: `CategoryDao.countMovements` (hoy siempre 0) y la reasignación de movimientos en `CategoryDao.deleteById`.
 - [x] Ajuste de saldo: el usuario escribe el saldo real y se guarda la diferencia (RF-15). Conectar *Adjust balance* / *Update value* en el detalle de cuenta.
-- [ ] Prellenado por categoría: última cuenta y última entidad usadas; cuenta principal si no hay historial.
+- [x] Prellenado por categoría: última cuenta y última entidad usadas; cuenta principal si no hay historial.
 - [ ] Transferencias: categoría prellenada por última usada con el mismo par de cuentas → regla por tipos de cuenta → *Between accounts* (RF-13).
-- [ ] **Registro rápido**: grilla de categorías en orden manual con búsqueda de categorías y entidades (al elegir entidad, se prellenan categoría, entidad y último monto); formulario con campos según el rol core; teclado propio con operaciones ÷ × − + y tecla condicional `000` / separador decimal (RF-01).
-- [ ] Editar y borrar movimientos desde el mismo formulario.
+- [x] **Registro rápido**: grilla de categorías en orden manual con búsqueda de categorías y entidades (al elegir entidad, se prellenan categoría, entidad y último monto); formulario con campos según el rol core; teclado propio con operaciones ÷ × − + y tecla condicional `000` / separador decimal (RF-01).
+- [x] Editar y borrar movimientos desde el mismo formulario. Las categorías que necesitan deudas (Loan received, Loan repaid, Loan given, Debt payment) quedan fuera de la grilla hasta la fase 8; el check *Starts period* de Salary ya funciona.
 - [x] Detalle de cuenta: movimientos agrupados por día (todos; la fase 5 los limita al periodo actual). La acción *Transfer* llega con las transferencias.
 
 ## Fase 5 — Periodos
@@ -129,6 +129,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [ ] Integración con categorías core: Loan received crea deuda por pagar; Loan given crea por cobrar o suma a la existente de esa entidad; Debt payment y Loan repaid exigen elegir la deuda; el pilar de un pago sale de su deuda.
 - [ ] Pantalla **Debts**: pestañas, sección de tarjetas de solo lectura, *Paid off* colapsado; detalle con pagos y *Pay*.
 - [ ] Recordatorios de deudas.
+- [ ] Mostrar en el registro rápido las categorías de deudas (`CategoryRole.needsDebt`) con sus campos: elegir o crear la deuda.
 
 ## Fase 9 — Entidades
 
