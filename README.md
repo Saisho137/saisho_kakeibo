@@ -34,4 +34,6 @@ make run     # run on a device or emulator
 make check   # format, lint, tests with coverage and build (same as CI)
 ```
 
+Dependencies are pinned to exact versions in `pubspec.yaml` (no `^`), so nothing changes without review; Dependabot proposes updates weekly.
+
 `make help` lists every command. Architecture, conventions and guides are documented in the [archetype README](https://github.com/Saisho137/Archetype_Flutter#readme).
