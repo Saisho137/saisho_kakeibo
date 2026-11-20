@@ -112,6 +112,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currencyDecimalSeparator => 'Decimal separator';
 
   @override
+  String get currencySeparatorDot => 'Dot';
+
+  @override
+  String get currencySeparatorComma => 'Comma';
+
+  @override
   String get currencySeparatorSpace => 'Space';
 
   @override

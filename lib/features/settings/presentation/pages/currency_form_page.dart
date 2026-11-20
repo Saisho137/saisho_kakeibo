@@ -220,6 +220,8 @@ class _CurrencyForm extends StatelessWidget {
 
   static String _separatorLabel(BuildContext context, String separator) =>
       switch (separator) {
+        '.' => context.l10n.currencySeparatorDot,
+        ',' => context.l10n.currencySeparatorComma,
         ' ' => context.l10n.currencySeparatorSpace,
         '' => context.l10n.currencySeparatorNone,
         _ => separator,

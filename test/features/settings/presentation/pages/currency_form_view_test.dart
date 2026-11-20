@@ -100,7 +100,7 @@ void main() {
       await tester.enterText(find.byType(TextFormField).at(1), '€');
       await tester.tap(find.text('0'));
       await tester.tap(find.text('Space'));
-      await tester.tap(find.text('.').last);
+      await tester.tap(find.text('Dot').last);
       await tester.tap(find.text('Save'));
 
       verify(() => cubit.codeChanged('eur')).called(1);

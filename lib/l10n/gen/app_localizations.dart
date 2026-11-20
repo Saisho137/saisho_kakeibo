@@ -268,6 +268,18 @@ abstract class AppLocalizations {
   /// **'Decimal separator'**
   String get currencyDecimalSeparator;
 
+  /// Separator option: a dot (.).
+  ///
+  /// In en, this message translates to:
+  /// **'Dot'**
+  String get currencySeparatorDot;
+
+  /// Separator option: a comma (,).
+  ///
+  /// In en, this message translates to:
+  /// **'Comma'**
+  String get currencySeparatorComma;
+
   /// Separator option: a space.
   ///
   /// In en, this message translates to:

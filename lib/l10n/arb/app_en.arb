@@ -134,6 +134,14 @@
   "@currencyDecimalSeparator": {
     "description": "Currency field."
   },
+  "currencySeparatorDot": "Dot",
+  "@currencySeparatorDot": {
+    "description": "Separator option: a dot (.)."
+  },
+  "currencySeparatorComma": "Comma",
+  "@currencySeparatorComma": {
+    "description": "Separator option: a comma (,)."
+  },
   "currencySeparatorSpace": "Space",
   "@currencySeparatorSpace": {
     "description": "Separator option: a space."
