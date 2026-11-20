@@ -10,10 +10,10 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payee_sugg
 import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payees.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/prefill_movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/save_movement.dart';
-import 'package:saisho_kakeibo/features/movements/domain/usecases/suggest_period_start.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/suggest_transfer_category.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_account_movements.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
+import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_period_movements.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
@@ -41,7 +41,7 @@ void registerMovementsDependencies(GetIt getIt) {
     ..registerFactory(() => GetMovement(getIt()))
     ..registerFactory(() => GetPayees(getIt()))
     ..registerFactory(() => GetPayeeSuggestions(getIt()))
-    ..registerFactory(() => SuggestPeriodStart(getIt()))
+    ..registerFactory(() => WatchPeriodMovements(getIt()))
     ..registerFactory(
       () => PrefillMovement(movements: getIt(), accounts: getIt()),
     )
@@ -86,6 +86,8 @@ void registerMovementsDependencies(GetIt getIt) {
         watchMovements: getIt(),
         watchCategories: getIt(),
         watchPayees: getIt(),
+        watchSettings: getIt(),
+        watchPeriodStarts: getIt(),
         adjustBalance: getIt(),
         deleteMovement: getIt(),
       ),

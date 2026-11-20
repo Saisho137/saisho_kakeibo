@@ -11,7 +11,6 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/get_movement.d
 import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payee_suggestions.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payees.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/prefill_movement.dart';
-import 'package:saisho_kakeibo/features/movements/domain/usecases/suggest_period_start.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 
 import '../../../helpers/account_fixtures.dart';
@@ -136,31 +135,6 @@ void main() {
         await GetPayeeSuggestions(movements)(MovementType.income),
         isA<Err<List<Payee>>>(),
       );
-    });
-  });
-
-  group('SuggestPeriodStart', () {
-    Future<bool?> suggest(int days) async {
-      final result = await SuggestPeriodStart(movements)(
-        SuggestPeriodStartParams(date: movementDay.addDays(days), minDays: 21),
-      );
-      return result is Ok<bool> ? result.value : null;
-    }
-
-    test('suggests a first period and one after N days', () async {
-      when(() => movements.lastPeriodStart())
-          .thenAnswer((_) async => const Ok(null));
-      expect(await suggest(0), isTrue);
-
-      when(() => movements.lastPeriodStart())
-          .thenAnswer((_) async => Ok(movementDay));
-      expect(await suggest(20), isFalse);
-      expect(await suggest(21), isTrue);
-    });
-
-    test('propagates failures', () async {
-      when(() => movements.lastPeriodStart()).thenAnswer((_) async => dbError);
-      expect(await suggest(0), isNull);
     });
   });
 

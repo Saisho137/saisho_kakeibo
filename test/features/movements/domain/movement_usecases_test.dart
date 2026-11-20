@@ -13,8 +13,10 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/delete_movemen
 import 'package:saisho_kakeibo/features/movements/domain/usecases/save_movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_account_movements.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
+import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_period_movements.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
+import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 
 import '../../../helpers/account_fixtures.dart';
 import '../../../helpers/category_fixtures.dart';
@@ -75,7 +77,14 @@ void main() {
         (_) => Stream.value([const Payee(id: 1, name: 'A', key: 'a')]),
       );
 
+      when(() => movements.watchBetween(movementDay, null))
+          .thenAnswer((_) => Stream.value([movement()]));
+
       expect(await WatchAccountMovements(movements)(1).first, [movement()]);
+      expect(
+        await WatchPeriodMovements(movements)(Period(start: movementDay)).first,
+        [movement()],
+      );
       expect(
         await WatchPayees(movements)(const NoParams()).first,
         hasLength(1),

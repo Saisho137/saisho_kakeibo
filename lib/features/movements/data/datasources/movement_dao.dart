@@ -26,6 +26,22 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
             ]))
           .watch();
 
+  /// Movements from [start] to [end] (inclusive; open without it), newest
+  /// first.
+  Stream<List<MovementRow>> watchBetween(LocalDate start, LocalDate? end) =>
+      (select(movements)
+            ..where((m) {
+              final from = m.date.isBiggerOrEqualValue(start.toString());
+              return end == null
+                  ? from
+                  : from & m.date.isSmallerOrEqualValue(end.toString());
+            })
+            ..orderBy([
+              (m) => OrderingTerm.desc(m.date),
+              (m) => OrderingTerm.desc(m.id),
+            ]))
+          .watch();
+
   Future<MovementRow?> findById(int id) =>
       (select(movements)..where((m) => m.id.equals(id))).getSingleOrNull();
 
@@ -75,17 +91,6 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
     variables: [Variable.withString(type)],
     readsFrom: {movements},
   ).map((row) => movements.map(row.data)).get();
-
-  /// Date of the latest movement that started a period (RF-05).
-  Future<LocalDate?> lastPeriodStart() async {
-    final latest = movements.date.max();
-    final query = selectOnly(movements)
-      ..addColumns([latest])
-      ..where(movements.startsPeriod.equals(true));
-    final row = await query.getSingle();
-    final value = row.read(latest);
-    return value == null ? null : LocalDate.parse(value);
-  }
 
   /// Inserts the movement when its id is absent, replaces it otherwise.
   /// A payee [payeeName] is found by [payeeKey] or created first.

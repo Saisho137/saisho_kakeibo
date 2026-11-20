@@ -579,9 +579,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountUpdateValue => 'Update value';
 
   @override
-  String get accountNoMovements => 'No movements yet.';
-
-  @override
   String get accountDetailNotFound => 'This account no longer exists.';
 
   @override
@@ -759,4 +756,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transferDeleteTitle => 'Delete this transfer?';
+
+  @override
+  String get settingsAdvanced => 'Advanced';
+
+  @override
+  String get periodStartNow => 'Start new period now';
+
+  @override
+  String get periodStartNowHint =>
+      'Use it only when no salary started the period.';
+
+  @override
+  String get periodStartNowTitle => 'Start a new period today?';
+
+  @override
+  String get periodStartNowMessage =>
+      'Periods usually start with a salary marked \"Starts period\". You can undo this start here.';
+
+  @override
+  String get periodStartAction => 'Start';
+
+  @override
+  String get periodStarted => 'A new period starts today.';
+
+  @override
+  String get periodAlreadyStarted => 'A period already starts today.';
+
+  @override
+  String periodManualStart(String date) {
+    return 'Manual start · $date';
+  }
+
+  @override
+  String get periodRemoveStartTooltip => 'Undo this start';
+
+  @override
+  String periodRemoveStartTitle(String date) {
+    return 'Undo the start of $date?';
+  }
+
+  @override
+  String get periodRemoveStartMessage => 'Its period joins the previous one.';
+
+  @override
+  String periodRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String periodSince(String start) {
+    return 'Since $start';
+  }
+
+  @override
+  String get accountNoMovementsInPeriod => 'No movements in this period.';
 }

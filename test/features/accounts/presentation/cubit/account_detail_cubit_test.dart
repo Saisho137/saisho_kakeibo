@@ -6,6 +6,7 @@ import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/money/money.dart';
+import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
@@ -18,7 +19,10 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/delete_movemen
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_account_movements.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
+import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
+import 'package:saisho_kakeibo/features/periods/domain/usecases/watch_period_starts.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
 
 import '../../../../helpers/account_fixtures.dart';
 import '../../../../helpers/category_fixtures.dart';
@@ -36,6 +40,10 @@ class _MockWatchCategories extends Mock implements WatchCategories;
 
 class _MockWatchPayees extends Mock implements WatchPayees;
 
+class _MockWatchSettings extends Mock implements WatchSettings;
+
+class _MockWatchStarts extends Mock implements WatchPeriodStarts;
+
 class _MockAdjust extends Mock implements AdjustAccountBalance;
 
 class _MockDelete extends Mock implements DeleteMovement;
@@ -47,6 +55,8 @@ void main() {
   late _MockWatchMovements watchMovements;
   late _MockWatchCategories watchCategories;
   late _MockWatchPayees watchPayees;
+  late _MockWatchSettings watchSettings;
+  late _MockWatchStarts watchStarts;
   late _MockAdjust adjust;
   late _MockDelete delete;
 
@@ -76,6 +86,8 @@ void main() {
     watchMovements = _MockWatchMovements();
     watchCategories = _MockWatchCategories();
     watchPayees = _MockWatchPayees();
+    watchSettings = _MockWatchSettings();
+    watchStarts = _MockWatchStarts();
     adjust = _MockAdjust();
     delete = _MockDelete();
     when(() => watchAccounts(any()))
@@ -87,6 +99,9 @@ void main() {
         .thenAnswer((_) => Stream.value([lunch, older]));
     when(() => watchCategories(any())).thenAnswer((_) => Stream.value([food]));
     when(() => watchPayees(any())).thenAnswer((_) => Stream.value([uber]));
+    when(() => watchSettings(any()))
+        .thenAnswer((_) => Stream.value(const AppSettings()));
+    when(() => watchStarts(any())).thenAnswer((_) => Stream.value([]));
     when(() => adjust(any())).thenAnswer((_) async => const Ok(null));
     when(() => delete(any())).thenAnswer((_) async => const Ok(null));
   });
@@ -98,6 +113,8 @@ void main() {
     watchMovements: watchMovements,
     watchCategories: watchCategories,
     watchPayees: watchPayees,
+    watchSettings: watchSettings,
+    watchPeriodStarts: watchStarts,
     adjustBalance: adjust,
     deleteMovement: delete,
   );
@@ -115,14 +132,9 @@ void main() {
         expect(state.pockets, [fund]);
         expect(state.balance, const Money(5000, 'COP'));
         expect(state.free, const Money(2000, 'COP'));
-        expect(state.days.map((d) => d.$1), [
-          movementDay,
-          movementDay.addDays(-1),
-        ]);
-        expect(state.days.map((d) => d.$2), [
-          [lunch],
-          [older],
-        ]);
+        expect(state.today, LocalDate.today());
+        expect(state.settings, const AppSettings());
+        expect(state.periodStarts, isEmpty);
         expect(state.categoryOf(lunch), food);
         expect(state.payeeOf(lunch), uber);
         expect(state.accountById(2), fund);
@@ -150,7 +162,52 @@ void main() {
       const state = AccountDetailState();
       expect(state.pockets, isEmpty);
       expect(state.free, isNull);
-      expect(state.days, isEmpty);
+      expect(state.periods, isEmpty);
+      expect(state.currentIndex, 0);
+    });
+
+    group('periods', () {
+      // Dynamic periods: a salary started one on March 5.
+      final state = AccountDetailState(
+        accountId: 1,
+        today: movementDay,
+        settings: const AppSettings(),
+        periodStarts: [movementDay.addDays(-5)],
+        movements: [
+          movement(id: 3, date: movementDay.addDays(40)),
+          lunch,
+          older,
+          movement(id: 4, date: LocalDate(2026, 1, 30)),
+        ],
+      );
+
+      test('go from the newest movement back to the oldest', () {
+        expect(state.periods, [
+          Period(start: LocalDate(2026, 3, 5)),
+          Period(start: LocalDate(2026, 2, 27), end: LocalDate(2026, 3, 4)),
+          Period(start: LocalDate(2026, 1, 27), end: LocalDate(2026, 2, 26)),
+        ]);
+        expect(state.currentIndex, 0);
+      });
+
+      test('group the movements of a period by day', () {
+        final days = state.daysIn(state.periods.first);
+        expect(days.map((d) => d.$1), [
+          movementDay.addDays(40),
+          movementDay,
+          movementDay.addDays(-1),
+        ]);
+        expect(days[1].$2, [lunch]);
+        expect(state.daysIn(state.periods[1]), isEmpty);
+      });
+
+      test('start on today when later periods have movements', () {
+        final monthly = state.copyWith(
+          settings: const AppSettings(periodType: PeriodType.monthly),
+        );
+        expect(monthly.periods.first.start, LocalDate(2026, 3, 27));
+        expect(monthly.currentIndex, 1);
+      });
     });
 
     blocTest<AccountDetailCubit, AccountDetailState>(

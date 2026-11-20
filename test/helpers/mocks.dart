@@ -9,6 +9,7 @@ import 'package:saisho_kakeibo/features/categories/presentation/cubit/category_f
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
+import 'package:saisho_kakeibo/features/periods/presentation/cubit/period_starts_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currency_form_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -47,3 +48,6 @@ class MockMovementFormCubit extends MockCubit<MovementFormState>
 
 class MockTransferFormCubit extends MockCubit<TransferFormState>
     implements TransferFormCubit;
+
+class MockPeriodStartsCubit extends MockCubit<PeriodStartsState>
+    implements PeriodStartsCubit;

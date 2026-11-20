@@ -219,22 +219,30 @@ void main() {
       expect((await repository.getPayees() as Ok).value, hasLength(2));
     });
 
-    test('finds the last period start', () async {
-      expect((await repository.lastPeriodStart() as Ok).value, isNull);
-      for (final day in [movementDay, movementDay.addDays(30)]) {
+    test('watches the movements of a period', () async {
+      for (final days in [-1, 0, 5, 9]) {
         await save(
           movement(
-            type: MovementType.income,
             accountId: cash,
-            categoryId: salary,
-            date: day,
-          ).copyWith(startsPeriod: true),
+            categoryId: food,
+            date: movementDay.addDays(days),
+          ),
         );
       }
 
       expect(
-        (await repository.lastPeriodStart() as Ok).value,
-        movementDay.addDays(30),
+        repository.watchBetween(movementDay, movementDay.addDays(5)),
+        emits(
+          isA<List<Movement>>().having(
+            (list) => list.map((m) => m.date),
+            'dates',
+            [movementDay.addDays(5), movementDay],
+          ),
+        ),
+      );
+      expect(
+        repository.watchBetween(movementDay.addDays(1), null),
+        emits(hasLength(2)),
       );
     });
 

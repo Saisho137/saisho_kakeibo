@@ -781,6 +781,51 @@ class Movements extends Table with TableInfo {
   bool get dontWriteConstraints => true;
 }
 
+class PeriodStarts extends Table with TableInfo {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  PeriodStarts(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT',
+  );
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL UNIQUE',
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, date];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'period_starts';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Never map(Map<String, dynamic> data, {String? tablePrefix}) {
+    throw UnsupportedError('TableInfo.map in schema verification code');
+  }
+
+  @override
+  PeriodStarts createAlias(String alias) {
+    return PeriodStarts(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
 class DatabaseAtV1 extends GeneratedDatabase {
   DatabaseAtV1(QueryExecutor e) : super(e);
   late final Currencies currencies = Currencies(this);
@@ -790,6 +835,7 @@ class DatabaseAtV1 extends GeneratedDatabase {
   late final Categories categories = Categories(this);
   late final Payees payees = Payees(this);
   late final Movements movements = Movements(this);
+  late final PeriodStarts periodStarts = PeriodStarts(this);
   late final Index movementsAccount = Index(
     'movements_account',
     'CREATE INDEX movements_account ON movements (account_id)',
@@ -818,6 +864,7 @@ class DatabaseAtV1 extends GeneratedDatabase {
     categories,
     payees,
     movements,
+    periodStarts,
     movementsAccount,
     movementsToAccount,
     movementsCategory,
