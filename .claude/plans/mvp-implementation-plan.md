@@ -88,7 +88,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [x] Conectar a `movements` el contrato de categorías que dejó la fase 3: `CategoryDao.countMovements` (hoy siempre 0) y la reasignación de movimientos en `CategoryDao.deleteById`.
 - [x] Ajuste de saldo: el usuario escribe el saldo real y se guarda la diferencia (RF-15). Conectar *Adjust balance* / *Update value* en el detalle de cuenta.
 - [x] Prellenado por categoría: última cuenta y última entidad usadas; cuenta principal si no hay historial.
-- [ ] Transferencias: categoría prellenada por última usada con el mismo par de cuentas → regla por tipos de cuenta → *Between accounts* (RF-13).
+- [x] Transferencias: categoría prellenada por última usada con el mismo par de cuentas → regla por tipos de cuenta → *Between accounts* (RF-13).
 - [x] **Registro rápido**: grilla de categorías en orden manual con búsqueda de categorías y entidades (al elegir entidad, se prellenan categoría, entidad y último monto); formulario con campos según el rol core; teclado propio con operaciones ÷ × − + y tecla condicional `000` / separador decimal (RF-01).
 - [x] Editar y borrar movimientos desde el mismo formulario. Las categorías que necesitan deudas (Loan received, Loan repaid, Loan given, Debt payment) quedan fuera de la grilla hasta la fase 8; el check *Starts period* de Salary ya funciona.
 - [x] Detalle de cuenta: movimientos agrupados por día (todos; la fase 5 los limita al periodo actual). La acción *Transfer* llega con las transferencias.
@@ -111,6 +111,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [ ] Balance abajo (código de moneda pequeño) y botones Expense, Transfer e Income.
 - [ ] **Panel de historial** desde abajo: vista por día y vista por categoría con totales; *Pending* marcado (los ingresos *Pending* atenuados y fuera del saldo).
 - [ ] **Menú rápido** (☰, izquierda): tipo de periodo, moneda, filtro del Balance y tema, con botones segmentados anchos. **Navegación** (⋮, derecha): Accounts, Debts, Entities, Categories, Recurring y Settings.
+- [ ] El total de Transferencias excluye las transferencias dentro de una misma cuenta (cuenta ↔ sus bolsillos, `TransferRules.isInternal`).
 
 ## Fase 7 — Notificaciones y recurrentes
 
