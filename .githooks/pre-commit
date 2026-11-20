@@ -1,0 +1,13 @@
+#!/bin/sh
+# Fast checks on every commit: formatting of staged Dart files and analysis.
+set -e
+
+staged=$(git diff --cached --name-only --diff-filter=ACM -- '*.dart')
+if [ -n "$staged" ]; then
+  echo "▶ dart format (staged files)"
+  # shellcheck disable=SC2086
+  dart format --output=none --set-exit-if-changed $staged
+fi
+
+echo "▶ flutter analyze"
+flutter analyze --fatal-infos

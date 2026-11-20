@@ -1,0 +1,37 @@
+import 'package:flutter_archetype/app/router/app_router.dart';
+import 'package:flutter_archetype/core/theme/app_theme.dart';
+import 'package:flutter_archetype/l10n/l10n.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
+
+class App extends StatefulWidget {
+  const new({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late final GoRouter _router = createAppRouter();
+
+  @override
+  void dispose() {
+    _router.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      onGenerateTitle: (context) => context.l10n.appTitle,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: _router,
+    );
+  }
+}

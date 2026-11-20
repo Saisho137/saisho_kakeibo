@@ -1,0 +1,35 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Archetype",
+  "@appTitle": {
+    "description": "Application name shown in the task switcher."
+  },
+  "genericError": "Something went wrong. Please try again.",
+  "@genericError": {
+    "description": "Fallback message for unexpected failures."
+  },
+  "tasksTitle": "Tasks",
+  "@tasksTitle": {
+    "description": "App bar title of the example tasks page."
+  },
+  "tasksEmpty": "No tasks yet. Add your first one above.",
+  "@tasksEmpty": {
+    "description": "Shown when the task list is empty."
+  },
+  "tasksAddHint": "What needs to be done?",
+  "@tasksAddHint": {
+    "description": "Hint of the new task text field."
+  },
+  "tasksAddTooltip": "Add task",
+  "@tasksAddTooltip": {
+    "description": "Tooltip of the add task button."
+  },
+  "tasksDeleteTooltip": "Delete task",
+  "@tasksDeleteTooltip": {
+    "description": "Tooltip of the delete task button."
+  },
+  "tasksTitleRequired": "Write a title for the task.",
+  "@tasksTitleRequired": {
+    "description": "Validation error when the task title is blank."
+  }
+}

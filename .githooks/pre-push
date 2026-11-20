@@ -1,0 +1,4 @@
+#!/bin/sh
+# Full quality gate before sharing code: same checks as CI.
+set -e
+make check

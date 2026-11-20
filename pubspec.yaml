@@ -1,0 +1,37 @@
+name: flutter_archetype
+description: "Production-ready Flutter archetype: Clean Architecture, Bloc, drift, go_router and a strict quality pipeline."
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.14.0
+  flutter: ">=3.50.0"
+
+dependencies:
+  bloc: ^9.2.1
+  drift: ^2.35.4
+  drift_flutter: ^0.3.1
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  flutter_localizations:
+    sdk: flutter
+  freezed_annotation: ^3.1.0
+  get_it: ^9.3.0
+  go_router: ^18.1.4
+  intl: ^0.20.3
+  material_ui: ^1.11.1
+  path_provider: ^2.1.6
+dev_dependencies:
+  bloc_test: ^10.0.0
+  build_runner: ^2.17.1
+  drift_dev: ^2.35.3
+  flutter_test:
+    sdk: flutter
+  freezed: ^4.0.3
+  mocktail: ^1.0.5
+  very_good_analysis: ^11.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true

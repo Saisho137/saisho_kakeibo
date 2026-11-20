@@ -1,0 +1,11 @@
+{
+  "@@locale": "es",
+  "appTitle": "Flutter Archetype",
+  "genericError": "Algo salió mal. Inténtalo de nuevo.",
+  "tasksTitle": "Tareas",
+  "tasksEmpty": "Aún no hay tareas. Agrega la primera arriba.",
+  "tasksAddHint": "¿Qué hay que hacer?",
+  "tasksAddTooltip": "Agregar tarea",
+  "tasksDeleteTooltip": "Eliminar tarea",
+  "tasksTitleRequired": "Escribe un título para la tarea."
+}

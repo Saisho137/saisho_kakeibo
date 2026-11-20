@@ -1,0 +1,21 @@
+{
+  "dart.lineLength": 80,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "[dart]": {
+    "editor.rulers": [80],
+    "editor.defaultFormatter": "Dart-Code.dart-code"
+  },
+  "files.exclude": {
+    "**/*.g.dart": false,
+    "**/*.freezed.dart": false
+  },
+  "search.exclude": {
+    "**/*.g.dart": true,
+    "**/*.freezed.dart": true,
+    "lib/l10n/gen/**": true
+  }
+}

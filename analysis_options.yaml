@@ -1,0 +1,14 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/l10n/gen/**"
+    - "build/**"
+    - "android/**"
+
+linter:
+  rules:
+    # This is an app, not a published package: public API docs add noise.
+    public_member_api_docs: false
