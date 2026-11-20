@@ -53,7 +53,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Settings'));
+      await tester.goTo('Settings');
       await tester.pumpAndSettle();
       expect(find.text('COP'), findsWidgets);
       expect(find.text('0.1.0 (1)'), findsOneWidget);
@@ -92,7 +92,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Accounts'));
+      await tester.goTo('Accounts');
       await tester.pumpAndSettle();
       expect(find.text('Cash'), findsOneWidget);
       expect(find.text('Bank'), findsOneWidget);
@@ -132,7 +132,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Categories'));
+      await tester.goTo('Categories');
       await tester.pumpAndSettle();
       expect(find.text('Eating out'), findsOneWidget);
       expect(find.text('Uncategorized'), findsOneWidget);
@@ -165,7 +165,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Accounts'));
+      await tester.goTo('Accounts');
       await tester.pumpAndSettle();
       await tester.tap(find.text('Cash'));
       await tester.pumpAndSettle();
@@ -199,7 +199,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('New expense'));
+      await tester.tap(find.text('Expense'));
       await tester.pumpAndSettle();
       expect(find.text('Debt payment'), findsNothing);
       await tester.tap(find.text('Eating out'));
@@ -210,9 +210,14 @@ void main() {
       await tester.enterText(find.byType(TextFormField).first, 'crepes');
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
-      expect(find.text('New expense'), findsOneWidget);
+      // Back on the Home: the period's expenses and the Balance.
+      expect(find.text('25.000'), findsOneWidget);
+      expect(
+        find.text('Balance COP -25.000', findRichText: true),
+        findsOneWidget,
+      );
 
-      await tester.tap(find.byTooltip('Accounts'));
+      await tester.goTo('Accounts');
       await tester.pumpAndSettle();
       expect(find.text('-25.000'), findsWidgets);
       await tester.tap(find.text('Bank'));
@@ -238,7 +243,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Accounts'));
+      await tester.goTo('Accounts');
       await tester.pumpAndSettle();
       await tester.tap(find.text('Bank'));
       await tester.pumpAndSettle();
@@ -270,4 +275,13 @@ void main() {
       await tester.disposeDriftStreams();
     });
   });
+}
+
+extension on WidgetTester {
+  /// Opens [screen] from the Home's ⋮ navigation.
+  Future<void> goTo(String screen) async {
+    await tap(find.byTooltip('Go to'));
+    await pumpAndSettle();
+    await tap(find.text(screen));
+  }
 }

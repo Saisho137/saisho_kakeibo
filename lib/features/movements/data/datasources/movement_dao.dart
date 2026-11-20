@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
-import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
@@ -26,20 +25,12 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
             ]))
           .watch();
 
-  /// Movements from [start] to [end] (inclusive; open without it), newest
-  /// first.
-  Stream<List<MovementRow>> watchBetween(LocalDate start, LocalDate? end) =>
-      (select(movements)
-            ..where((m) {
-              final from = m.date.isBiggerOrEqualValue(start.toString());
-              return end == null
-                  ? from
-                  : from & m.date.isSmallerOrEqualValue(end.toString());
-            })
-            ..orderBy([
-              (m) => OrderingTerm.desc(m.date),
-              (m) => OrderingTerm.desc(m.id),
-            ]))
+  /// Every movement, newest first.
+  Stream<List<MovementRow>> watchAll() =>
+      (select(movements)..orderBy([
+            (m) => OrderingTerm.desc(m.date),
+            (m) => OrderingTerm.desc(m.id),
+          ]))
           .watch();
 
   Future<MovementRow?> findById(int id) =>

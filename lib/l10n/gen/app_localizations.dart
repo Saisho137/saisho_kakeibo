@@ -376,12 +376,6 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get actionDelete;
 
-  /// Tooltip of the button that opens Settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settingsOpenTooltip;
-
   /// Settings section header: accounts included in the Balance.
   ///
   /// In en, this message translates to:
@@ -465,12 +459,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get iconGroupOther;
-
-  /// Tooltip of the button that opens Accounts.
-  ///
-  /// In en, this message translates to:
-  /// **'Accounts'**
-  String get accountsOpenTooltip;
 
   /// Accounts screen title.
   ///
@@ -813,12 +801,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete all'**
   String get accountDeleteWithPocketsAction;
-
-  /// Tooltip of the temporary Home button that opens Categories.
-  ///
-  /// In en, this message translates to:
-  /// **'Categories'**
-  String get categoriesOpenTooltip;
 
   /// Title of the Categories screen.
   ///
@@ -1189,13 +1171,13 @@ abstract class AppLocalizations {
   /// Home button that starts an expense.
   ///
   /// In en, this message translates to:
-  /// **'New expense'**
+  /// **'Expense'**
   String get homeNewExpense;
 
   /// Home button that starts an income.
   ///
   /// In en, this message translates to:
-  /// **'New income'**
+  /// **'Income'**
   String get homeNewIncome;
 
   /// Title of the category grid for expenses.
@@ -1521,6 +1503,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No movements in this period.'**
   String get accountNoMovementsInPeriod;
+
+  /// Tooltip of the ☰ button that opens the quick menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick menu'**
+  String get homeQuickMenuTooltip;
+
+  /// Tooltip of the ⋮ button that opens the navigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to'**
+  String get homeNavigationTooltip;
+
+  /// Income total of the period.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get homeIncome;
+
+  /// Expenses total of the period.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get homeExpenses;
+
+  /// Transfers total of the period.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfers'**
+  String get homeTransfers;
+
+  /// Label of the Home Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get homeBalance;
+
+  /// Quick menu group: period type.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get quickMenuPeriod;
+
+  /// Period from salary to salary.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic'**
+  String get periodTypeDynamic;
+
+  /// Period from the cutoff day.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get periodTypeMonthly;
+
+  /// Calendar year period.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get periodTypeYearly;
+
+  /// Quick menu group: active currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get quickMenuCurrency;
+
+  /// Quick menu group: accounts in the Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get quickMenuBalance;
+
+  /// Balance filter: cash accounts only.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get balanceFilterCash;
+
+  /// Balance filter: accounts other than cash.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get balanceFilterBank;
+
+  /// Balance filter: every account in the Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get balanceFilterBoth;
+
+  /// Quick menu group: theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get quickMenuTheme;
+
+  /// Theme that follows the device.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// Light theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// Dark theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
 }
 
 class _AppLocalizationsDelegate

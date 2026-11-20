@@ -18,6 +18,7 @@ import 'package:saisho_kakeibo/features/accounts/presentation/widgets/movement_t
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_label.dart';
+import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_page_view.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
 /// An account with its balance, its actions and its movements by day, one
@@ -172,59 +173,19 @@ class _Detail extends StatelessWidget {
         const Divider(),
         Expanded(
           // A new period type or cutoff day starts over on today's period.
-          child: _PeriodPages(
+          child: PeriodPageView(
             key: ValueKey((settings.periodType, settings.cutoffDay)),
-            state: state,
-            account: account,
-            currency: currency,
+            periods: state.periods,
+            initialIndex: state.currentIndex,
+            itemBuilder: (context, period) => _PeriodPage(
+              period: period,
+              state: state,
+              account: account,
+              currency: currency,
+            ),
           ),
         ),
       ],
-    );
-  }
-}
-
-/// One page per period, today's first; older ones are to the left.
-class _PeriodPages extends StatefulWidget {
-  const new({
-    required this.state,
-    required this.account,
-    required this.currency,
-    super.key,
-  });
-
-  final AccountDetailState state;
-  final Account account;
-  final Currency currency;
-
-  @override
-  State<_PeriodPages> createState() => _PeriodPagesState();
-}
-
-class _PeriodPagesState extends State<_PeriodPages> {
-  late final PageController _controller = PageController(
-    initialPage: widget.state.currentIndex,
-  );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final periods = widget.state.periods;
-    return PageView.builder(
-      controller: _controller,
-      reverse: true,
-      itemCount: periods.length,
-      itemBuilder: (context, index) => _PeriodPage(
-        period: periods[index],
-        state: widget.state,
-        account: widget.account,
-        currency: widget.currency,
-      ),
     );
   }
 }
