@@ -45,7 +45,7 @@ Objetivo: piezas transversales, sin pantallas de negocio.
 - [x] **`MoneyFormatter`**: separador de miles, separador decimal y número de decimales por moneda (RF-16). Pruebas: `4.250.000` (COP) y `1.250,50` (USD).
 - [x] **Normalización de texto** en `core/text/`: `display` (trim, espacios colapsados, capitalización consistente) y `key` (minúsculas, sin tildes) (RF-07, RT-08).
 - [x] **Catálogo de íconos** en `core/icons/`: `Map<String, IconData>` constante, agrupado por tema, con color sugerido por ícono (RT-13). Algoritmo de "variante cercana libre" cuando el color ya está en uso (RF-13).
-- [ ] **Tipografía:** elegir la fuente, empaquetarla como asset y aplicarla en `AppTheme`.
+- [x] **Tipografía:** elegir la fuente, empaquetarla como asset y aplicarla en `AppTheme`.
 - [ ] **Tokens del tema:** colores de ingreso, egreso y transferencia, más lo que pida el diseño (radios, grosores de la dona) en `AppTokens`.
 
 Entregable: utilidades de `core` probadas al 100 % de sus reglas.

@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/theme/app_tokens.dart';
+import 'package:saisho_kakeibo/core/theme/app_typography.dart';
 
 /// Light and dark themes. The device setting picks one by default.
 abstract final class AppTheme {
@@ -14,6 +15,14 @@ abstract final class AppTheme {
       seedColor: _seed,
       brightness: brightness,
     );
-    return ThemeData(colorScheme: colorScheme, extensions: [tokens]);
+    final base = ThemeData(
+      colorScheme: colorScheme,
+      fontFamily: AppTypography.fontFamily,
+      extensions: [tokens],
+    );
+    return base.copyWith(
+      textTheme: AppTypography.apply(base.textTheme),
+      primaryTextTheme: AppTypography.apply(base.primaryTextTheme),
+    );
   }
 }
