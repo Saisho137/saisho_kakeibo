@@ -60,6 +60,11 @@ class HomePage extends StatelessWidget {
                   onPressed: () =>
                       context.push(AppRoutes.entry(MovementType.income)),
                 ),
+                FilledButton.tonalIcon(
+                  icon: const Icon(Icons.swap_horiz_rounded),
+                  label: Text(context.l10n.homeNewTransfer),
+                  onPressed: () => context.push(AppRoutes.newTransfer()),
+                ),
               ],
             ),
           ],

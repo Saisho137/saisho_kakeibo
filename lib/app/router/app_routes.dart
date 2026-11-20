@@ -34,6 +34,12 @@ abstract final class AppRoutes {
 
   static String editMovement(int id) => '/movements/$id';
 
+  static String newTransfer({int? fromAccountId}) => fromAccountId == null
+      ? '/transfers/new'
+      : '/transfers/new?from=$fromAccountId';
+
+  static String editTransfer(int id) => '/transfers/$id';
+
   static String newCategory(CategoryType type) =>
       '/categories/new?type=${type.name}';
 

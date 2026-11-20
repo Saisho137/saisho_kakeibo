@@ -133,26 +133,36 @@ class _Detail extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-          child: Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: OutlinedButton.icon(
-              icon: const Icon(Icons.tune_rounded),
-              label: Text(
-                account.type == AccountType.investment
-                    ? l10n.accountUpdateValue
-                    : l10n.accountAdjustBalance,
+          child: Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: [
+              OutlinedButton.icon(
+                icon: const Icon(Icons.tune_rounded),
+                label: Text(
+                  account.type == AccountType.investment
+                      ? l10n.accountUpdateValue
+                      : l10n.accountAdjustBalance,
+                ),
+                onPressed: () async {
+                  final cubit = context.read<AccountDetailCubit>();
+                  final actual = await showAdjustBalanceDialog(
+                    context,
+                    account: account,
+                    currency: currency,
+                    current: balance.minor,
+                  );
+                  if (actual != null) await cubit.adjustBalance(actual);
+                },
               ),
-              onPressed: () async {
-                final cubit = context.read<AccountDetailCubit>();
-                final actual = await showAdjustBalanceDialog(
-                  context,
-                  account: account,
-                  currency: currency,
-                  current: balance.minor,
-                );
-                if (actual != null) await cubit.adjustBalance(actual);
-              },
-            ),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.swap_horiz_rounded),
+                label: Text(l10n.accountTransfer),
+                onPressed: () => context.push(
+                  AppRoutes.newTransfer(fromAccountId: account.id),
+                ),
+              ),
+            ],
           ),
         ),
         const Divider(),
@@ -183,7 +193,9 @@ class _Detail extends StatelessWidget {
                 ),
                 MovementType.income || MovementType.expense =>
                   () => context.push(AppRoutes.editMovement(movement.id)),
-                MovementType.transfer => null,
+                MovementType.transfer => () => context.push(
+                  AppRoutes.editTransfer(movement.id),
+                ),
               },
             ),
         ],

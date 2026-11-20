@@ -99,6 +99,8 @@ void main() {
       expect(find.text('No movements yet.'), findsOneWidget);
       await tester.tap(find.byTooltip('Edit account'));
       verify(() => router.push<Object?>('/accounts/1/edit')).called(1);
+      await tester.tap(find.text('Transfer'));
+      verify(() => router.push<Object?>('/transfers/new?from=1')).called(1);
     });
 
     testWidgets('lists movements by day as seen from the account', (
@@ -164,7 +166,7 @@ void main() {
       await tester.tap(find.text('Eating out'));
       verify(() => router.push<Object?>('/movements/1')).called(1);
       await tester.tap(find.text('To Fund'));
-      verifyNever(() => router.push<Object?>('/movements/3'));
+      verify(() => router.push<Object?>('/transfers/3')).called(1);
     });
 
     testWidgets('deletes an adjustment after confirming', (tester) async {

@@ -948,5 +948,61 @@
   "keypadDivide": "Divided by",
   "@keypadDivide": {
     "description": "Semantic label of the keypad divide key."
+  },
+  "homeNewTransfer": "Transfer",
+  "@homeNewTransfer": {
+    "description": "Home button that starts a transfer."
+  },
+  "accountTransfer": "Transfer",
+  "@accountTransfer": {
+    "description": "Account detail action that starts a transfer from the account."
+  },
+  "transferNewTitle": "New transfer",
+  "@transferNewTitle": {
+    "description": "Title of the form that creates a transfer."
+  },
+  "transferEditTitle": "Transfer",
+  "@transferEditTitle": {
+    "description": "Title of the form that edits a transfer."
+  },
+  "transferFrom": "From",
+  "@transferFrom": {
+    "description": "Label of the account that sends the transfer."
+  },
+  "transferTo": "To",
+  "@transferTo": {
+    "description": "Label of the account that receives the transfer."
+  },
+  "transferSent": "Sent",
+  "@transferSent": {
+    "description": "Label of the amount that leaves the source account."
+  },
+  "transferReceived": "Received",
+  "@transferReceived": {
+    "description": "Label of the amount that arrives between currencies."
+  },
+  "transferCategory": "Category",
+  "@transferCategory": {
+    "description": "Label of the transfer category picker."
+  },
+  "transferErrorTo": "Pick the account that receives it.",
+  "@transferErrorTo": {
+    "description": "Error of a transfer without destination."
+  },
+  "transferErrorSame": "Pick two different accounts.",
+  "@transferErrorSame": {
+    "description": "Error of a transfer to the same account."
+  },
+  "transferInternalHint": "Between an account and its own pockets: it doesn't add to the Transfers total.",
+  "@transferInternalHint": {
+    "description": "Note of a transfer inside one account."
+  },
+  "transferDeleteTooltip": "Delete transfer",
+  "@transferDeleteTooltip": {
+    "description": "Tooltip of the delete action of a transfer."
+  },
+  "transferDeleteTitle": "Delete this transfer?",
+  "@transferDeleteTitle": {
+    "description": "Title of the transfer delete confirmation."
   }
 }
