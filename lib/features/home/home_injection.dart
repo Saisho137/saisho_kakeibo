@@ -11,6 +11,8 @@ void registerHomeDependencies(GetIt getIt) {
       watchCurrencies: getIt(),
       watchMovements: getIt(),
       watchPeriodStarts: getIt(),
+      watchCategories: getIt(),
+      watchPillars: getIt(),
     ),
   );
 }

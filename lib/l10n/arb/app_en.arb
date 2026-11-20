@@ -1147,5 +1147,9 @@
   "themeDark": "Dark",
   "@themeDark": {
     "description": "Dark theme."
+  },
+  "donutNoPillar": "No pillar",
+  "@donutNoPillar": {
+    "description": "Donut group of expenses without a pillar (Loan given, Uncategorized)."
   }
 }

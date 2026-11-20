@@ -13,6 +13,8 @@ import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_account_balances.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_accounts.dart';
+import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_categories.dart';
+import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_pillars.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
@@ -23,6 +25,7 @@ import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencie
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
 
 import '../../../../helpers/account_fixtures.dart';
+import '../../../../helpers/category_fixtures.dart';
 import '../../../../helpers/movement_fixtures.dart';
 
 class _MockWatchSettings extends Mock implements WatchSettings;
@@ -37,6 +40,10 @@ class _MockWatchMovements extends Mock implements WatchMovements;
 
 class _MockWatchStarts extends Mock implements WatchPeriodStarts;
 
+class _MockWatchCategories extends Mock implements WatchCategories;
+
+class _MockWatchPillars extends Mock implements WatchPillars;
+
 void main() {
   late _MockWatchSettings watchSettings;
   late _MockWatchAccounts watchAccounts;
@@ -44,6 +51,8 @@ void main() {
   late _MockWatchCurrencies watchCurrencies;
   late _MockWatchMovements watchMovements;
   late _MockWatchStarts watchStarts;
+  late _MockWatchCategories watchCategories;
+  late _MockWatchPillars watchPillars;
 
   const cop = Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop);
   const usd = Currency(code: 'USD', symbol: r'US$', format: CurrencyFormat.usd);
@@ -61,6 +70,11 @@ void main() {
     watchCurrencies = _MockWatchCurrencies();
     watchMovements = _MockWatchMovements();
     watchStarts = _MockWatchStarts();
+    watchCategories = _MockWatchCategories();
+    watchPillars = _MockWatchPillars();
+    when(() => watchCategories(any()))
+        .thenAnswer((_) => Stream.value([category(id: 10)]));
+    when(() => watchPillars(any())).thenAnswer((_) => Stream.value(pillars));
     when(() => watchSettings(any()))
         .thenAnswer((_) => Stream.value(const AppSettings()));
     when(() => watchAccounts(any()))
@@ -80,6 +94,8 @@ void main() {
     watchCurrencies: watchCurrencies,
     watchMovements: watchMovements,
     watchPeriodStarts: watchStarts,
+    watchCategories: watchCategories,
+    watchPillars: watchPillars,
   );
 
   group('HomeCubit', () {
@@ -148,6 +164,7 @@ void main() {
         state.totalsOf(Period(start: movementDay)),
         const CurrencyTotals(),
       );
+      expect(state.donutOf(Period(start: movementDay)).isEmpty, isTrue);
     });
 
     test('totals a period over every account of the currency', () {
@@ -157,8 +174,10 @@ void main() {
         settings: const AppSettings(periodType: PeriodType.monthly),
         accounts: [cash, card, dollars],
         periodStarts: const [],
+        categories: [category(id: 10)],
+        pillars: pillars,
         movements: [
-          movement(accountId: 2, amount: 300),
+          movement(accountId: 2, amount: 300, categoryId: 10),
           movement(type: MovementType.income, amount: 2000),
           movement(accountId: 3, amount: 5),
           movement(amount: 70, date: LocalDate(2026, 2, 20)),
