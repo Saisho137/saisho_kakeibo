@@ -1,5 +1,4 @@
 import 'package:saisho_kakeibo/core/error/result.dart';
-import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
@@ -10,9 +9,8 @@ abstract interface class MovementRepository {
   /// Movements on either side of [accountId], newest first.
   Stream<List<Movement>> watchByAccount(int accountId);
 
-  /// Movements from [start] to [end] (inclusive; open without it), newest
-  /// first.
-  Stream<List<Movement>> watchBetween(LocalDate start, LocalDate? end);
+  /// Every movement, newest first.
+  Stream<List<Movement>> watchAll();
 
   Stream<List<Payee>> watchPayees();
 

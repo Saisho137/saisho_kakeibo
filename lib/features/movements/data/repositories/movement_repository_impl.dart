@@ -1,6 +1,5 @@
 import 'package:saisho_kakeibo/core/database/guard.dart';
 import 'package:saisho_kakeibo/core/error/result.dart';
-import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movement_dao.dart';
 import 'package:saisho_kakeibo/features/movements/data/models/movement_row_mapper.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
@@ -20,9 +19,9 @@ class MovementRepositoryImpl implements MovementRepository {
       .map((rows) => rows.map((row) => row.toEntity()).toList(growable: false));
 
   @override
-  Stream<List<Movement>> watchBetween(LocalDate start, LocalDate? end) => _dao
-      .watchBetween(start, end)
-      .map((rows) => rows.map((row) => row.toEntity()).toList(growable: false));
+  Stream<List<Movement>> watchAll() => _dao.watchAll().map(
+    (rows) => rows.map((row) => row.toEntity()).toList(growable: false),
+  );
 
   @override
   Stream<List<Payee>> watchPayees() => _dao.watchPayees().map(

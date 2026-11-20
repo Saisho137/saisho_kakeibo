@@ -65,15 +65,11 @@ abstract class AccountDetailState with _$AccountDetailState {
     final settings = this.settings;
     final today = this.today;
     if (settings == null || today == null) return const [];
-    final dates = [today, ...?movements?.map((m) => m.date)];
     return PeriodCalculator(
       type: settings.periodType,
       cutoffDay: settings.cutoffDay,
       starts: periodStarts ?? const [],
-    ).range(
-      oldest: dates.reduce((a, b) => a.isBefore(b) ? a : b),
-      newest: dates.reduce((a, b) => a.isAfter(b) ? a : b),
-    );
+    ).covering(today, (movements ?? const <Movement>[]).map((m) => m.date));
   }
 
   /// Index of today's period in [periods].

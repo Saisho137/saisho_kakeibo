@@ -3,6 +3,7 @@ import 'package:saisho_kakeibo/core/config/app_info.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
 import 'package:saisho_kakeibo/features/accounts/accounts_injection.dart';
 import 'package:saisho_kakeibo/features/categories/categories_injection.dart';
+import 'package:saisho_kakeibo/features/home/home_injection.dart';
 import 'package:saisho_kakeibo/features/movements/movements_injection.dart';
 import 'package:saisho_kakeibo/features/periods/periods_injection.dart';
 import 'package:saisho_kakeibo/features/settings/settings_injection.dart';
@@ -27,4 +28,5 @@ Future<void> configureDependencies({
   registerCategoriesDependencies(getIt);
   registerMovementsDependencies(getIt);
   registerPeriodsDependencies(getIt);
+  registerHomeDependencies(getIt);
 }

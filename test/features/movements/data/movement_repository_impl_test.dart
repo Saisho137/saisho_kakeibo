@@ -219,8 +219,8 @@ void main() {
       expect((await repository.getPayees() as Ok).value, hasLength(2));
     });
 
-    test('watches the movements of a period', () async {
-      for (final days in [-1, 0, 5, 9]) {
+    test('watches every movement, newest first', () async {
+      for (final days in [-1, 5, 0]) {
         await save(
           movement(
             accountId: cash,
@@ -231,18 +231,14 @@ void main() {
       }
 
       expect(
-        repository.watchBetween(movementDay, movementDay.addDays(5)),
+        repository.watchAll(),
         emits(
           isA<List<Movement>>().having(
             (list) => list.map((m) => m.date),
             'dates',
-            [movementDay.addDays(5), movementDay],
+            [movementDay.addDays(5), movementDay, movementDay.addDays(-1)],
           ),
         ),
-      );
-      expect(
-        repository.watchBetween(movementDay.addDays(1), null),
-        emits(hasLength(2)),
       );
     });
 

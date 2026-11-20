@@ -54,6 +54,18 @@ final class PeriodCalculator {
     return periods;
   }
 
+  /// Periods to page through: from the one of the latest of [today] and
+  /// [dates] back to the one of the earliest, newest first.
+  List<Period> covering(LocalDate today, Iterable<LocalDate> dates) {
+    var oldest = today;
+    var newest = today;
+    for (final date in dates) {
+      if (date.isBefore(oldest)) oldest = date;
+      if (date.isAfter(newest)) newest = date;
+    }
+    return range(oldest: oldest, newest: newest);
+  }
+
   Period _monthly(LocalDate date) {
     var start = _cutoffIn(date.year, date.month);
     if (date.isBefore(start)) start = _cutoffIn(date.year, date.month - 1);

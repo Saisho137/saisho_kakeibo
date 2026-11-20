@@ -170,9 +170,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionDelete => 'Delete';
 
   @override
-  String get settingsOpenTooltip => 'Settings';
-
-  @override
   String get settingsSectionBalance => 'Balance';
 
   @override
@@ -214,9 +211,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get iconGroupOther => 'Other';
-
-  @override
-  String get accountsOpenTooltip => 'Accounts';
 
   @override
   String get accountsTitle => 'Accounts';
@@ -413,9 +407,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountDeleteWithPocketsAction => 'Delete all';
-
-  @override
-  String get categoriesOpenTooltip => 'Categories';
 
   @override
   String get categoriesTitle => 'Categories';
@@ -632,10 +623,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dayYesterday => 'Yesterday';
 
   @override
-  String get homeNewExpense => 'New expense';
+  String get homeNewExpense => 'Expense';
 
   @override
-  String get homeNewIncome => 'New income';
+  String get homeNewIncome => 'Income';
 
   @override
   String get entryExpenseTitle => 'New expense';
@@ -811,4 +802,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountNoMovementsInPeriod => 'No movements in this period.';
+
+  @override
+  String get homeQuickMenuTooltip => 'Quick menu';
+
+  @override
+  String get homeNavigationTooltip => 'Go to';
+
+  @override
+  String get homeIncome => 'Income';
+
+  @override
+  String get homeExpenses => 'Expenses';
+
+  @override
+  String get homeTransfers => 'Transfers';
+
+  @override
+  String get homeBalance => 'Balance';
+
+  @override
+  String get quickMenuPeriod => 'Period';
+
+  @override
+  String get periodTypeDynamic => 'Dynamic';
+
+  @override
+  String get periodTypeMonthly => 'Monthly';
+
+  @override
+  String get periodTypeYearly => 'Year';
+
+  @override
+  String get quickMenuCurrency => 'Currency';
+
+  @override
+  String get quickMenuBalance => 'Balance';
+
+  @override
+  String get balanceFilterCash => 'Cash';
+
+  @override
+  String get balanceFilterBank => 'Bank';
+
+  @override
+  String get balanceFilterBoth => 'Both';
+
+  @override
+  String get quickMenuTheme => 'Theme';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
 }

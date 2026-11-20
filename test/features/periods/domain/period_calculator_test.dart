@@ -217,5 +217,22 @@ void main() {
       ]);
       expect(range(PeriodType.yearly), [p(d(2026, 1, 1), d(2026, 12, 31))]);
     });
+
+    test('covers today and every date, newest first', () {
+      final calculator = PeriodCalculator(
+        type: PeriodType.monthly,
+        cutoffDay: 1,
+      );
+      expect(
+        calculator.covering(d(2026, 3, 10), [d(2026, 4, 2), d(2026, 1, 31)]),
+        [
+          p(d(2026, 4, 1), d(2026, 4, 30)),
+          p(d(2026, 3, 1), d(2026, 3, 31)),
+          p(d(2026, 2, 1), d(2026, 2, 28)),
+          p(d(2026, 1, 1), d(2026, 1, 31)),
+        ],
+      );
+      expect(calculator.covering(d(2026, 3, 10), []), hasLength(1));
+    });
   });
 }

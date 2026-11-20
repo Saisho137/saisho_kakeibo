@@ -6,6 +6,7 @@ import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_form
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/cubit/categories_cubit.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/cubit/category_form_cubit.dart';
+import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
@@ -51,3 +52,5 @@ class MockTransferFormCubit extends MockCubit<TransferFormState>
 
 class MockPeriodStartsCubit extends MockCubit<PeriodStartsState>
     implements PeriodStartsCubit;
+
+class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit;
