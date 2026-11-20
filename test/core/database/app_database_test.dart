@@ -1,6 +1,6 @@
 import 'package:drift/native.dart';
-import 'package:flutter_archetype/core/database/app_database.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:saisho_kakeibo/core/database/app_database.dart';
 
 void main() {
   late AppDatabase db;

@@ -1,14 +1,14 @@
-import 'package:flutter_archetype/app/router/app_routes.dart';
-import 'package:flutter_archetype/features/tasks/presentation/pages/tasks_page.dart';
 import 'package:go_router/go_router.dart';
+import 'package:saisho_kakeibo/app/router/app_routes.dart';
+import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
 
 GoRouter createAppRouter() => GoRouter(
-  initialLocation: AppRoutes.tasks,
+  initialLocation: AppRoutes.home,
   routes: [
     GoRoute(
-      path: AppRoutes.tasks,
-      name: 'tasks',
-      builder: (context, state) => const TasksPage(),
+      path: AppRoutes.home,
+      name: 'home',
+      builder: (context, state) => const HomePage(),
     ),
   ],
 );

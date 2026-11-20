@@ -47,3 +47,6 @@ app.*.map.json
 # Local environment overrides (never commit secrets)
 env/*.local.json
 .env*
+
+# Local VS Code workspace (links to the private Obsidian vault)
+*.code-workspace

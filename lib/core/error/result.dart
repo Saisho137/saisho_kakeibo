@@ -1,4 +1,4 @@
-import 'package:flutter_archetype/core/error/failure.dart';
+import 'package:saisho_kakeibo/core/error/failure.dart';
 
 /// Outcome of an operation that can fail in an expected way.
 ///

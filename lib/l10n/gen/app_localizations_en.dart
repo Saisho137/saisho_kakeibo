@@ -10,26 +10,8 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Flutter Archetype';
+  String get appTitle => 'Saisho Kakeibo';
 
   @override
   String get genericError => 'Something went wrong. Please try again.';
-
-  @override
-  String get tasksTitle => 'Tasks';
-
-  @override
-  String get tasksEmpty => 'No tasks yet. Add your first one above.';
-
-  @override
-  String get tasksAddHint => 'What needs to be done?';
-
-  @override
-  String get tasksAddTooltip => 'Add task';
-
-  @override
-  String get tasksDeleteTooltip => 'Delete task';
-
-  @override
-  String get tasksTitleRequired => 'Write a title for the task.';
 }

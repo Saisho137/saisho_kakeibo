@@ -1,5 +1,5 @@
-import 'package:flutter_archetype/core/theme/app_tokens.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:saisho_kakeibo/core/theme/app_tokens.dart';
 
 /// Light and dark themes. The device setting picks one by default.
 abstract final class AppTheme {

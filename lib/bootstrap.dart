@@ -4,9 +4,9 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_archetype/app/di/injector.dart';
-import 'package:flutter_archetype/app/observers/app_bloc_observer.dart';
-import 'package:flutter_archetype/core/config/env.dart';
+import 'package:saisho_kakeibo/app/di/injector.dart';
+import 'package:saisho_kakeibo/app/observers/app_bloc_observer.dart';
+import 'package:saisho_kakeibo/core/config/env.dart';
 
 /// Initializes cross-cutting concerns (error handling, bloc observer,
 /// dependency injection) before running the app.

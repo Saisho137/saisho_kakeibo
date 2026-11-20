@@ -1,6 +1,5 @@
-import 'package:flutter_archetype/core/database/app_database.dart';
-import 'package:flutter_archetype/features/tasks/tasks_injection.dart';
 import 'package:get_it/get_it.dart';
+import 'package:saisho_kakeibo/core/database/app_database.dart';
 
 /// Global service locator.
 final GetIt getIt = GetIt.instance;
@@ -13,5 +12,4 @@ Future<void> configureDependencies({AppDatabase? database}) async {
     () => database ?? AppDatabase(),
     dispose: (db) => db.close(),
   );
-  registerTasksDependencies(getIt);
 }

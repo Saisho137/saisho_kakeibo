@@ -1,8 +1,8 @@
-import 'package:flutter_archetype/app/router/app_router.dart';
-import 'package:flutter_archetype/core/theme/app_theme.dart';
-import 'package:flutter_archetype/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:saisho_kakeibo/app/router/app_router.dart';
+import 'package:saisho_kakeibo/core/theme/app_theme.dart';
+import 'package:saisho_kakeibo/l10n/l10n.dart';
 
 class App extends StatefulWidget {
   const new({super.key});

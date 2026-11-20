@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_es.dart';
 
 // ignore_for_file: type=lint
 
@@ -93,15 +92,12 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('es'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// Application name shown in the task switcher.
   ///
   /// In en, this message translates to:
-  /// **'Flutter Archetype'**
+  /// **'Saisho Kakeibo'**
   String get appTitle;
 
   /// Fallback message for unexpected failures.
@@ -109,42 +105,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get genericError;
-
-  /// App bar title of the example tasks page.
-  ///
-  /// In en, this message translates to:
-  /// **'Tasks'**
-  String get tasksTitle;
-
-  /// Shown when the task list is empty.
-  ///
-  /// In en, this message translates to:
-  /// **'No tasks yet. Add your first one above.'**
-  String get tasksEmpty;
-
-  /// Hint of the new task text field.
-  ///
-  /// In en, this message translates to:
-  /// **'What needs to be done?'**
-  String get tasksAddHint;
-
-  /// Tooltip of the add task button.
-  ///
-  /// In en, this message translates to:
-  /// **'Add task'**
-  String get tasksAddTooltip;
-
-  /// Tooltip of the delete task button.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete task'**
-  String get tasksDeleteTooltip;
-
-  /// Validation error when the task title is blank.
-  ///
-  /// In en, this message translates to:
-  /// **'Write a title for the task.'**
-  String get tasksTitleRequired;
 }
 
 class _AppLocalizationsDelegate
@@ -158,7 +118,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -169,8 +129,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
   }
 
   throw FlutterError(

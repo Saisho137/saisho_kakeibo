@@ -1,6 +1,6 @@
-import 'package:flutter_archetype/core/error/failure.dart';
-import 'package:flutter_archetype/core/error/result.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:saisho_kakeibo/core/error/failure.dart';
+import 'package:saisho_kakeibo/core/error/result.dart';
 
 void main() {
   group('Result', () {

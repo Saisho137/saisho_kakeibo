@@ -1,5 +1,5 @@
-import 'package:flutter_archetype/core/config/env.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:saisho_kakeibo/core/config/env.dart';
 
 void main() {
   group('Env', () {

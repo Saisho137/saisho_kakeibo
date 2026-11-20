@@ -1,7 +1,7 @@
-import 'package:flutter_archetype/core/theme/app_theme.dart';
-import 'package:flutter_archetype/core/theme/app_tokens.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:saisho_kakeibo/core/theme/app_theme.dart';
+import 'package:saisho_kakeibo/core/theme/app_tokens.dart';
 
 void main() {
   group('AppTheme', () {
