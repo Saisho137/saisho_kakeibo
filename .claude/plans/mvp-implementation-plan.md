@@ -104,8 +104,8 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 ## Fase 6 — Home e historial
 
-- [ ] **Dona** con `CustomPainter`: anillo de categorías con íconos por fuera; borde de pilar por fuera con su color; grupo gris *No pillar* (Loan given y Uncategorized); pilares sin egresos ocultos; umbral del 3 % sin ícono ni porcentaje; anillo gris vacío; pagos de deudas como sección con el nombre de la deuda dentro de su pilar.
-- [ ] **Interacción de la dona**: zona táctil ampliada del borde; tocar pilar invierte la dona con animación; tocar categoría abre el historial filtrado. Detección por ángulo y radio, con pruebas unitarias de la geometría.
+- [x] **Dona** con `CustomPainter`: anillo de categorías con íconos por fuera; borde de pilar por fuera con su color; grupo gris *No pillar* (Loan given y Uncategorized); pilares sin egresos ocultos; umbral del 3 % sin ícono ni porcentaje; anillo gris vacío. Los pagos de deudas como sección de su pilar pasan a la fase 8.
+- [x] **Interacción de la dona**: zona táctil ampliada del borde; tocar pilar invierte la dona con animación; tocar categoría abre el formulario de un egreso de esa categoría (como Monefy; el historial filtrado queda en el panel). Detección por ángulo y radio, con pruebas unitarias de la geometría.
 - [ ] Centro de la dona: Income (verde), Expenses (rojo) y Transfers (gris); tocarlos abre el historial por categoría de ese tipo. (6a: los tres totales; tocarlos llega con el panel de historial.)
 - [x] Alcance: dona y totales usan todas las cuentas de la moneda activa; el Balance usa la vista principal con el filtro Cash / Bank / Both.
 - [x] Encabezado con el periodo actual; cambio de periodo deslizando (`PageView`).
@@ -132,6 +132,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [ ] Pantalla **Debts**: pestañas, sección de tarjetas de solo lectura, *Paid off* colapsado; detalle con pagos y *Pay*.
 - [ ] Recordatorios de deudas.
 - [ ] Mostrar en el registro rápido las categorías de deudas (`CategoryRole.needsDebt`) con sus campos: elegir o crear la deuda.
+- [ ] En la dona, los pagos de Debt payment como sección dentro del pilar de su deuda, con el nombre de la deuda.
 
 ## Fase 9 — Entidades
 
