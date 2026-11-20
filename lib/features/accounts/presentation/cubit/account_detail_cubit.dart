@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,6 +7,7 @@ import 'package:saisho_kakeibo/core/error/failure.dart';
 import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/money.dart';
+import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
@@ -20,12 +22,17 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/delete_movemen
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_account_movements.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
+import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
+import 'package:saisho_kakeibo/features/periods/domain/services/period_calculator.dart';
+import 'package:saisho_kakeibo/features/periods/domain/usecases/watch_period_starts.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
+import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
 
 part 'account_detail_cubit.freezed.dart';
 part 'account_detail_state.dart';
 
-/// An account with its balance and movements, for its detail screen.
+/// An account with its balance and its movements by period, for its detail
+/// screen.
 class AccountDetailCubit extends Cubit<AccountDetailState> {
   new({
     required this._watchAccounts,
@@ -34,6 +41,8 @@ class AccountDetailCubit extends Cubit<AccountDetailState> {
     required this._watchMovements,
     required this._watchCategories,
     required this._watchPayees,
+    required this._watchSettings,
+    required this._watchPeriodStarts,
     required this._adjustBalance,
     required this._deleteMovement,
   }) : super(const AccountDetailState());
@@ -44,13 +53,15 @@ class AccountDetailCubit extends Cubit<AccountDetailState> {
   final WatchAccountMovements _watchMovements;
   final WatchCategories _watchCategories;
   final WatchPayees _watchPayees;
+  final WatchSettings _watchSettings;
+  final WatchPeriodStarts _watchPeriodStarts;
   final AdjustAccountBalance _adjustBalance;
   final DeleteMovement _deleteMovement;
   final List<StreamSubscription<Object>> _subscriptions = [];
 
   void load(int accountId) {
     unawaited(_cancel());
-    emit(AccountDetailState(accountId: accountId));
+    emit(AccountDetailState(accountId: accountId, today: LocalDate.today()));
     _subscriptions.addAll([
       _watchAccounts(const NoParams()).listen(
         (accounts) => _received(state.copyWith(accounts: accounts)),
@@ -74,6 +85,14 @@ class AccountDetailCubit extends Cubit<AccountDetailState> {
       ),
       _watchPayees(const NoParams()).listen(
         (payees) => _received(state.copyWith(payees: payees)),
+        onError: _failed,
+      ),
+      _watchSettings(const NoParams()).listen(
+        (settings) => _received(state.copyWith(settings: settings)),
+        onError: _failed,
+      ),
+      _watchPeriodStarts(const NoParams()).listen(
+        (starts) => _received(state.copyWith(periodStarts: starts)),
         onError: _failed,
       ),
     ]);
@@ -109,7 +128,9 @@ class AccountDetailCubit extends Cubit<AccountDetailState> {
         next.currencies.isNotEmpty &&
         next.movements != null &&
         next.categories != null &&
-        next.payees != null;
+        next.payees != null &&
+        next.settings != null &&
+        next.periodStarts != null;
     if (!ready) return emit(next);
     emit(
       next.copyWith(

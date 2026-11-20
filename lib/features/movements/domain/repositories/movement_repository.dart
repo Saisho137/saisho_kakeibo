@@ -10,6 +10,10 @@ abstract interface class MovementRepository {
   /// Movements on either side of [accountId], newest first.
   Stream<List<Movement>> watchByAccount(int accountId);
 
+  /// Movements from [start] to [end] (inclusive; open without it), newest
+  /// first.
+  Stream<List<Movement>> watchBetween(LocalDate start, LocalDate? end);
+
   Stream<List<Payee>> watchPayees();
 
   Future<Result<Movement?>> findById(int id);
@@ -24,9 +28,6 @@ abstract interface class MovementRepository {
 
   /// Latest movement of [type] of every payee that has one.
   Future<Result<List<Movement>>> lastOfEachPayee(MovementType type);
-
-  /// Date of the latest salary that started a period, if any (RF-05).
-  Future<Result<LocalDate?>> lastPeriodStart();
 
   /// Inserts or replaces [movement]. With a [payee], it is found by key or
   /// created, and set on the movement, in the same transaction. Returns the

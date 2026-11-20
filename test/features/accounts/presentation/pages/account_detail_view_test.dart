@@ -6,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/core/error/failure.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
+import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_detail_cubit.dart';
@@ -49,6 +50,10 @@ void main() {
           category(id: 12, name: 'Savings', type: CategoryType.transfer),
         ],
         payees: const [Payee(id: 5, name: 'Uber', key: 'uber')],
+        today: today,
+        settings: const AppSettings(),
+        // Two pages: since yesterday, and from 2025 to the day before.
+        periodStarts: [LocalDate(2025, 1, 1), today.addDays(-1)],
       );
 
   setUp(() {
@@ -96,7 +101,7 @@ void main() {
       expect(find.text('Lulo'), findsOneWidget);
       expect(find.text('5.000 COP'), findsOneWidget);
       expect(find.text('Free 2.000'), findsOneWidget);
-      expect(find.text('No movements yet.'), findsOneWidget);
+      expect(find.text('No movements in this period.'), findsOneWidget);
       await tester.tap(find.byTooltip('Edit account'));
       verify(() => router.push<Object?>('/accounts/1/edit')).called(1);
       await tester.tap(find.text('Transfer'));
@@ -149,31 +154,41 @@ void main() {
 
       await pumpView(tester);
 
+      expect(find.textContaining('Since '), findsOneWidget);
       expect(find.text('Today'), findsOneWidget);
       expect(find.text('Yesterday'), findsOneWidget);
-      expect(find.text('Sun, Jan 5, 2025'), findsOneWidget);
       expect(find.text('Eating out'), findsOneWidget);
       expect(find.text('Uber'), findsOneWidget);
       expect(find.text('-1.000'), findsNWidgets(2));
       expect(find.text('March · Pending'), findsOneWidget);
       expect(find.text('+4.000'), findsOneWidget);
       expect(find.text('To Fund'), findsOneWidget);
-      expect(find.text('From Visa'), findsOneWidget);
-      expect(find.text('+500'), findsOneWidget);
-      expect(find.text('Balance adjustment'), findsOneWidget);
-      expect(find.text('+30'), findsOneWidget);
+      expect(find.text('Sun, Jan 5, 2025'), findsNothing);
 
       await tester.tap(find.text('Eating out'));
       verify(() => router.push<Object?>('/movements/1')).called(1);
       await tester.tap(find.text('To Fund'));
       verify(() => router.push<Object?>('/transfers/3')).called(1);
+
+      // Swiping right shows the previous period.
+      await tester.fling(find.byType(PageView), const Offset(800, 0), 2000);
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Jan 1, 2025 – '), findsOneWidget);
+      expect(find.text('Sun, Jan 5, 2025'), findsOneWidget);
+      expect(find.text('From Visa'), findsOneWidget);
+      expect(find.text('+500'), findsOneWidget);
+      expect(find.text('Balance adjustment'), findsOneWidget);
+      expect(find.text('+30'), findsOneWidget);
+      expect(find.text('Today'), findsNothing);
     });
 
     testWidgets('deletes an adjustment after confirming', (tester) async {
       when(() => cubit.state).thenReturn(
         ready(
           lulo,
-          movements: [movement(id: 5, type: MovementType.adjustment)],
+          movements: [
+            movement(id: 5, type: MovementType.adjustment, date: today),
+          ],
         ),
       );
 

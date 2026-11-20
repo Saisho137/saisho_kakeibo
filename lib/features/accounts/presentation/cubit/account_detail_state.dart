@@ -8,6 +8,9 @@ abstract class AccountDetailState with _$AccountDetailState {
     @Default(AccountDetailStatus.loading) AccountDetailStatus status,
     int? accountId,
 
+    /// The day the screen opened; its period is shown first.
+    LocalDate? today,
+
     /// Every stream's latest value; `null` until it arrives.
     List<Account>? accounts,
     Map<int, int>? balances,
@@ -15,6 +18,8 @@ abstract class AccountDetailState with _$AccountDetailState {
     List<Movement>? movements,
     List<Category>? categories,
     List<Payee>? payees,
+    AppSettings? settings,
+    List<LocalDate>? periodStarts,
 
     /// Last failure of an action, shown once by the UI.
     Failure? failure,
@@ -54,10 +59,35 @@ abstract class AccountDetailState with _$AccountDetailState {
     return Money(_own(account), account.currencyCode);
   }
 
-  /// Movements grouped by day, newest day first.
-  List<(LocalDate, List<Movement>)> get days {
+  /// Periods from the newest movement or today, whichever is later, back
+  /// to the oldest movement, newest first.
+  List<Period> get periods {
+    final settings = this.settings;
+    final today = this.today;
+    if (settings == null || today == null) return const [];
+    final dates = [today, ...?movements?.map((m) => m.date)];
+    return PeriodCalculator(
+      type: settings.periodType,
+      cutoffDay: settings.cutoffDay,
+      starts: periodStarts ?? const [],
+    ).range(
+      oldest: dates.reduce((a, b) => a.isBefore(b) ? a : b),
+      newest: dates.reduce((a, b) => a.isAfter(b) ? a : b),
+    );
+  }
+
+  /// Index of today's period in [periods].
+  int get currentIndex {
+    final today = this.today;
+    if (today == null) return 0;
+    return max(0, periods.indexWhere((p) => p.contains(today)));
+  }
+
+  /// Movements of [period] grouped by day, newest day first.
+  List<(LocalDate, List<Movement>)> daysIn(Period period) {
     final groups = <LocalDate, List<Movement>>{};
     for (final movement in movements ?? const <Movement>[]) {
+      if (!period.contains(movement.date)) continue;
       (groups[movement.date] ??= []).add(movement);
     }
     return [for (final MapEntry(:key, :value) in groups.entries) (key, value)];

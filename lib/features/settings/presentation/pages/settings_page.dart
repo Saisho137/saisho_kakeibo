@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
@@ -7,10 +8,12 @@ import 'package:saisho_kakeibo/core/config/app_info.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/widgets/number_grid_dialog.dart';
 import 'package:saisho_kakeibo/core/widgets/section_header.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/widgets/balance_accounts_section.dart';
+import 'package:saisho_kakeibo/features/periods/presentation/cubit/period_starts_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/domain/rules/settings_rules.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -18,7 +21,8 @@ import 'package:saisho_kakeibo/features/settings/presentation/widgets/currency_t
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
 /// Settings screen. The global [SettingsCubit] comes from the app; the
-/// currency and account lists are provided here.
+/// currency and account lists and the manual period starts are provided
+/// here.
 class SettingsPage extends StatelessWidget {
   const new({super.key});
 
@@ -27,6 +31,7 @@ class SettingsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<CurrenciesCubit>()..load()),
+        BlocProvider(create: (_) => getIt<PeriodStartsCubit>()..load()),
         BlocProvider(
           create: (context) => getIt<AccountsCubit>()
             ..load(
@@ -47,12 +52,30 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return BlocListener<SettingsCubit, SettingsState>(
-      listenWhen: (previous, current) =>
-          current.failure != null && previous.failure != current.failure,
-      listener: (context, state) => ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l10n.genericError))),
+    void show(String message) => ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SettingsCubit, SettingsState>(
+          listenWhen: (previous, current) =>
+              current.failure != null && previous.failure != current.failure,
+          listener: (context, state) => show(l10n.genericError),
+        ),
+        BlocListener<PeriodStartsCubit, PeriodStartsState>(
+          listenWhen: (previous, current) =>
+              current.failure != null && previous.failure != current.failure,
+          listener: (context, state) => show(l10n.genericError),
+        ),
+        BlocListener<PeriodStartsCubit, PeriodStartsState>(
+          listenWhen: (previous, current) =>
+              previous.notices != current.notices,
+          listener: (context, state) => show(switch (state.notice) {
+            PeriodStartNotice.alreadyStarted => l10n.periodAlreadyStarted,
+            _ => l10n.periodStarted,
+          }),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(title: Text(l10n.settingsTitle)),
         body: BlocBuilder<SettingsCubit, SettingsState>(
@@ -82,6 +105,7 @@ class SettingsView extends StatelessWidget {
                   ),
                   onTap: () => _pickMinDays(context, settings),
                 ),
+                const _AdvancedPeriods(),
                 SectionHeader(l10n.settingsSectionBalance),
                 const BalanceAccountsSection(),
                 SectionHeader(l10n.settingsSectionCurrencies),
@@ -208,4 +232,95 @@ class SettingsView extends StatelessWidget {
       );
     }
   }
+}
+
+/// Settings → Periods → Advanced: "Start new period now" and the manual
+/// starts, each one undoable (RF-05).
+class _AdvancedPeriods extends StatelessWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final starts = context.select<PeriodStartsCubit, List<LocalDate>>(
+      (cubit) => cubit.state.manualStarts,
+    );
+    return ExpansionTile(
+      title: Text(l10n.settingsAdvanced),
+      children: [
+        ListTile(
+          leading: const Icon(Icons.flag_outlined),
+          title: Text(l10n.periodStartNow),
+          subtitle: Text(l10n.periodStartNowHint),
+          onTap: () => _confirmStart(context),
+        ),
+        for (final date in starts)
+          ListTile(
+            key: ValueKey(date),
+            title: Text(l10n.periodManualStart(_format(context, date))),
+            trailing: IconButton(
+              tooltip: l10n.periodRemoveStartTooltip,
+              icon: const Icon(Icons.undo_rounded),
+              onPressed: () => _confirmRemove(context, date),
+            ),
+          ),
+      ],
+    );
+  }
+
+  static String _format(BuildContext context, LocalDate date) =>
+      DateFormat.yMMMd(Localizations.localeOf(context).toLanguageTag())
+          .format(date.toDateTime());
+
+  static Future<void> _confirmStart(BuildContext context) async {
+    final l10n = context.l10n;
+    final cubit = context.read<PeriodStartsCubit>();
+    final confirmed = await _confirm(
+      context,
+      title: l10n.periodStartNowTitle,
+      message: l10n.periodStartNowMessage,
+      action: l10n.periodStartAction,
+    );
+    if (confirmed) await cubit.startNow();
+  }
+
+  static Future<void> _confirmRemove(
+    BuildContext context,
+    LocalDate date,
+  ) async {
+    final l10n = context.l10n;
+    final cubit = context.read<PeriodStartsCubit>();
+    final confirmed = await _confirm(
+      context,
+      title: l10n.periodRemoveStartTitle(_format(context, date)),
+      message: l10n.periodRemoveStartMessage,
+      action: l10n.actionDelete,
+    );
+    if (confirmed) await cubit.remove(date);
+  }
+
+  static Future<bool> _confirm(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required String action,
+  }) async =>
+      await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(context.l10n.actionCancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(action),
+            ),
+          ],
+        ),
+      ) ??
+      false;
 }

@@ -20,6 +20,11 @@ class MovementRepositoryImpl implements MovementRepository {
       .map((rows) => rows.map((row) => row.toEntity()).toList(growable: false));
 
   @override
+  Stream<List<Movement>> watchBetween(LocalDate start, LocalDate? end) => _dao
+      .watchBetween(start, end)
+      .map((rows) => rows.map((row) => row.toEntity()).toList(growable: false));
+
+  @override
   Stream<List<Payee>> watchPayees() => _dao.watchPayees().map(
     (rows) => rows.map((row) => row.toEntity()).toList(growable: false),
   );
@@ -53,10 +58,6 @@ class MovementRepositoryImpl implements MovementRepository {
                 .map((row) => row.toEntity())
                 .toList(),
       );
-
-  @override
-  Future<Result<LocalDate?>> lastPeriodStart() =>
-      guardDatabase(_dao.lastPeriodStart);
 
   @override
   Future<Result<int>> save(Movement movement, {PayeeName? payee}) =>

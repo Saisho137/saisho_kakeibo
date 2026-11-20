@@ -22,8 +22,8 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/get_movement.d
 import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payees.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/prefill_movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/save_movement.dart';
-import 'package:saisho_kakeibo/features/movements/domain/usecases/suggest_period_start.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
+import 'package:saisho_kakeibo/features/periods/domain/usecases/suggest_period_start.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currencies.dart';
 
 part 'movement_form_cubit.freezed.dart';

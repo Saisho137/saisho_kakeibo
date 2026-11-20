@@ -169,7 +169,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Cash'));
       await tester.pumpAndSettle();
-      expect(find.text('No movements yet.'), findsOneWidget);
+      expect(find.text('No movements in this period.'), findsOneWidget);
 
       await tester.tap(find.text('Adjust balance'));
       await tester.pumpAndSettle();
@@ -225,7 +225,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
-      expect(find.text('No movements yet.'), findsOneWidget);
+      expect(find.text('No movements in this period.'), findsOneWidget);
 
       await tester.disposeDriftStreams();
     });
@@ -265,7 +265,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
-      expect(find.text('No movements yet.'), findsOneWidget);
+      expect(find.text('No movements in this period.'), findsOneWidget);
 
       await tester.disposeDriftStreams();
     });

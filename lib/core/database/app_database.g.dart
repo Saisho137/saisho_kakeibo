@@ -4018,6 +4018,199 @@ class MovementsCompanion extends UpdateCompanion<MovementRow> {
   }
 }
 
+class $PeriodStartsTable extends PeriodStarts
+    with TableInfo<$PeriodStartsTable, PeriodStartRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PeriodStartsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<LocalDate, String> date =
+      GeneratedColumn<String>(
+        'date',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+      ).withConverter<LocalDate>($PeriodStartsTable.$converterdate);
+  @override
+  List<GeneratedColumn> get $columns => [id, date];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'period_starts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PeriodStartRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PeriodStartRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PeriodStartRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      date: $PeriodStartsTable.$converterdate.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}date'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  $PeriodStartsTable createAlias(String alias) {
+    return $PeriodStartsTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<LocalDate, String> $converterdate =
+      const LocalDateConverter();
+}
+
+class PeriodStartRow extends DataClass implements Insertable<PeriodStartRow> {
+  final int id;
+  final LocalDate date;
+  const PeriodStartRow({required this.id, required this.date});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['date'] = Variable<String>(
+        $PeriodStartsTable.$converterdate.toSql(date),
+      );
+    }
+    return map;
+  }
+
+  PeriodStartsCompanion toCompanion(bool nullToAbsent) {
+    return PeriodStartsCompanion(id: Value(id), date: Value(date));
+  }
+
+  factory PeriodStartRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PeriodStartRow(
+      id: serializer.fromJson<int>(json['id']),
+      date: serializer.fromJson<LocalDate>(json['date']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'date': serializer.toJson<LocalDate>(date),
+    };
+  }
+
+  PeriodStartRow copyWith({int? id, LocalDate? date}) =>
+      PeriodStartRow(id: id ?? this.id, date: date ?? this.date);
+  PeriodStartRow copyWithCompanion(PeriodStartsCompanion data) {
+    return PeriodStartRow(
+      id: data.id.present ? data.id.value : this.id,
+      date: data.date.present ? data.date.value : this.date,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PeriodStartRow(')
+          ..write('id: $id, ')
+          ..write('date: $date')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, date);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PeriodStartRow &&
+          other.id == this.id &&
+          other.date == this.date);
+}
+
+class PeriodStartsCompanion extends UpdateCompanion<PeriodStartRow> {
+  final Value<int> id;
+  final Value<LocalDate> date;
+  const PeriodStartsCompanion({
+    this.id = const Value.absent(),
+    this.date = const Value.absent(),
+  });
+  PeriodStartsCompanion.insert({
+    this.id = const Value.absent(),
+    required LocalDate date,
+  }) : date = Value(date);
+  static Insertable<PeriodStartRow> custom({
+    Expression<int>? id,
+    Expression<String>? date,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (date != null) 'date': date,
+    });
+  }
+
+  PeriodStartsCompanion copyWith({Value<int>? id, Value<LocalDate>? date}) {
+    return PeriodStartsCompanion(id: id ?? this.id, date: date ?? this.date);
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<String>(
+        $PeriodStartsTable.$converterdate.toSql(date.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PeriodStartsCompanion(')
+          ..write('id: $id, ')
+          ..write('date: $date')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4028,6 +4221,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CategoriesTable categories = $CategoriesTable(this);
   late final $PayeesTable payees = $PayeesTable(this);
   late final $MovementsTable movements = $MovementsTable(this);
+  late final $PeriodStartsTable periodStarts = $PeriodStartsTable(this);
   late final Index movementsAccount = Index(
     'movements_account',
     'CREATE INDEX movements_account ON movements (account_id)',
@@ -4049,6 +4243,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final AccountDao accountDao = AccountDao(this as AppDatabase);
   late final CategoryDao categoryDao = CategoryDao(this as AppDatabase);
   late final MovementDao movementDao = MovementDao(this as AppDatabase);
+  late final PeriodDao periodDao = PeriodDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4061,6 +4256,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     categories,
     payees,
     movements,
+    periodStarts,
     movementsAccount,
     movementsToAccount,
     movementsCategory,
@@ -7295,6 +7491,139 @@ typedef $$MovementsTableProcessedTableManager =
         bool payeeId,
       })
     >;
+typedef $$PeriodStartsTableCreateCompanionBuilder =
+    PeriodStartsCompanion Function({Value<int> id, required LocalDate date});
+typedef $$PeriodStartsTableUpdateCompanionBuilder =
+    PeriodStartsCompanion Function({Value<int> id, Value<LocalDate> date});
+
+class $$PeriodStartsTableFilterComposer
+    extends Composer<_$AppDatabase, $PeriodStartsTable> {
+  $$PeriodStartsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<LocalDate, LocalDate, String> get date =>
+      $composableBuilder(
+        column: $table.date,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+}
+
+class $$PeriodStartsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PeriodStartsTable> {
+  $$PeriodStartsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PeriodStartsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PeriodStartsTable> {
+  $$PeriodStartsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<LocalDate, String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+}
+
+class $$PeriodStartsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PeriodStartsTable,
+          PeriodStartRow,
+          $$PeriodStartsTableFilterComposer,
+          $$PeriodStartsTableOrderingComposer,
+          $$PeriodStartsTableAnnotationComposer,
+          $$PeriodStartsTableCreateCompanionBuilder,
+          $$PeriodStartsTableUpdateCompanionBuilder,
+          (
+            PeriodStartRow,
+            BaseReferences<_$AppDatabase, $PeriodStartsTable, PeriodStartRow>,
+          ),
+          PeriodStartRow,
+          PrefetchHooks Function()
+        > {
+  $$PeriodStartsTableTableManager(_$AppDatabase db, $PeriodStartsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PeriodStartsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PeriodStartsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PeriodStartsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<LocalDate> date = const Value.absent(),
+          }) => PeriodStartsCompanion(id: id, date: date),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required LocalDate date,
+          }) => PeriodStartsCompanion.insert(id: id, date: date),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$PeriodStartsTable, PeriodStartRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $PeriodStartsTable,
+                    PeriodStartRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PeriodStartsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PeriodStartsTable,
+      PeriodStartRow,
+      $$PeriodStartsTableFilterComposer,
+      $$PeriodStartsTableOrderingComposer,
+      $$PeriodStartsTableAnnotationComposer,
+      $$PeriodStartsTableCreateCompanionBuilder,
+      $$PeriodStartsTableUpdateCompanionBuilder,
+      (
+        PeriodStartRow,
+        BaseReferences<_$AppDatabase, $PeriodStartsTable, PeriodStartRow>,
+      ),
+      PeriodStartRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7313,4 +7642,6 @@ class $AppDatabaseManager {
       $$PayeesTableTableManager(_db, _db.payees);
   $$MovementsTableTableManager get movements =>
       $$MovementsTableTableManager(_db, _db.movements);
+  $$PeriodStartsTableTableManager get periodStarts =>
+      $$PeriodStartsTableTableManager(_db, _db.periodStarts);
 }

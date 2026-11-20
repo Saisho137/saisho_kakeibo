@@ -8,8 +8,10 @@ import 'package:saisho_kakeibo/core/error/failure.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
+import 'package:saisho_kakeibo/features/periods/presentation/cubit/period_starts_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/currencies_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/settings_page.dart';
@@ -21,6 +23,7 @@ void main() {
   late MockSettingsCubit settingsCubit;
   late MockCurrenciesCubit currenciesCubit;
   late MockAccountsCubit accountsCubit;
+  late MockPeriodStartsCubit periodStartsCubit;
   late MockGoRouter router;
 
   const currencies = [
@@ -47,12 +50,18 @@ void main() {
   setUpAll(() {
     registerFallbackValue((AppSettings s) => s);
     registerFallbackValue(account(id: 0));
+    registerFallbackValue(LocalDate(2026, 1, 1));
   });
 
   setUp(() {
     settingsCubit = MockSettingsCubit();
     currenciesCubit = MockCurrenciesCubit();
     accountsCubit = MockAccountsCubit();
+    periodStartsCubit = MockPeriodStartsCubit();
+    when(() => periodStartsCubit.state)
+        .thenReturn(PeriodStartsState(manualStarts: [LocalDate(2026, 11, 3)]));
+    when(() => periodStartsCubit.startNow()).thenAnswer((_) async {});
+    when(() => periodStartsCubit.remove(any())).thenAnswer((_) async {});
     when(() => accountsCubit.state).thenReturn(
       AccountsState(
         accounts: [
@@ -92,6 +101,7 @@ void main() {
           BlocProvider<SettingsCubit>.value(value: settingsCubit),
           BlocProvider<CurrenciesCubit>.value(value: currenciesCubit),
           BlocProvider<AccountsCubit>.value(value: accountsCubit),
+          BlocProvider<PeriodStartsCubit>.value(value: periodStartsCubit),
         ],
         child: const SettingsView(
           appInfo: AppInfo(version: '1.2.3', buildNumber: '4'),
@@ -243,6 +253,61 @@ void main() {
       await tester.pump();
 
       expect(find.text('Something went wrong. Please try again.'), findsOne);
+    });
+
+    testWidgets('starts a period now after confirming', (tester) async {
+      await pumpView(tester);
+      expect(find.text('Start new period now'), findsNothing);
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Start new period now'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+      verifyNever(() => periodStartsCubit.startNow());
+
+      await tester.tap(find.text('Start new period now'));
+      await tester.pumpAndSettle();
+      expect(find.text('Start a new period today?'), findsOneWidget);
+      await tester.tap(find.text('Start'));
+      await tester.pumpAndSettle();
+      verify(() => periodStartsCubit.startNow()).called(1);
+    });
+
+    testWidgets('undoes a manual start after confirming', (tester) async {
+      await pumpView(tester);
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Manual start · Nov 3, 2026'), findsOneWidget);
+      await tester.tap(find.byTooltip('Undo this start'));
+      await tester.pumpAndSettle();
+      expect(find.text('Undo the start of Nov 3, 2026?'), findsOneWidget);
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      verify(() => periodStartsCubit.remove(LocalDate(2026, 11, 3))).called(1);
+    });
+
+    testWidgets('tells how starting a period went', (tester) async {
+      const initial = PeriodStartsState();
+      whenListen(
+        periodStartsCubit,
+        Stream.fromIterable([
+          initial.copyWith(notice: PeriodStartNotice.started, notices: 1),
+          initial.copyWith(
+            notice: PeriodStartNotice.alreadyStarted,
+            notices: 2,
+          ),
+          initial.copyWith(notices: 2, failure: const DatabaseFailure('disk')),
+        ]),
+        initialState: initial,
+      );
+
+      await pumpView(tester);
+      await tester.pump();
+      expect(find.text('Something went wrong. Please try again.'), findsOne);
+      expect(find.text('A period already starts today.'), findsNothing);
     });
   });
 }

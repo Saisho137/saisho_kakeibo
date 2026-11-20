@@ -16,6 +16,8 @@ import 'package:saisho_kakeibo/features/movements/data/datasources/movement_dao.
 import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
+import 'package:saisho_kakeibo/features/periods/data/datasources/period_dao.dart';
+import 'package:saisho_kakeibo/features/periods/data/datasources/period_starts_table.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/currencies_table.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/currency_dao.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/settings_dao.dart';
@@ -36,8 +38,16 @@ part 'app_database.g.dart';
     Categories,
     Payees,
     Movements,
+    PeriodStarts,
   ],
-  daos: [CurrencyDao, SettingsDao, AccountDao, CategoryDao, MovementDao],
+  daos: [
+    CurrencyDao,
+    SettingsDao,
+    AccountDao,
+    CategoryDao,
+    MovementDao,
+    PeriodDao,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   new([QueryExecutor? executor]) : super(executor ?? _openConnection());

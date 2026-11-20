@@ -1096,12 +1096,6 @@ abstract class AppLocalizations {
   /// **'Update value'**
   String get accountUpdateValue;
 
-  /// Shown when an account has no movements.
-  ///
-  /// In en, this message translates to:
-  /// **'No movements yet.'**
-  String get accountNoMovements;
-
   /// Shown when the account of the detail screen is missing.
   ///
   /// In en, this message translates to:
@@ -1437,6 +1431,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete this transfer?'**
   String get transferDeleteTitle;
+
+  /// Collapsed group of rarely used period actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get settingsAdvanced;
+
+  /// Action: starts a dynamic period today.
+  ///
+  /// In en, this message translates to:
+  /// **'Start new period now'**
+  String get periodStartNow;
+
+  /// Subtitle of the start new period action.
+  ///
+  /// In en, this message translates to:
+  /// **'Use it only when no salary started the period.'**
+  String get periodStartNowHint;
+
+  /// Title of the start new period confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new period today?'**
+  String get periodStartNowTitle;
+
+  /// Message of the start new period confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Periods usually start with a salary marked \"Starts period\". You can undo this start here.'**
+  String get periodStartNowMessage;
+
+  /// Confirms starting a new period.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get periodStartAction;
+
+  /// Snackbar after starting a period.
+  ///
+  /// In en, this message translates to:
+  /// **'A new period starts today.'**
+  String get periodStarted;
+
+  /// Snackbar when today already starts a period.
+  ///
+  /// In en, this message translates to:
+  /// **'A period already starts today.'**
+  String get periodAlreadyStarted;
+
+  /// A manual period start in Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual start · {date}'**
+  String periodManualStart(String date);
+
+  /// Tooltip of the button that removes a manual period start.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo this start'**
+  String get periodRemoveStartTooltip;
+
+  /// Title of the remove manual start confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo the start of {date}?'**
+  String periodRemoveStartTitle(String date);
+
+  /// Message of the remove manual start confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Its period joins the previous one.'**
+  String get periodRemoveStartMessage;
+
+  /// A period from its first to its last day.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String periodRange(String start, String end);
+
+  /// The latest dynamic period, open until the next start.
+  ///
+  /// In en, this message translates to:
+  /// **'Since {start}'**
+  String periodSince(String start);
+
+  /// Empty period in the account detail.
+  ///
+  /// In en, this message translates to:
+  /// **'No movements in this period.'**
+  String get accountNoMovementsInPeriod;
 }
 
 class _AppLocalizationsDelegate
