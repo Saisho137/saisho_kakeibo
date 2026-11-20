@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_detail_cubit.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_form_cubit.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/cubit/categories_cubit.dart';
@@ -31,3 +32,6 @@ class MockCategoriesCubit extends MockCubit<CategoriesState>
 
 class MockCategoryFormCubit extends MockCubit<CategoryFormState>
     implements CategoryFormCubit;
+
+class MockAccountDetailCubit extends MockCubit<AccountDetailState>
+    implements AccountDetailCubit;

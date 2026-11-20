@@ -115,6 +115,8 @@ void main() {
 
       await tester.tap(find.text('Emergency fund'));
       await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Edit account'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Delete account'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Delete'));
@@ -153,6 +155,38 @@ void main() {
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
       expect(find.text('Groceries'), findsNothing);
+
+      await tester.disposeDriftStreams();
+    });
+
+    testWidgets('adjusts the balance of an account', (tester) async {
+      tester.view.physicalSize = const Size(1080, 4000);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Accounts'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Cash'));
+      await tester.pumpAndSettle();
+      expect(find.text('No movements yet.'), findsOneWidget);
+
+      await tester.tap(find.text('Adjust balance'));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(TextFormField),
+        ),
+        '50.000',
+      );
+      await tester.pump();
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('50.000 COP'), findsOneWidget);
+      expect(find.text('Balance adjustment'), findsOneWidget);
+      expect(find.text('+50.000'), findsOneWidget);
 
       await tester.disposeDriftStreams();
     });

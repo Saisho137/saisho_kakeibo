@@ -81,17 +81,17 @@ Entregable: utilidades de `core` probadas al 100 % de sus reglas.
 
 El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PRs (modelo y saldos; formulario y teclado; transferencias).
 
-- [ ] Tabla `payees` (entidades) con `display` y `key` únicos (RT-08).
-- [ ] Tabla `movements`: `type` (`INCOME`, `EXPENSE`, `TRANSFER`, `ADJUSTMENT`), fecha, cuenta origen o destino, monto de salida y de entrada (transferencias entre monedas), categoría, entidad, nota, `debtId`, `recurringTemplateId`, `isPending`, `startsPeriod` (RT-04, RT-05).
-- [ ] Saldos por cuenta: apertura + ingresos − egresos ± transferencias ± ajustes; el padre suma sus bolsillos; consultas reactivas.
-- [ ] Conectar a `movements` el contrato de cuentas que dejó la fase 2: `AccountDao.watchBalances` (hoy solo apertura) y `AccountRepository.hasMovements` (hoy siempre `false`), que bloquean cambiar la moneda y borrar.
-- [ ] Conectar a `movements` el contrato de categorías que dejó la fase 3: `CategoryDao.countMovements` (hoy siempre 0) y la reasignación de movimientos en `CategoryDao.deleteById`.
-- [ ] Ajuste de saldo: el usuario escribe el saldo real y se guarda la diferencia (RF-15). Conectar *Adjust balance* / *Update value* en el detalle de cuenta.
+- [x] Tabla `payees` (entidades) con `display` y `key` únicos (RT-08).
+- [x] Tabla `movements`: `type` (`INCOME`, `EXPENSE`, `TRANSFER`, `ADJUSTMENT`), fecha, cuenta origen o destino, monto de salida y de entrada (transferencias entre monedas), categoría, entidad, nota, `debtId`, `recurringTemplateId`, `isPending`, `startsPeriod` (RT-04, RT-05).
+- [x] Saldos por cuenta: apertura + ingresos − egresos ± transferencias ± ajustes; el padre suma sus bolsillos; consultas reactivas.
+- [x] Conectar a `movements` el contrato de cuentas que dejó la fase 2: `AccountDao.watchBalances` (hoy solo apertura) y `AccountRepository.hasMovements` (hoy siempre `false`), que bloquean cambiar la moneda y borrar.
+- [x] Conectar a `movements` el contrato de categorías que dejó la fase 3: `CategoryDao.countMovements` (hoy siempre 0) y la reasignación de movimientos en `CategoryDao.deleteById`.
+- [x] Ajuste de saldo: el usuario escribe el saldo real y se guarda la diferencia (RF-15). Conectar *Adjust balance* / *Update value* en el detalle de cuenta.
 - [ ] Prellenado por categoría: última cuenta y última entidad usadas; cuenta principal si no hay historial.
 - [ ] Transferencias: categoría prellenada por última usada con el mismo par de cuentas → regla por tipos de cuenta → *Between accounts* (RF-13).
 - [ ] **Registro rápido**: grilla de categorías en orden manual con búsqueda de categorías y entidades (al elegir entidad, se prellenan categoría, entidad y último monto); formulario con campos según el rol core; teclado propio con operaciones ÷ × − + y tecla condicional `000` / separador decimal (RF-01).
 - [ ] Editar y borrar movimientos desde el mismo formulario.
-- [ ] Detalle de cuenta: movimientos agrupados por día.
+- [x] Detalle de cuenta: movimientos agrupados por día (todos; la fase 5 los limita al periodo actual). La acción *Transfer* llega con las transferencias.
 
 ## Fase 5 — Periodos
 

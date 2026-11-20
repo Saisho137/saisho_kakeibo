@@ -11,6 +11,9 @@ abstract interface class AccountRepository {
   /// plus its movements. A parent's value does not include its pockets.
   Stream<Map<int, int>> watchBalances();
 
+  /// The values of [watchBalances], once.
+  Future<Result<Map<int, int>>> getBalances();
+
   Future<Result<List<Account>>> getAccounts();
 
   Future<Result<Account?>> findById(int id);

@@ -11,7 +11,9 @@ abstract final class AppRoutes {
 
   static String editCurrency(String code) => '/settings/currencies/$code';
 
-  static String editAccount(int id) => '/accounts/$id';
+  static String accountDetail(int id) => '/accounts/$id';
+
+  static String editAccount(int id) => '/accounts/$id/edit';
 
   static String newCategory(CategoryType type) =>
       '/categories/new?type=${type.name}';

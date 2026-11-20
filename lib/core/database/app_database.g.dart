@@ -2949,6 +2949,1075 @@ class CategoriesCompanion extends UpdateCompanion<CategoryRow> {
   }
 }
 
+class $PayeesTable extends Payees with TableInfo<$PayeesTable, PayeeRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PayeesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, key];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'payees';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PayeeRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('key')) {
+      context.handle(
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_keyMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PayeeRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PayeeRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
+    );
+  }
+
+  @override
+  $PayeesTable createAlias(String alias) {
+    return $PayeesTable(attachedDatabase, alias);
+  }
+}
+
+class PayeeRow extends DataClass implements Insertable<PayeeRow> {
+  final int id;
+  final String name;
+  final String key;
+  const PayeeRow({required this.id, required this.name, required this.key});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['key'] = Variable<String>(key);
+    return map;
+  }
+
+  PayeesCompanion toCompanion(bool nullToAbsent) {
+    return PayeesCompanion(id: Value(id), name: Value(name), key: Value(key));
+  }
+
+  factory PayeeRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PayeeRow(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      key: serializer.fromJson<String>(json['key']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'key': serializer.toJson<String>(key),
+    };
+  }
+
+  PayeeRow copyWith({int? id, String? name, String? key}) => PayeeRow(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    key: key ?? this.key,
+  );
+  PayeeRow copyWithCompanion(PayeesCompanion data) {
+    return PayeeRow(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      key: data.key.present ? data.key.value : this.key,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PayeeRow(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('key: $key')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, key);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PayeeRow &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.key == this.key);
+}
+
+class PayeesCompanion extends UpdateCompanion<PayeeRow> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> key;
+  const PayeesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.key = const Value.absent(),
+  });
+  PayeesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String key,
+  }) : name = Value(name),
+       key = Value(key);
+  static Insertable<PayeeRow> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? key,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (key != null) 'key': key,
+    });
+  }
+
+  PayeesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String>? key,
+  }) {
+    return PayeesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      key: key ?? this.key,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (key.present) {
+      map['key'] = Variable<String>(key.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PayeesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('key: $key')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MovementsTable extends Movements
+    with TableInfo<$MovementsTable, MovementRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MovementsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<MovementType, String> type =
+      GeneratedColumn<String>(
+        'type',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<MovementType>($MovementsTable.$convertertype);
+  @override
+  late final GeneratedColumnWithTypeConverter<LocalDate, String> date =
+      GeneratedColumn<String>(
+        'date',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<LocalDate>($MovementsTable.$converterdate);
+  static const VerificationMeta _accountIdMeta = const VerificationMeta(
+    'accountId',
+  );
+  @override
+  late final GeneratedColumn<int> accountId = GeneratedColumn<int>(
+    'account_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES accounts (id)',
+    ),
+  );
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<int> amount = GeneratedColumn<int>(
+    'amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _toAccountIdMeta = const VerificationMeta(
+    'toAccountId',
+  );
+  @override
+  late final GeneratedColumn<int> toAccountId = GeneratedColumn<int>(
+    'to_account_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES accounts (id)',
+    ),
+  );
+  static const VerificationMeta _toAmountMeta = const VerificationMeta(
+    'toAmount',
+  );
+  @override
+  late final GeneratedColumn<int> toAmount = GeneratedColumn<int>(
+    'to_amount',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
+    'categoryId',
+  );
+  @override
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+    'category_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES categories (id)',
+    ),
+  );
+  static const VerificationMeta _payeeIdMeta = const VerificationMeta(
+    'payeeId',
+  );
+  @override
+  late final GeneratedColumn<int> payeeId = GeneratedColumn<int>(
+    'payee_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES payees (id)',
+    ),
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    additionalChecks: GeneratedColumn.checkTextLength(),
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _debtIdMeta = const VerificationMeta('debtId');
+  @override
+  late final GeneratedColumn<int> debtId = GeneratedColumn<int>(
+    'debt_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _recurringTemplateIdMeta =
+      const VerificationMeta('recurringTemplateId');
+  @override
+  late final GeneratedColumn<int> recurringTemplateId = GeneratedColumn<int>(
+    'recurring_template_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isPendingMeta = const VerificationMeta(
+    'isPending',
+  );
+  @override
+  late final GeneratedColumn<bool> isPending = GeneratedColumn<bool>(
+    'is_pending',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_pending" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _startsPeriodMeta = const VerificationMeta(
+    'startsPeriod',
+  );
+  @override
+  late final GeneratedColumn<bool> startsPeriod = GeneratedColumn<bool>(
+    'starts_period',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("starts_period" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    type,
+    date,
+    accountId,
+    amount,
+    toAccountId,
+    toAmount,
+    categoryId,
+    payeeId,
+    note,
+    debtId,
+    recurringTemplateId,
+    isPending,
+    startsPeriod,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'movements';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MovementRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('account_id')) {
+      context.handle(
+        _accountIdMeta,
+        accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_accountIdMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(
+        _amountMeta,
+        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    if (data.containsKey('to_account_id')) {
+      context.handle(
+        _toAccountIdMeta,
+        toAccountId.isAcceptableOrUnknown(
+          data['to_account_id']!,
+          _toAccountIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('to_amount')) {
+      context.handle(
+        _toAmountMeta,
+        toAmount.isAcceptableOrUnknown(data['to_amount']!, _toAmountMeta),
+      );
+    }
+    if (data.containsKey('category_id')) {
+      context.handle(
+        _categoryIdMeta,
+        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
+      );
+    }
+    if (data.containsKey('payee_id')) {
+      context.handle(
+        _payeeIdMeta,
+        payeeId.isAcceptableOrUnknown(data['payee_id']!, _payeeIdMeta),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('debt_id')) {
+      context.handle(
+        _debtIdMeta,
+        debtId.isAcceptableOrUnknown(data['debt_id']!, _debtIdMeta),
+      );
+    }
+    if (data.containsKey('recurring_template_id')) {
+      context.handle(
+        _recurringTemplateIdMeta,
+        recurringTemplateId.isAcceptableOrUnknown(
+          data['recurring_template_id']!,
+          _recurringTemplateIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_pending')) {
+      context.handle(
+        _isPendingMeta,
+        isPending.isAcceptableOrUnknown(data['is_pending']!, _isPendingMeta),
+      );
+    }
+    if (data.containsKey('starts_period')) {
+      context.handle(
+        _startsPeriodMeta,
+        startsPeriod.isAcceptableOrUnknown(
+          data['starts_period']!,
+          _startsPeriodMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MovementRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MovementRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      type: $MovementsTable.$convertertype.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}type'],
+        )!,
+      ),
+      date: $MovementsTable.$converterdate.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}date'],
+        )!,
+      ),
+      accountId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}account_id'],
+      )!,
+      amount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount'],
+      )!,
+      toAccountId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}to_account_id'],
+      ),
+      toAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}to_amount'],
+      ),
+      categoryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}category_id'],
+      ),
+      payeeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}payee_id'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      debtId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}debt_id'],
+      ),
+      recurringTemplateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}recurring_template_id'],
+      ),
+      isPending: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_pending'],
+      )!,
+      startsPeriod: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}starts_period'],
+      )!,
+    );
+  }
+
+  @override
+  $MovementsTable createAlias(String alias) {
+    return $MovementsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<MovementType, String, String> $convertertype =
+      const EnumNameConverter<MovementType>(MovementType.values);
+  static TypeConverter<LocalDate, String> $converterdate =
+      const LocalDateConverter();
+}
+
+class MovementRow extends DataClass implements Insertable<MovementRow> {
+  final int id;
+  final MovementType type;
+  final LocalDate date;
+  final int accountId;
+  final int amount;
+  final int? toAccountId;
+  final int? toAmount;
+  final int? categoryId;
+  final int? payeeId;
+  final String? note;
+  final int? debtId;
+  final int? recurringTemplateId;
+  final bool isPending;
+  final bool startsPeriod;
+  const MovementRow({
+    required this.id,
+    required this.type,
+    required this.date,
+    required this.accountId,
+    required this.amount,
+    this.toAccountId,
+    this.toAmount,
+    this.categoryId,
+    this.payeeId,
+    this.note,
+    this.debtId,
+    this.recurringTemplateId,
+    required this.isPending,
+    required this.startsPeriod,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['type'] = Variable<String>(
+        $MovementsTable.$convertertype.toSql(type),
+      );
+    }
+    {
+      map['date'] = Variable<String>(
+        $MovementsTable.$converterdate.toSql(date),
+      );
+    }
+    map['account_id'] = Variable<int>(accountId);
+    map['amount'] = Variable<int>(amount);
+    if (!nullToAbsent || toAccountId != null) {
+      map['to_account_id'] = Variable<int>(toAccountId);
+    }
+    if (!nullToAbsent || toAmount != null) {
+      map['to_amount'] = Variable<int>(toAmount);
+    }
+    if (!nullToAbsent || categoryId != null) {
+      map['category_id'] = Variable<int>(categoryId);
+    }
+    if (!nullToAbsent || payeeId != null) {
+      map['payee_id'] = Variable<int>(payeeId);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    if (!nullToAbsent || debtId != null) {
+      map['debt_id'] = Variable<int>(debtId);
+    }
+    if (!nullToAbsent || recurringTemplateId != null) {
+      map['recurring_template_id'] = Variable<int>(recurringTemplateId);
+    }
+    map['is_pending'] = Variable<bool>(isPending);
+    map['starts_period'] = Variable<bool>(startsPeriod);
+    return map;
+  }
+
+  MovementsCompanion toCompanion(bool nullToAbsent) {
+    return MovementsCompanion(
+      id: Value(id),
+      type: Value(type),
+      date: Value(date),
+      accountId: Value(accountId),
+      amount: Value(amount),
+      toAccountId: toAccountId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toAccountId),
+      toAmount: toAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toAmount),
+      categoryId: categoryId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(categoryId),
+      payeeId: payeeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(payeeId),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      debtId: debtId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(debtId),
+      recurringTemplateId: recurringTemplateId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(recurringTemplateId),
+      isPending: Value(isPending),
+      startsPeriod: Value(startsPeriod),
+    );
+  }
+
+  factory MovementRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MovementRow(
+      id: serializer.fromJson<int>(json['id']),
+      type: $MovementsTable.$convertertype.fromJson(
+        serializer.fromJson<String>(json['type']),
+      ),
+      date: serializer.fromJson<LocalDate>(json['date']),
+      accountId: serializer.fromJson<int>(json['accountId']),
+      amount: serializer.fromJson<int>(json['amount']),
+      toAccountId: serializer.fromJson<int?>(json['toAccountId']),
+      toAmount: serializer.fromJson<int?>(json['toAmount']),
+      categoryId: serializer.fromJson<int?>(json['categoryId']),
+      payeeId: serializer.fromJson<int?>(json['payeeId']),
+      note: serializer.fromJson<String?>(json['note']),
+      debtId: serializer.fromJson<int?>(json['debtId']),
+      recurringTemplateId: serializer.fromJson<int?>(
+        json['recurringTemplateId'],
+      ),
+      isPending: serializer.fromJson<bool>(json['isPending']),
+      startsPeriod: serializer.fromJson<bool>(json['startsPeriod']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'type': serializer.toJson<String>(
+        $MovementsTable.$convertertype.toJson(type),
+      ),
+      'date': serializer.toJson<LocalDate>(date),
+      'accountId': serializer.toJson<int>(accountId),
+      'amount': serializer.toJson<int>(amount),
+      'toAccountId': serializer.toJson<int?>(toAccountId),
+      'toAmount': serializer.toJson<int?>(toAmount),
+      'categoryId': serializer.toJson<int?>(categoryId),
+      'payeeId': serializer.toJson<int?>(payeeId),
+      'note': serializer.toJson<String?>(note),
+      'debtId': serializer.toJson<int?>(debtId),
+      'recurringTemplateId': serializer.toJson<int?>(recurringTemplateId),
+      'isPending': serializer.toJson<bool>(isPending),
+      'startsPeriod': serializer.toJson<bool>(startsPeriod),
+    };
+  }
+
+  MovementRow copyWith({
+    int? id,
+    MovementType? type,
+    LocalDate? date,
+    int? accountId,
+    int? amount,
+    Value<int?> toAccountId = const Value.absent(),
+    Value<int?> toAmount = const Value.absent(),
+    Value<int?> categoryId = const Value.absent(),
+    Value<int?> payeeId = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    Value<int?> debtId = const Value.absent(),
+    Value<int?> recurringTemplateId = const Value.absent(),
+    bool? isPending,
+    bool? startsPeriod,
+  }) => MovementRow(
+    id: id ?? this.id,
+    type: type ?? this.type,
+    date: date ?? this.date,
+    accountId: accountId ?? this.accountId,
+    amount: amount ?? this.amount,
+    toAccountId: toAccountId.present ? toAccountId.value : this.toAccountId,
+    toAmount: toAmount.present ? toAmount.value : this.toAmount,
+    categoryId: categoryId.present ? categoryId.value : this.categoryId,
+    payeeId: payeeId.present ? payeeId.value : this.payeeId,
+    note: note.present ? note.value : this.note,
+    debtId: debtId.present ? debtId.value : this.debtId,
+    recurringTemplateId: recurringTemplateId.present
+        ? recurringTemplateId.value
+        : this.recurringTemplateId,
+    isPending: isPending ?? this.isPending,
+    startsPeriod: startsPeriod ?? this.startsPeriod,
+  );
+  MovementRow copyWithCompanion(MovementsCompanion data) {
+    return MovementRow(
+      id: data.id.present ? data.id.value : this.id,
+      type: data.type.present ? data.type.value : this.type,
+      date: data.date.present ? data.date.value : this.date,
+      accountId: data.accountId.present ? data.accountId.value : this.accountId,
+      amount: data.amount.present ? data.amount.value : this.amount,
+      toAccountId: data.toAccountId.present
+          ? data.toAccountId.value
+          : this.toAccountId,
+      toAmount: data.toAmount.present ? data.toAmount.value : this.toAmount,
+      categoryId: data.categoryId.present
+          ? data.categoryId.value
+          : this.categoryId,
+      payeeId: data.payeeId.present ? data.payeeId.value : this.payeeId,
+      note: data.note.present ? data.note.value : this.note,
+      debtId: data.debtId.present ? data.debtId.value : this.debtId,
+      recurringTemplateId: data.recurringTemplateId.present
+          ? data.recurringTemplateId.value
+          : this.recurringTemplateId,
+      isPending: data.isPending.present ? data.isPending.value : this.isPending,
+      startsPeriod: data.startsPeriod.present
+          ? data.startsPeriod.value
+          : this.startsPeriod,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MovementRow(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('date: $date, ')
+          ..write('accountId: $accountId, ')
+          ..write('amount: $amount, ')
+          ..write('toAccountId: $toAccountId, ')
+          ..write('toAmount: $toAmount, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('payeeId: $payeeId, ')
+          ..write('note: $note, ')
+          ..write('debtId: $debtId, ')
+          ..write('recurringTemplateId: $recurringTemplateId, ')
+          ..write('isPending: $isPending, ')
+          ..write('startsPeriod: $startsPeriod')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    type,
+    date,
+    accountId,
+    amount,
+    toAccountId,
+    toAmount,
+    categoryId,
+    payeeId,
+    note,
+    debtId,
+    recurringTemplateId,
+    isPending,
+    startsPeriod,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MovementRow &&
+          other.id == this.id &&
+          other.type == this.type &&
+          other.date == this.date &&
+          other.accountId == this.accountId &&
+          other.amount == this.amount &&
+          other.toAccountId == this.toAccountId &&
+          other.toAmount == this.toAmount &&
+          other.categoryId == this.categoryId &&
+          other.payeeId == this.payeeId &&
+          other.note == this.note &&
+          other.debtId == this.debtId &&
+          other.recurringTemplateId == this.recurringTemplateId &&
+          other.isPending == this.isPending &&
+          other.startsPeriod == this.startsPeriod);
+}
+
+class MovementsCompanion extends UpdateCompanion<MovementRow> {
+  final Value<int> id;
+  final Value<MovementType> type;
+  final Value<LocalDate> date;
+  final Value<int> accountId;
+  final Value<int> amount;
+  final Value<int?> toAccountId;
+  final Value<int?> toAmount;
+  final Value<int?> categoryId;
+  final Value<int?> payeeId;
+  final Value<String?> note;
+  final Value<int?> debtId;
+  final Value<int?> recurringTemplateId;
+  final Value<bool> isPending;
+  final Value<bool> startsPeriod;
+  const MovementsCompanion({
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.date = const Value.absent(),
+    this.accountId = const Value.absent(),
+    this.amount = const Value.absent(),
+    this.toAccountId = const Value.absent(),
+    this.toAmount = const Value.absent(),
+    this.categoryId = const Value.absent(),
+    this.payeeId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.debtId = const Value.absent(),
+    this.recurringTemplateId = const Value.absent(),
+    this.isPending = const Value.absent(),
+    this.startsPeriod = const Value.absent(),
+  });
+  MovementsCompanion.insert({
+    this.id = const Value.absent(),
+    required MovementType type,
+    required LocalDate date,
+    required int accountId,
+    required int amount,
+    this.toAccountId = const Value.absent(),
+    this.toAmount = const Value.absent(),
+    this.categoryId = const Value.absent(),
+    this.payeeId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.debtId = const Value.absent(),
+    this.recurringTemplateId = const Value.absent(),
+    this.isPending = const Value.absent(),
+    this.startsPeriod = const Value.absent(),
+  }) : type = Value(type),
+       date = Value(date),
+       accountId = Value(accountId),
+       amount = Value(amount);
+  static Insertable<MovementRow> custom({
+    Expression<int>? id,
+    Expression<String>? type,
+    Expression<String>? date,
+    Expression<int>? accountId,
+    Expression<int>? amount,
+    Expression<int>? toAccountId,
+    Expression<int>? toAmount,
+    Expression<int>? categoryId,
+    Expression<int>? payeeId,
+    Expression<String>? note,
+    Expression<int>? debtId,
+    Expression<int>? recurringTemplateId,
+    Expression<bool>? isPending,
+    Expression<bool>? startsPeriod,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (type != null) 'type': type,
+      if (date != null) 'date': date,
+      if (accountId != null) 'account_id': accountId,
+      if (amount != null) 'amount': amount,
+      if (toAccountId != null) 'to_account_id': toAccountId,
+      if (toAmount != null) 'to_amount': toAmount,
+      if (categoryId != null) 'category_id': categoryId,
+      if (payeeId != null) 'payee_id': payeeId,
+      if (note != null) 'note': note,
+      if (debtId != null) 'debt_id': debtId,
+      if (recurringTemplateId != null)
+        'recurring_template_id': recurringTemplateId,
+      if (isPending != null) 'is_pending': isPending,
+      if (startsPeriod != null) 'starts_period': startsPeriod,
+    });
+  }
+
+  MovementsCompanion copyWith({
+    Value<int>? id,
+    Value<MovementType>? type,
+    Value<LocalDate>? date,
+    Value<int>? accountId,
+    Value<int>? amount,
+    Value<int?>? toAccountId,
+    Value<int?>? toAmount,
+    Value<int?>? categoryId,
+    Value<int?>? payeeId,
+    Value<String?>? note,
+    Value<int?>? debtId,
+    Value<int?>? recurringTemplateId,
+    Value<bool>? isPending,
+    Value<bool>? startsPeriod,
+  }) {
+    return MovementsCompanion(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      date: date ?? this.date,
+      accountId: accountId ?? this.accountId,
+      amount: amount ?? this.amount,
+      toAccountId: toAccountId ?? this.toAccountId,
+      toAmount: toAmount ?? this.toAmount,
+      categoryId: categoryId ?? this.categoryId,
+      payeeId: payeeId ?? this.payeeId,
+      note: note ?? this.note,
+      debtId: debtId ?? this.debtId,
+      recurringTemplateId: recurringTemplateId ?? this.recurringTemplateId,
+      isPending: isPending ?? this.isPending,
+      startsPeriod: startsPeriod ?? this.startsPeriod,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(
+        $MovementsTable.$convertertype.toSql(type.value),
+      );
+    }
+    if (date.present) {
+      map['date'] = Variable<String>(
+        $MovementsTable.$converterdate.toSql(date.value),
+      );
+    }
+    if (accountId.present) {
+      map['account_id'] = Variable<int>(accountId.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<int>(amount.value);
+    }
+    if (toAccountId.present) {
+      map['to_account_id'] = Variable<int>(toAccountId.value);
+    }
+    if (toAmount.present) {
+      map['to_amount'] = Variable<int>(toAmount.value);
+    }
+    if (categoryId.present) {
+      map['category_id'] = Variable<int>(categoryId.value);
+    }
+    if (payeeId.present) {
+      map['payee_id'] = Variable<int>(payeeId.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (debtId.present) {
+      map['debt_id'] = Variable<int>(debtId.value);
+    }
+    if (recurringTemplateId.present) {
+      map['recurring_template_id'] = Variable<int>(recurringTemplateId.value);
+    }
+    if (isPending.present) {
+      map['is_pending'] = Variable<bool>(isPending.value);
+    }
+    if (startsPeriod.present) {
+      map['starts_period'] = Variable<bool>(startsPeriod.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MovementsCompanion(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('date: $date, ')
+          ..write('accountId: $accountId, ')
+          ..write('amount: $amount, ')
+          ..write('toAccountId: $toAccountId, ')
+          ..write('toAmount: $toAmount, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('payeeId: $payeeId, ')
+          ..write('note: $note, ')
+          ..write('debtId: $debtId, ')
+          ..write('recurringTemplateId: $recurringTemplateId, ')
+          ..write('isPending: $isPending, ')
+          ..write('startsPeriod: $startsPeriod')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2957,10 +4026,29 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $AccountsTable accounts = $AccountsTable(this);
   late final $PillarsTable pillars = $PillarsTable(this);
   late final $CategoriesTable categories = $CategoriesTable(this);
+  late final $PayeesTable payees = $PayeesTable(this);
+  late final $MovementsTable movements = $MovementsTable(this);
+  late final Index movementsAccount = Index(
+    'movements_account',
+    'CREATE INDEX movements_account ON movements (account_id)',
+  );
+  late final Index movementsToAccount = Index(
+    'movements_to_account',
+    'CREATE INDEX movements_to_account ON movements (to_account_id)',
+  );
+  late final Index movementsCategory = Index(
+    'movements_category',
+    'CREATE INDEX movements_category ON movements (category_id)',
+  );
+  late final Index movementsDate = Index(
+    'movements_date',
+    'CREATE INDEX movements_date ON movements (date)',
+  );
   late final CurrencyDao currencyDao = CurrencyDao(this as AppDatabase);
   late final SettingsDao settingsDao = SettingsDao(this as AppDatabase);
   late final AccountDao accountDao = AccountDao(this as AppDatabase);
   late final CategoryDao categoryDao = CategoryDao(this as AppDatabase);
+  late final MovementDao movementDao = MovementDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2971,6 +4059,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     accounts,
     pillars,
     categories,
+    payees,
+    movements,
+    movementsAccount,
+    movementsToAccount,
+    movementsCategory,
+    movementsDate,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -4736,6 +5830,24 @@ final class $$CategoriesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<$MovementsTable, List<MovementRow>>
+  _movementsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.movements,
+    aliasName: 'categories__id__movements__category_id',
+  );
+
+  $$MovementsTableProcessedTableManager get movementsRefs {
+    final manager = $$MovementsTableTableManager(
+      $_db,
+      $_db.movements,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_movementsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$CategoriesTableFilterComposer
@@ -4820,6 +5932,31 @@ class $$CategoriesTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> movementsRefs(
+    Expression<bool> Function($$MovementsTableFilterComposer f) f,
+  ) {
+    final $$MovementsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableFilterComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -4973,6 +6110,31 @@ class $$CategoriesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> movementsRefs<T extends Object>(
+    Expression<T> Function($$MovementsTableAnnotationComposer a) f,
+  ) {
+    final $$MovementsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableTableManager
@@ -4988,7 +6150,7 @@ class $$CategoriesTableTableManager
           $$CategoriesTableUpdateCompanionBuilder,
           (CategoryRow, $$CategoriesTableReferences),
           CategoryRow,
-          PrefetchHooks Function({bool pillarId})
+          PrefetchHooks Function({bool pillarId, bool movementsRefs})
         > {
   $$CategoriesTableTableManager(_$AppDatabase db, $CategoriesTable table)
     : super(
@@ -5061,10 +6223,10 @@ class $$CategoriesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({pillarId = false}) {
+          prefetchHooksCallback: ({pillarId = false, movementsRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [],
+              explicitlyWatchedTables: [if (movementsRefs) db.movements],
               addJoins:
                   <
                     T extends TableManagerState<
@@ -5096,7 +6258,28 @@ class $$CategoriesTableTableManager
                     return state;
                   },
               getPrefetchedDataCallback: (items) async {
-                return [];
+                return [
+                  if (movementsRefs)
+                    await $_getPrefetchedDataByColumns<
+                      CategoryRow,
+                      $CategoriesTable,
+                      MovementRow,
+                      $MovementsTable
+                    >(
+                      currentTable: table,
+                      referencedTable: $$CategoriesTableReferences
+                          ._movementsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$CategoriesTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).movementsRefs,
+                      currentColumn: 'id',
+                      referencedColumn: 'category_id',
+                      typedResults: items,
+                    ),
+                ];
               },
             );
           },
@@ -5116,7 +6299,1001 @@ typedef $$CategoriesTableProcessedTableManager =
       $$CategoriesTableUpdateCompanionBuilder,
       (CategoryRow, $$CategoriesTableReferences),
       CategoryRow,
-      PrefetchHooks Function({bool pillarId})
+      PrefetchHooks Function({bool pillarId, bool movementsRefs})
+    >;
+typedef $$PayeesTableCreateCompanionBuilder = PayeesCompanion Function({
+  Value<int> id,
+  required String name,
+  required String key,
+});
+typedef $$PayeesTableUpdateCompanionBuilder = PayeesCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<String> key,
+});
+
+final class $$PayeesTableReferences
+    extends BaseReferences<_$AppDatabase, $PayeesTable, PayeeRow> {
+  $$PayeesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$MovementsTable, List<MovementRow>>
+  _movementsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.movements,
+    aliasName: 'payees__id__movements__payee_id',
+  );
+
+  $$MovementsTableProcessedTableManager get movementsRefs {
+    final manager = $$MovementsTableTableManager(
+      $_db,
+      $_db.movements,
+    ).filter((f) => f.payeeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_movementsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$PayeesTableFilterComposer
+    extends Composer<_$AppDatabase, $PayeesTable> {
+  $$PayeesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> movementsRefs(
+    Expression<bool> Function($$MovementsTableFilterComposer f) f,
+  ) {
+    final $$MovementsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.payeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableFilterComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$PayeesTableOrderingComposer
+    extends Composer<_$AppDatabase, $PayeesTable> {
+  $$PayeesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PayeesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PayeesTable> {
+  $$PayeesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => column);
+
+  Expression<T> movementsRefs<T extends Object>(
+    Expression<T> Function($$MovementsTableAnnotationComposer a) f,
+  ) {
+    final $$MovementsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.payeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$PayeesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PayeesTable,
+          PayeeRow,
+          $$PayeesTableFilterComposer,
+          $$PayeesTableOrderingComposer,
+          $$PayeesTableAnnotationComposer,
+          $$PayeesTableCreateCompanionBuilder,
+          $$PayeesTableUpdateCompanionBuilder,
+          (PayeeRow, $$PayeesTableReferences),
+          PayeeRow,
+          PrefetchHooks Function({bool movementsRefs})
+        > {
+  $$PayeesTableTableManager(_$AppDatabase db, $PayeesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PayeesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PayeesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PayeesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> key = const Value.absent(),
+          }) => PayeesCompanion(id: id, name: name, key: key),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            required String key,
+          }) => PayeesCompanion.insert(id: id, name: name, key: key),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$PayeesTable, PayeeRow>(table),
+                  $$PayeesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({movementsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (movementsRefs) db.movements],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (movementsRefs)
+                    await $_getPrefetchedDataByColumns<
+                      PayeeRow,
+                      $PayeesTable,
+                      MovementRow,
+                      $MovementsTable
+                    >(
+                      currentTable: table,
+                      referencedTable: $$PayeesTableReferences
+                          ._movementsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$PayeesTableReferences(db, table, p0).movementsRefs,
+                      currentColumn: 'id',
+                      referencedColumn: 'payee_id',
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PayeesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PayeesTable,
+      PayeeRow,
+      $$PayeesTableFilterComposer,
+      $$PayeesTableOrderingComposer,
+      $$PayeesTableAnnotationComposer,
+      $$PayeesTableCreateCompanionBuilder,
+      $$PayeesTableUpdateCompanionBuilder,
+      (PayeeRow, $$PayeesTableReferences),
+      PayeeRow,
+      PrefetchHooks Function({bool movementsRefs})
+    >;
+typedef $$MovementsTableCreateCompanionBuilder = MovementsCompanion Function({
+  Value<int> id,
+  required MovementType type,
+  required LocalDate date,
+  required int accountId,
+  required int amount,
+  Value<int?> toAccountId,
+  Value<int?> toAmount,
+  Value<int?> categoryId,
+  Value<int?> payeeId,
+  Value<String?> note,
+  Value<int?> debtId,
+  Value<int?> recurringTemplateId,
+  Value<bool> isPending,
+  Value<bool> startsPeriod,
+});
+typedef $$MovementsTableUpdateCompanionBuilder = MovementsCompanion Function({
+  Value<int> id,
+  Value<MovementType> type,
+  Value<LocalDate> date,
+  Value<int> accountId,
+  Value<int> amount,
+  Value<int?> toAccountId,
+  Value<int?> toAmount,
+  Value<int?> categoryId,
+  Value<int?> payeeId,
+  Value<String?> note,
+  Value<int?> debtId,
+  Value<int?> recurringTemplateId,
+  Value<bool> isPending,
+  Value<bool> startsPeriod,
+});
+
+final class $$MovementsTableReferences
+    extends BaseReferences<_$AppDatabase, $MovementsTable, MovementRow> {
+  $$MovementsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $AccountsTable _accountIdTable(_$AppDatabase db) =>
+      db.accounts.createAlias('movements__account_id__accounts__id');
+
+  $$AccountsTableProcessedTableManager get accountId {
+    final $_column = $_itemColumn<int>('account_id')!;
+
+    final manager = $$AccountsTableTableManager(
+      $_db,
+      $_db.accounts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_accountIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $AccountsTable _toAccountIdTable(_$AppDatabase db) =>
+      db.accounts.createAlias('movements__to_account_id__accounts__id');
+
+  $$AccountsTableProcessedTableManager? get toAccountId {
+    final $_column = $_itemColumn<int>('to_account_id');
+    if ($_column == null) return null;
+    final manager = $$AccountsTableTableManager(
+      $_db,
+      $_db.accounts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_toAccountIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $CategoriesTable _categoryIdTable(_$AppDatabase db) =>
+      db.categories.createAlias('movements__category_id__categories__id');
+
+  $$CategoriesTableProcessedTableManager? get categoryId {
+    final $_column = $_itemColumn<int>('category_id');
+    if ($_column == null) return null;
+    final manager = $$CategoriesTableTableManager(
+      $_db,
+      $_db.categories,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $PayeesTable _payeeIdTable(_$AppDatabase db) =>
+      db.payees.createAlias('movements__payee_id__payees__id');
+
+  $$PayeesTableProcessedTableManager? get payeeId {
+    final $_column = $_itemColumn<int>('payee_id');
+    if ($_column == null) return null;
+    final manager = $$PayeesTableTableManager(
+      $_db,
+      $_db.payees,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_payeeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$MovementsTableFilterComposer
+    extends Composer<_$AppDatabase, $MovementsTable> {
+  $$MovementsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<MovementType, MovementType, String> get type =>
+      $composableBuilder(
+        column: $table.type,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnWithTypeConverterFilters<LocalDate, LocalDate, String> get date =>
+      $composableBuilder(
+        column: $table.date,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<int> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get toAmount => $composableBuilder(
+    column: $table.toAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get debtId => $composableBuilder(
+    column: $table.debtId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get recurringTemplateId => $composableBuilder(
+    column: $table.recurringTemplateId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isPending => $composableBuilder(
+    column: $table.isPending,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get startsPeriod => $composableBuilder(
+    column: $table.startsPeriod,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$AccountsTableFilterComposer get accountId {
+    final $$AccountsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.accountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableFilterComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableFilterComposer get toAccountId {
+    final $$AccountsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.toAccountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableFilterComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CategoriesTableFilterComposer get categoryId {
+    final $$CategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PayeesTableFilterComposer get payeeId {
+    final $$PayeesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.payeeId,
+      referencedTable: $db.payees,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PayeesTableFilterComposer(
+            $db: $db,
+            $table: $db.payees,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$MovementsTableOrderingComposer
+    extends Composer<_$AppDatabase, $MovementsTable> {
+  $$MovementsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get toAmount => $composableBuilder(
+    column: $table.toAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get debtId => $composableBuilder(
+    column: $table.debtId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get recurringTemplateId => $composableBuilder(
+    column: $table.recurringTemplateId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isPending => $composableBuilder(
+    column: $table.isPending,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get startsPeriod => $composableBuilder(
+    column: $table.startsPeriod,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$AccountsTableOrderingComposer get accountId {
+    final $$AccountsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.accountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableOrderingComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableOrderingComposer get toAccountId {
+    final $$AccountsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.toAccountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableOrderingComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CategoriesTableOrderingComposer get categoryId {
+    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PayeesTableOrderingComposer get payeeId {
+    final $$PayeesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.payeeId,
+      referencedTable: $db.payees,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PayeesTableOrderingComposer(
+            $db: $db,
+            $table: $db.payees,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$MovementsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MovementsTable> {
+  $$MovementsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<MovementType, String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<LocalDate, String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<int> get amount =>
+      $composableBuilder(column: $table.amount, builder: (column) => column);
+
+  GeneratedColumn<int> get toAmount =>
+      $composableBuilder(column: $table.toAmount, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<int> get debtId =>
+      $composableBuilder(column: $table.debtId, builder: (column) => column);
+
+  GeneratedColumn<int> get recurringTemplateId => $composableBuilder(
+    column: $table.recurringTemplateId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isPending =>
+      $composableBuilder(column: $table.isPending, builder: (column) => column);
+
+  GeneratedColumn<bool> get startsPeriod => $composableBuilder(
+    column: $table.startsPeriod,
+    builder: (column) => column,
+  );
+
+  $$AccountsTableAnnotationComposer get accountId {
+    final $$AccountsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.accountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableAnnotationComposer get toAccountId {
+    final $$AccountsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.toAccountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CategoriesTableAnnotationComposer get categoryId {
+    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PayeesTableAnnotationComposer get payeeId {
+    final $$PayeesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.payeeId,
+      referencedTable: $db.payees,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PayeesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.payees,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$MovementsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MovementsTable,
+          MovementRow,
+          $$MovementsTableFilterComposer,
+          $$MovementsTableOrderingComposer,
+          $$MovementsTableAnnotationComposer,
+          $$MovementsTableCreateCompanionBuilder,
+          $$MovementsTableUpdateCompanionBuilder,
+          (MovementRow, $$MovementsTableReferences),
+          MovementRow,
+          PrefetchHooks Function({
+            bool accountId,
+            bool toAccountId,
+            bool categoryId,
+            bool payeeId,
+          })
+        > {
+  $$MovementsTableTableManager(_$AppDatabase db, $MovementsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MovementsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MovementsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MovementsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<MovementType> type = const Value.absent(),
+                Value<LocalDate> date = const Value.absent(),
+                Value<int> accountId = const Value.absent(),
+                Value<int> amount = const Value.absent(),
+                Value<int?> toAccountId = const Value.absent(),
+                Value<int?> toAmount = const Value.absent(),
+                Value<int?> categoryId = const Value.absent(),
+                Value<int?> payeeId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<int?> debtId = const Value.absent(),
+                Value<int?> recurringTemplateId = const Value.absent(),
+                Value<bool> isPending = const Value.absent(),
+                Value<bool> startsPeriod = const Value.absent(),
+              }) => MovementsCompanion(
+                id: id,
+                type: type,
+                date: date,
+                accountId: accountId,
+                amount: amount,
+                toAccountId: toAccountId,
+                toAmount: toAmount,
+                categoryId: categoryId,
+                payeeId: payeeId,
+                note: note,
+                debtId: debtId,
+                recurringTemplateId: recurringTemplateId,
+                isPending: isPending,
+                startsPeriod: startsPeriod,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required MovementType type,
+                required LocalDate date,
+                required int accountId,
+                required int amount,
+                Value<int?> toAccountId = const Value.absent(),
+                Value<int?> toAmount = const Value.absent(),
+                Value<int?> categoryId = const Value.absent(),
+                Value<int?> payeeId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<int?> debtId = const Value.absent(),
+                Value<int?> recurringTemplateId = const Value.absent(),
+                Value<bool> isPending = const Value.absent(),
+                Value<bool> startsPeriod = const Value.absent(),
+              }) => MovementsCompanion.insert(
+                id: id,
+                type: type,
+                date: date,
+                accountId: accountId,
+                amount: amount,
+                toAccountId: toAccountId,
+                toAmount: toAmount,
+                categoryId: categoryId,
+                payeeId: payeeId,
+                note: note,
+                debtId: debtId,
+                recurringTemplateId: recurringTemplateId,
+                isPending: isPending,
+                startsPeriod: startsPeriod,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MovementsTable, MovementRow>(table),
+                  $$MovementsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                accountId = false,
+                toAccountId = false,
+                categoryId = false,
+                payeeId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (accountId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.accountId,
+                            referencedTable: $$MovementsTableReferences
+                                ._accountIdTable(db),
+                            referencedColumn: $$MovementsTableReferences
+                                ._accountIdTable(db)
+                                .id,
+                          ) as T;
+                        }
+                        if (toAccountId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.toAccountId,
+                            referencedTable: $$MovementsTableReferences
+                                ._toAccountIdTable(db),
+                            referencedColumn: $$MovementsTableReferences
+                                ._toAccountIdTable(db)
+                                .id,
+                          ) as T;
+                        }
+                        if (categoryId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.categoryId,
+                            referencedTable: $$MovementsTableReferences
+                                ._categoryIdTable(db),
+                            referencedColumn: $$MovementsTableReferences
+                                ._categoryIdTable(db)
+                                .id,
+                          ) as T;
+                        }
+                        if (payeeId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.payeeId,
+                            referencedTable: $$MovementsTableReferences
+                                ._payeeIdTable(db),
+                            referencedColumn: $$MovementsTableReferences
+                                ._payeeIdTable(db)
+                                .id,
+                          ) as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$MovementsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MovementsTable,
+      MovementRow,
+      $$MovementsTableFilterComposer,
+      $$MovementsTableOrderingComposer,
+      $$MovementsTableAnnotationComposer,
+      $$MovementsTableCreateCompanionBuilder,
+      $$MovementsTableUpdateCompanionBuilder,
+      (MovementRow, $$MovementsTableReferences),
+      MovementRow,
+      PrefetchHooks Function({
+        bool accountId,
+        bool toAccountId,
+        bool categoryId,
+        bool payeeId,
+      })
     >;
 
 class $AppDatabaseManager {
@@ -5132,4 +7309,8 @@ class $AppDatabaseManager {
       $$PillarsTableTableManager(_db, _db.pillars);
   $$CategoriesTableTableManager get categories =>
       $$CategoriesTableTableManager(_db, _db.categories);
+  $$PayeesTableTableManager get payees =>
+      $$PayeesTableTableManager(_db, _db.payees);
+  $$MovementsTableTableManager get movements =>
+      $$MovementsTableTableManager(_db, _db.movements);
 }
