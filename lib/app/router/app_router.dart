@@ -2,6 +2,9 @@ import 'package:go_router/go_router.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/pages/account_form_page.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/pages/accounts_page.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/categories/presentation/pages/categories_page.dart';
+import 'package:saisho_kakeibo/features/categories/presentation/pages/category_form_page.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/currency_form_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/settings_page.dart';
@@ -28,6 +31,30 @@ GoRouter createAppRouter() => GoRouter(
           path: ':id',
           name: 'editAccount',
           builder: (context, state) => AccountFormPage(
+            id: int.tryParse(state.pathParameters['id']!) ?? -1,
+          ),
+        ),
+      ],
+    ),
+    GoRoute(
+      path: AppRoutes.categories,
+      name: 'categories',
+      builder: (context, state) => const CategoriesPage(),
+      routes: [
+        GoRoute(
+          path: 'new',
+          name: 'newCategory',
+          builder: (context, state) => CategoryFormPage(
+            type:
+                CategoryType.values
+                    .asNameMap()[state.uri.queryParameters['type']] ??
+                CategoryType.expense,
+          ),
+        ),
+        GoRoute(
+          path: ':id',
+          name: 'editCategory',
+          builder: (context, state) => CategoryFormPage(
             id: int.tryParse(state.pathParameters['id']!) ?? -1,
           ),
         ),

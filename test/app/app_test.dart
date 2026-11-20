@@ -123,5 +123,38 @@ void main() {
 
       await tester.disposeDriftStreams();
     });
+
+    testWidgets('creates and deletes a custom category', (tester) async {
+      tester.view.physicalSize = const Size(1080, 4000);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Categories'));
+      await tester.pumpAndSettle();
+      expect(find.text('Eating out'), findsOneWidget);
+      expect(find.text('Uncategorized'), findsOneWidget);
+
+      await tester.tap(find.byTooltip('New category'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextFormField), 'groceries');
+      await tester.tap(find.byType(DropdownButtonFormField<int>));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Survival').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(find.text('Groceries'), findsOneWidget);
+
+      await tester.tap(find.text('Groceries'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Delete category'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(find.text('Groceries'), findsNothing);
+
+      await tester.disposeDriftStreams();
+    });
   });
 }

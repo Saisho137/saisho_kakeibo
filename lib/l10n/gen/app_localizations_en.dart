@@ -413,4 +413,159 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountDeleteWithPocketsAction => 'Delete all';
+
+  @override
+  String get categoriesOpenTooltip => 'Categories';
+
+  @override
+  String get categoriesTitle => 'Categories';
+
+  @override
+  String get categoryTypeExpense => 'Expense';
+
+  @override
+  String get categoryTypeIncome => 'Income';
+
+  @override
+  String get categoryTypeTransfer => 'Transfer';
+
+  @override
+  String categoriesArchived(int count) {
+    return 'Archived ($count)';
+  }
+
+  @override
+  String get categoriesEmpty => 'No categories yet.';
+
+  @override
+  String get categoryCoreMarker => 'Core category';
+
+  @override
+  String get categoryNoPillar => 'No pillar';
+
+  @override
+  String get categoryDebtPillar => 'Debt\'s pillar';
+
+  @override
+  String get categoryNewTooltip => 'New category';
+
+  @override
+  String get categoryNewTitle => 'New category';
+
+  @override
+  String categoryEditTitle(String name) {
+    return 'Edit $name';
+  }
+
+  @override
+  String get categoryNotFound => 'This category no longer exists.';
+
+  @override
+  String get categoryType => 'Type';
+
+  @override
+  String get categoryTypeLocked =>
+      'The type can\'t be changed after creating the category.';
+
+  @override
+  String get categoryIconTooltip => 'Change icon';
+
+  @override
+  String get categoryName => 'Name';
+
+  @override
+  String get categoryErrorName => 'Enter a name.';
+
+  @override
+  String categoryErrorDuplicate(String type) {
+    return 'Another $type category has this name.';
+  }
+
+  @override
+  String get categoryChangeColor => 'Change color';
+
+  @override
+  String get categoryPillar => 'Pillar';
+
+  @override
+  String get categoryErrorPillar => 'Pick a pillar.';
+
+  @override
+  String get categoryDebtPillarHint =>
+      'Each payment takes the pillar of the debt it pays.';
+
+  @override
+  String get categoryNoPillarHint =>
+      'It doesn\'t belong to a pillar: it shows as No pillar in the chart.';
+
+  @override
+  String get categoryCoreHint =>
+      'Core category: it can be renamed, but not archived or deleted.';
+
+  @override
+  String get categoryReset => 'Reset to default';
+
+  @override
+  String get categoryArchiveTooltip => 'Archive';
+
+  @override
+  String get categoryUnarchiveTooltip => 'Restore';
+
+  @override
+  String get categoryArchivedHint =>
+      'Archived: it\'s out of the quick entry grid and keeps its history.';
+
+  @override
+  String get categoryDeleteTooltip => 'Delete category';
+
+  @override
+  String categoryDeleteTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get categoryDeleteNoMovements =>
+      'It has no movements. This can\'t be undone.';
+
+  @override
+  String categoryDeleteMovements(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Its $count movements move',
+      one: 'Its movement moves',
+    );
+    return '$_temp0 to the category you pick. This can\'t be undone.';
+  }
+
+  @override
+  String get categoryDeleteTarget => 'Move to';
+
+  @override
+  String get pillarsTooltip => 'Pillars';
+
+  @override
+  String get pillarsTitle => 'Pillars';
+
+  @override
+  String get pillarsHint =>
+      'Pillars classify expenses. Rename them or change their color.';
+
+  @override
+  String get pillarEditTitle => 'Edit pillar';
+
+  @override
+  String get pillarName => 'Name';
+
+  @override
+  String get pillarErrorName => 'Enter a name.';
+
+  @override
+  String get pillarErrorDuplicate => 'Another pillar has this name.';
+
+  @override
+  String get pillarColorInUse => 'Colors of other pillars are not available.';
+
+  @override
+  String get actionClose => 'Close';
 }

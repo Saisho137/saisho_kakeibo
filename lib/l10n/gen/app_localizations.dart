@@ -813,6 +813,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete all'**
   String get accountDeleteWithPocketsAction;
+
+  /// Tooltip of the temporary Home button that opens Categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categoriesOpenTooltip;
+
+  /// Title of the Categories screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categoriesTitle;
+
+  /// Expense category type and tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get categoryTypeExpense;
+
+  /// Income category type and tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get categoryTypeIncome;
+
+  /// Transfer category type and tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get categoryTypeTransfer;
+
+  /// Header of the archived categories of a tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived ({count})'**
+  String categoriesArchived(int count);
+
+  /// Shown when a tab has no active categories.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet.'**
+  String get categoriesEmpty;
+
+  /// Semantic label of the lock shown on core categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Core category'**
+  String get categoryCoreMarker;
+
+  /// Pillar label of Loan given and Uncategorized.
+  ///
+  /// In en, this message translates to:
+  /// **'No pillar'**
+  String get categoryNoPillar;
+
+  /// Pillar label of Debt payment, which takes the pillar of each debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt\'s pillar'**
+  String get categoryDebtPillar;
+
+  /// Tooltip of the add button.
+  ///
+  /// In en, this message translates to:
+  /// **'New category'**
+  String get categoryNewTooltip;
+
+  /// Title of the form that creates a category.
+  ///
+  /// In en, this message translates to:
+  /// **'New category'**
+  String get categoryNewTitle;
+
+  /// Title of the form that edits a category.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {name}'**
+  String categoryEditTitle(String name);
+
+  /// Shown when the edited category is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This category no longer exists.'**
+  String get categoryNotFound;
+
+  /// Label of the category type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get categoryType;
+
+  /// Why the type of a stored category is read-only.
+  ///
+  /// In en, this message translates to:
+  /// **'The type can\'t be changed after creating the category.'**
+  String get categoryTypeLocked;
+
+  /// Tooltip of the category icon in the form.
+  ///
+  /// In en, this message translates to:
+  /// **'Change icon'**
+  String get categoryIconTooltip;
+
+  /// Label of the category name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get categoryName;
+
+  /// Error of an empty category name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name.'**
+  String get categoryErrorName;
+
+  /// Error of a repeated name inside a type.
+  ///
+  /// In en, this message translates to:
+  /// **'Another {type} category has this name.'**
+  String categoryErrorDuplicate(String type);
+
+  /// Subtle button that opens the color picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Change color'**
+  String get categoryChangeColor;
+
+  /// Label of the pillar picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Pillar'**
+  String get categoryPillar;
+
+  /// Error of a custom expense without a pillar.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a pillar.'**
+  String get categoryErrorPillar;
+
+  /// Note of the Debt payment category.
+  ///
+  /// In en, this message translates to:
+  /// **'Each payment takes the pillar of the debt it pays.'**
+  String get categoryDebtPillarHint;
+
+  /// Note of Loan given and Uncategorized.
+  ///
+  /// In en, this message translates to:
+  /// **'It doesn\'t belong to a pillar: it shows as No pillar in the chart.'**
+  String get categoryNoPillarHint;
+
+  /// Note shown on core categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Core category: it can be renamed, but not archived or deleted.'**
+  String get categoryCoreHint;
+
+  /// Button that restores the default name, icon and color of a core category.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get categoryReset;
+
+  /// Tooltip of the archive action.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get categoryArchiveTooltip;
+
+  /// Tooltip of the action that restores an archived category.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get categoryUnarchiveTooltip;
+
+  /// Note shown on an archived category.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived: it\'s out of the quick entry grid and keeps its history.'**
+  String get categoryArchivedHint;
+
+  /// Tooltip of the delete action.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete category'**
+  String get categoryDeleteTooltip;
+
+  /// Delete confirmation title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String categoryDeleteTitle(String name);
+
+  /// Delete confirmation of a category without movements.
+  ///
+  /// In en, this message translates to:
+  /// **'It has no movements. This can\'t be undone.'**
+  String get categoryDeleteNoMovements;
+
+  /// Delete confirmation of a category with movements.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Its movement moves} other{Its {count} movements move}} to the category you pick. This can\'t be undone.'**
+  String categoryDeleteMovements(int count);
+
+  /// Label of the picker of the category that receives the movements.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to'**
+  String get categoryDeleteTarget;
+
+  /// Tooltip of the button that opens the pillars.
+  ///
+  /// In en, this message translates to:
+  /// **'Pillars'**
+  String get pillarsTooltip;
+
+  /// Title of the pillars dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Pillars'**
+  String get pillarsTitle;
+
+  /// Explanation in the pillars dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Pillars classify expenses. Rename them or change their color.'**
+  String get pillarsHint;
+
+  /// Title of the dialog that edits a pillar.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit pillar'**
+  String get pillarEditTitle;
+
+  /// Label of the pillar name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get pillarName;
+
+  /// Error of an empty pillar name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name.'**
+  String get pillarErrorName;
+
+  /// Error of a repeated pillar name.
+  ///
+  /// In en, this message translates to:
+  /// **'Another pillar has this name.'**
+  String get pillarErrorDuplicate;
+
+  /// Note under the pillar colors.
+  ///
+  /// In en, this message translates to:
+  /// **'Colors of other pillars are not available.'**
+  String get pillarColorInUse;
+
+  /// Generic close button.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get actionClose;
 }
 
 class _AppLocalizationsDelegate

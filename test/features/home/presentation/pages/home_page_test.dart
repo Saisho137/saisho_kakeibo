@@ -31,5 +31,15 @@ void main() {
 
       verify(() => router.push<Object?>('/accounts')).called(1);
     });
+
+    testWidgets('opens Categories', (tester) async {
+      final router = MockGoRouter();
+      when(() => router.push<Object?>(any())).thenAnswer((_) async => null);
+
+      await tester.pumpApp(const HomePage(), router: router);
+      await tester.tap(find.byTooltip('Categories'));
+
+      verify(() => router.push<Object?>('/categories')).called(1);
+    });
   });
 }

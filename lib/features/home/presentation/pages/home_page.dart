@@ -5,8 +5,8 @@ import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
 /// Placeholder entry screen until the Home feature is implemented. The
-/// Accounts and Settings buttons are temporary: phase 6 moves them to the ⋮
-/// navigation menu.
+/// Accounts, Categories and Settings buttons are temporary: phase 6 moves
+/// them to the ⋮ navigation menu.
 class HomePage extends StatelessWidget {
   const new({super.key});
 
@@ -19,6 +19,11 @@ class HomePage extends StatelessWidget {
             tooltip: context.l10n.accountsOpenTooltip,
             icon: const Icon(Icons.account_balance_wallet_rounded),
             onPressed: () => context.push(AppRoutes.accounts),
+          ),
+          IconButton(
+            tooltip: context.l10n.categoriesOpenTooltip,
+            icon: const Icon(Icons.category_rounded),
+            onPressed: () => context.push(AppRoutes.categories),
           ),
           IconButton(
             tooltip: context.l10n.settingsOpenTooltip,
