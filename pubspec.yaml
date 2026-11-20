@@ -27,6 +27,7 @@ dependencies:
   googleapis: ^19.0.0
   intl: ^0.20.3
   material_ui: ^1.11.1
+  meta: ^1.19.0
   path_provider: ^2.1.6
   timezone: ^0.11.2
   workmanager: ^0.10.10

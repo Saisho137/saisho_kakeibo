@@ -39,7 +39,7 @@
 
 Objetivo: piezas transversales, sin pantallas de negocio.
 
-- [ ] **Decisión de fechas en drift:** `build.yaml` con `store_date_time_values_as_text: true` (texto ISO-8601, legible en respaldos y sin ambigüedad de zona horaria). Tipo `LocalDate` propio (año, mes, día) para las fechas de movimientos y periodos, que no tienen hora.
+- [x] **Decisión de fechas en drift:** `build.yaml` con `store_date_time_values_as_text: true` (texto ISO-8601, legible en respaldos y sin ambigüedad de zona horaria). Tipo `LocalDate` propio (año, mes, día) para las fechas de movimientos y periodos, que no tienen hora.
 - [ ] **Exportar esquemas de drift** (`make db-schema`) y andamiaje de pruebas de migración, aunque hoy solo exista la versión 1.
 - [ ] **`Money`** en `core/money/`: monto entero en la unidad mínima + código de moneda; suma y resta solo entre la misma moneda (error si se mezclan); nunca `double` (RT-03).
 - [ ] **`MoneyFormatter`**: separador de miles, separador decimal y número de decimales por moneda (RF-16). Pruebas: `4.250.000` (COP) y `1.250,50` (USD).
