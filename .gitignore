@@ -50,3 +50,6 @@ env/*.local.json
 
 # Local VS Code workspace (links to the private Obsidian vault)
 *.code-workspace
+
+# Claude Code local settings (the .claude/plans folder is versioned)
+.claude/settings.local.json
