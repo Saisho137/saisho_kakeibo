@@ -16,45 +16,84 @@ abstract class CurrencyTotals with _$CurrencyTotals {
   }) = _CurrencyTotals;
 }
 
+/// What one movement adds to a total: an amount of a type in a currency.
+typedef TotalShare = ({String currencyCode, MovementType type, int amount});
+
 /// Totals of a period's movements by currency code (RF-14).
 abstract final class PeriodTotals {
+  static Map<String, CurrencyTotals> of(
+    Iterable<Movement> movements,
+    List<Account> accounts,
+  ) {
+    final totals = <String, CurrencyTotals>{};
+    for (final m in movements) {
+      for (final (:currencyCode, :type, :amount) in shares(m, accounts)) {
+        final t = totals[currencyCode] ?? const CurrencyTotals();
+        totals[currencyCode] = switch (type) {
+          MovementType.income => t.copyWith(income: t.income + amount),
+          MovementType.expense => t.copyWith(expenses: t.expenses + amount),
+          _ => t.copyWith(transfers: t.transfers + amount),
+        };
+      }
+    }
+    return totals;
+  }
+
+  /// Amount of each category among the movements of [type] in
+  /// [currencyCode], largest first: the history's view by category.
+  static List<({int categoryId, int amount})> byCategory(
+    Iterable<Movement> movements,
+    List<Account> accounts, {
+    required String currencyCode,
+    required MovementType type,
+  }) {
+    final amounts = <int, int>{};
+    for (final m in movements) {
+      final id = m.categoryId;
+      if (m.type != type || id == null) continue;
+      for (final share in shares(m, accounts)) {
+        if (share.currencyCode != currencyCode) continue;
+        amounts[id] = (amounts[id] ?? 0) + share.amount;
+      }
+    }
+    return [
+      for (final MapEntry(:key, :value) in amounts.entries)
+        (categoryId: key, amount: value),
+    ]..sort((a, b) => b.amount.compareTo(a.amount));
+  }
+
+  /// What [m] adds to the totals:
   /// - Pending incomes wait for their confirmation; pending expenses and
   ///   transfers count, as they move the balance.
   /// - A transfer adds what left in the sender's currency and, between
   ///   currencies, what arrived in the receiver's. One inside an account
   ///   (with its pockets) adds nothing.
   /// - Adjustments add to no total.
-  static Map<String, CurrencyTotals> of(
-    Iterable<Movement> movements,
-    List<Account> accounts,
-  ) {
-    final totals = <String, CurrencyTotals>{};
-    void add(Account? account, CurrencyTotals Function(CurrencyTotals) change) {
-      if (account == null) return;
-      final code = account.currencyCode;
-      totals[code] = change(totals[code] ?? const CurrencyTotals());
+  static List<TotalShare> shares(Movement m, List<Account> accounts) {
+    final account = accounts.byId(m.accountId);
+    if (account == null) return const [];
+    switch (m.type) {
+      case MovementType.income when m.isPending:
+      case MovementType.adjustment:
+        return const [];
+      case MovementType.income || MovementType.expense:
+        return [
+          (currencyCode: account.currencyCode, type: m.type, amount: m.amount),
+        ];
+      case MovementType.transfer:
+        final to = accounts.byId(m.toAccountId);
+        if (to == null || TransferRules.isInternal(account, to)) {
+          return const [];
+        }
+        return [
+          (currencyCode: account.currencyCode, type: m.type, amount: m.amount),
+          if (to.currencyCode != account.currencyCode)
+            (
+              currencyCode: to.currencyCode,
+              type: m.type,
+              amount: m.toAmount ?? m.amount,
+            ),
+        ];
     }
-
-    for (final m in movements) {
-      final account = accounts.byId(m.accountId);
-      switch (m.type) {
-        case MovementType.income when !m.isPending:
-          add(account, (t) => t.copyWith(income: t.income + m.amount));
-        case MovementType.expense:
-          add(account, (t) => t.copyWith(expenses: t.expenses + m.amount));
-        case MovementType.transfer:
-          final to = accounts.byId(m.toAccountId);
-          if (account == null || to == null) continue;
-          if (TransferRules.isInternal(account, to)) continue;
-          add(account, (t) => t.copyWith(transfers: t.transfers + m.amount));
-          if (to.currencyCode != account.currencyCode) {
-            final received = m.toAmount ?? m.amount;
-            add(to, (t) => t.copyWith(transfers: t.transfers + received));
-          }
-        case MovementType.income || MovementType.adjustment:
-          break;
-      }
-    }
-    return totals;
   }
 }

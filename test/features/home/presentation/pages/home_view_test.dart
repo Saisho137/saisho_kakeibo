@@ -188,5 +188,40 @@ void main() {
       await tester.tap(find.text('Dark'));
       expect(lastUpdate().themeMode, AppThemeMode.dark);
     });
+
+    testWidgets('the Balance and the totals open the history', (tester) async {
+      await pumpView(tester);
+
+      await tester.tap(find.byTooltip('History'));
+      await tester.pumpAndSettle();
+      expect(find.text('By day'), findsOneWidget);
+      expect(find.text('Food'), findsWidgets);
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+
+      await tester.fling(
+        find.byTooltip('History'),
+        const Offset(0, -300),
+        1000,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('By day'), findsOneWidget);
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('1.200.000'));
+      await tester.pumpAndSettle();
+      expect(find.text('Transfers'), findsOneWidget);
+      expect(find.text('No movements in this period.'), findsOneWidget);
+    });
+
+    testWidgets('remembers the period swiped to', (tester) async {
+      await pumpView(tester);
+
+      await tester.fling(find.byType(PageView), const Offset(800, 0), 2000);
+      await tester.pumpAndSettle();
+
+      verify(() => homeCubit.periodSelected(ready.periods.last)).called(1);
+    });
   });
 }

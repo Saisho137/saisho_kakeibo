@@ -1151,5 +1151,33 @@
   "donutNoPillar": "No pillar",
   "@donutNoPillar": {
     "description": "Donut group of expenses without a pillar (Loan given, Uncategorized)."
+  },
+  "homeHistoryTooltip": "History",
+  "@homeHistoryTooltip": {
+    "description": "Opens the period's history from the Balance."
+  },
+  "historyByDay": "By day",
+  "@historyByDay": {
+    "description": "History view: movements grouped by day."
+  },
+  "historyByCategory": "By category",
+  "@historyByCategory": {
+    "description": "History view: totals by category."
+  },
+  "historyEmpty": "No movements in this period.",
+  "@historyEmpty": {
+    "description": "Empty history."
+  },
+  "historyCategoryShare": "{percent} of {type}",
+  "@historyCategoryShare": {
+    "description": "Share of a category in the history, such as \"45% of Expenses\".",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
   }
 }

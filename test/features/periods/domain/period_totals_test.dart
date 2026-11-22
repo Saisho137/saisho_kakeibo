@@ -99,5 +99,40 @@ void main() {
         isEmpty,
       );
     });
+
+    test('byCategory ranks the categories of a type in a currency', () {
+      final movements = [
+        movement(categoryId: 1, amount: 100),
+        movement(categoryId: 2, amount: 300),
+        movement(categoryId: 1, amount: 50),
+        movement(categoryId: 1, accountId: 4, amount: 9),
+        movement(amount: 70),
+        movement(type: MovementType.income, categoryId: 3, amount: 5),
+        movement(
+          type: MovementType.income,
+          categoryId: 3,
+          amount: 5,
+          isPending: true,
+        ),
+      ];
+      expect(
+        PeriodTotals.byCategory(
+          movements,
+          accounts,
+          currencyCode: 'COP',
+          type: MovementType.expense,
+        ),
+        [(categoryId: 2, amount: 300), (categoryId: 1, amount: 150)],
+      );
+      expect(
+        PeriodTotals.byCategory(
+          movements,
+          accounts,
+          currencyCode: 'COP',
+          type: MovementType.income,
+        ),
+        [(categoryId: 3, amount: 5)],
+      );
+    });
   });
 }

@@ -13,11 +13,14 @@ import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_account_balances.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_accounts.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_categories.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_pillars.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
+import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
+import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_totals.dart';
 import 'package:saisho_kakeibo/features/periods/domain/usecases/watch_period_starts.dart';
@@ -44,6 +47,8 @@ class _MockWatchCategories extends Mock implements WatchCategories;
 
 class _MockWatchPillars extends Mock implements WatchPillars;
 
+class _MockWatchPayees extends Mock implements WatchPayees;
+
 void main() {
   late _MockWatchSettings watchSettings;
   late _MockWatchAccounts watchAccounts;
@@ -53,6 +58,7 @@ void main() {
   late _MockWatchStarts watchStarts;
   late _MockWatchCategories watchCategories;
   late _MockWatchPillars watchPillars;
+  late _MockWatchPayees watchPayees;
 
   const cop = Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop);
   const usd = Currency(code: 'USD', symbol: r'US$', format: CurrencyFormat.usd);
@@ -72,6 +78,10 @@ void main() {
     watchStarts = _MockWatchStarts();
     watchCategories = _MockWatchCategories();
     watchPillars = _MockWatchPillars();
+    watchPayees = _MockWatchPayees();
+    when(() => watchPayees(any())).thenAnswer(
+      (_) => Stream.value([const Payee(id: 5, name: 'Uber', key: 'uber')]),
+    );
     when(() => watchCategories(any()))
         .thenAnswer((_) => Stream.value([category(id: 10)]));
     when(() => watchPillars(any())).thenAnswer((_) => Stream.value(pillars));
@@ -96,6 +106,7 @@ void main() {
     watchPeriodStarts: watchStarts,
     watchCategories: watchCategories,
     watchPillars: watchPillars,
+    watchPayees: watchPayees,
   );
 
   group('HomeCubit', () {
@@ -126,6 +137,21 @@ void main() {
       verify: (cubit) {
         expect(cubit.state.currency, usd);
         expect(cubit.state.balance, const Money(0, 'USD'));
+      },
+    );
+
+    blocTest<HomeCubit, HomeState>(
+      'remembers the period on screen',
+      build: buildCubit,
+      act: (cubit) async {
+        cubit.load();
+        await Future<void>.delayed(Duration.zero);
+        cubit.periodSelected(cubit.state.periods.single);
+      },
+      verify: (cubit) {
+        expect(cubit.state.selectedPeriod, cubit.state.periods.single);
+        expect(cubit.state.visiblePeriod, cubit.state.periods.single);
+        expect(cubit.state.payeeOf(movement(payeeId: 5))?.name, 'Uber');
       },
     );
 
@@ -199,6 +225,100 @@ void main() {
             .totalsOf(state.periods.first),
         const CurrencyTotals(),
       );
+    });
+
+    group('history', () {
+      // Monthly from the 27th; account 4 is a USD account.
+      final usdBank = account(id: 4, currencyCode: 'USD');
+      final food = category(id: 10, name: 'Food');
+      final rent = category(id: 11, name: 'Rent');
+      final salary = category(
+        id: 12,
+        name: 'Salary',
+        type: CategoryType.income,
+      );
+      final exchange = category(
+        id: 13,
+        name: 'Exchange',
+        type: CategoryType.transfer,
+      );
+      final state = HomeState(
+        today: movementDay,
+        settings: const AppSettings(periodType: PeriodType.monthly),
+        accounts: [cash, card, usdBank],
+        periodStarts: const [],
+        categories: [food, rent, salary, exchange],
+        movements: [
+          movement(id: 1, categoryId: 10, amount: 600),
+          movement(id: 2, categoryId: 11, amount: 300, accountId: 2),
+          movement(
+            id: 3,
+            categoryId: 10,
+            amount: 100,
+            date: movementDay.addDays(-1),
+          ),
+          movement(
+            id: 4,
+            type: MovementType.income,
+            categoryId: 12,
+            amount: 5000,
+            isPending: true,
+          ),
+          movement(
+            id: 5,
+            type: MovementType.transfer,
+            categoryId: 13,
+            accountId: 4,
+            amount: 10,
+            toAccountId: 1,
+            toAmount: 40000,
+          ),
+          movement(id: 6, categoryId: 10, accountId: 4, amount: 7),
+          movement(id: 7, categoryId: 10, date: LocalDate(2026, 1, 5)),
+        ],
+      );
+      final period = state.visiblePeriod!;
+
+      test("shows today's period until another is swiped to", () {
+        expect(period.start, LocalDate(2026, 2, 27));
+        final other = state.periods.last;
+        expect(state.copyWith(selectedPeriod: other).visiblePeriod, other);
+        expect(
+          state
+              .copyWith(selectedPeriod: Period(start: LocalDate(1990, 1, 1)))
+              .visiblePeriod,
+          period,
+        );
+        expect(const HomeState().visiblePeriod, isNull);
+      });
+
+      test("lists the currency's movements from their account", () {
+        final history = state.historyOf(period);
+        expect(history.map((e) => e.movement.id), [1, 2, 3, 4, 5]);
+        // The exchange from USD is seen from the COP account it reached.
+        expect(history.last.accountId, 1);
+        expect(state.daysOf(period).map((d) => d.$1), [
+          movementDay,
+          movementDay.addDays(-1),
+        ]);
+        expect(const HomeState().historyOf(period), isEmpty);
+      });
+
+      test('ranks the categories of a type with their share', () {
+        final expenses = state.categoriesOf(period, MovementType.expense);
+        expect(expenses.map((c) => c.category), [food, rent]);
+        expect(expenses.map((c) => c.amount), [700, 300]);
+        expect(expenses.first.share, 0.7);
+        expect(state.categoriesOf(period, MovementType.income), isEmpty);
+        expect(
+          state.categoriesOf(period, MovementType.transfer).single.amount,
+          40000,
+        );
+        expect(
+          const HomeState().categoriesOf(period, MovementType.expense),
+          isEmpty,
+        );
+      });
     });
   });
 }

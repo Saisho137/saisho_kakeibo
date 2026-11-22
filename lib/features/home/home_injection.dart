@@ -13,6 +13,7 @@ void registerHomeDependencies(GetIt getIt) {
       watchPeriodStarts: getIt(),
       watchCategories: getIt(),
       watchPillars: getIt(),
+      watchPayees: getIt(),
     ),
   );
 }

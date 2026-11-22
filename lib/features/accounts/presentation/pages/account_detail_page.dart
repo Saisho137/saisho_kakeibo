@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
@@ -8,7 +7,6 @@ import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/money_formatter.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
-import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
 import 'package:saisho_kakeibo/core/widgets/section_header.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
@@ -17,6 +15,7 @@ import 'package:saisho_kakeibo/features/accounts/presentation/widgets/adjust_bal
 import 'package:saisho_kakeibo/features/accounts/presentation/widgets/movement_tile.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
+import 'package:saisho_kakeibo/features/periods/presentation/widgets/day_label.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_label.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_page_view.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
@@ -227,7 +226,7 @@ class _PeriodPage extends StatelessWidget {
             ),
           ),
         for (final (day, movements) in days) ...[
-          SectionHeader(_dayLabel(context, day)),
+          SectionHeader(dayLabel(context, day)),
           for (final movement in movements)
             MovementTile(
               key: ValueKey(movement.id),
@@ -256,17 +255,6 @@ class _PeriodPage extends StatelessWidget {
         ],
       ],
     );
-  }
-
-  static String _dayLabel(BuildContext context, LocalDate day) {
-    final today = LocalDate.today();
-    if (day == today) return context.l10n.dayToday;
-    if (day == today.addDays(-1)) return context.l10n.dayYesterday;
-    final locale = Localizations.localeOf(context).toLanguageTag();
-    final format = day.year == today.year
-        ? DateFormat.MMMEd(locale)
-        : DateFormat.yMMMEd(locale);
-    return format.format(day.toDateTime());
   }
 
   static Future<void> _confirmDeleteAdjustment(
