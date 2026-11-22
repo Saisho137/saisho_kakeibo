@@ -11,6 +11,8 @@ import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart'
 import 'package:saisho_kakeibo/features/movements/presentation/pages/category_grid_page.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/movement_form_page.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/transfer_form_page.dart';
+import 'package:saisho_kakeibo/features/recurring/presentation/pages/recurring_form_page.dart';
+import 'package:saisho_kakeibo/features/recurring/presentation/pages/recurring_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/currency_form_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/settings_page.dart';
 
@@ -110,6 +112,29 @@ GoRouter createAppRouter() => GoRouter(
       name: 'editTransfer',
       builder: (context, state) =>
           TransferFormPage(id: int.tryParse(state.pathParameters['id']!) ?? -1),
+    ),
+    GoRoute(
+      path: AppRoutes.recurring,
+      name: 'recurring',
+      builder: (context, state) => const RecurringPage(),
+      routes: [
+        GoRoute(
+          path: 'new',
+          name: 'newRecurring',
+          builder: (context, state) => RecurringFormPage(
+            fromMovementId: int.tryParse(
+              state.uri.queryParameters['from'] ?? '',
+            ),
+          ),
+        ),
+        GoRoute(
+          path: ':id',
+          name: 'editRecurring',
+          builder: (context, state) => RecurringFormPage(
+            id: int.tryParse(state.pathParameters['id']!) ?? -1,
+          ),
+        ),
+      ],
     ),
     GoRoute(
       path: AppRoutes.settings,

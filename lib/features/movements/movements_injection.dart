@@ -33,6 +33,7 @@ void registerMovementsDependencies(GetIt getIt) {
         movements: getIt(),
         accounts: getIt(),
         categories: getIt(),
+        recurring: getIt(),
       ),
     )
     ..registerFactory(

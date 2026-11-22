@@ -41,6 +41,9 @@ abstract class TransferFormState with _$TransferFormState {
 
   bool get isEditing => original != null;
 
+  /// A pending transfer shows "Confirm" instead of "Save" (RF-06).
+  bool get isPending => original?.isPending ?? false;
+
   Account? get from => accounts.byId(fromAccountId);
 
   Account? get to => accounts.byId(toAccountId);

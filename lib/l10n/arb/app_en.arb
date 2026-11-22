@@ -1179,5 +1179,130 @@
         "type": "String"
       }
     }
+  },
+  "recurringTitle": "Recurring",
+  "@recurringTitle": {
+    "description": "Title of the Recurring screen and its menu item."
+  },
+  "recurringNewTooltip": "New recurring",
+  "@recurringNewTooltip": {
+    "description": "Tooltip of the button that creates a template."
+  },
+  "recurringEmpty": "No recurring movements yet. Add your fixed expenses, transfers and incomes.",
+  "@recurringEmpty": {
+    "description": "Empty Recurring screen."
+  },
+  "recurringNewTitle": "New recurring",
+  "@recurringNewTitle": {
+    "description": "Title of the template form when creating."
+  },
+  "recurringEditTitle": "Edit recurring",
+  "@recurringEditTitle": {
+    "description": "Title of the template form when editing."
+  },
+  "recurringNotFound": "This recurring movement no longer exists.",
+  "@recurringNotFound": {
+    "description": "Template not found."
+  },
+  "recurringType": "Type",
+  "@recurringType": {
+    "description": "Label of the template type selector."
+  },
+  "recurringCadence": "Creates its pending movement",
+  "@recurringCadence": {
+    "description": "Label of the cadence selector."
+  },
+  "recurringCadencePeriod": "Each period",
+  "@recurringCadencePeriod": {
+    "description": "Cadence: at each salary or manual period start."
+  },
+  "recurringCadenceMonthly": "Each month",
+  "@recurringCadenceMonthly": {
+    "description": "Cadence: at each monthly period start, on the cutoff day."
+  },
+  "recurringCadencePeriodHint": "When a salary or a manual start begins a period.",
+  "@recurringCadencePeriodHint": {
+    "description": "Explains the period cadence."
+  },
+  "recurringCadenceMonthlyHint": "On the cutoff day, every month.",
+  "@recurringCadenceMonthlyHint": {
+    "description": "Explains the monthly cadence."
+  },
+  "recurringAmount": "Amount",
+  "@recurringAmount": {
+    "description": "Label of the template amount."
+  },
+  "recurringToAmount": "Received",
+  "@recurringToAmount": {
+    "description": "Label of the amount a cross-currency template transfer adds."
+  },
+  "recurringFrom": "From",
+  "@recurringFrom": {
+    "description": "Label of the sending account of a template transfer."
+  },
+  "recurringTo": "To",
+  "@recurringTo": {
+    "description": "Label of the receiving account of a template transfer."
+  },
+  "recurringCategory": "Category",
+  "@recurringCategory": {
+    "description": "Label of the template category."
+  },
+  "recurringDueDay": "Due day",
+  "@recurringDueDay": {
+    "description": "Label of the optional day of the month."
+  },
+  "recurringNoDueDay": "None",
+  "@recurringNoDueDay": {
+    "description": "No due day."
+  },
+  "recurringDueDayValue": "Day {day}",
+  "@recurringDueDayValue": {
+    "description": "A due day.",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "recurringDueDayHint": "Expenses and transfers are created at the period start; this day is for the reminder. Incomes are dated on it.",
+  "@recurringDueDayHint": {
+    "description": "Explains the due day."
+  },
+  "recurringClearDueDay": "No due day",
+  "@recurringClearDueDay": {
+    "description": "Action that clears the due day."
+  },
+  "recurringRemind": "Remind me on due day",
+  "@recurringRemind": {
+    "description": "Switch of the due-day reminder."
+  },
+  "recurringFirstHint": "Its first pending movement comes with the next period.",
+  "@recurringFirstHint": {
+    "description": "Note under a new template."
+  },
+  "recurringPaused": "Paused",
+  "@recurringPaused": {
+    "description": "Marks a paused template."
+  },
+  "recurringActiveTooltip": "Active",
+  "@recurringActiveTooltip": {
+    "description": "Tooltip of the switch that pauses or resumes a template."
+  },
+  "recurringDeleteTooltip": "Delete recurring",
+  "@recurringDeleteTooltip": {
+    "description": "Tooltip of the template delete button."
+  },
+  "recurringDeleteTitle": "Delete this recurring movement?",
+  "@recurringDeleteTitle": {
+    "description": "Title of the template delete confirmation."
+  },
+  "recurringDeleteMessage": "The movements it already created stay.",
+  "@recurringDeleteMessage": {
+    "description": "Message of the template delete confirmation."
+  },
+  "movementMakeRecurring": "Make recurring",
+  "@movementMakeRecurring": {
+    "description": "Creates a recurring template from a saved movement."
   }
 }

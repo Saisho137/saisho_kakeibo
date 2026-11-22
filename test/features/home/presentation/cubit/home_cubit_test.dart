@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/core/error/failure.dart';
+import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/money/money.dart';
@@ -24,6 +25,7 @@ import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_totals.dart';
 import 'package:saisho_kakeibo/features/periods/domain/usecases/watch_period_starts.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/usecases/materialize_recurring.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
 
@@ -49,6 +51,8 @@ class _MockWatchPillars extends Mock implements WatchPillars;
 
 class _MockWatchPayees extends Mock implements WatchPayees;
 
+class _MockMaterialize extends Mock implements MaterializeRecurring;
+
 void main() {
   late _MockWatchSettings watchSettings;
   late _MockWatchAccounts watchAccounts;
@@ -59,6 +63,7 @@ void main() {
   late _MockWatchCategories watchCategories;
   late _MockWatchPillars watchPillars;
   late _MockWatchPayees watchPayees;
+  late _MockMaterialize materialize;
 
   const cop = Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop);
   const usd = Currency(code: 'USD', symbol: r'US$', format: CurrencyFormat.usd);
@@ -67,7 +72,10 @@ void main() {
   final card = account(id: 2, type: AccountType.creditCard);
   final dollars = account(id: 3, currencyCode: 'USD');
 
-  setUpAll(() => registerFallbackValue(const NoParams()));
+  setUpAll(() {
+    registerFallbackValue(const NoParams());
+    registerFallbackValue(movementDay);
+  });
 
   setUp(() {
     watchSettings = _MockWatchSettings();
@@ -79,6 +87,8 @@ void main() {
     watchCategories = _MockWatchCategories();
     watchPillars = _MockWatchPillars();
     watchPayees = _MockWatchPayees();
+    materialize = _MockMaterialize();
+    when(() => materialize(any())).thenAnswer((_) async => const Ok(0));
     when(() => watchPayees(any())).thenAnswer(
       (_) => Stream.value([const Payee(id: 5, name: 'Uber', key: 'uber')]),
     );
@@ -107,6 +117,7 @@ void main() {
     watchCategories: watchCategories,
     watchPillars: watchPillars,
     watchPayees: watchPayees,
+    materializeRecurring: materialize,
   );
 
   group('HomeCubit', () {
@@ -153,6 +164,23 @@ void main() {
         expect(cubit.state.visiblePeriod, cubit.state.periods.single);
         expect(cubit.state.payeeOf(movement(payeeId: 5))?.name, 'Uber');
       },
+    );
+
+    blocTest<HomeCubit, HomeState>(
+      'creates the recurring movements owed when it opens',
+      build: buildCubit,
+      act: (cubit) => cubit.load(),
+      verify: (_) => verify(() => materialize(LocalDate.today())).called(1),
+    );
+
+    blocTest<HomeCubit, HomeState>(
+      'reports a failure creating recurring movements',
+      setUp: () =>
+          when(() => materialize(any()))
+              .thenAnswer((_) async => const Err(DatabaseFailure('disk'))),
+      build: buildCubit,
+      act: (cubit) => cubit.load(),
+      verify: (cubit) => expect(cubit.state.failure, isA<DatabaseFailure>()),
     );
 
     blocTest<HomeCubit, HomeState>(

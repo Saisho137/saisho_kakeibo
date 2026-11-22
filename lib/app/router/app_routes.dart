@@ -9,6 +9,7 @@ abstract final class AppRoutes {
   static const String accounts = '/accounts';
   static const String newAccount = '/accounts/new';
   static const String categories = '/categories';
+  static const String recurring = '/recurring';
 
   static String editCurrency(String code) => '/settings/currencies/$code';
 
@@ -44,4 +45,11 @@ abstract final class AppRoutes {
       '/categories/new?type=${type.name}';
 
   static String editCategory(int id) => '/categories/$id';
+
+  /// A new template, or one started from the movement [fromMovementId].
+  static String newRecurring({int? fromMovementId}) => fromMovementId == null
+      ? '/recurring/new'
+      : '/recurring/new?from=$fromMovementId';
+
+  static String editRecurring(int id) => '/recurring/$id';
 }

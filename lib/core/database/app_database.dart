@@ -18,6 +18,10 @@ import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart'
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
 import 'package:saisho_kakeibo/features/periods/data/datasources/period_dao.dart';
 import 'package:saisho_kakeibo/features/periods/data/datasources/period_starts_table.dart';
+import 'package:saisho_kakeibo/features/recurring/data/datasources/recurring_dao.dart';
+import 'package:saisho_kakeibo/features/recurring/data/datasources/recurring_occurrences_table.dart';
+import 'package:saisho_kakeibo/features/recurring/data/datasources/recurring_templates_table.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/currencies_table.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/currency_dao.dart';
 import 'package:saisho_kakeibo/features/settings/data/datasources/settings_dao.dart';
@@ -37,8 +41,10 @@ part 'app_database.g.dart';
     Pillars,
     Categories,
     Payees,
+    RecurringTemplates,
     Movements,
     PeriodStarts,
+    RecurringOccurrences,
   ],
   daos: [
     CurrencyDao,
@@ -47,6 +53,7 @@ part 'app_database.g.dart';
     CategoryDao,
     MovementDao,
     PeriodDao,
+    RecurringDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

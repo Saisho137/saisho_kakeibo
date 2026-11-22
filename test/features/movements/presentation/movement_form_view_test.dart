@@ -232,6 +232,16 @@ void main() {
     verify(() => cubit.delete()).called(1);
   });
 
+  testWidgets('a stored movement can become recurring', (tester) async {
+    when(() => router.push<Object?>(any())).thenAnswer((_) async => null);
+    when(() => cubit.state)
+        .thenReturn(ready.copyWith(original: movement(id: 7)));
+
+    await pumpView(tester);
+    await tester.tap(find.byTooltip('Make recurring'));
+    verify(() => router.push<Object?>('/recurring/new?from=7')).called(1);
+  });
+
   testWidgets('hides the keypad while the system keyboard is open', (
     tester,
   ) async {

@@ -5,10 +5,11 @@ import 'package:saisho_kakeibo/features/categories/data/datasources/categories_t
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
+import 'package:saisho_kakeibo/features/recurring/data/datasources/recurring_templates_table.dart';
 
 /// Incomes, expenses, transfers and adjustments (RT-04). Amounts are in the
-/// minor unit of their account's currency. Debts (phase 8) and recurring
-/// templates (phase 7) get their foreign keys when their tables exist.
+/// minor unit of their account's currency. Debts get their foreign key
+/// when their table exists (phase 8).
 @DataClassName('MovementRow')
 @TableIndex(name: 'movements_account', columns: {#accountId})
 @TableIndex(name: 'movements_to_account', columns: {#toAccountId})
@@ -39,7 +40,12 @@ class Movements extends Table {
 
   IntColumn get debtId => integer().nullable()();
 
-  IntColumn get recurringTemplateId => integer().nullable()();
+  /// Template that created it; deleting the template keeps the movement.
+  IntColumn get recurringTemplateId => integer().nullable().references(
+    RecurringTemplates,
+    #id,
+    onDelete: KeyAction.setNull,
+  )();
 
   BoolColumn get isPending => boolean().withDefault(const Constant(false))();
 

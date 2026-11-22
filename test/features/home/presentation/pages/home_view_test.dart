@@ -163,6 +163,7 @@ void main() {
       for (final (screen, route) in [
         ('Accounts', '/accounts'),
         ('Categories', '/categories'),
+        ('Recurring', '/recurring'),
         ('Settings', '/settings'),
       ]) {
         await tester.tap(find.byTooltip('Go to'));

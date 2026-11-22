@@ -229,6 +229,36 @@ void main() {
     verify(() => cubit.delete()).called(1);
   });
 
+  testWidgets('a stored transfer can become recurring', (tester) async {
+    when(() => router.push<Object?>(any())).thenAnswer((_) async => null);
+    when(() => cubit.state).thenReturn(
+      ready.copyWith(
+        original: movement(id: 9, type: MovementType.transfer, isPending: true),
+        toAccountId: 1,
+      ),
+    );
+
+    await pumpView(tester);
+    expect(find.text('Confirm'), findsOneWidget);
+    await tester.tap(find.byTooltip('Make recurring'));
+    verify(() => router.push<Object?>('/recurring/new?from=9')).called(1);
+  });
+
+  testWidgets('a transfer of a template is already recurring', (tester) async {
+    when(() => cubit.state).thenReturn(
+      ready.copyWith(
+        original: movement(
+          id: 9,
+          type: MovementType.transfer,
+        ).copyWith(recurringTemplateId: 2),
+        toAccountId: 1,
+      ),
+    );
+
+    await pumpView(tester);
+    expect(find.byTooltip('Make recurring'), findsNothing);
+  });
+
   testWidgets('shows yesterday and hides the keypad with the keyboard', (
     tester,
   ) async {
