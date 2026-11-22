@@ -8,6 +8,7 @@ import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/home_balance_bar.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/navigation_menu.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/period_totals_view.dart';
@@ -79,6 +80,7 @@ class HomeView extends StatelessWidget {
                       )),
                       periods: state.periods,
                       initialIndex: state.currentIndex,
+                      onPageChanged: context.read<HomeCubit>().periodSelected,
                       itemBuilder: (context, period) => _PeriodPage(
                         period: period,
                         state: state,
@@ -127,6 +129,7 @@ class _PeriodPage extends StatelessWidget {
               center: PeriodTotalsView(
                 totals: state.totalsOf(period),
                 currency: currency,
+                onTap: (type) => showHistorySheet(context, categoryType: type),
               ),
               onCategoryTap: (category) => context.push(
                 AppRoutes.newMovement(

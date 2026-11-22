@@ -862,4 +862,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get donutNoPillar => 'No pillar';
+
+  @override
+  String get homeHistoryTooltip => 'History';
+
+  @override
+  String get historyByDay => 'By day';
+
+  @override
+  String get historyByCategory => 'By category';
+
+  @override
+  String get historyEmpty => 'No movements in this period.';
+
+  @override
+  String historyCategoryShare(String percent, String type) {
+    return '$percent of $type';
+  }
 }

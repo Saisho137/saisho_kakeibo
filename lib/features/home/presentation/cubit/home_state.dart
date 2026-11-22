@@ -19,9 +19,13 @@ abstract class HomeState with _$HomeState {
     List<LocalDate>? periodStarts,
     List<Category>? categories,
     List<Pillar>? pillars,
+    List<Payee>? payees,
 
     /// Currency picked in the quick menu; the main one until then.
     String? selectedCurrencyCode,
+
+    /// Period swiped to; today's until then.
+    Period? selectedPeriod,
     Failure? failure,
   }) = _HomeState;
 
@@ -66,6 +70,70 @@ abstract class HomeState with _$HomeState {
     if (today == null) return 0;
     return max(0, periods.indexWhere((p) => p.contains(today)));
   }
+
+  /// The period on screen: the swiped one while it still exists (a new
+  /// period type splits time anew), today's otherwise.
+  Period? get visiblePeriod {
+    final periods = this.periods;
+    if (periods.isEmpty) return null;
+    final selected = selectedPeriod;
+    return selected != null && periods.contains(selected)
+        ? selected
+        : periods[currentIndex];
+  }
+
+  /// Movements of [period] in the active currency, newest first, each with
+  /// the account it is seen from: its own, or the receiver of a transfer
+  /// from another currency.
+  List<({Movement movement, int accountId})> historyOf(Period period) {
+    final code = currencyCode;
+    final accounts = this.accounts ?? const <Account>[];
+    if (code == null) return const [];
+    return [
+      for (final m in movements ?? const <Movement>[])
+        if (period.contains(m.date))
+          if (accounts.byId(m.accountId)?.currencyCode == code)
+            (movement: m, accountId: m.accountId)
+          else if (accounts.byId(m.toAccountId)?.currencyCode == code)
+            (movement: m, accountId: m.toAccountId!),
+    ];
+  }
+
+  /// [historyOf] grouped by day, newest day first.
+  List<(LocalDate, List<({Movement movement, int accountId})>)> daysOf(
+    Period period,
+  ) {
+    final groups = <LocalDate, List<({Movement movement, int accountId})>>{};
+    for (final entry in historyOf(period)) {
+      (groups[entry.movement.date] ??= []).add(entry);
+    }
+    return [for (final MapEntry(:key, :value) in groups.entries) (key, value)];
+  }
+
+  /// Categories of [type] in [period] by amount, largest first, with their
+  /// share of the type's total (RF-14).
+  List<({Category category, int amount, double share})> categoriesOf(
+    Period period,
+    MovementType type,
+  ) {
+    final code = currencyCode;
+    if (code == null) return const [];
+    final amounts = PeriodTotals.byCategory(
+      (movements ?? const <Movement>[]).where((m) => period.contains(m.date)),
+      accounts ?? const [],
+      currencyCode: code,
+      type: type,
+    );
+    final total = amounts.fold(0, (sum, a) => sum + a.amount);
+    return [
+      for (final (:categoryId, :amount) in amounts)
+        if (categories?.byId(categoryId) case final category?)
+          (category: category, amount: amount, share: amount / total),
+    ];
+  }
+
+  Payee? payeeOf(Movement movement) =>
+      payees?.where((p) => p.id == movement.payeeId).firstOrNull;
 
   /// Income, Expenses and Transfers of [period] in the active currency,
   /// over every account of it (RF-14).

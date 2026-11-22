@@ -10,8 +10,10 @@ import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
+import 'package:saisho_kakeibo/features/accounts/domain/entities/accounts_x.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_account_balances.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_accounts.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/categories_x.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/pillar.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_categories.dart';
@@ -20,6 +22,8 @@ import 'package:saisho_kakeibo/features/home/domain/services/donut_data.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/home_balance.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
+import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
+import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_calculator.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_totals.dart';
@@ -42,6 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
     required this._watchPeriodStarts,
     required this._watchCategories,
     required this._watchPillars,
+    required this._watchPayees,
   }) : super(const HomeState());
 
   final WatchSettings _watchSettings;
@@ -52,6 +57,7 @@ class HomeCubit extends Cubit<HomeState> {
   final WatchPeriodStarts _watchPeriodStarts;
   final WatchCategories _watchCategories;
   final WatchPillars _watchPillars;
+  final WatchPayees _watchPayees;
   final List<StreamSubscription<Object>> _subscriptions = [];
 
   void load() {
@@ -90,8 +96,16 @@ class HomeCubit extends Cubit<HomeState> {
         (pillars) => _received(state.copyWith(pillars: pillars)),
         onError: _failed,
       ),
+      _watchPayees(const NoParams()).listen(
+        (payees) => _received(state.copyWith(payees: payees)),
+        onError: _failed,
+      ),
     ]);
   }
+
+  /// The period on screen, which the history shows.
+  void periodSelected(Period period) =>
+      emit(state.copyWith(selectedPeriod: period));
 
   /// Quick menu: shows the Home in [code] until the app restarts.
   void currencySelected(String code) =>
@@ -106,7 +120,8 @@ class HomeCubit extends Cubit<HomeState> {
         next.movements != null &&
         next.periodStarts != null &&
         next.categories != null &&
-        next.pillars != null;
+        next.pillars != null &&
+        next.payees != null;
     emit(ready ? next.copyWith(status: HomeStatus.success) : next);
   }
 

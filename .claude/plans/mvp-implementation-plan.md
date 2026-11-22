@@ -106,11 +106,11 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 - [x] **Dona** con `CustomPainter`: anillo de categorías con íconos por fuera; borde de pilar por fuera con su color; grupo gris *No pillar* (Loan given y Uncategorized); pilares sin egresos ocultos; umbral del 3 % sin ícono ni porcentaje; anillo gris vacío. Los pagos de deudas como sección de su pilar pasan a la fase 8.
 - [x] **Interacción de la dona**: zona táctil ampliada del borde; tocar pilar invierte la dona con animación; tocar categoría abre el formulario de un egreso de esa categoría (como Monefy; el historial filtrado queda en el panel). Detección por ángulo y radio, con pruebas unitarias de la geometría.
-- [ ] Centro de la dona: Income (verde), Expenses (rojo) y Transfers (gris); tocarlos abre el historial por categoría de ese tipo. (6a: los tres totales; tocarlos llega con el panel de historial.)
+- [x] Centro de la dona: Income (verde), Expenses (rojo) y Transfers (gris); tocarlos abre el historial por categoría de ese tipo.
 - [x] Alcance: dona y totales usan todas las cuentas de la moneda activa; el Balance usa la vista principal con el filtro Cash / Bank / Both.
 - [x] Encabezado con el periodo actual; cambio de periodo deslizando (`PageView`).
 - [x] Balance abajo (código de moneda pequeño) y botones Expense, Transfer e Income.
-- [ ] **Panel de historial** desde abajo: vista por día y vista por categoría con totales; *Pending* marcado (los ingresos *Pending* atenuados y fuera del saldo).
+- [x] **Panel de historial** desde abajo: vista por día y vista por categoría con totales; *Pending* marcado (los ingresos *Pending* atenuados y fuera del saldo). Se abre tocando o arrastrando hacia arriba el Balance; en la vista por categoría, tocar una categoría despliega sus movimientos.
 - [x] **Menú rápido** (☰, izquierda): tipo de periodo, moneda, filtro del Balance y tema, con botones segmentados anchos. **Navegación** (⋮, derecha): Accounts, Debts, Entities, Categories, Recurring y Settings. Debts, Entities y Recurring se suman a la navegación en sus fases.
 - [x] El total de Transferencias excluye las transferencias dentro de una misma cuenta (cuenta ↔ sus bolsillos, `TransferRules.isInternal`). Hecho en la fase 5, en `PeriodTotals`.
 

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
+import 'package:saisho_kakeibo/core/money/percentages.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/donut_data.dart';
@@ -143,10 +144,11 @@ class _DonutChartState extends State<DonutChart>
     }
 
     final textStyle = context.textTheme.labelSmall;
-    String percent(double share) => '${(share * 100).round()}%';
     if (_curve.value < 0.5) {
+      final arcs = geometry.categoryArcs;
+      final percents = roundPercents([for (final a in arcs) a.item.share]);
       return [
-        for (final arc in geometry.categoryArcs)
+        for (final (index, arc) in arcs.indexed)
           if (arc.item.share >= DonutGeometry.minLabeledShare)
             at(
               arc.middle,
@@ -158,21 +160,23 @@ class _DonutChartState extends State<DonutChart>
                     color: Color(arc.item.category.color),
                     radius: 12,
                   ),
-                  Text(percent(arc.item.share), style: textStyle),
+                  Text('${percents[index]}%', style: textStyle),
                 ],
               ),
               ValueKey('donut-category-${arc.item.category.id}'),
             ),
       ];
     }
+    final arcs = geometry.pillarArcs;
+    final percents = roundPercents([for (final a in arcs) a.item.share]);
     return [
-      for (final arc in geometry.pillarArcs)
+      for (final (index, arc) in arcs.indexed)
         if (arc.item.share >= DonutGeometry.minLabeledShare)
           at(
             arc.middle,
             Text(
               '${arc.item.pillar?.name ?? context.l10n.donutNoPillar}\n'
-              '${percent(arc.item.share)}',
+              '${percents[index]}%',
               textAlign: TextAlign.center,
               style: textStyle,
             ),

@@ -17,9 +17,12 @@ extension PumpApp on WidgetTester {
           ...GlobalMaterialLocalizations.delegates,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
-        home: router == null
-            ? widget
-            : InheritedGoRouter(goRouter: router, child: widget),
+        // Above the navigator, as in the app, so sheets and dialogs see it.
+        builder: router == null
+            ? null
+            : (context, child) =>
+                  InheritedGoRouter(goRouter: router, child: child!),
+        home: widget,
       ),
     );
   }

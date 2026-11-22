@@ -1623,6 +1623,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No pillar'**
   String get donutNoPillar;
+
+  /// Opens the period's history from the Balance.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get homeHistoryTooltip;
+
+  /// History view: movements grouped by day.
+  ///
+  /// In en, this message translates to:
+  /// **'By day'**
+  String get historyByDay;
+
+  /// History view: totals by category.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get historyByCategory;
+
+  /// Empty history.
+  ///
+  /// In en, this message translates to:
+  /// **'No movements in this period.'**
+  String get historyEmpty;
+
+  /// Share of a category in the history, such as "45% of Expenses".
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} of {type}'**
+  String historyCategoryShare(String percent, String type);
 }
 
 class _AppLocalizationsDelegate
