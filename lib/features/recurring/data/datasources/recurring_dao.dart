@@ -61,8 +61,23 @@ class RecurringDao extends DatabaseAccessor<AppDatabase>
   Future<int> deleteTemplate(int id) =>
       (delete(recurringTemplates)..where((t) => t.id.equals(id))).go();
 
-  Future<List<RecurringOccurrenceRow>> getOccurrences() =>
-      select(recurringOccurrences).get();
+  /// Every occurrence with whether its movement is still pending.
+  Future<List<(RecurringOccurrenceRow, bool)>> getOccurrences() {
+    final query = select(recurringOccurrences).join([
+      leftOuterJoin(
+        movements,
+        movements.id.equalsExp(recurringOccurrences.movementId),
+      ),
+    ]);
+    return query
+        .map(
+          (row) => (
+            row.readTable(recurringOccurrences),
+            row.readTableOrNull(movements)?.isPending ?? false,
+          ),
+        )
+        .get();
+  }
 
   /// Inserts each new occurrence with its movement; existing ones are
   /// skipped. Returns the movements created.
@@ -79,15 +94,40 @@ class RecurringDao extends DatabaseAccessor<AppDatabase>
               ))
               .getSingleOrNull();
       if (existing != null) continue;
+      final movementId = await into(movements).insert(movement);
       await into(recurringOccurrences).insert(
         RecurringOccurrencesCompanion.insert(
           templateId: templateId,
           periodStart: periodStart,
+          movementId: Value(movementId),
         ),
       );
-      await into(movements).insert(movement);
       created++;
     }
     return created;
+  });
+
+  /// Moves occurrences to [moves] (with their pending movements' dates)
+  /// and deletes [drops] (with their pending movements).
+  Future<void> repair({
+    required List<(int occurrenceId, LocalDate start, int?, LocalDate?)> moves,
+    required List<(int occurrenceId, int? pendingMovementId)> drops,
+  }) => transaction(() async {
+    for (final (id, pendingId) in drops) {
+      await (delete(recurringOccurrences)..where((o) => o.id.equals(id))).go();
+      if (pendingId != null) {
+        await (delete(movements)..where((m) => m.id.equals(pendingId))).go();
+      }
+    }
+    for (final (id, start, movementId, date) in moves) {
+      await (update(recurringOccurrences)..where((o) => o.id.equals(id))).write(
+        RecurringOccurrencesCompanion(periodStart: Value(start)),
+      );
+      if (movementId != null && date != null) {
+        await (update(movements)..where((m) => m.id.equals(movementId))).write(
+          MovementsCompanion(date: Value(date)),
+        );
+      }
+    }
   });
 }

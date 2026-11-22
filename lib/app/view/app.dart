@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -5,6 +7,7 @@ import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/app/router/app_router.dart';
 import 'package:saisho_kakeibo/core/theme/app_theme.dart';
 import 'package:saisho_kakeibo/core/theme/app_theme_mode_x.dart';
+import 'package:saisho_kakeibo/features/reminders/presentation/reminder_sync.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
@@ -19,7 +22,14 @@ class _AppState extends State<App> {
   late final GoRouter _router = createAppRouter();
 
   @override
+  void initState() {
+    super.initState();
+    getIt<ReminderSync>().start();
+  }
+
+  @override
   void dispose() {
+    unawaited(getIt<ReminderSync>().dispose());
     _router.dispose();
     super.dispose();
   }

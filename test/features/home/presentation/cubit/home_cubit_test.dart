@@ -170,7 +170,8 @@ void main() {
       'creates the recurring movements owed when it opens',
       build: buildCubit,
       act: (cubit) => cubit.load(),
-      verify: (_) => verify(() => materialize(LocalDate.today())).called(1),
+      // Once for the period starts and once for the cutoff day.
+      verify: (_) => verify(() => materialize(LocalDate.today())).called(2),
     );
 
     blocTest<HomeCubit, HomeState>(

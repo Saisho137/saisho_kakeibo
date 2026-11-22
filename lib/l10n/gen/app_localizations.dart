@@ -1833,6 +1833,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Make recurring'**
   String get movementMakeRecurring;
+
+  /// Android notification channel of the reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminderChannelName;
+
+  /// Android notification channel description.
+  ///
+  /// In en, this message translates to:
+  /// **'Due days of recurring movements and credit cards.'**
+  String get reminderChannelDescription;
+
+  /// Notification on the due day of a recurring movement.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is due today'**
+  String reminderRecurringTitle(String name);
+
+  /// Body of a recurring reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} · Confirm it in Saisho Kakeibo.'**
+  String reminderRecurringBody(String amount);
+
+  /// Notification on the payment day of a credit card.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} payment day'**
+  String reminderCardTitle(String name);
+
+  /// Body of a credit card reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay your credit card today.'**
+  String get reminderCardBody;
 }
 
 class _AppLocalizationsDelegate

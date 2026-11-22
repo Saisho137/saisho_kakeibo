@@ -1385,7 +1385,8 @@
     {
       "id": 9,
       "references": [
-        6
+        6,
+        7
       ],
       "type": "table",
       "data": {
@@ -1447,6 +1448,32 @@
               "dart_expr": "const LocalDateConverter()",
               "dart_type_name": "LocalDate"
             }
+          },
+          {
+            "name": "movement_id",
+            "getter_name": "movementId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES movements (id) ON DELETE SET NULL",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES movements (id) ON DELETE SET NULL"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "movements",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "setNull"
+                }
+              }
+            ]
           }
         ],
         "is_virtual": false,
@@ -1624,7 +1651,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"recurring_occurrences\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"template_id\" INTEGER NOT NULL REFERENCES recurring_templates (id) ON DELETE CASCADE, \"period_start\" TEXT NOT NULL, UNIQUE (\"template_id\", \"period_start\"));"
+          "sql": "CREATE TABLE IF NOT EXISTS \"recurring_occurrences\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"template_id\" INTEGER NOT NULL REFERENCES recurring_templates (id) ON DELETE CASCADE, \"period_start\" TEXT NOT NULL, \"movement_id\" INTEGER NULL REFERENCES movements (id) ON DELETE SET NULL, UNIQUE (\"template_id\", \"period_start\"));"
         }
       ]
     },

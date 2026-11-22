@@ -975,4 +975,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get movementMakeRecurring => 'Make recurring';
+
+  @override
+  String get reminderChannelName => 'Reminders';
+
+  @override
+  String get reminderChannelDescription =>
+      'Due days of recurring movements and credit cards.';
+
+  @override
+  String reminderRecurringTitle(String name) {
+    return '$name is due today';
+  }
+
+  @override
+  String reminderRecurringBody(String amount) {
+    return '$amount · Confirm it in Saisho Kakeibo.';
+  }
+
+  @override
+  String reminderCardTitle(String name) {
+    return '$name payment day';
+  }
+
+  @override
+  String get reminderCardBody => 'Pay your credit card today.';
 }

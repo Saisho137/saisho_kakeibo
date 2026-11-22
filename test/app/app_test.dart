@@ -19,13 +19,18 @@ import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_temp
 import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
 
+import '../helpers/fake_reminder_scheduler.dart';
 import '../helpers/helpers.dart';
 
 void main() {
+  late FakeReminderScheduler reminders;
+
   setUp(() async {
+    reminders = FakeReminderScheduler();
     await configureDependencies(
       database: AppDatabase(NativeDatabase.memory()),
       appInfo: const AppInfo(version: '0.1.0', buildNumber: '1'),
+      reminderScheduler: reminders,
     );
   });
 
@@ -303,12 +308,20 @@ void main() {
           categoryId: categories.firstWhere((c) => c.name == 'Car').id,
           accountId: accounts.firstWhere((a) => a.isMain).id,
           amount: 450000,
+          dueDay: 12,
+          remind: true,
           createdOn: LocalDate.today().addDays(-1),
         ),
         payee: PayeeName.parse('Parking'),
       );
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
+
+      // Its due day is reminded at 8:00, and permission is asked once.
+      await tester.pump(const Duration(seconds: 1));
+      expect(reminders.scheduled.map((r) => r.name), ['Parking', 'Parking']);
+      expect(reminders.minutes, 8 * 60);
+      expect(reminders.permissionRequests, 1);
 
       await tester.goTo('Settings');
       await tester.pumpAndSettle();
@@ -325,6 +338,21 @@ void main() {
       await tester.tap(find.byTooltip('History'));
       await tester.pumpAndSettle();
       expect(find.text('Parking · Pending'), findsOneWidget);
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+
+      // Undoing that start takes its pending movement away too.
+      await tester.goTo('Settings');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Undo this start'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.text('450.000'), findsNothing);
 
       await tester.disposeDriftStreams();
     });

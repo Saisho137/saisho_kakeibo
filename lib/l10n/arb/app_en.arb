@@ -1304,5 +1304,44 @@
   "movementMakeRecurring": "Make recurring",
   "@movementMakeRecurring": {
     "description": "Creates a recurring template from a saved movement."
+  },
+  "reminderChannelName": "Reminders",
+  "@reminderChannelName": {
+    "description": "Android notification channel of the reminders."
+  },
+  "reminderChannelDescription": "Due days of recurring movements and credit cards.",
+  "@reminderChannelDescription": {
+    "description": "Android notification channel description."
+  },
+  "reminderRecurringTitle": "{name} is due today",
+  "@reminderRecurringTitle": {
+    "description": "Notification on the due day of a recurring movement.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRecurringBody": "{amount} · Confirm it in Saisho Kakeibo.",
+  "@reminderRecurringBody": {
+    "description": "Body of a recurring reminder.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderCardTitle": "{name} payment day",
+  "@reminderCardTitle": {
+    "description": "Notification on the payment day of a credit card.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderCardBody": "Pay your credit card today.",
+  "@reminderCardBody": {
+    "description": "Body of a credit card reminder."
   }
 }

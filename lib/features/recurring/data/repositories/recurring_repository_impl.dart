@@ -1,10 +1,10 @@
 import 'package:saisho_kakeibo/core/database/guard.dart';
 import 'package:saisho_kakeibo/core/error/result.dart';
-import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/movements/data/models/movement_row_mapper.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
 import 'package:saisho_kakeibo/features/recurring/data/datasources/recurring_dao.dart';
 import 'package:saisho_kakeibo/features/recurring/data/models/recurring_template_row_mapper.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/services/recurring_planner.dart';
@@ -50,11 +50,31 @@ class RecurringRepositoryImpl implements RecurringRepository {
       guardDatabase(() => _dao.deleteTemplate(id));
 
   @override
-  Future<Result<Set<(int, LocalDate)>>> getOccurrences() => guardDatabase(
-    () async => {
-      for (final row in await _dao.getOccurrences())
-        (row.templateId, row.periodStart),
-    },
+  Future<Result<List<RecurringOccurrence>>> getOccurrences() => guardDatabase(
+    () async => [
+      for (final (row, isPending) in await _dao.getOccurrences())
+        RecurringOccurrence(
+          id: row.id,
+          templateId: row.templateId,
+          periodStart: row.periodStart,
+          movementId: row.movementId,
+          isPending: isPending,
+        ),
+    ],
+  );
+
+  @override
+  Future<Result<void>> repair(List<OccurrenceRepair> repairs) => guardDatabase(
+    () => _dao.repair(
+      moves: [
+        for (final r in repairs.whereType<MoveOccurrence>())
+          (r.occurrenceId, r.periodStart, r.movementId, r.date),
+      ],
+      drops: [
+        for (final r in repairs.whereType<DropOccurrence>())
+          (r.occurrenceId, r.pendingMovementId),
+      ],
+    ),
   );
 
   @override

@@ -68,10 +68,11 @@ class HomeCubit extends Cubit<HomeState> {
     unawaited(_cancel());
     emit(HomeState(today: LocalDate.today()));
     _subscriptions.addAll([
-      _watchSettings(const NoParams()).listen(
-        (settings) => _received(state.copyWith(settings: settings)),
-        onError: _failed,
-      ),
+      _watchSettings(const NoParams()).listen((settings) {
+        final cutoffChanged = state.settings?.cutoffDay != settings.cutoffDay;
+        _received(state.copyWith(settings: settings));
+        if (cutoffChanged) unawaited(_materialize());
+      }, onError: _failed),
       _watchAccounts(const NoParams()).listen(
         (accounts) => _received(state.copyWith(accounts: accounts)),
         onError: _failed,
@@ -115,8 +116,9 @@ class HomeCubit extends Cubit<HomeState> {
   void currencySelected(String code) =>
       emit(state.copyWith(selectedCurrencyCode: code));
 
-  /// Creates the pending movements the recurring templates owe: when the
-  /// Home opens and whenever the period starts change (RF-06).
+  /// Creates the pending movements the recurring templates owe, and moves
+  /// those of a start that changed: when the Home opens and whenever the
+  /// period starts or the cutoff day change (RF-06).
   Future<void> _materialize() async {
     final result = await _materializeRecurring(LocalDate.today());
     if (result case Err(:final failure) when !isClosed) {

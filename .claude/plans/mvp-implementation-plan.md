@@ -116,13 +116,13 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 ## Fase 7 — Notificaciones y recurrentes
 
-- [ ] Infraestructura de notificaciones: `flutter_local_notifications` + `timezone`, permiso de notificaciones de Android 13+, canal propio, hora global configurable (RT-11). Servicio que reprograma todo al cambiar datos o la hora.
+- [x] Infraestructura de notificaciones: `flutter_local_notifications` + `timezone`, permiso de notificaciones de Android 13+, canal propio, hora global configurable (RT-11). Servicio que reprograma todo al cambiar datos o la hora. Alarmas inexactas (sin permiso de alarma exacta) y hora en UTC (sin base de husos horarios); se agendan los próximos dos meses y se reprograman al abrir la app y al cambiar ajustes, plantillas o cuentas. El permiso se pide la primera vez que hay algo que recordar.
 - [x] Tabla `recurring_templates`: tipo (egreso, transferencia, ingreso), categoría, cuenta(s), entidad, monto, día opcional, recordatorio, activa. Con frecuencia por plantilla: cada inicio dinámico o cada periodo mensual (día de corte).
 - [x] Materialización idempotente al iniciar un periodo: egresos y transferencias con la fecha de inicio; ingresos en su día previsto; monto del último confirmado (RF-06, RT-07). Una vez por periodo y plantilla (tabla `recurring_occurrences`), aunque el *Pending* se cancele; nunca en el periodo en que se creó la plantilla. Se ejecuta al abrir el Home y al cambiar los inicios de periodo.
 - [x] *Pending*: egresos y transferencias afectan el saldo; ingresos no hasta confirmar; cancelar = borrar; *Confirm* en el formulario. Confirmar copia el monto a la plantilla.
-- [ ] Recordatorios del día de pago de cada plantilla (activados por defecto si hay día).
+- [x] Recordatorios del día de pago de cada plantilla (activados por defecto si hay día).
 - [x] Pantalla **Recurring** y acción *Make recurring* desde un movimiento.
-- [ ] Recordatorio del día de pago de las tarjetas de crédito (RF-03).
+- [x] Recordatorio del día de pago de las tarjetas de crédito (RF-03).
 
 ## Fase 8 — Deudas
 
