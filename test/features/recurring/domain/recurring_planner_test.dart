@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/services/recurring_planner.dart';
 
@@ -104,6 +105,119 @@ void main() {
       final b = plan([template()]).single;
       expect(a, b);
       expect(a.hashCode, b.hashCode);
+    });
+
+    group('reconcile', () {
+      RecurringOccurrence occurrence(
+        LocalDate start, {
+        int id = 1,
+        int templateId = 1,
+        bool isPending = true,
+      }) => RecurringOccurrence(
+        id: id,
+        templateId: templateId,
+        periodStart: start,
+        movementId: id + 100,
+        isPending: isPending,
+      );
+
+      List<OccurrenceRepair> reconcile(
+        List<RecurringOccurrence> occurrences, {
+        List<RecurringTemplate>? templates,
+        List<LocalDate>? starts,
+        int cutoffDay = 27,
+      }) => RecurringPlanner.reconcile(
+        templates: templates ?? [template(createdOn: LocalDate(2026, 1, 1))],
+        occurrences: occurrences,
+        dynamicStarts: starts ?? [LocalDate(2026, 2, 24), salary],
+        cutoffDay: cutoffDay,
+      );
+
+      test('leaves occurrences of existing starts alone', () {
+        expect(reconcile([occurrence(salary)]), isEmpty);
+        expect(
+          reconcile([occurrence(LocalDate(2026, 9, 9), templateId: 9)]),
+          isEmpty,
+        );
+      });
+
+      test('a salary moved earlier takes its pending movement along', () {
+        final repair =
+            reconcile([occurrence(LocalDate(2026, 3, 24))]).single
+                as MoveOccurrence;
+        expect(repair.occurrenceId, 1);
+        expect(repair.periodStart, salary);
+        expect(repair.movementId, 101);
+        expect(repair.date, salary);
+      });
+
+      test('a confirmed movement keeps its date', () {
+        final repair =
+            reconcile([occurrence(LocalDate(2026, 3, 24), isPending: false)])
+                    .single
+                as MoveOccurrence;
+        expect(repair.periodStart, salary);
+        expect(repair.movementId, isNull);
+        expect(repair.date, isNull);
+      });
+
+      test('an undone start drops the duplicate pending movement', () {
+        // March 10 was undone; that period already had its occurrence.
+        final repairs = reconcile([
+          occurrence(LocalDate(2026, 2, 24)),
+          occurrence(LocalDate(2026, 3, 10), id: 2),
+        ]);
+        final drop = repairs.single as DropOccurrence;
+        expect(drop.occurrenceId, 2);
+        expect(drop.pendingMovementId, 102);
+      });
+
+      test('a start before every salary, or before the template, drops', () {
+        expect(
+          reconcile([occurrence(LocalDate(2026, 1, 10))]).single,
+          isA<DropOccurrence>(),
+        );
+        expect(
+          reconcile(
+            [occurrence(LocalDate(2026, 3, 24))],
+            templates: [template(createdOn: LocalDate(2026, 3, 23))],
+          ).single,
+          isA<DropOccurrence>(),
+        );
+        expect(
+          (reconcile([occurrence(LocalDate(2026, 1, 10), isPending: false)])
+                      .single
+                  as DropOccurrence)
+              .pendingMovementId,
+          isNull,
+        );
+      });
+
+      test('a new cutoff day moves the monthly ones', () {
+        final repair =
+            reconcile(
+                  [occurrence(LocalDate(2026, 3, 27))],
+                  templates: [
+                    template(
+                      cadence: RecurringCadence.monthly,
+                      createdOn: LocalDate(2026, 1, 1),
+                    ),
+                  ],
+                  cutoffDay: 25,
+                ).single
+                as MoveOccurrence;
+        expect(repair.periodStart, LocalDate(2026, 3, 25));
+        expect(repair.date, LocalDate(2026, 3, 25));
+      });
+
+      test('two stale occurrences never land on the same period', () {
+        final repairs = reconcile([
+          occurrence(LocalDate(2026, 3, 24)),
+          occurrence(LocalDate(2026, 3, 25), id: 2),
+        ]);
+        expect(repairs.first, isA<MoveOccurrence>());
+        expect(repairs.last, isA<DropOccurrence>());
+      });
     });
   });
 }

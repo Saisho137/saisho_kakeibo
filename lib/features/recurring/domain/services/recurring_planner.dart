@@ -6,6 +6,7 @@ import 'package:saisho_kakeibo/features/accounts/domain/entities/accounts_x.dart
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_calculator.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/rules/recurring_rules.dart';
 
@@ -95,5 +96,67 @@ abstract final class RecurringPlanner {
               ),
             ),
     ];
+  }
+
+  /// Repairs the occurrences whose period start no longer exists. Each one
+  /// goes to the period its old start now falls in: there it moves, with
+  /// its pending movement, unless that period already has an occurrence or
+  /// is not a valid period of the template; then it is dropped, deleting
+  /// its pending movement so it is not counted twice. Confirmed movements
+  /// are never changed.
+  static List<OccurrenceRepair> reconcile({
+    required List<RecurringTemplate> templates,
+    required List<RecurringOccurrence> occurrences,
+    required List<LocalDate> dynamicStarts,
+    required int cutoffDay,
+  }) {
+    final calculators = {
+      RecurringCadence.period: PeriodCalculator(
+        type: PeriodType.dynamic,
+        cutoffDay: cutoffDay,
+        starts: dynamicStarts,
+      ),
+      RecurringCadence.monthly: PeriodCalculator(
+        type: PeriodType.monthly,
+        cutoffDay: cutoffDay,
+      ),
+    };
+    final starts = dynamicStarts.toSet();
+    final taken = {for (final o in occurrences) (o.templateId, o.periodStart)};
+    final repairs = <OccurrenceRepair>[];
+    for (final occurrence in occurrences) {
+      final template = templates
+          .where((t) => t.id == occurrence.templateId)
+          .firstOrNull;
+      if (template == null) continue;
+      final period = calculators[template.cadence]!.periodOf(
+        occurrence.periodStart,
+      );
+      if (period.start == occurrence.periodStart) continue;
+      final pendingId = occurrence.isPending ? occurrence.movementId : null;
+      final valid =
+          (template.cadence == RecurringCadence.monthly ||
+              starts.contains(period.start)) &&
+          period.start.isAfter(template.createdOn) &&
+          !taken.contains((template.id, period.start));
+      if (valid) {
+        taken.add((template.id, period.start));
+        repairs.add(
+          MoveOccurrence(
+            occurrence.id,
+            periodStart: period.start,
+            movementId: pendingId,
+            date: pendingId == null
+                ? null
+                : RecurringRules.dateIn(template, period),
+          ),
+        );
+      } else {
+        repairs.add(
+          DropOccurrence(occurrence.id, pendingMovementId: pendingId),
+        );
+      }
+    }
+    return repairs;
   }
 }

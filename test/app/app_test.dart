@@ -325,6 +325,21 @@ void main() {
       await tester.tap(find.byTooltip('History'));
       await tester.pumpAndSettle();
       expect(find.text('Parking · Pending'), findsOneWidget);
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+
+      // Undoing that start takes its pending movement away too.
+      await tester.goTo('Settings');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Undo this start'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.text('450.000'), findsNothing);
 
       await tester.disposeDriftStreams();
     });

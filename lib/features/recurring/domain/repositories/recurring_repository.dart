@@ -1,6 +1,6 @@
 import 'package:saisho_kakeibo/core/error/result.dart';
-import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/services/recurring_planner.dart';
 
@@ -26,8 +26,11 @@ abstract interface class RecurringRepository {
   /// Deletes the template; its movements stay, without it.
   Future<Result<void>> deleteTemplate(int id);
 
-  /// Template id and period start of every occurrence already created.
-  Future<Result<Set<(int, LocalDate)>>> getOccurrences();
+  /// Every occurrence already created, with the state of its movement.
+  Future<Result<List<RecurringOccurrence>>> getOccurrences();
+
+  /// Applies [repairs] in one transaction.
+  Future<Result<void>> repair(List<OccurrenceRepair> repairs);
 
   /// Creates each movement with its occurrence, in one transaction. An
   /// occurrence that already exists is skipped, so running twice creates

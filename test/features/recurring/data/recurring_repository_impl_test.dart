@@ -10,6 +10,7 @@ import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart
 import 'package:saisho_kakeibo/features/movements/data/repositories/movement_repository_impl.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
 import 'package:saisho_kakeibo/features/recurring/data/repositories/recurring_repository_impl.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/services/recurring_planner.dart';
 
@@ -79,12 +80,22 @@ void main() {
       final t = await stored();
 
       expect((await repository.materialize([occurrence(t)]) as Ok).value, 1);
-      expect((await repository.getOccurrences() as Ok).value, {(t.id, start)});
+      final occurrences =
+          (await repository.getOccurrences() as Ok<List<RecurringOccurrence>>)
+              .value;
+      expect(occurrences.single.periodStart, start);
+      expect(occurrences.single.isPending, isTrue);
       final created = (await movements.watchAll().first).single;
       expect(created.isPending, isTrue);
       expect(created.recurringTemplateId, t.id);
 
       await movements.delete(created.id);
+      final cancelled =
+          (await repository.getOccurrences() as Ok<List<RecurringOccurrence>>)
+              .value
+              .single;
+      expect(cancelled.movementId, isNull);
+      expect(cancelled.isPending, isFalse);
       expect((await repository.materialize([occurrence(t)]) as Ok).value, 0);
       expect(await movements.watchAll().first, isEmpty);
     });
@@ -142,6 +153,41 @@ void main() {
       expect(t.cadence, RecurringCadence.monthly);
       expect(t.dueDay, 12);
       expect(t.remind, isTrue);
+    });
+
+    test('repairs move and drop occurrences with their movements', () async {
+      final t = await stored();
+      final other = start.addDays(-30);
+      await repository.materialize([
+        occurrence(t),
+        PlannedOccurrence(
+          templateId: t.id,
+          periodStart: other,
+          movement: t.toMovement(other),
+        ),
+      ]);
+      final occurrences =
+          (await repository.getOccurrences() as Ok<List<RecurringOccurrence>>)
+              .value;
+      final current = occurrences.firstWhere((o) => o.periodStart == start);
+      final old = occurrences.firstWhere((o) => o.periodStart == other);
+      final moved = start.addDays(-2);
+
+      await repository.repair([
+        MoveOccurrence(
+          current.id,
+          periodStart: moved,
+          movementId: current.movementId,
+          date: moved,
+        ),
+        DropOccurrence(old.id, pendingMovementId: old.movementId),
+      ]);
+
+      final left =
+          (await repository.getOccurrences() as Ok<List<RecurringOccurrence>>)
+              .value;
+      expect(left.single.periodStart, moved);
+      expect((await movements.watchAll().first).single.date, moved);
     });
   });
 }

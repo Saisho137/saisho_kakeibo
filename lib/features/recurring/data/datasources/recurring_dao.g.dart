@@ -11,9 +11,9 @@ mixin _$RecurringDaoMixin on DatabaseAccessor<AppDatabase> {
   $PayeesTable get payees => attachedDatabase.payees;
   $RecurringTemplatesTable get recurringTemplates =>
       attachedDatabase.recurringTemplates;
+  $MovementsTable get movements => attachedDatabase.movements;
   $RecurringOccurrencesTable get recurringOccurrences =>
       attachedDatabase.recurringOccurrences;
-  $MovementsTable get movements => attachedDatabase.movements;
   RecurringDaoManager get managers => RecurringDaoManager(this);
 }
 
@@ -35,11 +35,11 @@ class RecurringDaoManager {
         _db.attachedDatabase,
         _db.recurringTemplates,
       );
+  $$MovementsTableTableManager get movements =>
+      $$MovementsTableTableManager(_db.attachedDatabase, _db.movements);
   $$RecurringOccurrencesTableTableManager get recurringOccurrences =>
       $$RecurringOccurrencesTableTableManager(
         _db.attachedDatabase,
         _db.recurringOccurrences,
       );
-  $$MovementsTableTableManager get movements =>
-      $$MovementsTableTableManager(_db.attachedDatabase, _db.movements);
 }

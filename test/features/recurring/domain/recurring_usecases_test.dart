@@ -11,6 +11,7 @@ import 'package:saisho_kakeibo/features/categories/domain/repositories/category_
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
 import 'package:saisho_kakeibo/features/periods/domain/repositories/period_repository.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/services/recurring_planner.dart';
@@ -56,6 +57,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(template());
     registerFallbackValue(<PlannedOccurrence>[]);
+    registerFallbackValue(<OccurrenceRepair>[]);
   });
 
   setUp(() {
@@ -76,7 +78,8 @@ void main() {
     when(() => recurring.getTemplates())
         .thenAnswer((_) async => Ok([template()]));
     when(() => recurring.getOccurrences())
-        .thenAnswer((_) async => const Ok({}));
+        .thenAnswer((_) async => const Ok([]));
+    when(() => recurring.repair(any())).thenAnswer((_) async => const Ok(null));
     when(() => recurring.materialize(any()))
         .thenAnswer((_) async => const Ok(1));
     when(() => periods.getStarts())
@@ -232,11 +235,63 @@ void main() {
     });
 
     test('does nothing when nothing is owed', () async {
-      when(() => recurring.getOccurrences())
-          .thenAnswer((_) async => Ok({(1, LocalDate(2026, 3, 23))}));
+      when(() => recurring.getOccurrences()).thenAnswer(
+        (_) async => Ok([
+          RecurringOccurrence(
+            id: 1,
+            templateId: 1,
+            periodStart: LocalDate(2026, 3, 23),
+          ),
+        ]),
+      );
 
       expect((await materialize()(LocalDate(2026, 3, 25)) as Ok<int>).value, 0);
       verifyNever(() => recurring.materialize(any()));
+    });
+
+    test('moves the pending movement of a corrected salary date', () async {
+      // The salary that started a period on March 23 is now on the 21st.
+      when(() => periods.getStarts())
+          .thenAnswer((_) async => Ok([LocalDate(2026, 3, 21)]));
+      when(() => recurring.getOccurrences()).thenAnswer(
+        (_) async => Ok([
+          RecurringOccurrence(
+            id: 4,
+            templateId: 1,
+            periodStart: LocalDate(2026, 3, 23),
+            movementId: 9,
+            isPending: true,
+          ),
+        ]),
+      );
+
+      expect((await materialize()(LocalDate(2026, 3, 25)) as Ok<int>).value, 0);
+      final repair =
+          (verify(() => recurring.repair(captureAny())).captured.single
+                  as List<OccurrenceRepair>)
+              .single;
+      expect(repair, isA<MoveOccurrence>());
+      expect((repair as MoveOccurrence).periodStart, LocalDate(2026, 3, 21));
+      expect(repair.movementId, 9);
+      expect(repair.date, LocalDate(2026, 3, 21));
+      verifyNever(() => recurring.materialize(any()));
+    });
+
+    test('propagates a failed repair', () async {
+      when(() => periods.getStarts())
+          .thenAnswer((_) async => Ok([LocalDate(2026, 3, 21)]));
+      when(() => recurring.getOccurrences()).thenAnswer(
+        (_) async => Ok([
+          RecurringOccurrence(
+            id: 4,
+            templateId: 1,
+            periodStart: LocalDate(2026, 3, 23),
+          ),
+        ]),
+      );
+      when(() => recurring.repair(any())).thenAnswer((_) async => dbError);
+
+      expect(await materialize()(LocalDate(2026, 3, 25)), isA<Err<int>>());
     });
 
     test('propagates failed reads', () async {

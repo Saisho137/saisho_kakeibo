@@ -5080,8 +5080,27 @@ class $RecurringOccurrencesTable extends RecurringOccurrences
       ).withConverter<LocalDate>(
         $RecurringOccurrencesTable.$converterperiodStart,
       );
+  static const VerificationMeta _movementIdMeta = const VerificationMeta(
+    'movementId',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, templateId, periodStart];
+  late final GeneratedColumn<int> movementId = GeneratedColumn<int>(
+    'movement_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES movements (id) ON DELETE SET NULL',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    periodStart,
+    movementId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -5104,6 +5123,12 @@ class $RecurringOccurrencesTable extends RecurringOccurrences
       );
     } else if (isInserting) {
       context.missing(_templateIdMeta);
+    }
+    if (data.containsKey('movement_id')) {
+      context.handle(
+        _movementIdMeta,
+        movementId.isAcceptableOrUnknown(data['movement_id']!, _movementIdMeta),
+      );
     }
     return context;
   }
@@ -5132,6 +5157,10 @@ class $RecurringOccurrencesTable extends RecurringOccurrences
           data['${effectivePrefix}period_start'],
         )!,
       ),
+      movementId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}movement_id'],
+      ),
     );
   }
 
@@ -5149,10 +5178,14 @@ class RecurringOccurrenceRow extends DataClass
   final int id;
   final int templateId;
   final LocalDate periodStart;
+
+  /// The movement it created; `null` once that movement is deleted.
+  final int? movementId;
   const RecurringOccurrenceRow({
     required this.id,
     required this.templateId,
     required this.periodStart,
+    this.movementId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5164,6 +5197,9 @@ class RecurringOccurrenceRow extends DataClass
         $RecurringOccurrencesTable.$converterperiodStart.toSql(periodStart),
       );
     }
+    if (!nullToAbsent || movementId != null) {
+      map['movement_id'] = Variable<int>(movementId);
+    }
     return map;
   }
 
@@ -5172,6 +5208,9 @@ class RecurringOccurrenceRow extends DataClass
       id: Value(id),
       templateId: Value(templateId),
       periodStart: Value(periodStart),
+      movementId: movementId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(movementId),
     );
   }
 
@@ -5184,6 +5223,7 @@ class RecurringOccurrenceRow extends DataClass
       id: serializer.fromJson<int>(json['id']),
       templateId: serializer.fromJson<int>(json['templateId']),
       periodStart: serializer.fromJson<LocalDate>(json['periodStart']),
+      movementId: serializer.fromJson<int?>(json['movementId']),
     );
   }
   @override
@@ -5193,6 +5233,7 @@ class RecurringOccurrenceRow extends DataClass
       'id': serializer.toJson<int>(id),
       'templateId': serializer.toJson<int>(templateId),
       'periodStart': serializer.toJson<LocalDate>(periodStart),
+      'movementId': serializer.toJson<int?>(movementId),
     };
   }
 
@@ -5200,10 +5241,12 @@ class RecurringOccurrenceRow extends DataClass
     int? id,
     int? templateId,
     LocalDate? periodStart,
+    Value<int?> movementId = const Value.absent(),
   }) => RecurringOccurrenceRow(
     id: id ?? this.id,
     templateId: templateId ?? this.templateId,
     periodStart: periodStart ?? this.periodStart,
+    movementId: movementId.present ? movementId.value : this.movementId,
   );
   RecurringOccurrenceRow copyWithCompanion(RecurringOccurrencesCompanion data) {
     return RecurringOccurrenceRow(
@@ -5214,6 +5257,9 @@ class RecurringOccurrenceRow extends DataClass
       periodStart: data.periodStart.present
           ? data.periodStart.value
           : this.periodStart,
+      movementId: data.movementId.present
+          ? data.movementId.value
+          : this.movementId,
     );
   }
 
@@ -5222,20 +5268,22 @@ class RecurringOccurrenceRow extends DataClass
     return (StringBuffer('RecurringOccurrenceRow(')
           ..write('id: $id, ')
           ..write('templateId: $templateId, ')
-          ..write('periodStart: $periodStart')
+          ..write('periodStart: $periodStart, ')
+          ..write('movementId: $movementId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, templateId, periodStart);
+  int get hashCode => Object.hash(id, templateId, periodStart, movementId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is RecurringOccurrenceRow &&
           other.id == this.id &&
           other.templateId == this.templateId &&
-          other.periodStart == this.periodStart);
+          other.periodStart == this.periodStart &&
+          other.movementId == this.movementId);
 }
 
 class RecurringOccurrencesCompanion
@@ -5243,26 +5291,31 @@ class RecurringOccurrencesCompanion
   final Value<int> id;
   final Value<int> templateId;
   final Value<LocalDate> periodStart;
+  final Value<int?> movementId;
   const RecurringOccurrencesCompanion({
     this.id = const Value.absent(),
     this.templateId = const Value.absent(),
     this.periodStart = const Value.absent(),
+    this.movementId = const Value.absent(),
   });
   RecurringOccurrencesCompanion.insert({
     this.id = const Value.absent(),
     required int templateId,
     required LocalDate periodStart,
+    this.movementId = const Value.absent(),
   }) : templateId = Value(templateId),
        periodStart = Value(periodStart);
   static Insertable<RecurringOccurrenceRow> custom({
     Expression<int>? id,
     Expression<int>? templateId,
     Expression<String>? periodStart,
+    Expression<int>? movementId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (templateId != null) 'template_id': templateId,
       if (periodStart != null) 'period_start': periodStart,
+      if (movementId != null) 'movement_id': movementId,
     });
   }
 
@@ -5270,11 +5323,13 @@ class RecurringOccurrencesCompanion
     Value<int>? id,
     Value<int>? templateId,
     Value<LocalDate>? periodStart,
+    Value<int?>? movementId,
   }) {
     return RecurringOccurrencesCompanion(
       id: id ?? this.id,
       templateId: templateId ?? this.templateId,
       periodStart: periodStart ?? this.periodStart,
+      movementId: movementId ?? this.movementId,
     );
   }
 
@@ -5294,6 +5349,9 @@ class RecurringOccurrencesCompanion
         ),
       );
     }
+    if (movementId.present) {
+      map['movement_id'] = Variable<int>(movementId.value);
+    }
     return map;
   }
 
@@ -5302,7 +5360,8 @@ class RecurringOccurrencesCompanion
     return (StringBuffer('RecurringOccurrencesCompanion(')
           ..write('id: $id, ')
           ..write('templateId: $templateId, ')
-          ..write('periodStart: $periodStart')
+          ..write('periodStart: $periodStart, ')
+          ..write('movementId: $movementId')
           ..write(')'))
         .toString();
   }
@@ -5395,6 +5454,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('recurring_occurrences', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'movements',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recurring_occurrences', kind: UpdateKind.update)],
     ),
   ]);
   @override
@@ -9179,6 +9245,31 @@ final class $$MovementsTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<
+    $RecurringOccurrencesTable,
+    List<RecurringOccurrenceRow>
+  >
+  _recurringOccurrencesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.recurringOccurrences,
+        aliasName: 'movements__id__recurring_occurrences__movement_id',
+      );
+
+  $$RecurringOccurrencesTableProcessedTableManager
+  get recurringOccurrencesRefs {
+    final manager = $$RecurringOccurrencesTableTableManager(
+      $_db,
+      $_db.recurringOccurrences,
+    ).filter((f) => f.movementId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _recurringOccurrencesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$MovementsTableFilterComposer
@@ -9350,6 +9441,31 @@ class $$MovementsTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> recurringOccurrencesRefs(
+    Expression<bool> Function($$RecurringOccurrencesTableFilterComposer f) f,
+  ) {
+    final $$RecurringOccurrencesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recurringOccurrences,
+      getReferencedColumn: (t) => t.movementId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecurringOccurrencesTableFilterComposer(
+            $db: $db,
+            $table: $db.recurringOccurrences,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -9676,6 +9792,32 @@ class $$MovementsTableAnnotationComposer
         );
     return composer;
   }
+
+  Expression<T> recurringOccurrencesRefs<T extends Object>(
+    Expression<T> Function($$RecurringOccurrencesTableAnnotationComposer a) f,
+  ) {
+    final $$RecurringOccurrencesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.recurringOccurrences,
+          getReferencedColumn: (t) => t.movementId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RecurringOccurrencesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.recurringOccurrences,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$MovementsTableTableManager
@@ -9697,6 +9839,7 @@ class $$MovementsTableTableManager
             bool categoryId,
             bool payeeId,
             bool recurringTemplateId,
+            bool recurringOccurrencesRefs,
           })
         > {
   $$MovementsTableTableManager(_$AppDatabase db, $MovementsTable table)
@@ -9789,10 +9932,13 @@ class $$MovementsTableTableManager
                 categoryId = false,
                 payeeId = false,
                 recurringTemplateId = false,
+                recurringOccurrencesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
-                  explicitlyWatchedTables: [],
+                  explicitlyWatchedTables: [
+                    if (recurringOccurrencesRefs) db.recurringOccurrences,
+                  ],
                   addJoins:
                       <
                         T extends TableManagerState<
@@ -9868,7 +10014,28 @@ class $$MovementsTableTableManager
                         return state;
                       },
                   getPrefetchedDataCallback: (items) async {
-                    return [];
+                    return [
+                      if (recurringOccurrencesRefs)
+                        await $_getPrefetchedDataByColumns<
+                          MovementRow,
+                          $MovementsTable,
+                          RecurringOccurrenceRow,
+                          $RecurringOccurrencesTable
+                        >(
+                          currentTable: table,
+                          referencedTable: $$MovementsTableReferences
+                              ._recurringOccurrencesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$MovementsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recurringOccurrencesRefs,
+                          currentColumn: 'id',
+                          referencedColumn: 'movement_id',
+                          typedResults: items,
+                        ),
+                    ];
                   },
                 );
               },
@@ -9894,6 +10061,7 @@ typedef $$MovementsTableProcessedTableManager =
         bool categoryId,
         bool payeeId,
         bool recurringTemplateId,
+        bool recurringOccurrencesRefs,
       })
     >;
 typedef $$PeriodStartsTableCreateCompanionBuilder =
@@ -10034,12 +10202,14 @@ typedef $$RecurringOccurrencesTableCreateCompanionBuilder =
       Value<int> id,
       required int templateId,
       required LocalDate periodStart,
+      Value<int?> movementId,
     });
 typedef $$RecurringOccurrencesTableUpdateCompanionBuilder =
     RecurringOccurrencesCompanion Function({
       Value<int> id,
       Value<int> templateId,
       Value<LocalDate> periodStart,
+      Value<int?> movementId,
     });
 
 final class $$RecurringOccurrencesTableReferences
@@ -10068,6 +10238,23 @@ final class $$RecurringOccurrencesTableReferences
       $_db.recurringTemplates,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_templateIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $MovementsTable _movementIdTable(_$AppDatabase db) => db.movements
+      .createAlias('recurring_occurrences__movement_id__movements__id');
+
+  $$MovementsTableProcessedTableManager? get movementId {
+    final $_column = $_itemColumn<int>('movement_id');
+    if ($_column == null) return null;
+    final manager = $$MovementsTableTableManager(
+      $_db,
+      $_db.movements,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_movementIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -10109,6 +10296,29 @@ class $$RecurringOccurrencesTableFilterComposer
           }) => $$RecurringTemplatesTableFilterComposer(
             $db: $db,
             $table: $db.recurringTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$MovementsTableFilterComposer get movementId {
+    final $$MovementsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.movementId,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableFilterComposer(
+            $db: $db,
+            $table: $db.movements,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -10160,6 +10370,29 @@ class $$RecurringOccurrencesTableOrderingComposer
     );
     return composer;
   }
+
+  $$MovementsTableOrderingComposer get movementId {
+    final $$MovementsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.movementId,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableOrderingComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$RecurringOccurrencesTableAnnotationComposer
@@ -10203,6 +10436,29 @@ class $$RecurringOccurrencesTableAnnotationComposer
         );
     return composer;
   }
+
+  $$MovementsTableAnnotationComposer get movementId {
+    final $$MovementsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.movementId,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$RecurringOccurrencesTableTableManager
@@ -10218,7 +10474,7 @@ class $$RecurringOccurrencesTableTableManager
           $$RecurringOccurrencesTableUpdateCompanionBuilder,
           (RecurringOccurrenceRow, $$RecurringOccurrencesTableReferences),
           RecurringOccurrenceRow,
-          PrefetchHooks Function({bool templateId})
+          PrefetchHooks Function({bool templateId, bool movementId})
         > {
   $$RecurringOccurrencesTableTableManager(
     _$AppDatabase db,
@@ -10244,20 +10500,24 @@ class $$RecurringOccurrencesTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<int> templateId = const Value.absent(),
                 Value<LocalDate> periodStart = const Value.absent(),
+                Value<int?> movementId = const Value.absent(),
               }) => RecurringOccurrencesCompanion(
                 id: id,
                 templateId: templateId,
                 periodStart: periodStart,
+                movementId: movementId,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required int templateId,
                 required LocalDate periodStart,
+                Value<int?> movementId = const Value.absent(),
               }) => RecurringOccurrencesCompanion.insert(
                 id: id,
                 templateId: templateId,
                 periodStart: periodStart,
+                movementId: movementId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -10270,7 +10530,7 @@ class $$RecurringOccurrencesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({templateId = false}) {
+          prefetchHooksCallback: ({templateId = false, movementId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -10301,6 +10561,17 @@ class $$RecurringOccurrencesTableTableManager
                             .id,
                       ) as T;
                     }
+                    if (movementId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.movementId,
+                        referencedTable: $$RecurringOccurrencesTableReferences
+                            ._movementIdTable(db),
+                        referencedColumn: $$RecurringOccurrencesTableReferences
+                            ._movementIdTable(db)
+                            .id,
+                      ) as T;
+                    }
 
                     return state;
                   },
@@ -10325,7 +10596,7 @@ typedef $$RecurringOccurrencesTableProcessedTableManager =
       $$RecurringOccurrencesTableUpdateCompanionBuilder,
       (RecurringOccurrenceRow, $$RecurringOccurrencesTableReferences),
       RecurringOccurrenceRow,
-      PrefetchHooks Function({bool templateId})
+      PrefetchHooks Function({bool templateId, bool movementId})
     >;
 
 class $AppDatabaseManager {

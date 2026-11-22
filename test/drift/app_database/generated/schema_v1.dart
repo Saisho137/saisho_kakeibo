@@ -1016,8 +1016,21 @@ class RecurringOccurrences extends Table with TableInfo {
     requiredDuringInsert: true,
     $customConstraints: 'NOT NULL',
   );
+  late final GeneratedColumn<int> movementId = GeneratedColumn<int>(
+    'movement_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL REFERENCES movements(id)ON DELETE SET NULL',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, templateId, periodStart];
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    periodStart,
+    movementId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1126,6 +1139,13 @@ class DatabaseAtV1 extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('recurring_occurrences', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'movements',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recurring_occurrences', kind: UpdateKind.update)],
     ),
   ]);
   @override
