@@ -117,11 +117,11 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 ## Fase 7 — Notificaciones y recurrentes
 
 - [ ] Infraestructura de notificaciones: `flutter_local_notifications` + `timezone`, permiso de notificaciones de Android 13+, canal propio, hora global configurable (RT-11). Servicio que reprograma todo al cambiar datos o la hora.
-- [ ] Tabla `recurring_templates`: tipo (egreso, transferencia, ingreso), categoría, cuenta(s), entidad, monto, día opcional, recordatorio, activa.
-- [ ] Materialización idempotente al iniciar un periodo: egresos y transferencias con la fecha de inicio; ingresos en su día previsto; monto del último confirmado (RF-06, RT-07).
-- [ ] *Pending*: egresos y transferencias afectan el saldo; ingresos no hasta confirmar; cancelar = borrar; *Confirm* en el formulario.
+- [x] Tabla `recurring_templates`: tipo (egreso, transferencia, ingreso), categoría, cuenta(s), entidad, monto, día opcional, recordatorio, activa. Con frecuencia por plantilla: cada inicio dinámico o cada periodo mensual (día de corte).
+- [x] Materialización idempotente al iniciar un periodo: egresos y transferencias con la fecha de inicio; ingresos en su día previsto; monto del último confirmado (RF-06, RT-07). Una vez por periodo y plantilla (tabla `recurring_occurrences`), aunque el *Pending* se cancele; nunca en el periodo en que se creó la plantilla. Se ejecuta al abrir el Home y al cambiar los inicios de periodo.
+- [x] *Pending*: egresos y transferencias afectan el saldo; ingresos no hasta confirmar; cancelar = borrar; *Confirm* en el formulario. Confirmar copia el monto a la plantilla.
 - [ ] Recordatorios del día de pago de cada plantilla (activados por defecto si hay día).
-- [ ] Pantalla **Recurring** y acción *Make recurring* desde un movimiento.
+- [x] Pantalla **Recurring** y acción *Make recurring* desde un movimiento.
 - [ ] Recordatorio del día de pago de las tarjetas de crédito (RF-03).
 
 ## Fase 8 — Deudas
