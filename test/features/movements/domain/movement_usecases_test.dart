@@ -16,6 +16,7 @@ import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movement
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 
 import '../../../helpers/account_fixtures.dart';
 import '../../../helpers/category_fixtures.dart';
@@ -27,10 +28,13 @@ class _MockAccountRepository extends Mock implements AccountRepository;
 
 class _MockCategoryRepository extends Mock implements CategoryRepository;
 
+class _MockRecurringRepository extends Mock implements RecurringRepository;
+
 void main() {
   late _MockMovementRepository movements;
   late _MockAccountRepository accounts;
   late _MockCategoryRepository categories;
+  late _MockRecurringRepository recurring;
 
   const dbError = Err<Never>(DatabaseFailure('disk'));
   final bank = account(id: 1);
@@ -50,6 +54,9 @@ void main() {
     movements = _MockMovementRepository();
     accounts = _MockAccountRepository();
     categories = _MockCategoryRepository();
+    recurring = _MockRecurringRepository();
+    when(() => recurring.updateAmount(any(), any(), any()))
+        .thenAnswer((_) async => const Ok(null));
     when(() => accounts.getAccounts())
         .thenAnswer((_) async => Ok([bank, pocket, old]));
     when(() => accounts.getBalances())
@@ -66,6 +73,7 @@ void main() {
     movements: movements,
     accounts: accounts,
     categories: categories,
+    recurring: recurring,
   );
 
   group('reads and delete', () {
@@ -134,6 +142,29 @@ void main() {
       );
 
       expect(result, isA<Ok<int>>());
+    });
+
+    test('confirming a pending movement updates its template', () async {
+      final pending = movement(
+        id: 5,
+        categoryId: 10,
+      ).copyWith(recurringTemplateId: 8, isPending: true);
+      when(() => movements.findById(5)).thenAnswer((_) async => Ok(pending));
+
+      await save()(SaveMovementParams(pending.copyWith(amount: 1500)));
+      verifyNever(() => recurring.updateAmount(any(), any(), any()));
+
+      await save()(
+        SaveMovementParams(pending.copyWith(amount: 1500, isPending: false)),
+      );
+      verify(() => recurring.updateAmount(8, 1500, null)).called(1);
+
+      when(() => recurring.updateAmount(any(), any(), any()))
+          .thenAnswer((_) async => dbError);
+      expect(
+        await save()(SaveMovementParams(pending.copyWith(isPending: false))),
+        isA<Err<int>>(),
+      );
     });
 
     test('rejects unknown movements and failed reads', () async {

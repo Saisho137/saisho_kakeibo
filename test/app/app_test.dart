@@ -5,8 +5,18 @@ import 'package:saisho_kakeibo/app/app.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/core/config/app_info.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
+import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/time/local_date.dart';
+import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
+import 'package:saisho_kakeibo/features/accounts/domain/repositories/account_repository.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/categories/domain/repositories/category_repository.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
+import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 import 'package:saisho_kakeibo/features/settings/domain/repositories/settings_repository.dart';
 
 import '../helpers/helpers.dart';
@@ -271,6 +281,50 @@ void main() {
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
       expect(find.text('No movements in this period.'), findsOneWidget);
+
+      await tester.disposeDriftStreams();
+    });
+
+    testWidgets('a new period creates the pending recurring movements', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      addTearDown(tester.view.reset);
+      final accounts =
+          (await getIt<AccountRepository>().getAccounts() as Ok<List<Account>>)
+              .value;
+      final categories =
+          (await getIt<CategoryRepository>().getCategories()
+                  as Ok<List<Category>>)
+              .value;
+      await getIt<RecurringRepository>().saveTemplate(
+        RecurringTemplate(
+          type: MovementType.expense,
+          categoryId: categories.firstWhere((c) => c.name == 'Car').id,
+          accountId: accounts.firstWhere((a) => a.isMain).id,
+          amount: 450000,
+          createdOn: LocalDate.today().addDays(-1),
+        ),
+        payee: PayeeName.parse('Parking'),
+      );
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.goTo('Settings');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Start new period now'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Start'));
+      await tester.pumpAndSettle();
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+
+      expect(find.text('450.000'), findsOneWidget);
+      await tester.tap(find.byTooltip('History'));
+      await tester.pumpAndSettle();
+      expect(find.text('Parking · Pending'), findsOneWidget);
 
       await tester.disposeDriftStreams();
     });

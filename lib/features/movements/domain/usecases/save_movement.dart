@@ -11,6 +11,7 @@ import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart'
 import 'package:saisho_kakeibo/features/movements/domain/repositories/movement_repository.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 
 final class SaveMovementParams {
   const new(this.movement, {this.payeeName});
@@ -23,17 +24,20 @@ final class SaveMovementParams {
 }
 
 /// Creates or edits a movement (RT-04). Archived accounts only keep the
-/// movements they already had.
+/// movements they already had. Confirming a pending movement of a
+/// recurring template copies its amounts to the template (RF-06).
 class SaveMovement implements UseCase<Future<Result<int>>, SaveMovementParams> {
   const new({
     required this._movements,
     required this._accounts,
     required this._categories,
+    required this._recurring,
   });
 
   final MovementRepository _movements;
   final AccountRepository _accounts;
   final CategoryRepository _categories;
+  final RecurringRepository _recurring;
 
   @override
   Future<Result<int>> call(SaveMovementParams params) async {
@@ -81,9 +85,22 @@ class SaveMovement implements UseCase<Future<Result<int>>, SaveMovementParams> {
     if (newlyUsed(account) || newlyUsed(toAccount)) {
       return const Err(ValidationFailure('Archived accounts take no more.'));
     }
-    return await _movements.save(
+    final saved = await _movements.save(
       movement.copyWith(payeeId: null),
       payee: payee,
     );
+    final templateId = movement.recurringTemplateId;
+    if (saved is Ok<int> &&
+        templateId != null &&
+        original?.isPending == true &&
+        !movement.isPending) {
+      final updated = await _recurring.updateAmount(
+        templateId,
+        movement.amount,
+        movement.toAmount,
+      );
+      if (updated case Err(:final failure)) return Err(failure);
+    }
+    return saved;
   }
 }

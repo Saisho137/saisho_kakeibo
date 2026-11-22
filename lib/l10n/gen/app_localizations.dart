@@ -1653,6 +1653,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{percent} of {type}'**
   String historyCategoryShare(String percent, String type);
+
+  /// Title of the Recurring screen and its menu item.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get recurringTitle;
+
+  /// Tooltip of the button that creates a template.
+  ///
+  /// In en, this message translates to:
+  /// **'New recurring'**
+  String get recurringNewTooltip;
+
+  /// Empty Recurring screen.
+  ///
+  /// In en, this message translates to:
+  /// **'No recurring movements yet. Add your fixed expenses, transfers and incomes.'**
+  String get recurringEmpty;
+
+  /// Title of the template form when creating.
+  ///
+  /// In en, this message translates to:
+  /// **'New recurring'**
+  String get recurringNewTitle;
+
+  /// Title of the template form when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit recurring'**
+  String get recurringEditTitle;
+
+  /// Template not found.
+  ///
+  /// In en, this message translates to:
+  /// **'This recurring movement no longer exists.'**
+  String get recurringNotFound;
+
+  /// Label of the template type selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get recurringType;
+
+  /// Label of the cadence selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Creates its pending movement'**
+  String get recurringCadence;
+
+  /// Cadence: at each salary or manual period start.
+  ///
+  /// In en, this message translates to:
+  /// **'Each period'**
+  String get recurringCadencePeriod;
+
+  /// Cadence: at each monthly period start, on the cutoff day.
+  ///
+  /// In en, this message translates to:
+  /// **'Each month'**
+  String get recurringCadenceMonthly;
+
+  /// Explains the period cadence.
+  ///
+  /// In en, this message translates to:
+  /// **'When a salary or a manual start begins a period.'**
+  String get recurringCadencePeriodHint;
+
+  /// Explains the monthly cadence.
+  ///
+  /// In en, this message translates to:
+  /// **'On the cutoff day, every month.'**
+  String get recurringCadenceMonthlyHint;
+
+  /// Label of the template amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get recurringAmount;
+
+  /// Label of the amount a cross-currency template transfer adds.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get recurringToAmount;
+
+  /// Label of the sending account of a template transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get recurringFrom;
+
+  /// Label of the receiving account of a template transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get recurringTo;
+
+  /// Label of the template category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get recurringCategory;
+
+  /// Label of the optional day of the month.
+  ///
+  /// In en, this message translates to:
+  /// **'Due day'**
+  String get recurringDueDay;
+
+  /// No due day.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get recurringNoDueDay;
+
+  /// A due day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day}'**
+  String recurringDueDayValue(int day);
+
+  /// Explains the due day.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses and transfers are created at the period start; this day is for the reminder. Incomes are dated on it.'**
+  String get recurringDueDayHint;
+
+  /// Action that clears the due day.
+  ///
+  /// In en, this message translates to:
+  /// **'No due day'**
+  String get recurringClearDueDay;
+
+  /// Switch of the due-day reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me on due day'**
+  String get recurringRemind;
+
+  /// Note under a new template.
+  ///
+  /// In en, this message translates to:
+  /// **'Its first pending movement comes with the next period.'**
+  String get recurringFirstHint;
+
+  /// Marks a paused template.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get recurringPaused;
+
+  /// Tooltip of the switch that pauses or resumes a template.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get recurringActiveTooltip;
+
+  /// Tooltip of the template delete button.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete recurring'**
+  String get recurringDeleteTooltip;
+
+  /// Title of the template delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this recurring movement?'**
+  String get recurringDeleteTitle;
+
+  /// Message of the template delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'The movements it already created stay.'**
+  String get recurringDeleteMessage;
+
+  /// Creates a recurring template from a saved movement.
+  ///
+  /// In en, this message translates to:
+  /// **'Make recurring'**
+  String get movementMakeRecurring;
 }
 
 class _AppLocalizationsDelegate

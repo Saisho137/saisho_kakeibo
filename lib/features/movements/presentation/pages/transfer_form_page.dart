@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
+import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/amount_input.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
@@ -15,6 +16,7 @@ import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
 import 'package:saisho_kakeibo/core/widgets/form_parts.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/widgets/amount_keypad.dart';
@@ -72,7 +74,20 @@ class TransferFormView extends StatelessWidget {
             title: Text(
               state.isEditing ? l10n.transferEditTitle : l10n.transferNewTitle,
             ),
-            actions: [if (state.isEditing) const _DeleteButton()],
+            actions: [
+              // A movement of a template is already recurring.
+              if (state.original case Movement(
+                :final id,
+                recurringTemplateId: null,
+              ))
+                IconButton(
+                  tooltip: l10n.movementMakeRecurring,
+                  icon: const Icon(Icons.event_repeat_rounded),
+                  onPressed: () =>
+                      context.push(AppRoutes.newRecurring(fromMovementId: id)),
+                ),
+              if (state.isEditing) const _DeleteButton(),
+            ],
           ),
           body: switch (state.status) {
             TransferFormStatus.loading => const Center(
@@ -249,7 +264,9 @@ class _TransferForm extends StatelessWidget {
                     onPressed: state.status == TransferFormStatus.saving
                         ? null
                         : cubit.submit,
-                    child: Text(l10n.actionSave),
+                    child: Text(
+                      state.isPending ? l10n.movementConfirm : l10n.actionSave,
+                    ),
                   ),
                 ),
               ],

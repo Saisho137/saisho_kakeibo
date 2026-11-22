@@ -9,6 +9,8 @@ mixin _$CategoryDaoMixin on DatabaseAccessor<AppDatabase> {
   $CurrenciesTable get currencies => attachedDatabase.currencies;
   $AccountsTable get accounts => attachedDatabase.accounts;
   $PayeesTable get payees => attachedDatabase.payees;
+  $RecurringTemplatesTable get recurringTemplates =>
+      attachedDatabase.recurringTemplates;
   $MovementsTable get movements => attachedDatabase.movements;
   CategoryDaoManager get managers => CategoryDaoManager(this);
 }
@@ -26,6 +28,11 @@ class CategoryDaoManager {
       $$AccountsTableTableManager(_db.attachedDatabase, _db.accounts);
   $$PayeesTableTableManager get payees =>
       $$PayeesTableTableManager(_db.attachedDatabase, _db.payees);
+  $$RecurringTemplatesTableTableManager get recurringTemplates =>
+      $$RecurringTemplatesTableTableManager(
+        _db.attachedDatabase,
+        _db.recurringTemplates,
+      );
   $$MovementsTableTableManager get movements =>
       $$MovementsTableTableManager(_db.attachedDatabase, _db.movements);
 }

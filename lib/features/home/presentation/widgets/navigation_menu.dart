@@ -5,8 +5,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
-/// ⋮ panel: the app's screens. Debts, Entities and Recurring join it in
-/// their phases.
+/// ⋮ panel: the app's screens. Debts and Entities join it in their
+/// phases.
 class NavigationMenu extends StatelessWidget {
   const new({super.key});
 
@@ -34,6 +34,11 @@ class NavigationMenu extends StatelessWidget {
               Icons.category_rounded,
               l10n.categoriesTitle,
               AppRoutes.categories,
+            ),
+            item(
+              Icons.event_repeat_rounded,
+              l10n.recurringTitle,
+              AppRoutes.recurring,
             ),
             item(
               Icons.settings_rounded,

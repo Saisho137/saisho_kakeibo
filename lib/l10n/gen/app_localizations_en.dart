@@ -879,4 +879,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String historyCategoryShare(String percent, String type) {
     return '$percent of $type';
   }
+
+  @override
+  String get recurringTitle => 'Recurring';
+
+  @override
+  String get recurringNewTooltip => 'New recurring';
+
+  @override
+  String get recurringEmpty =>
+      'No recurring movements yet. Add your fixed expenses, transfers and incomes.';
+
+  @override
+  String get recurringNewTitle => 'New recurring';
+
+  @override
+  String get recurringEditTitle => 'Edit recurring';
+
+  @override
+  String get recurringNotFound => 'This recurring movement no longer exists.';
+
+  @override
+  String get recurringType => 'Type';
+
+  @override
+  String get recurringCadence => 'Creates its pending movement';
+
+  @override
+  String get recurringCadencePeriod => 'Each period';
+
+  @override
+  String get recurringCadenceMonthly => 'Each month';
+
+  @override
+  String get recurringCadencePeriodHint =>
+      'When a salary or a manual start begins a period.';
+
+  @override
+  String get recurringCadenceMonthlyHint => 'On the cutoff day, every month.';
+
+  @override
+  String get recurringAmount => 'Amount';
+
+  @override
+  String get recurringToAmount => 'Received';
+
+  @override
+  String get recurringFrom => 'From';
+
+  @override
+  String get recurringTo => 'To';
+
+  @override
+  String get recurringCategory => 'Category';
+
+  @override
+  String get recurringDueDay => 'Due day';
+
+  @override
+  String get recurringNoDueDay => 'None';
+
+  @override
+  String recurringDueDayValue(int day) {
+    return 'Day $day';
+  }
+
+  @override
+  String get recurringDueDayHint =>
+      'Expenses and transfers are created at the period start; this day is for the reminder. Incomes are dated on it.';
+
+  @override
+  String get recurringClearDueDay => 'No due day';
+
+  @override
+  String get recurringRemind => 'Remind me on due day';
+
+  @override
+  String get recurringFirstHint =>
+      'Its first pending movement comes with the next period.';
+
+  @override
+  String get recurringPaused => 'Paused';
+
+  @override
+  String get recurringActiveTooltip => 'Active';
+
+  @override
+  String get recurringDeleteTooltip => 'Delete recurring';
+
+  @override
+  String get recurringDeleteTitle => 'Delete this recurring movement?';
+
+  @override
+  String get recurringDeleteMessage => 'The movements it already created stay.';
+
+  @override
+  String get movementMakeRecurring => 'Make recurring';
 }

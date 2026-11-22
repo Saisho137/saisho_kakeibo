@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:saisho_kakeibo/core/error/failure.dart';
+import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/money.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
@@ -28,6 +29,7 @@ import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_calculator.dart';
 import 'package:saisho_kakeibo/features/periods/domain/services/period_totals.dart';
 import 'package:saisho_kakeibo/features/periods/domain/usecases/watch_period_starts.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/usecases/materialize_recurring.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
 
@@ -47,6 +49,7 @@ class HomeCubit extends Cubit<HomeState> {
     required this._watchCategories,
     required this._watchPillars,
     required this._watchPayees,
+    required this._materializeRecurring,
   }) : super(const HomeState());
 
   final WatchSettings _watchSettings;
@@ -58,6 +61,7 @@ class HomeCubit extends Cubit<HomeState> {
   final WatchCategories _watchCategories;
   final WatchPillars _watchPillars;
   final WatchPayees _watchPayees;
+  final MaterializeRecurring _materializeRecurring;
   final List<StreamSubscription<Object>> _subscriptions = [];
 
   void load() {
@@ -84,10 +88,10 @@ class HomeCubit extends Cubit<HomeState> {
         (movements) => _received(state.copyWith(movements: movements)),
         onError: _failed,
       ),
-      _watchPeriodStarts(const NoParams()).listen(
-        (starts) => _received(state.copyWith(periodStarts: starts)),
-        onError: _failed,
-      ),
+      _watchPeriodStarts(const NoParams()).listen((starts) {
+        _received(state.copyWith(periodStarts: starts));
+        unawaited(_materialize());
+      }, onError: _failed),
       _watchCategories(const NoParams()).listen(
         (categories) => _received(state.copyWith(categories: categories)),
         onError: _failed,
@@ -110,6 +114,15 @@ class HomeCubit extends Cubit<HomeState> {
   /// Quick menu: shows the Home in [code] until the app restarts.
   void currencySelected(String code) =>
       emit(state.copyWith(selectedCurrencyCode: code));
+
+  /// Creates the pending movements the recurring templates owe: when the
+  /// Home opens and whenever the period starts change (RF-06).
+  Future<void> _materialize() async {
+    final result = await _materializeRecurring(LocalDate.today());
+    if (result case Err(:final failure) when !isClosed) {
+      emit(state.copyWith(failure: failure));
+    }
+  }
 
   void _received(HomeState next) {
     final ready =

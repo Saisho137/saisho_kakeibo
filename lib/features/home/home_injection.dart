@@ -14,6 +14,7 @@ void registerHomeDependencies(GetIt getIt) {
       watchCategories: getIt(),
       watchPillars: getIt(),
       watchPayees: getIt(),
+      materializeRecurring: getIt(),
     ),
   );
 }
