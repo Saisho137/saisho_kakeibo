@@ -304,6 +304,8 @@ class _Form extends StatelessWidget {
                   onPressed: () => cubit.dueDayChanged(null),
                 ),
           onTap: () async {
+            // Otherwise the text field regains focus and reopens the keyboard.
+            FocusScope.of(context).unfocus();
             final day = await showNumberGridDialog(
               context,
               title: l10n.recurringDueDay,
