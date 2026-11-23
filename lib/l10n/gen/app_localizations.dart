@@ -478,11 +478,11 @@ abstract class AppLocalizations {
   /// **'Balance'**
   String get accountsBalance;
 
-  /// Tooltip of the currency selector on Accounts.
+  /// Tooltip of the currency picker of a screen.
   ///
   /// In en, this message translates to:
   /// **'Currency'**
-  String get accountsCurrencyTooltip;
+  String get currencyMenuTooltip;
 
   /// Menu option that also lists archived accounts.
   ///
@@ -2445,6 +2445,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Debt: {name}'**
   String payeeIsDebt(String name);
+
+  /// Screen reader label of a donut section.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}, {percent}%'**
+  String donutSectionSemantics(String name, int percent);
+
+  /// Screen reader hint of tapping a category.
+  ///
+  /// In en, this message translates to:
+  /// **'add an expense'**
+  String get donutNewExpenseHint;
+
+  /// Screen reader hint of tapping a pillar.
+  ///
+  /// In en, this message translates to:
+  /// **'show the pillars'**
+  String get donutShowPillarsHint;
+
+  /// Screen reader hint of tapping an inverted pillar.
+  ///
+  /// In en, this message translates to:
+  /// **'show the categories'**
+  String get donutShowCategoriesHint;
+
+  /// Screen reader label of a color swatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Color {number}'**
+  String colorSwatchSemantics(int number);
+
+  /// Tooltip of the debt icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Change icon'**
+  String get debtIconTooltip;
+
+  /// Entity detail without movements.
+  ///
+  /// In en, this message translates to:
+  /// **'No movements in this currency. Merge or delete this entity if you no longer need it.'**
+  String get payeeNoMovements;
 }
 
 class _AppLocalizationsDelegate

@@ -10,6 +10,7 @@ import 'package:saisho_kakeibo/core/money/money.dart';
 import 'package:saisho_kakeibo/core/money/money_formatter.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
+import 'package:saisho_kakeibo/core/widgets/currency_menu_button.dart';
 import 'package:saisho_kakeibo/core/widgets/section_header.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
@@ -47,24 +48,10 @@ class DebtsView extends StatelessWidget {
               actions: [
                 if (state.currencyOptions.length > 1 &&
                     state.currencyCode != null)
-                  PopupMenuButton<String>(
-                    initialValue: state.currencyCode,
+                  CurrencyMenuButton(
+                    selected: state.currencyCode!,
+                    currencies: state.currencyOptions,
                     onSelected: context.read<DebtsCubit>().currencySelected,
-                    itemBuilder: (context) => [
-                      for (final c in state.currencyOptions)
-                        PopupMenuItem(value: c.code, child: Text(c.code)),
-                    ],
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(state.currencyCode!),
-                          const Icon(Icons.arrow_drop_down_rounded),
-                        ],
-                      ),
-                    ),
                   ),
                 Builder(
                   builder: (context) => IconButton(

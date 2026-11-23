@@ -14,6 +14,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     required this.transfer,
     required this.neutral,
     required this.iconGlyph,
+    required this.iconGlyphDark,
     required this.radius,
     required this.radiusSmall,
     required this.donutRingWidth,
@@ -22,11 +23,12 @@ class AppTokens extends ThemeExtension<AppTokens> {
   });
 
   static const AppTokens light = AppTokens(
-    income: Color(0xFF2E7D32),
-    expense: Color(0xFFC62828),
+    income: Color(0xFF1B5E20),
+    expense: Color(0xFFB71C1C),
     transfer: Color(0xFF616161),
     neutral: Color(0xFFBDBDBD),
     iconGlyph: Color(0xFFFFFFFF),
+    iconGlyphDark: Color(0xDE000000),
     radius: 16,
     radiusSmall: 8,
     donutRingWidth: 36,
@@ -36,10 +38,11 @@ class AppTokens extends ThemeExtension<AppTokens> {
 
   static const AppTokens dark = AppTokens(
     income: Color(0xFF81C784),
-    expense: Color(0xFFE57373),
+    expense: Color(0xFFEF9A9A),
     transfer: Color(0xFFBDBDBD),
     neutral: Color(0xFF616161),
     iconGlyph: Color(0xFFFFFFFF),
+    iconGlyphDark: Color(0xDE000000),
     radius: 16,
     radiusSmall: 8,
     donutRingWidth: 36,
@@ -62,6 +65,27 @@ class AppTokens extends ThemeExtension<AppTokens> {
   /// Glyph drawn on a category or account color circle.
   final Color iconGlyph;
 
+  /// Glyph on a light circle (amber, orange…), where [iconGlyph] would not
+  /// stand out.
+  final Color iconGlyphDark;
+
+  /// Minimum contrast of a glyph on its circle (WCAG, for graphics).
+  static const double minGlyphContrast = 3;
+
+  /// The glyph that reads on [background]: [iconGlyph] when it contrasts
+  /// enough, [iconGlyphDark] otherwise (accessibility).
+  Color glyphOn(Color background) =>
+      contrast(iconGlyph, background) >= minGlyphContrast
+      ? iconGlyph
+      : iconGlyphDark;
+
+  /// WCAG contrast ratio of two opaque colors, from 1 to 21.
+  static double contrast(Color a, Color b) {
+    final (la, lb) = (a.computeLuminance(), b.computeLuminance());
+    final (light, dark) = la >= lb ? (la, lb) : (lb, la);
+    return (light + 0.05) / (dark + 0.05);
+  }
+
   final double radius;
   final double radiusSmall;
 
@@ -81,6 +105,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     Color? transfer,
     Color? neutral,
     Color? iconGlyph,
+    Color? iconGlyphDark,
     double? radius,
     double? radiusSmall,
     double? donutRingWidth,
@@ -93,6 +118,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
       transfer: transfer ?? this.transfer,
       neutral: neutral ?? this.neutral,
       iconGlyph: iconGlyph ?? this.iconGlyph,
+      iconGlyphDark: iconGlyphDark ?? this.iconGlyphDark,
       radius: radius ?? this.radius,
       radiusSmall: radiusSmall ?? this.radiusSmall,
       donutRingWidth: donutRingWidth ?? this.donutRingWidth,
@@ -110,6 +136,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
       transfer: Color.lerp(transfer, other.transfer, t)!,
       neutral: Color.lerp(neutral, other.neutral, t)!,
       iconGlyph: Color.lerp(iconGlyph, other.iconGlyph, t)!,
+      iconGlyphDark: Color.lerp(iconGlyphDark, other.iconGlyphDark, t)!,
       radius: lerpDouble(radius, other.radius, t)!,
       radiusSmall: lerpDouble(radiusSmall, other.radiusSmall, t)!,
       donutRingWidth: lerpDouble(donutRingWidth, other.donutRingWidth, t)!,

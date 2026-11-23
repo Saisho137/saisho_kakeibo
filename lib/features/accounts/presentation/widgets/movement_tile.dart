@@ -70,7 +70,10 @@ class MovementTile extends StatelessWidget {
       leading: isAdjustment
           ? CircleAvatar(
               backgroundColor: tokens.neutral,
-              child: Icon(Icons.tune_rounded, color: tokens.iconGlyph),
+              child: Icon(
+                Icons.tune_rounded,
+                color: tokens.glyphOn(tokens.neutral),
+              ),
             )
           : CatalogIconAvatar(
               iconKey: category?.iconKey ?? '',

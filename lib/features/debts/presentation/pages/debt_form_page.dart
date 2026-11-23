@@ -121,21 +121,24 @@ class _Form extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         Row(
           children: [
-            InkResponse(
-              onTap: () async {
-                FocusScope.of(context).unfocus();
-                final icon = await showIconPickerDialog(
-                  context,
-                  selectedKey: state.iconKey,
-                );
-                if (icon != null) {
-                  cubit.iconChanged(icon.key, icon.color.toARGB32());
-                }
-              },
-              child: CatalogIconAvatar(
-                iconKey: state.iconKey,
-                color: Color(state.color),
-                radius: 24,
+            Tooltip(
+              message: l10n.debtIconTooltip,
+              child: InkResponse(
+                onTap: () async {
+                  FocusScope.of(context).unfocus();
+                  final icon = await showIconPickerDialog(
+                    context,
+                    selectedKey: state.iconKey,
+                  );
+                  if (icon != null) {
+                    cubit.iconChanged(icon.key, icon.color.toARGB32());
+                  }
+                },
+                child: CatalogIconAvatar(
+                  iconKey: state.iconKey,
+                  color: Color(state.color),
+                  radius: 24,
+                ),
               ),
             ),
             const SizedBox(width: AppSpacing.md),

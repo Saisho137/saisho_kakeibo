@@ -9,6 +9,7 @@ import 'package:saisho_kakeibo/core/money/money.dart';
 import 'package:saisho_kakeibo/core/money/money_formatter.dart';
 import 'package:saisho_kakeibo/core/text/text_normalizer.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
+import 'package:saisho_kakeibo/core/widgets/currency_menu_button.dart';
 import 'package:saisho_kakeibo/core/widgets/section_header.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/widgets/movement_tile.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
@@ -71,26 +72,12 @@ class PayeeDetailView extends StatelessWidget {
               actions: [
                 if (state.currencyOptions.length > 1 &&
                     state.currencyCode != null)
-                  PopupMenuButton<String>(
-                    initialValue: state.currencyCode,
+                  CurrencyMenuButton(
+                    selected: state.currencyCode!,
+                    currencies: state.currencyOptions,
                     onSelected: context
                         .read<PayeeDetailCubit>()
                         .currencySelected,
-                    itemBuilder: (context) => [
-                      for (final c in state.currencyOptions)
-                        PopupMenuItem(value: c.code, child: Text(c.code)),
-                    ],
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(state.currencyCode!),
-                          const Icon(Icons.arrow_drop_down_rounded),
-                        ],
-                      ),
-                    ),
                   ),
                 if (payee != null)
                   PopupMenuButton<_Action>(
@@ -282,6 +269,11 @@ class _Detail extends StatelessWidget {
           ),
         ],
         SectionHeader(l10n.payeeMovements),
+        if (days.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Text(l10n.payeeNoMovements, textAlign: TextAlign.center),
+          ),
         for (final (_, movements) in days) ...[
           SectionHeader(dayLabel(context, movements.first.date)),
           for (final m in movements)

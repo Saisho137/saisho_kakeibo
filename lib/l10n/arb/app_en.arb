@@ -284,9 +284,9 @@
   "@accountsBalance": {
     "description": "Sum of the accounts included in the Balance."
   },
-  "accountsCurrencyTooltip": "Currency",
-  "@accountsCurrencyTooltip": {
-    "description": "Tooltip of the currency selector on Accounts."
+  "currencyMenuTooltip": "Currency",
+  "@currencyMenuTooltip": {
+    "description": "Tooltip of the currency picker of a screen."
   },
   "accountsShowArchived": "Show archived",
   "@accountsShowArchived": {
@@ -1833,5 +1833,46 @@
         "type": "String"
       }
     }
+  },
+  "donutSectionSemantics": "{name}, {percent}%",
+  "@donutSectionSemantics": {
+    "description": "Screen reader label of a donut section.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "donutNewExpenseHint": "add an expense",
+  "@donutNewExpenseHint": {
+    "description": "Screen reader hint of tapping a category."
+  },
+  "donutShowPillarsHint": "show the pillars",
+  "@donutShowPillarsHint": {
+    "description": "Screen reader hint of tapping a pillar."
+  },
+  "donutShowCategoriesHint": "show the categories",
+  "@donutShowCategoriesHint": {
+    "description": "Screen reader hint of tapping an inverted pillar."
+  },
+  "colorSwatchSemantics": "Color {number}",
+  "@colorSwatchSemantics": {
+    "description": "Screen reader label of a color swatch.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "debtIconTooltip": "Change icon",
+  "@debtIconTooltip": {
+    "description": "Tooltip of the debt icon."
+  },
+  "payeeNoMovements": "No movements in this currency. Merge or delete this entity if you no longer need it.",
+  "@payeeNoMovements": {
+    "description": "Entity detail without movements."
   }
 }

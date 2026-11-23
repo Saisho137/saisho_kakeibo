@@ -32,37 +32,40 @@ class PillarsDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(l10n.pillarsTitle),
       contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: Text(l10n.pillarsHint),
-          ),
-          for (final pillar in pillars)
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-              ),
-              leading: CircleAvatar(
-                radius: 12,
-                backgroundColor: Color(pillar.color),
-              ),
-              title: Text(pillar.name),
-              trailing: const Icon(Icons.edit_outlined),
-              onTap: () async {
-                final edited = await showDialog<Pillar>(
-                  context: context,
-                  builder: (_) =>
-                      PillarEditDialog(pillar: pillar, pillars: pillars),
-                );
-                if (edited != null && context.mounted) {
-                  await context.read<CategoriesCubit>().updatePillar(edited);
-                }
-              },
+      // Scrolls when large text makes it taller than the screen.
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Text(l10n.pillarsHint),
             ),
-        ],
+            for (final pillar in pillars)
+              ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                ),
+                leading: CircleAvatar(
+                  radius: 12,
+                  backgroundColor: Color(pillar.color),
+                ),
+                title: Text(pillar.name),
+                trailing: const Icon(Icons.edit_outlined),
+                onTap: () async {
+                  final edited = await showDialog<Pillar>(
+                    context: context,
+                    builder: (_) =>
+                        PillarEditDialog(pillar: pillar, pillars: pillars),
+                  );
+                  if (edited != null && context.mounted) {
+                    await context.read<CategoriesCubit>().updatePillar(edited);
+                  }
+                },
+              ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -133,8 +136,9 @@ class _PillarEditDialogState extends State<PillarEditDialog> {
               spacing: AppSpacing.sm,
               runSpacing: AppSpacing.sm,
               children: [
-                for (final color in IconCatalog.palette)
+                for (final (index, color) in IconCatalog.palette.indexed)
                   _Swatch(
+                    number: index + 1,
                     color: color,
                     selected: color.toARGB32() == _pillar.color,
                     onTap: taken.contains(color.toARGB32())
@@ -172,8 +176,15 @@ class _PillarEditDialogState extends State<PillarEditDialog> {
 }
 
 class _Swatch extends StatelessWidget {
-  const new({required this.color, required this.selected, this.onTap});
+  const new({
+    required this.number,
+    required this.color,
+    required this.selected,
+    this.onTap,
+  });
 
+  /// Its place in the palette, which screen readers announce.
+  final int number;
   final Color color;
   final bool selected;
 
@@ -187,6 +198,7 @@ class _Swatch extends StatelessWidget {
       button: true,
       enabled: enabled,
       selected: selected,
+      label: context.l10n.colorSwatchSemantics(number),
       child: InkResponse(
         onTap: onTap,
         child: DecoratedBox(
@@ -207,7 +219,7 @@ class _Swatch extends StatelessWidget {
                   : Icon(
                       Icons.block_rounded,
                       size: 16,
-                      color: context.tokens.iconGlyph,
+                      color: context.tokens.glyphOn(color),
                     ),
             ),
           ),

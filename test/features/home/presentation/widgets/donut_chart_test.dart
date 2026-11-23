@@ -72,6 +72,26 @@ void main() {
       expect(find.byKey(const ValueKey('donut-category-3')), findsNothing);
     });
 
+    testWidgets('screen readers get a button per section', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final tapped = await pump(tester, data);
+
+      final tinySection = find.bySemanticsLabel('Category 3, 2%');
+      expect(tinySection, findsOneWidget);
+      expect(find.bySemanticsLabel('Food, 70%'), findsOneWidget);
+      expect(find.bySemanticsLabel('No pillar, 2%'), findsOneWidget);
+      expect(find.bySemanticsLabel('70%'), findsNothing);
+      tester.semantics.tap(find.semantics.byLabel('Category 3, 2%'));
+      expect(tapped, [tiny]);
+
+      tester.semantics.tap(find.semantics.byLabel('Survival, 70%'));
+      await tester.pumpAndSettle();
+      // Inverted, only the pillars remain.
+      expect(find.bySemanticsLabel('Food, 70%'), findsNothing);
+      expect(find.bySemanticsLabel('Survival, 70%'), findsOneWidget);
+      semantics.dispose();
+    });
+
     testWidgets('tapping a category reports it', (tester) async {
       final tapped = await pump(tester, data);
 

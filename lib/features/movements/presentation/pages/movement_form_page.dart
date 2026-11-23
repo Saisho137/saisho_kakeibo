@@ -178,26 +178,33 @@ class _CategoryTitle extends StatelessWidget {
           );
           if (picked != null) cubit.categoryChanged(picked);
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (category != null) ...[
-              CatalogIconAvatar(
-                iconKey: category.iconKey,
-                color: Color(category.color),
-                radius: 16,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minHeight: kMinInteractiveDimension,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (category != null) ...[
+                CatalogIconAvatar(
+                  iconKey: category.iconKey,
+                  color: Color(category.color),
+                  radius: 16,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+              ],
+              Flexible(
+                child: Text(
+                  category?.name ?? l10n.movementErrorCategory,
+                  overflow: TextOverflow.ellipsis,
+                  style: hasError
+                      ? TextStyle(color: context.colors.error)
+                      : null,
+                ),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const Icon(Icons.arrow_drop_down_rounded),
             ],
-            Flexible(
-              child: Text(
-                category?.name ?? l10n.movementErrorCategory,
-                overflow: TextOverflow.ellipsis,
-                style: hasError ? TextStyle(color: context.colors.error) : null,
-              ),
-            ),
-            const Icon(Icons.arrow_drop_down_rounded),
-          ],
+          ),
         ),
       ),
     );

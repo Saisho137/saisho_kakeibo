@@ -321,6 +321,8 @@ class _DeleteDialogState extends State<_DeleteDialog> {
     final count = state.movementCount;
     final ready = count == 0 || _target != null;
     return AlertDialog(
+      // Scrolls when large text makes it taller than the screen.
+      scrollable: true,
       title: Text(l10n.categoryDeleteTitle(state.original!.name)),
       content: Column(
         mainAxisSize: MainAxisSize.min,
