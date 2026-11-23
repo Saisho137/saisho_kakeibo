@@ -1658,5 +1658,180 @@
         "type": "String"
       }
     }
+  },
+  "payeesTitle": "Entities",
+  "@payeesTitle": {
+    "description": "Title of the Entities screen."
+  },
+  "payeesThisPeriod": "This period",
+  "@payeesThisPeriod": {
+    "description": "Scope of the current period."
+  },
+  "payeesAllTime": "All time",
+  "@payeesAllTime": {
+    "description": "Scope of every movement."
+  },
+  "payeesSortTooltip": "Sort",
+  "@payeesSortTooltip": {
+    "description": "Tooltip of the sort menu."
+  },
+  "payeesSortSpent": "Most spent",
+  "@payeesSortSpent": {
+    "description": "Sort by expenses."
+  },
+  "payeesSortUsed": "Most used",
+  "@payeesSortUsed": {
+    "description": "Sort by number of movements."
+  },
+  "payeesSortName": "A-Z",
+  "@payeesSortName": {
+    "description": "Sort alphabetically."
+  },
+  "payeesSearchHint": "Search entities",
+  "@payeesSearchHint": {
+    "description": "Hint of the entity search."
+  },
+  "payeesEmptyPeriod": "No entities with movements in this period.",
+  "@payeesEmptyPeriod": {
+    "description": "Empty list in the period."
+  },
+  "payeesEmpty": "No entities yet. They are created when you type them in a movement.",
+  "@payeesEmpty": {
+    "description": "Empty list overall."
+  },
+  "payeesCount": "×{count}",
+  "@payeesCount": {
+    "description": "How many movements an entity has.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payeeNotFound": "This entity no longer exists.",
+  "@payeeNotFound": {
+    "description": "Missing entity."
+  },
+  "payeeMovementCount": "Movements",
+  "@payeeMovementCount": {
+    "description": "Label of the number of movements."
+  },
+  "payeeAveragePrice": "Average price",
+  "@payeeAveragePrice": {
+    "description": "Label of the mean price."
+  },
+  "payeeLastPrice": "Last price",
+  "@payeeLastPrice": {
+    "description": "Label of the latest price."
+  },
+  "payeePriceChart": "Price over time",
+  "@payeePriceChart": {
+    "description": "Header of the price chart."
+  },
+  "payeeMovements": "Movements",
+  "@payeeMovements": {
+    "description": "Header of the entity's movements."
+  },
+  "payeeMoreTooltip": "More actions",
+  "@payeeMoreTooltip": {
+    "description": "Tooltip of the entity menu."
+  },
+  "payeeRename": "Rename",
+  "@payeeRename": {
+    "description": "Rename action."
+  },
+  "payeeName": "Name",
+  "@payeeName": {
+    "description": "Label of the entity name."
+  },
+  "payeeErrorName": "Enter a name.",
+  "@payeeErrorName": {
+    "description": "Empty entity name."
+  },
+  "payeeErrorNameTaken": "Another entity has this name: merge into it instead.",
+  "@payeeErrorNameTaken": {
+    "description": "Name of another entity."
+  },
+  "payeeRenameDebt": "The debt {name} is renamed too.",
+  "@payeeRenameDebt": {
+    "description": "A debt shares the entity.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payeeMerge": "Merge into…",
+  "@payeeMerge": {
+    "description": "Merge action."
+  },
+  "payeeMergeTitle": "Merge {name} into…",
+  "@payeeMergeTitle": {
+    "description": "Title of the merge target picker.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payeeMergeConfirmTitle": "Merge into {name}?",
+  "@payeeMergeConfirmTitle": {
+    "description": "Title of the merge confirmation.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payeeMergeMessage": "The movements of {from} move to {into}, and {from} is deleted.",
+  "@payeeMergeMessage": {
+    "description": "Explains a merge.",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "into": {
+        "type": "String"
+      }
+    }
+  },
+  "payeeMergeAction": "Merge",
+  "@payeeMergeAction": {
+    "description": "Confirms a merge."
+  },
+  "payeeNoMergeTargets": "There is no other entity to merge into.",
+  "@payeeNoMergeTargets": {
+    "description": "No merge target."
+  },
+  "payeeDeleteTitle": "Delete {name}?",
+  "@payeeDeleteTitle": {
+    "description": "Title of the entity delete confirmation.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payeeDeleteMessage": "Its movements stay, without entity.",
+  "@payeeDeleteMessage": {
+    "description": "Explains deleting an entity."
+  },
+  "payeeDeleteBlocked": "It is the debt {name}: rename it or merge it instead.",
+  "@payeeDeleteBlocked": {
+    "description": "Why an entity can't be deleted.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payeeIsDebt": "Debt: {name}",
+  "@payeeIsDebt": {
+    "description": "Link to the debt that is this entity.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

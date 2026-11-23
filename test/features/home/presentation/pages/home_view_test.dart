@@ -194,6 +194,7 @@ void main() {
       for (final (screen, route) in [
         ('Accounts', '/accounts'),
         ('Debts', '/debts'),
+        ('Entities', '/payees'),
         ('Categories', '/categories'),
         ('Recurring', '/recurring'),
         ('Settings', '/settings'),

@@ -6,6 +6,7 @@ import 'package:saisho_kakeibo/features/categories/categories_injection.dart';
 import 'package:saisho_kakeibo/features/debts/debts_injection.dart';
 import 'package:saisho_kakeibo/features/home/home_injection.dart';
 import 'package:saisho_kakeibo/features/movements/movements_injection.dart';
+import 'package:saisho_kakeibo/features/payees/payees_injection.dart';
 import 'package:saisho_kakeibo/features/periods/periods_injection.dart';
 import 'package:saisho_kakeibo/features/recurring/recurring_injection.dart';
 import 'package:saisho_kakeibo/features/reminders/domain/repositories/reminder_scheduler.dart';
@@ -36,6 +37,7 @@ Future<void> configureDependencies({
   registerPeriodsDependencies(getIt);
   registerRecurringDependencies(getIt);
   registerDebtsDependencies(getIt);
+  registerPayeesDependencies(getIt);
   registerHomeDependencies(getIt);
   registerRemindersDependencies(getIt, scheduler: reminderScheduler);
 }
