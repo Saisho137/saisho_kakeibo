@@ -1000,4 +1000,168 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reminderCardBody => 'Pay your credit card today.';
+
+  @override
+  String get debtsTitle => 'Debts';
+
+  @override
+  String get debtsNewTooltip => 'New debt';
+
+  @override
+  String get debtsIOwe => 'I owe';
+
+  @override
+  String get debtsOwedToMe => 'Owed to me';
+
+  @override
+  String get debtsTotalPending => 'Total pending';
+
+  @override
+  String debtsLeft(String amount) {
+    return '$amount left';
+  }
+
+  @override
+  String debtsDueDay(int day) {
+    return 'due day $day';
+  }
+
+  @override
+  String debtsDueDate(String date) {
+    return 'due $date';
+  }
+
+  @override
+  String get debtsCreditCards => 'Credit cards';
+
+  @override
+  String debtsPaidOff(int count) {
+    return 'Paid off ($count)';
+  }
+
+  @override
+  String get debtsEmptyIOwe =>
+      'Nothing to pay back. Register a credit here; loans you receive show up on their own.';
+
+  @override
+  String get debtsEmptyOwedToMe =>
+      'Nobody owes you. Loans you give show up here.';
+
+  @override
+  String get debtPending => 'Pending';
+
+  @override
+  String debtInitial(String amount) {
+    return 'Registered with $amount';
+  }
+
+  @override
+  String get debtPaidOffLabel => 'Paid off';
+
+  @override
+  String get debtEditPending => 'Edit pending';
+
+  @override
+  String get debtEditPendingHint =>
+      'What is pending now, as the bank reports it. No money moves.';
+
+  @override
+  String get debtEditTooltip => 'Edit debt';
+
+  @override
+  String get debtDeleteTooltip => 'Delete debt';
+
+  @override
+  String debtDeleteTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get debtDeleteMessage => 'It has no movements yet.';
+
+  @override
+  String get debtMovements => 'Movements';
+
+  @override
+  String get debtNoMovements => 'No payments yet.';
+
+  @override
+  String get debtNotFound => 'This debt no longer exists.';
+
+  @override
+  String get debtNewTitle => 'New debt';
+
+  @override
+  String debtEditTitle(String name) {
+    return 'Edit $name';
+  }
+
+  @override
+  String get debtName => 'Name';
+
+  @override
+  String get debtEntityIOwe => 'Creditor';
+
+  @override
+  String get debtEntityOwedToMe => 'Debtor';
+
+  @override
+  String get debtCurrency => 'Currency';
+
+  @override
+  String get debtCurrencyLocked => 'A debt with movements keeps its currency.';
+
+  @override
+  String get debtPendingAmount => 'Pending amount';
+
+  @override
+  String get debtPendingHint =>
+      'What is left according to the bank, or what was agreed.';
+
+  @override
+  String get debtPillar => 'Pillar';
+
+  @override
+  String get debtPillarHint => 'Its payments count in this pillar.';
+
+  @override
+  String get debtInstallment => 'Installment (optional)';
+
+  @override
+  String get debtInstallmentHint => 'Prefills the amount when you pay.';
+
+  @override
+  String get debtDueDay => 'Due day (optional)';
+
+  @override
+  String get debtDueDate => 'Due date (optional)';
+
+  @override
+  String get debtNone => 'None';
+
+  @override
+  String get debtClearDue => 'Clear';
+
+  @override
+  String get debtChangeColor => 'Change color';
+
+  @override
+  String get debtErrorName => 'Enter a name.';
+
+  @override
+  String debtErrorNameTooLong(int max) {
+    return 'Use $max characters at most.';
+  }
+
+  @override
+  String get debtErrorPayee => 'Enter who it is with.';
+
+  @override
+  String get debtErrorPending => 'Enter a valid amount.';
+
+  @override
+  String get debtErrorPillar => 'Pick a pillar.';
+
+  @override
+  String get debtErrorInstallment => 'Enter an installment above zero.';
 }

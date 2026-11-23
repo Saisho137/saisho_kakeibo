@@ -1,4 +1,5 @@
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 
 /// Route paths and names, so navigation never relies on string literals.
@@ -10,6 +11,7 @@ abstract final class AppRoutes {
   static const String newAccount = '/accounts/new';
   static const String categories = '/categories';
   static const String recurring = '/recurring';
+  static const String debts = '/debts';
 
   static String editCurrency(String code) => '/settings/currencies/$code';
 
@@ -52,4 +54,10 @@ abstract final class AppRoutes {
       : '/recurring/new?from=$fromMovementId';
 
   static String editRecurring(int id) => '/recurring/$id';
+
+  static String newDebt(DebtType type) => '/debts/new?type=${type.name}';
+
+  static String debtDetail(int id) => '/debts/$id';
+
+  static String editDebt(int id) => '/debts/$id/edit';
 }

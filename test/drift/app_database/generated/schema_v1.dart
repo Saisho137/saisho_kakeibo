@@ -781,6 +781,163 @@ class RecurringTemplates extends Table with TableInfo {
   bool get dontWriteConstraints => true;
 }
 
+class Debts extends Table with TableInfo {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Debts(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT',
+  );
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<String> iconKey = GeneratedColumn<String>(
+    'icon_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<int> color = GeneratedColumn<int>(
+    'color',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<int> payeeId = GeneratedColumn<int>(
+    'payee_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES payees(id)',
+  );
+  late final GeneratedColumn<String> currencyCode = GeneratedColumn<String>(
+    'currency_code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES currencies(code)',
+  );
+  late final GeneratedColumn<int> initialPending = GeneratedColumn<int>(
+    'initial_pending',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<int> adjustment = GeneratedColumn<int>(
+    'adjustment',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT 0',
+    defaultValue: const CustomExpression('0'),
+  );
+  late final GeneratedColumn<int> pillarId = GeneratedColumn<int>(
+    'pillar_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL REFERENCES pillars(id)',
+  );
+  late final GeneratedColumn<int> installment = GeneratedColumn<int>(
+    'installment',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL',
+  );
+  late final GeneratedColumn<int> dueDay = GeneratedColumn<int>(
+    'due_day',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL',
+  );
+  late final GeneratedColumn<String> dueDate = GeneratedColumn<String>(
+    'due_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL',
+  );
+  late final GeneratedColumn<String> createdOn = GeneratedColumn<String>(
+    'created_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    type,
+    name,
+    iconKey,
+    color,
+    payeeId,
+    currencyCode,
+    initialPending,
+    adjustment,
+    pillarId,
+    installment,
+    dueDay,
+    dueDate,
+    createdOn,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'debts';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Never map(Map<String, dynamic> data, {String? tablePrefix}) {
+    throw UnsupportedError('TableInfo.map in schema verification code');
+  }
+
+  @override
+  Debts createAlias(String alias) {
+    return Debts(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
 class Movements extends Table with TableInfo {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -873,7 +1030,7 @@ class Movements extends Table with TableInfo {
     true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints: 'NULL',
+    $customConstraints: 'NULL REFERENCES debts(id)',
   );
   late final GeneratedColumn<int> recurringTemplateId = GeneratedColumn<int>(
     'recurring_template_id',
@@ -1069,6 +1226,7 @@ class DatabaseAtV1 extends GeneratedDatabase {
   late final Categories categories = Categories(this);
   late final Payees payees = Payees(this);
   late final RecurringTemplates recurringTemplates = RecurringTemplates(this);
+  late final Debts debts = Debts(this);
   late final Movements movements = Movements(this);
   late final PeriodStarts periodStarts = PeriodStarts(this);
   late final RecurringOccurrences recurringOccurrences = RecurringOccurrences(
@@ -1102,6 +1260,7 @@ class DatabaseAtV1 extends GeneratedDatabase {
     categories,
     payees,
     recurringTemplates,
+    debts,
     movements,
     periodStarts,
     recurringOccurrences,

@@ -1343,5 +1343,237 @@
   "reminderCardBody": "Pay your credit card today.",
   "@reminderCardBody": {
     "description": "Body of a credit card reminder."
+  },
+  "debtsTitle": "Debts",
+  "@debtsTitle": {
+    "description": "Title of the Debts screen and its menu item."
+  },
+  "debtsNewTooltip": "New debt",
+  "@debtsNewTooltip": {
+    "description": "Tooltip of the button that registers a debt."
+  },
+  "debtsIOwe": "I owe",
+  "@debtsIOwe": {
+    "description": "Tab of the debts I pay back."
+  },
+  "debtsOwedToMe": "Owed to me",
+  "@debtsOwedToMe": {
+    "description": "Tab of the money owed to me."
+  },
+  "debtsTotalPending": "Total pending",
+  "@debtsTotalPending": {
+    "description": "Sum of what is left on the active debts."
+  },
+  "debtsLeft": "{amount} left",
+  "@debtsLeft": {
+    "description": "What is left on a debt.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsDueDay": "due day {day}",
+  "@debtsDueDay": {
+    "description": "Monthly due day of a debt or card.",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "debtsDueDate": "due {date}",
+  "@debtsDueDate": {
+    "description": "Single due date of a debt owed to me.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsCreditCards": "Credit cards",
+  "@debtsCreditCards": {
+    "description": "Read-only section of the credit card accounts."
+  },
+  "debtsPaidOff": "Paid off ({count})",
+  "@debtsPaidOff": {
+    "description": "Collapsed section of settled debts.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "debtsEmptyIOwe": "Nothing to pay back. Register a credit here; loans you receive show up on their own.",
+  "@debtsEmptyIOwe": {
+    "description": "Empty I owe tab."
+  },
+  "debtsEmptyOwedToMe": "Nobody owes you. Loans you give show up here.",
+  "@debtsEmptyOwedToMe": {
+    "description": "Empty Owed to me tab."
+  },
+  "debtPending": "Pending",
+  "@debtPending": {
+    "description": "Label of what is pending on a debt."
+  },
+  "debtInitial": "Registered with {amount}",
+  "@debtInitial": {
+    "description": "Initial pending of a debt.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtPaidOffLabel": "Paid off",
+  "@debtPaidOffLabel": {
+    "description": "Marks a settled debt."
+  },
+  "debtEditPending": "Edit pending",
+  "@debtEditPending": {
+    "description": "Action that corrects what is pending without moving money."
+  },
+  "debtEditPendingHint": "What is pending now, as the bank reports it. No money moves.",
+  "@debtEditPendingHint": {
+    "description": "Explains Edit pending."
+  },
+  "debtEditTooltip": "Edit debt",
+  "@debtEditTooltip": {
+    "description": "Tooltip of the debt edit button."
+  },
+  "debtDeleteTooltip": "Delete debt",
+  "@debtDeleteTooltip": {
+    "description": "Tooltip of the debt delete button."
+  },
+  "debtDeleteTitle": "Delete {name}?",
+  "@debtDeleteTitle": {
+    "description": "Title of the debt delete confirmation.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "debtDeleteMessage": "It has no movements yet.",
+  "@debtDeleteMessage": {
+    "description": "Message of the debt delete confirmation."
+  },
+  "debtMovements": "Movements",
+  "@debtMovements": {
+    "description": "Section with the payments of a debt."
+  },
+  "debtNoMovements": "No payments yet.",
+  "@debtNoMovements": {
+    "description": "Debt without movements."
+  },
+  "debtNotFound": "This debt no longer exists.",
+  "@debtNotFound": {
+    "description": "Debt not found."
+  },
+  "debtNewTitle": "New debt",
+  "@debtNewTitle": {
+    "description": "Title of the debt form when creating."
+  },
+  "debtEditTitle": "Edit {name}",
+  "@debtEditTitle": {
+    "description": "Title of the debt form when editing.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "debtName": "Name",
+  "@debtName": {
+    "description": "Label of the debt name."
+  },
+  "debtEntityIOwe": "Creditor",
+  "@debtEntityIOwe": {
+    "description": "Label of whom I owe."
+  },
+  "debtEntityOwedToMe": "Debtor",
+  "@debtEntityOwedToMe": {
+    "description": "Label of who owes me."
+  },
+  "debtCurrency": "Currency",
+  "@debtCurrency": {
+    "description": "Label of the debt currency."
+  },
+  "debtCurrencyLocked": "A debt with movements keeps its currency.",
+  "@debtCurrencyLocked": {
+    "description": "Why the currency can't change."
+  },
+  "debtPendingAmount": "Pending amount",
+  "@debtPendingAmount": {
+    "description": "Label of the pending amount when registering."
+  },
+  "debtPendingHint": "What is left according to the bank, or what was agreed.",
+  "@debtPendingHint": {
+    "description": "Explains the pending amount."
+  },
+  "debtPillar": "Pillar",
+  "@debtPillar": {
+    "description": "Label of the pillar its payments inherit."
+  },
+  "debtPillarHint": "Its payments count in this pillar.",
+  "@debtPillarHint": {
+    "description": "Explains the debt pillar."
+  },
+  "debtInstallment": "Installment (optional)",
+  "@debtInstallment": {
+    "description": "Label of the installment amount."
+  },
+  "debtInstallmentHint": "Prefills the amount when you pay.",
+  "@debtInstallmentHint": {
+    "description": "Explains the installment."
+  },
+  "debtDueDay": "Due day (optional)",
+  "@debtDueDay": {
+    "description": "Label of the monthly due day."
+  },
+  "debtDueDate": "Due date (optional)",
+  "@debtDueDate": {
+    "description": "Label of the single due date."
+  },
+  "debtNone": "None",
+  "@debtNone": {
+    "description": "No due day or date."
+  },
+  "debtClearDue": "Clear",
+  "@debtClearDue": {
+    "description": "Clears the due day or date."
+  },
+  "debtChangeColor": "Change color",
+  "@debtChangeColor": {
+    "description": "Opens the color picker of a debt."
+  },
+  "debtErrorName": "Enter a name.",
+  "@debtErrorName": {
+    "description": "Missing debt name."
+  },
+  "debtErrorNameTooLong": "Use {max} characters at most.",
+  "@debtErrorNameTooLong": {
+    "description": "Debt name too long.",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "debtErrorPayee": "Enter who it is with.",
+  "@debtErrorPayee": {
+    "description": "Missing creditor or debtor."
+  },
+  "debtErrorPending": "Enter a valid amount.",
+  "@debtErrorPending": {
+    "description": "Invalid pending amount."
+  },
+  "debtErrorPillar": "Pick a pillar.",
+  "@debtErrorPillar": {
+    "description": "Missing pillar of a debt I owe."
+  },
+  "debtErrorInstallment": "Enter an installment above zero.",
+  "@debtErrorInstallment": {
+    "description": "Invalid installment."
   }
 }

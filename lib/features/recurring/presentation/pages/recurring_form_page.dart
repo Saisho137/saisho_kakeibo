@@ -157,6 +157,8 @@ class _Form extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         DropdownButtonFormField<int>(
+          // Otherwise closing the menu refocuses the last text field.
+          onTap: () => FocusScope.of(context).unfocus(),
           key: ValueKey(('category', state.type, state.categoryId)),
           initialValue:
               state.categoryOptions.any((c) => c.id == state.categoryId)
@@ -356,6 +358,8 @@ class _AccountField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
+      // Otherwise closing the menu refocuses the last text field.
+      onTap: () => FocusScope.of(context).unfocus(),
       key: ValueKey((label, value)),
       initialValue: options.any((a) => a.id == value) ? value : null,
       isExpanded: true,

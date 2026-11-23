@@ -126,10 +126,10 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 ## Fase 8 — Deudas
 
-- [ ] Tabla `debts`: tipo (I owe / Owed to me), nombre, ícono, entidad, moneda, pendiente inicial, pilar (I owe), cuota, día de pago o fecha límite.
-- [ ] Pendiente = inicial − pagos que la referencian; *Edit pending* corrige sin mover dinero; negativo en rojo; *Paid off* automático al llegar a 0.
+- [x] Tabla `debts`: tipo (I owe / Owed to me), nombre, ícono, entidad, moneda, pendiente inicial, pilar (I owe), cuota, día de pago o fecha límite.
+- [x] Pendiente = inicial − pagos que la referencian; *Edit pending* corrige sin mover dinero; negativo en rojo; *Paid off* automático al llegar a 0. La corrección se guarda aparte (`adjustment`); el inicial se sigue mostrando. Una deuda solo se borra sin movimientos.
 - [ ] Integración con categorías core: Loan received crea deuda por pagar; Loan given crea por cobrar o suma a la existente de esa entidad; Debt payment y Loan repaid exigen elegir la deuda; el pilar de un pago sale de su deuda.
-- [ ] Pantalla **Debts**: pestañas, sección de tarjetas de solo lectura, *Paid off* colapsado; detalle con pagos y *Pay*.
+- [ ] Pantalla **Debts**: pestañas, sección de tarjetas de solo lectura, *Paid off* colapsado; detalle con pagos y *Pay*. (8a: todo menos *Pay*, que llega con la integración.)
 - [ ] Recordatorios de deudas.
 - [ ] Mostrar en el registro rápido las categorías de deudas (`CategoryRole.needsDebt`) con sus campos: elegir o crear la deuda.
 - [ ] En la dona, los pagos de Debt payment como sección dentro del pilar de su deuda, con el nombre de la deuda.

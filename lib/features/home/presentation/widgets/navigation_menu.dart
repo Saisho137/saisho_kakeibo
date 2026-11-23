@@ -5,8 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
-/// ⋮ panel: the app's screens. Debts and Entities join it in their
-/// phases.
+/// ⋮ panel: the app's screens. Entities joins it in its phase.
 class NavigationMenu extends StatelessWidget {
   const new({super.key});
 
@@ -30,6 +29,7 @@ class NavigationMenu extends StatelessWidget {
               l10n.accountsTitle,
               AppRoutes.accounts,
             ),
+            item(Icons.request_quote_rounded, l10n.debtsTitle, AppRoutes.debts),
             item(
               Icons.category_rounded,
               l10n.categoriesTitle,
