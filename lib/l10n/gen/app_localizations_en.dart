@@ -1100,10 +1100,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get debtName => 'Name';
 
   @override
-  String get debtEntityIOwe => 'Creditor';
-
-  @override
-  String get debtEntityOwedToMe => 'Debtor';
+  String get debtNameHint =>
+      'Its entity: find it by this name when paying. Add the bank if it helps.';
 
   @override
   String get debtCurrency => 'Currency';
@@ -1154,9 +1152,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get debtErrorPayee => 'Enter who it is with.';
-
-  @override
   String get debtErrorPending => 'Enter a valid amount.';
 
   @override
@@ -1164,4 +1159,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get debtErrorInstallment => 'Enter an installment above zero.';
+
+  @override
+  String get movementDebt => 'Debt';
+
+  @override
+  String get movementNewDebt => 'New debt';
+
+  @override
+  String movementDebtOption(String name, String pending) {
+    return '$name · $pending left';
+  }
+
+  @override
+  String get movementErrorDebt => 'Pick the debt.';
+
+  @override
+  String get movementErrorDebtPayee => 'Enter who it is with.';
+
+  @override
+  String get movementErrorDebtName => 'Enter the debt\'s name.';
+
+  @override
+  String get movementDebtName => 'Debt name';
+
+  @override
+  String get movementDebtPending => 'Pending amount';
+
+  @override
+  String get movementDebtPendingHint =>
+      'What you owe in total; the amount received when empty.';
+
+  @override
+  String get movementDebtPillar => 'Pillar';
+
+  @override
+  String get movementErrorDebtPillar => 'Pick a pillar.';
+
+  @override
+  String get debtPay => 'Pay';
+
+  @override
+  String get debtCollect => 'Collect';
+
+  @override
+  String get reminderDebtBody => 'Pay it in Saisho Kakeibo.';
+
+  @override
+  String reminderDebtInstallmentBody(String amount) {
+    return 'Installment $amount.';
+  }
+
+  @override
+  String reminderCollectTitle(String name) {
+    return 'Collect $name today';
+  }
+
+  @override
+  String reminderCollectBody(String amount) {
+    return '$amount still owed to you.';
+  }
 }

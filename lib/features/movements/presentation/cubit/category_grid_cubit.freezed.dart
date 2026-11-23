@@ -17,7 +17,9 @@ mixin _$CategoryGridState {
 
  CategoryGridStatus get status; MovementType get type;/// Active categories of the type, in the order of the grid.
  List<Category> get categories;/// Payees used with the type.
- List<Payee> get payees; String get query; Failure? get failure;
+ List<Payee> get payees;/// Open debts the type pays (I owe) or collects (owed to me).
+ List<Debt> get debts;/// Debt payment or Loan repaid, which a found debt opens.
+ Category? get paymentCategory; String get query; Failure? get failure;
 /// Create a copy of CategoryGridState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,20 +31,20 @@ $CategoryGridStateCopyWith<CategoryGridState> get copyWith => _$CategoryGridStat
 @override
 bool operator ==(Object other) {
   final _this = this as CategoryGridState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryGridState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&const DeepCollectionEquality().equals(other.payees, _this.payees)&&(identical(other.query, _this.query) || other.query == _this.query)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryGridState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&const DeepCollectionEquality().equals(other.payees, _this.payees)&&const DeepCollectionEquality().equals(other.debts, _this.debts)&&(identical(other.paymentCategory, _this.paymentCategory) || other.paymentCategory == _this.paymentCategory)&&(identical(other.query, _this.query) || other.query == _this.query)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CategoryGridState;
-  return Object.hash(runtimeType,_this.status,_this.type,const DeepCollectionEquality().hash(_this.categories),const DeepCollectionEquality().hash(_this.payees),_this.query,_this.failure);
+  return Object.hash(runtimeType,_this.status,_this.type,const DeepCollectionEquality().hash(_this.categories),const DeepCollectionEquality().hash(_this.payees),const DeepCollectionEquality().hash(_this.debts),_this.paymentCategory,_this.query,_this.failure);
 }
 
 @override
 String toString() {
   final _this = this as CategoryGridState;
-  return 'CategoryGridState(status: ${_this.status}, type: ${_this.type}, categories: ${_this.categories}, payees: ${_this.payees}, query: ${_this.query}, failure: ${_this.failure})';
+  return 'CategoryGridState(status: ${_this.status}, type: ${_this.type}, categories: ${_this.categories}, payees: ${_this.payees}, debts: ${_this.debts}, paymentCategory: ${_this.paymentCategory}, query: ${_this.query}, failure: ${_this.failure})';
 }
 
 
@@ -53,11 +55,11 @@ abstract mixin class $CategoryGridStateCopyWith<$Res>  {
   factory $CategoryGridStateCopyWith(CategoryGridState value, $Res Function(CategoryGridState) _then) = _$CategoryGridStateCopyWithImpl;
 @useResult
 $Res call({
- CategoryGridStatus status, MovementType type, List<Category> categories, List<Payee> payees, String query, Failure? failure
+ CategoryGridStatus status, MovementType type, List<Category> categories, List<Payee> payees, List<Debt> debts, Category? paymentCategory, String query, Failure? failure
 });
 
 
-
+$CategoryCopyWith<$Res>? get paymentCategory;
 
 }
 /// @nodoc
@@ -70,18 +72,32 @@ class _$CategoryGridStateCopyWithImpl<$Res>
 
 /// Create a copy of CategoryGridState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? type = null,Object? categories = null,Object? payees = null,Object? query = null,Object? failure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? type = null,Object? categories = null,Object? payees = null,Object? debts = null,Object? paymentCategory = freezed,Object? query = null,Object? failure = freezed,}) {
   return _then(CategoryGridState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as CategoryGridStatus,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as MovementType,categories: null == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
 as List<Category>,payees: null == payees ? _self.payees : payees // ignore: cast_nullable_to_non_nullable
-as List<Payee>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as List<Payee>,debts: null == debts ? _self.debts : debts // ignore: cast_nullable_to_non_nullable
+as List<Debt>,paymentCategory: freezed == paymentCategory ? _self.paymentCategory : paymentCategory // ignore: cast_nullable_to_non_nullable
+as Category?,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
 }
+/// Create a copy of CategoryGridState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CategoryCopyWith<$Res>? get paymentCategory {
+    if (_self.paymentCategory == null) {
+    return null;
+  }
 
+  return $CategoryCopyWith<$Res>(_self.paymentCategory!, (value) {
+    return _then(_self.copyWith(paymentCategory: value));
+  });
+}
 }
 
 
@@ -163,10 +179,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CategoryGridStatus status,  MovementType type,  List<Category> categories,  List<Payee> payees,  String query,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CategoryGridStatus status,  MovementType type,  List<Category> categories,  List<Payee> payees,  List<Debt> debts,  Category? paymentCategory,  String query,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CategoryGridState() when $default != null:
-return $default(_that.status,_that.type,_that.categories,_that.payees,_that.query,_that.failure);case _:
+return $default(_that.status,_that.type,_that.categories,_that.payees,_that.debts,_that.paymentCategory,_that.query,_that.failure);case _:
   return orElse();
 
 }
@@ -184,10 +200,10 @@ return $default(_that.status,_that.type,_that.categories,_that.payees,_that.quer
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CategoryGridStatus status,  MovementType type,  List<Category> categories,  List<Payee> payees,  String query,  Failure? failure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CategoryGridStatus status,  MovementType type,  List<Category> categories,  List<Payee> payees,  List<Debt> debts,  Category? paymentCategory,  String query,  Failure? failure)  $default,) {final _that = this;
 switch (_that) {
 case _CategoryGridState():
-return $default(_that.status,_that.type,_that.categories,_that.payees,_that.query,_that.failure);case _:
+return $default(_that.status,_that.type,_that.categories,_that.payees,_that.debts,_that.paymentCategory,_that.query,_that.failure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +220,10 @@ return $default(_that.status,_that.type,_that.categories,_that.payees,_that.quer
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CategoryGridStatus status,  MovementType type,  List<Category> categories,  List<Payee> payees,  String query,  Failure? failure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CategoryGridStatus status,  MovementType type,  List<Category> categories,  List<Payee> payees,  List<Debt> debts,  Category? paymentCategory,  String query,  Failure? failure)?  $default,) {final _that = this;
 switch (_that) {
 case _CategoryGridState() when $default != null:
-return $default(_that.status,_that.type,_that.categories,_that.payees,_that.query,_that.failure);case _:
+return $default(_that.status,_that.type,_that.categories,_that.payees,_that.debts,_that.paymentCategory,_that.query,_that.failure);case _:
   return null;
 
 }
@@ -219,7 +235,7 @@ return $default(_that.status,_that.type,_that.categories,_that.payees,_that.quer
 
 
 class _CategoryGridState extends CategoryGridState {
-  const _CategoryGridState({this.status = CategoryGridStatus.loading, this.type = MovementType.expense,  List<Category> categories = const <Category>[],  List<Payee> payees = const <Payee>[], this.query = '', this.failure}): _categories = categories,_payees = payees,super._();
+  const _CategoryGridState({this.status = CategoryGridStatus.loading, this.type = MovementType.expense,  List<Category> categories = const <Category>[],  List<Payee> payees = const <Payee>[],  List<Debt> debts = const <Debt>[], this.paymentCategory, this.query = '', this.failure}): _categories = categories,_payees = payees,_debts = debts,super._();
   
 
 @override@JsonKey() final  CategoryGridStatus status;
@@ -242,6 +258,17 @@ class _CategoryGridState extends CategoryGridState {
   return EqualUnmodifiableListView(_payees);
 }
 
+/// Open debts the type pays (I owe) or collects (owed to me).
+ final  List<Debt> _debts;
+/// Open debts the type pays (I owe) or collects (owed to me).
+@override@JsonKey() List<Debt> get debts {
+  if (_debts is EqualUnmodifiableListView) return _debts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_debts);
+}
+
+/// Debt payment or Loan repaid, which a found debt opens.
+@override final  Category? paymentCategory;
 @override@JsonKey() final  String query;
 @override final  Failure? failure;
 
@@ -255,18 +282,18 @@ _$CategoryGridStateCopyWith<_CategoryGridState> get copyWith => __$CategoryGridS
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CategoryGridState&&(identical(other.status, status) || other.status == status)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.categories, _categories)&&const DeepCollectionEquality().equals(other.payees, _payees)&&(identical(other.query, query) || other.query == query)&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CategoryGridState&&(identical(other.status, status) || other.status == status)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.categories, _categories)&&const DeepCollectionEquality().equals(other.payees, _payees)&&const DeepCollectionEquality().equals(other.debts, _debts)&&(identical(other.paymentCategory, paymentCategory) || other.paymentCategory == paymentCategory)&&(identical(other.query, query) || other.query == query)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,type,const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_payees),query,failure);
+    return Object.hash(runtimeType,status,type,const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_payees),const DeepCollectionEquality().hash(_debts),paymentCategory,query,failure);
 }
 
 @override
 String toString() {
-    return 'CategoryGridState(status: $status, type: $type, categories: $categories, payees: $payees, query: $query, failure: $failure)';
+    return 'CategoryGridState(status: $status, type: $type, categories: $categories, payees: $payees, debts: $debts, paymentCategory: $paymentCategory, query: $query, failure: $failure)';
 }
 
 
@@ -277,11 +304,11 @@ abstract mixin class _$CategoryGridStateCopyWith<$Res> implements $CategoryGridS
   factory _$CategoryGridStateCopyWith(_CategoryGridState value, $Res Function(_CategoryGridState) _then) = __$CategoryGridStateCopyWithImpl;
 @override @useResult
 $Res call({
- CategoryGridStatus status, MovementType type, List<Category> categories, List<Payee> payees, String query, Failure? failure
+ CategoryGridStatus status, MovementType type, List<Category> categories, List<Payee> payees, List<Debt> debts, Category? paymentCategory, String query, Failure? failure
 });
 
 
-
+@override $CategoryCopyWith<$Res>? get paymentCategory;
 
 }
 /// @nodoc
@@ -294,19 +321,33 @@ class __$CategoryGridStateCopyWithImpl<$Res>
 
 /// Create a copy of CategoryGridState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? type = null,Object? categories = null,Object? payees = null,Object? query = null,Object? failure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? type = null,Object? categories = null,Object? payees = null,Object? debts = null,Object? paymentCategory = freezed,Object? query = null,Object? failure = freezed,}) {
   return _then(_CategoryGridState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as CategoryGridStatus,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as MovementType,categories: null == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<Category>,payees: null == payees ? _self._payees : payees // ignore: cast_nullable_to_non_nullable
-as List<Payee>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as List<Payee>,debts: null == debts ? _self._debts : debts // ignore: cast_nullable_to_non_nullable
+as List<Debt>,paymentCategory: freezed == paymentCategory ? _self.paymentCategory : paymentCategory // ignore: cast_nullable_to_non_nullable
+as Category?,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
 }
 
+/// Create a copy of CategoryGridState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CategoryCopyWith<$Res>? get paymentCategory {
+    if (_self.paymentCategory == null) {
+    return null;
+  }
 
+  return $CategoryCopyWith<$Res>(_self.paymentCategory!, (value) {
+    return _then(_self.copyWith(paymentCategory: value));
+  });
+}
 }
 
 // dart format on

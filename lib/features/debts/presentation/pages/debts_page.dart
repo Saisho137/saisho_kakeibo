@@ -210,10 +210,7 @@ class _DebtTile extends StatelessWidget {
         iconKey: debt.iconKey,
         color: Color(debt.color),
       ),
-      title: Text(
-        '${debt.name} · ${state.payeeOf(debt)?.name ?? ''}',
-        overflow: TextOverflow.ellipsis,
-      ),
+      title: Text(debt.name, overflow: TextOverflow.ellipsis),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

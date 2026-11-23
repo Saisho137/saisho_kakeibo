@@ -812,9 +812,241 @@
     {
       "id": 6,
       "references": [
+        5,
+        0,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "debts",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "type",
+            "getter_name": "type",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<DebtType>(DebtType.values)",
+              "dart_type_name": "DebtType"
+            }
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "icon_key",
+            "getter_name": "iconKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "color",
+            "getter_name": "color",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "payee_id",
+            "getter_name": "payeeId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES payees (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES payees (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "payees",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "currency_code",
+            "getter_name": "currencyCode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES currencies (code)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES currencies (code)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "currencies",
+                    "column": "code"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "initial_pending",
+            "getter_name": "initialPending",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "adjustment",
+            "getter_name": "adjustment",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "pillar_id",
+            "getter_name": "pillarId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES pillars (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES pillars (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "pillars",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "installment",
+            "getter_name": "installment",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "due_day",
+            "getter_name": "dueDay",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "due_date",
+            "getter_name": "dueDate",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const LocalDateConverter()",
+              "dart_type_name": "LocalDate"
+            }
+          },
+          {
+            "name": "created_on",
+            "getter_name": "createdOn",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const LocalDateConverter()",
+              "dart_type_name": "LocalDate"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 7,
+      "references": [
         4,
         2,
-        5
+        5,
+        6
       ],
       "type": "table",
       "data": {
@@ -1057,101 +1289,16 @@
               "dart_expr": "const LocalDateConverter()",
               "dart_type_name": "LocalDate"
             }
-          }
-        ],
-        "is_virtual": false,
-        "without_rowid": false,
-        "constraints": []
-      }
-    },
-    {
-      "id": 7,
-      "references": [
-        5,
-        0,
-        3
-      ],
-      "type": "table",
-      "data": {
-        "name": "debts",
-        "was_declared_in_moor": false,
-        "columns": [
+          },
           {
-            "name": "id",
-            "getter_name": "id",
+            "name": "debt_id",
+            "getter_name": "debtId",
             "moor_type": "int",
-            "nullable": false,
+            "nullable": true,
             "customConstraints": null,
-            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "defaultConstraints": "REFERENCES debts (id) ON DELETE CASCADE",
             "dialectAwareDefaultConstraints": {
-              "sqlite": "PRIMARY KEY AUTOINCREMENT"
-            },
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [
-              "auto-increment"
-            ]
-          },
-          {
-            "name": "type",
-            "getter_name": "type",
-            "moor_type": "string",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [],
-            "type_converter": {
-              "dart_expr": "const EnumNameConverter<DebtType>(DebtType.values)",
-              "dart_type_name": "DebtType"
-            }
-          },
-          {
-            "name": "name",
-            "getter_name": "name",
-            "moor_type": "string",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [
-              {
-                "allowed-lengths": {
-                  "min": 1,
-                  "max": null
-                }
-              }
-            ]
-          },
-          {
-            "name": "icon_key",
-            "getter_name": "iconKey",
-            "moor_type": "string",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": []
-          },
-          {
-            "name": "color",
-            "getter_name": "color",
-            "moor_type": "int",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": []
-          },
-          {
-            "name": "payee_id",
-            "getter_name": "payeeId",
-            "moor_type": "int",
-            "nullable": false,
-            "customConstraints": null,
-            "defaultConstraints": "REFERENCES payees (id)",
-            "dialectAwareDefaultConstraints": {
-              "sqlite": "REFERENCES payees (id)"
+              "sqlite": "REFERENCES debts (id) ON DELETE CASCADE"
             },
             "default_dart": null,
             "default_client_dart": null,
@@ -1159,135 +1306,15 @@
               {
                 "foreign_key": {
                   "to": {
-                    "table": "payees",
+                    "table": "debts",
                     "column": "id"
                   },
                   "initially_deferred": false,
                   "on_update": null,
-                  "on_delete": null
+                  "on_delete": "cascade"
                 }
               }
             ]
-          },
-          {
-            "name": "currency_code",
-            "getter_name": "currencyCode",
-            "moor_type": "string",
-            "nullable": false,
-            "customConstraints": null,
-            "defaultConstraints": "REFERENCES currencies (code)",
-            "dialectAwareDefaultConstraints": {
-              "sqlite": "REFERENCES currencies (code)"
-            },
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [
-              {
-                "foreign_key": {
-                  "to": {
-                    "table": "currencies",
-                    "column": "code"
-                  },
-                  "initially_deferred": false,
-                  "on_update": null,
-                  "on_delete": null
-                }
-              }
-            ]
-          },
-          {
-            "name": "initial_pending",
-            "getter_name": "initialPending",
-            "moor_type": "int",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": []
-          },
-          {
-            "name": "adjustment",
-            "getter_name": "adjustment",
-            "moor_type": "int",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": "const CustomExpression('0')",
-            "default_client_dart": null,
-            "dsl_features": []
-          },
-          {
-            "name": "pillar_id",
-            "getter_name": "pillarId",
-            "moor_type": "int",
-            "nullable": true,
-            "customConstraints": null,
-            "defaultConstraints": "REFERENCES pillars (id)",
-            "dialectAwareDefaultConstraints": {
-              "sqlite": "REFERENCES pillars (id)"
-            },
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [
-              {
-                "foreign_key": {
-                  "to": {
-                    "table": "pillars",
-                    "column": "id"
-                  },
-                  "initially_deferred": false,
-                  "on_update": null,
-                  "on_delete": null
-                }
-              }
-            ]
-          },
-          {
-            "name": "installment",
-            "getter_name": "installment",
-            "moor_type": "int",
-            "nullable": true,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": []
-          },
-          {
-            "name": "due_day",
-            "getter_name": "dueDay",
-            "moor_type": "int",
-            "nullable": true,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": []
-          },
-          {
-            "name": "due_date",
-            "getter_name": "dueDate",
-            "moor_type": "string",
-            "nullable": true,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [],
-            "type_converter": {
-              "dart_expr": "const LocalDateConverter()",
-              "dart_type_name": "LocalDate"
-            }
-          },
-          {
-            "name": "created_on",
-            "getter_name": "createdOn",
-            "moor_type": "string",
-            "nullable": false,
-            "customConstraints": null,
-            "default_dart": null,
-            "default_client_dart": null,
-            "dsl_features": [],
-            "type_converter": {
-              "dart_expr": "const LocalDateConverter()",
-              "dart_type_name": "LocalDate"
-            }
           }
         ],
         "is_virtual": false,
@@ -1301,8 +1328,8 @@
         2,
         4,
         5,
-        7,
-        6
+        6,
+        7
       ],
       "type": "table",
       "data": {
@@ -1633,7 +1660,7 @@
     {
       "id": 10,
       "references": [
-        6,
+        7,
         8
       ],
       "type": "table",
@@ -1868,20 +1895,20 @@
       ]
     },
     {
-      "name": "recurring_templates",
-      "sql": [
-        {
-          "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"recurring_templates\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"type\" TEXT NOT NULL, \"cadence\" TEXT NOT NULL, \"category_id\" INTEGER NOT NULL REFERENCES categories (id), \"account_id\" INTEGER NOT NULL REFERENCES accounts (id) ON DELETE CASCADE, \"to_account_id\" INTEGER NULL REFERENCES accounts (id) ON DELETE CASCADE, \"amount\" INTEGER NOT NULL, \"to_amount\" INTEGER NULL, \"payee_id\" INTEGER NULL REFERENCES payees (id), \"note\" TEXT NULL, \"due_day\" INTEGER NULL, \"remind\" INTEGER NOT NULL DEFAULT 0 CHECK (\"remind\" IN (0, 1)), \"is_active\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_active\" IN (0, 1)), \"created_on\" TEXT NOT NULL);"
-        }
-      ]
-    },
-    {
       "name": "debts",
       "sql": [
         {
           "dialect": "sqlite",
           "sql": "CREATE TABLE IF NOT EXISTS \"debts\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"type\" TEXT NOT NULL, \"name\" TEXT NOT NULL, \"icon_key\" TEXT NOT NULL, \"color\" INTEGER NOT NULL, \"payee_id\" INTEGER NOT NULL REFERENCES payees (id), \"currency_code\" TEXT NOT NULL REFERENCES currencies (code), \"initial_pending\" INTEGER NOT NULL, \"adjustment\" INTEGER NOT NULL DEFAULT 0, \"pillar_id\" INTEGER NULL REFERENCES pillars (id), \"installment\" INTEGER NULL, \"due_day\" INTEGER NULL, \"due_date\" TEXT NULL, \"created_on\" TEXT NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "recurring_templates",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"recurring_templates\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"type\" TEXT NOT NULL, \"cadence\" TEXT NOT NULL, \"category_id\" INTEGER NOT NULL REFERENCES categories (id), \"account_id\" INTEGER NOT NULL REFERENCES accounts (id) ON DELETE CASCADE, \"to_account_id\" INTEGER NULL REFERENCES accounts (id) ON DELETE CASCADE, \"amount\" INTEGER NOT NULL, \"to_amount\" INTEGER NULL, \"payee_id\" INTEGER NULL REFERENCES payees (id), \"note\" TEXT NULL, \"due_day\" INTEGER NULL, \"remind\" INTEGER NOT NULL DEFAULT 0 CHECK (\"remind\" IN (0, 1)), \"is_active\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_active\" IN (0, 1)), \"created_on\" TEXT NOT NULL, \"debt_id\" INTEGER NULL REFERENCES debts (id) ON DELETE CASCADE);"
         }
       ]
     },

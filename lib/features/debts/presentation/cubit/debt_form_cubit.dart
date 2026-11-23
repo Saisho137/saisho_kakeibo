@@ -18,21 +18,19 @@ import 'package:saisho_kakeibo/features/debts/domain/repositories/debt_repositor
 import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/save_debt.dart';
-import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payees.dart';
-import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currencies.dart';
 
 part 'debt_form_cubit.freezed.dart';
 part 'debt_form_state.dart';
 
 /// Creates or edits a debt registered on the Debts screen (RF-09), such as
-/// a mortgage that never went through an account.
+/// a mortgage that never went through an account. Its name is also its
+/// payee.
 class DebtFormCubit extends Cubit<DebtFormState> {
   new({
     required this._getDebt,
     required this._getPillars,
     required this._getCurrencies,
-    required this._getPayees,
     required this._debts,
     required this._saveDebt,
   }) : super(const DebtFormState());
@@ -40,7 +38,6 @@ class DebtFormCubit extends Cubit<DebtFormState> {
   final GetDebt _getDebt;
   final GetPillars _getPillars;
   final GetCurrencies _getCurrencies;
-  final GetPayees _getPayees;
   final DebtRepository _debts;
   final SaveDebt _saveDebt;
 
@@ -55,17 +52,13 @@ class DebtFormCubit extends Cubit<DebtFormState> {
   }) async {
     final List<Pillar> pillars;
     final List<Currency> currencies;
-    final List<Payee> payees;
     switch ((
       await _getPillars(const NoParams()),
       await _getCurrencies(const NoParams()),
-      await _getPayees(const NoParams()),
     )) {
-      case (Ok(value: final p), Ok(value: final c), Ok(value: final pa)):
-        (pillars, currencies, payees) = (p, c, pa);
-      case (Err(:final failure), _, _) ||
-          (_, Err(:final failure), _) ||
-          (_, _, Err(:final failure)):
+      case (Ok(value: final p), Ok(value: final c)):
+        (pillars, currencies) = (p, c);
+      case (Err(:final failure), _) || (_, Err(:final failure)):
         emit(state.copyWith(status: DebtFormStatus.notFound, failure: failure));
         return;
     }
@@ -74,7 +67,6 @@ class DebtFormCubit extends Cubit<DebtFormState> {
       status: DebtFormStatus.editing,
       pillars: pillars,
       currencies: currencies,
-      payees: payees,
       type: type,
       currencyCode: settings.mainCurrencyCode,
       iconKey: icon.key,
@@ -91,7 +83,6 @@ class DebtFormCubit extends Cubit<DebtFormState> {
         name: debt.name,
         iconKey: debt.iconKey,
         color: debt.color,
-        payeeName: payees.where((p) => p.id == debt.payeeId).firstOrNull?.name,
         currencyCode: debt.currencyCode,
         pillarId: debt.pillarId,
         dueDay: debt.dueDay,
@@ -131,8 +122,6 @@ class DebtFormCubit extends Cubit<DebtFormState> {
 
   void colorChanged(int color) => _change(state.copyWith(color: color));
 
-  void payeeChanged(String name) => _change(state.copyWith(payeeName: name));
-
   void currencyChanged(String code) {
     if (state.currencyLocked) return;
     _change(state.copyWith(currencyCode: code));
@@ -158,8 +147,7 @@ class DebtFormCubit extends Cubit<DebtFormState> {
       return;
     }
     emit(state.copyWith(status: DebtFormStatus.saving));
-    final payeeName = state.payeeName;
-    final result = await _saveDebt(SaveDebtParams(debt, payeeName: payeeName));
+    final result = await _saveDebt(SaveDebtParams(debt));
     emit(switch (result) {
       Ok() => state.copyWith(status: DebtFormStatus.saved),
       Err(:final failure) => state.copyWith(
@@ -203,8 +191,7 @@ class DebtFormCubit extends Cubit<DebtFormState> {
             dueDate: form.dueDate,
           ),
     );
-    final typed = form.payeeName?.trim() ?? '';
-    final errors = DebtRules.validate(debt, hasPayee: typed.isNotEmpty);
+    final errors = DebtRules.validate(debt);
     return (errors.isEmpty ? debt : null, errors);
   }
 }

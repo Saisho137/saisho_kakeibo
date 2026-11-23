@@ -14,6 +14,12 @@ abstract final class RecurringRules {
   static const int minDueDay = 1;
   static const int maxDueDay = 31;
 
+  /// Categories a template can use: any active one of its type, except the
+  /// loans, which create debts and never repeat. Debt payment and Loan
+  /// repaid pay or collect a debt (RF-09).
+  static bool allows(CategoryRole role) =>
+      role != CategoryRole.loanReceived && role != CategoryRole.loanGiven;
+
   /// Trims the note, drops what the type has no use for, and turns the
   /// reminder off without a due day.
   static RecurringTemplate normalize(RecurringTemplate template) {

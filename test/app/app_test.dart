@@ -216,7 +216,7 @@ void main() {
 
       await tester.tap(find.text('Expense'));
       await tester.pumpAndSettle();
-      expect(find.text('Debt payment'), findsNothing);
+      expect(find.text('Debt payment'), findsOneWidget);
       await tester.tap(find.text('Eating out'));
       await tester.pumpAndSettle();
       for (final key in ['2', '5', '000']) {
@@ -286,6 +286,74 @@ void main() {
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
       expect(find.text('No movements in this period.'), findsOneWidget);
+
+      await tester.disposeDriftStreams();
+    });
+
+    testWidgets('a loan received creates its debt, which is then paid', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Income'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Loan received'));
+      await tester.pumpAndSettle();
+      for (final key in ['5', '000']) {
+        await tester.tap(find.text(key));
+      }
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Debt name'),
+        'Davivienda',
+      );
+      await tester.ensureVisible(find.text('Pillar'));
+      await tester.tap(find.text('Pillar'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Survival').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      await tester.goTo('Debts');
+      await tester.pumpAndSettle();
+      expect(find.text('Davivienda'), findsOneWidget);
+      expect(find.text('5.000 left'), findsOneWidget);
+      await tester.tap(find.text('Davivienda'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Pay'));
+      await tester.pumpAndSettle();
+      expect(find.text('Davivienda · 5.000 left'), findsOneWidget);
+      for (final key in ['1', '000']) {
+        await tester.tap(find.text(key));
+      }
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('4.000 COP'), findsOneWidget);
+      expect(find.text('20%'), findsOneWidget);
+
+      // The debt is its own entity: the search of the grid finds it.
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Expense'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField), 'davi');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Davivienda'));
+      await tester.pumpAndSettle();
+      expect(find.text('Davivienda · 4.000 left'), findsOneWidget);
+      await tester.tap(find.text('1'));
+      await tester.tap(find.text('000'));
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      await tester.goTo('Debts');
+      await tester.pumpAndSettle();
+      expect(find.text('3.000 left'), findsOneWidget);
 
       await tester.disposeDriftStreams();
     });

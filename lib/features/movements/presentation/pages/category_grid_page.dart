@@ -49,6 +49,7 @@ class CategoryGridView extends StatelessWidget {
 
         final categories = state.visibleCategories;
         final payees = state.visiblePayees;
+        final debts = state.visibleDebts;
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -78,6 +79,30 @@ class CategoryGridView extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (state.paymentCategory case final category?
+                    when debts.isNotEmpty) ...[
+                  SliverToBoxAdapter(child: SectionHeader(l10n.debtsTitle)),
+                  SliverList.list(
+                    children: [
+                      for (final debt in debts)
+                        ListTile(
+                          leading: CatalogIconAvatar(
+                            iconKey: debt.iconKey,
+                            color: Color(debt.color),
+                          ),
+                          title: Text(debt.name),
+                          subtitle: Text(category.name),
+                          onTap: () => open(
+                            AppRoutes.newMovement(
+                              state.type,
+                              categoryId: category.id,
+                              debtId: debt.id,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
                 if (payees.isNotEmpty) ...[
                   SliverToBoxAdapter(child: SectionHeader(l10n.entryEntities)),
                   SliverList.list(
@@ -96,7 +121,7 @@ class CategoryGridView extends StatelessWidget {
                     ],
                   ),
                 ],
-                if (categories.isEmpty && payees.isEmpty)
+                if (categories.isEmpty && payees.isEmpty && debts.isEmpty)
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.lg),

@@ -16,8 +16,9 @@ T _$identity<T>(T value) => value;
 mixin _$Reminder {
 
 /// Stable per source and month, so rescheduling replaces it.
- int get id; ReminderKind get kind;/// Payee or category of a template; name of a card.
- String get name; LocalDate get date;/// Formatted amount of a template, with its currency code.
+ int get id; ReminderKind get kind;/// Payee or category of a template; name of a card or a debt.
+ String get name; LocalDate get date;/// Formatted amount of a template or a debt's installment, or what is
+/// left on a debt owed to me, with its currency code.
  String? get amount;
 /// Create a copy of Reminder
 /// with the given fields replaced by the non-null parameter values.
@@ -225,10 +226,11 @@ class _Reminder implements Reminder {
 /// Stable per source and month, so rescheduling replaces it.
 @override final  int id;
 @override final  ReminderKind kind;
-/// Payee or category of a template; name of a card.
+/// Payee or category of a template; name of a card or a debt.
 @override final  String name;
 @override final  LocalDate date;
-/// Formatted amount of a template, with its currency code.
+/// Formatted amount of a template or a debt's installment, or what is
+/// left on a debt owed to me, with its currency code.
 @override final  String? amount;
 
 /// Create a copy of Reminder

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:saisho_kakeibo/core/database/converters/local_date_converter.dart';
 import 'package:saisho_kakeibo/features/accounts/data/datasources/accounts_table.dart';
 import 'package:saisho_kakeibo/features/categories/data/datasources/categories_table.dart';
+import 'package:saisho_kakeibo/features/debts/data/datasources/debts_table.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
@@ -44,4 +45,12 @@ class RecurringTemplates extends Table {
   BoolColumn get isActive => boolean().withDefault(const Constant(true))();
 
   TextColumn get createdOn => text().map(const LocalDateConverter())();
+
+  /// The debt it pays; a debt can only go away without movements, and its
+  /// templates go with it.
+  IntColumn get debtId => integer().nullable().references(
+    Debts,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
 }

@@ -110,6 +110,45 @@ void main() {
       expect(calls[11], 'Pay your credit card today.');
     });
 
+    test('words the debt reminders', () async {
+      await scheduler.replaceAll([
+        for (final (id, kind, amount) in [
+          (1, ReminderKind.debtPayment, 'COP 1.500.000'),
+          (2, ReminderKind.debtPayment, null),
+          (3, ReminderKind.debtCollection, 'COP 300.000'),
+          (4, ReminderKind.debtCollection, null),
+        ])
+          Reminder(
+            id: id,
+            kind: kind,
+            name: 'Ana',
+            date: LocalDate(2026, 2, 20),
+            amount: amount,
+          ),
+      ], minutes: 8 * 60);
+
+      final calls = verify(
+        () => plugin.zonedSchedule(
+          id: any(named: 'id'),
+          scheduledDate: any(named: 'scheduledDate'),
+          notificationDetails: any(named: 'notificationDetails'),
+          androidScheduleMode: any(named: 'androidScheduleMode'),
+          title: captureAny(named: 'title'),
+          body: captureAny(named: 'body'),
+        ),
+      ).captured;
+      expect(calls, [
+        'Ana is due today',
+        'Installment COP 1.500.000.',
+        'Ana is due today',
+        'Pay it in Saisho Kakeibo.',
+        'Collect Ana today',
+        'COP 300.000 still owed to you.',
+        'Collect Ana today',
+        null,
+      ]);
+    });
+
     test('asks for permission and cancels, initializing once', () async {
       expect(await scheduler.requestPermission(), isTrue);
       await scheduler.cancelAll();

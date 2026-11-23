@@ -7,17 +7,16 @@ import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
 
 final class SaveDebtParams {
-  const new(this.debt, {this.payeeName});
+  const new(this.debt);
 
   /// A debt with id `0` is created; any other id is replaced.
   final Debt debt;
-
-  /// Creditor or debtor as typed; reused if one with the same key exists.
-  final String? payeeName;
 }
 
-/// Creates or edits a debt (RF-09). Its type can't change, nor its
-/// currency once a movement references it.
+/// Creates or edits a debt (RF-09). The debt is its own payee: the payee
+/// of its name, reused if one with the same key exists, so it can be
+/// searched when paying it. Its type can't change, nor its currency once a
+/// movement references it.
 class SaveDebt implements UseCase<Future<Result<int>>, SaveDebtParams> {
   const new(this._repository);
 
@@ -25,13 +24,10 @@ class SaveDebt implements UseCase<Future<Result<int>>, SaveDebtParams> {
 
   @override
   Future<Result<int>> call(SaveDebtParams params) async {
-    final payee = PayeeName.parse(params.payeeName);
     final debt = DebtRules.normalize(params.debt);
-    final errors = DebtRules.validate(
-      debt,
-      hasPayee: payee != null || debt.payeeId != 0,
-    );
-    if (errors.isNotEmpty) {
+    final errors = DebtRules.validate(debt);
+    final payee = PayeeName.parse(debt.name);
+    if (errors.isNotEmpty || payee == null) {
       return Err(ValidationFailure('Invalid debt: $errors'));
     }
     if (debt.id != 0) {

@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/percentages.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
-import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/donut_data.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_geometry.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_painter.dart';
@@ -24,7 +23,9 @@ class DonutChart extends StatefulWidget {
 
   final DonutData data;
   final Widget center;
-  final ValueChanged<Category>? onCategoryTap;
+
+  /// A category section, or a debt's section of its payments.
+  final ValueChanged<DonutCategory>? onCategoryTap;
 
   @override
   State<DonutChart> createState() => _DonutChartState();
@@ -59,7 +60,7 @@ class _DonutChartState extends State<DonutChart>
     }
     switch (hit) {
       case CategoryHit(:final category):
-        widget.onCategoryTap?.call(category.category);
+        widget.onCategoryTap?.call(category);
       case PillarHit():
         _toggle();
       case CenterHit() || null:
@@ -156,14 +157,17 @@ class _DonutChartState extends State<DonutChart>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CatalogIconAvatar(
-                    iconKey: arc.item.category.iconKey,
-                    color: Color(arc.item.category.color),
+                    iconKey: arc.item.iconKey,
+                    color: Color(arc.item.color),
                     radius: 12,
                   ),
                   Text('${percents[index]}%', style: textStyle),
                 ],
               ),
-              ValueKey('donut-category-${arc.item.category.id}'),
+              ValueKey(
+                'donut-category-${arc.item.category.id}'
+                '${arc.item.debt == null ? '' : '-${arc.item.debt!.id}'}',
+              ),
             ),
       ];
     }

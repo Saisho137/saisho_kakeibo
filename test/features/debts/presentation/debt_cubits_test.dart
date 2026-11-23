@@ -28,7 +28,6 @@ import 'package:saisho_kakeibo/features/debts/presentation/cubit/debt_detail_cub
 import 'package:saisho_kakeibo/features/debts/presentation/cubit/debt_form_cubit.dart';
 import 'package:saisho_kakeibo/features/debts/presentation/cubit/debts_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
-import 'package:saisho_kakeibo/features/movements/domain/usecases/get_payees.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
@@ -68,8 +67,6 @@ class _GetDebt extends Mock implements GetDebt;
 class _GetPillars extends Mock implements GetPillars;
 
 class _GetCurrencies extends Mock implements GetCurrencies;
-
-class _GetPayees extends Mock implements GetPayees;
 
 class _Repository extends Mock implements DebtRepository;
 
@@ -141,7 +138,6 @@ void main() {
       watchMovements: watchMovements,
       watchAccounts: watchAccounts,
       watchBalances: watchBalances,
-      watchPayees: watchPayees,
       watchPillars: watchPillars,
       watchCurrencies: watchCurrencies,
       watchSettings: watchSettings,
@@ -161,7 +157,6 @@ void main() {
         expect(state.totalPending(DebtType.iOwe), 750000);
         expect(state.totalPending(DebtType.owedToMe), 500);
         expect(state.cards, [(visa, -900)]);
-        expect(state.payeeOf(mortgage), bancolombia);
         expect(state.pillarOf(mortgage), survival);
       },
     );
@@ -305,7 +300,6 @@ void main() {
     late _GetDebt getDebt;
     late _GetPillars getPillars;
     late _GetCurrencies getCurrencies;
-    late _GetPayees getPayees;
     late _Repository repository;
     late _Save save;
 
@@ -313,14 +307,11 @@ void main() {
       getDebt = _GetDebt();
       getPillars = _GetPillars();
       getCurrencies = _GetCurrencies();
-      getPayees = _GetPayees();
       repository = _Repository();
       save = _Save();
       when(() => getPillars(any())).thenAnswer((_) async => const Ok(pillars));
       when(() => getCurrencies(any()))
           .thenAnswer((_) async => const Ok([cop, usd]));
-      when(() => getPayees(any()))
-          .thenAnswer((_) async => const Ok([bancolombia]));
       when(() => getDebt(any())).thenAnswer(
         (_) async => Ok(mortgage.copyWith(installment: 1500000, dueDay: 5)),
       );
@@ -333,7 +324,6 @@ void main() {
       getDebt: getDebt,
       getPillars: getPillars,
       getCurrencies: getCurrencies,
-      getPayees: getPayees,
       debts: repository,
       saveDebt: save,
     );
@@ -350,7 +340,6 @@ void main() {
         expect(cubit.state.currencyCode, 'COP');
         cubit
           ..nameChanged(' car loan ')
-          ..payeeChanged('Finandina')
           ..pendingChanged('5.300.000')
           ..pillarChanged(1)
           ..installmentChanged('450.000')
@@ -372,7 +361,6 @@ void main() {
         expect(d.iconKey, 'directions_car');
         expect(d.color, 0xFF000000);
         expect(d.createdOn, LocalDate.today());
-        expect(params.payeeName, 'Finandina');
         expect(cubit.state.status, DebtFormStatus.saved);
       },
     );
@@ -385,7 +373,6 @@ void main() {
         cubit
           ..typeChanged(DebtType.owedToMe)
           ..nameChanged('Loan to Ana')
-          ..payeeChanged('Ana')
           ..pendingChanged('200.000')
           ..dueDateChanged(LocalDate(2026, 6, 1));
         await cubit.submit();
@@ -415,7 +402,6 @@ void main() {
         expect(state.currencyCode, 'COP');
         expect(state.pendingText, '1.000.000');
         expect(state.installmentText, '1.500.000');
-        expect(state.payeeName, 'Bancolombia');
         expect(state.dueDay, 5);
       },
     );
@@ -435,7 +421,6 @@ void main() {
           cubit.state.errors,
           containsAll([
             DebtError.emptyName,
-            DebtError.missingPayee,
             DebtError.missingPillar,
             DebtError.invalidInstallment,
           ]),

@@ -10,10 +10,14 @@ import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart
 import 'package:saisho_kakeibo/features/debts/data/repositories/debt_repository_impl.dart';
 import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 import 'package:saisho_kakeibo/features/movements/data/repositories/movement_repository_impl.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
+import 'package:saisho_kakeibo/features/recurring/data/repositories/recurring_repository_impl.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 
 import '../../../helpers/debt_fixtures.dart';
 import '../../../helpers/movement_fixtures.dart';
+import '../../../helpers/recurring_fixtures.dart';
 
 void main() {
   late AppDatabase db;
@@ -74,6 +78,50 @@ void main() {
 
       expect((await repository.getMovements(d.id) as Ok).value, hasLength(1));
       expect(await repository.deleteDebt(d.id), isA<Err<void>>());
+    });
+
+    test('a renamed debt moves its movements and templates along', () async {
+      final d = await stored();
+      final accounts =
+          (await AccountRepositoryImpl(db.accountDao).getAccounts()
+                  as Ok<List<Account>>)
+              .value;
+      final categories =
+          (await CategoryRepositoryImpl(db.categoryDao).getCategories()
+                  as Ok<List<Category>>)
+              .value;
+      final paymentId = categories
+          .firstWhere((c) => c.role == CategoryRole.debtPayment)
+          .id;
+      await movements.save(
+        movement(
+          accountId: accounts.first.id,
+          categoryId: paymentId,
+        ).copyWith(debtId: d.id, payeeId: d.payeeId),
+      );
+      final recurring = RecurringRepositoryImpl(db.recurringDao);
+      await recurring.saveTemplate(
+        template(
+          id: 0,
+          categoryId: paymentId,
+          accountId: accounts.first.id,
+          payeeId: d.payeeId,
+        ).copyWith(debtId: d.id),
+      );
+
+      await repository.saveDebt(
+        d.copyWith(name: 'Mortgage Bancolombia'),
+        payee: PayeeName.parse('Mortgage Bancolombia'),
+      );
+      final renamed = (await repository.findDebt(d.id) as Ok<Debt?>).value!;
+      expect(renamed.payeeId, isNot(d.payeeId));
+      final paid = (await repository.getMovements(
+        d.id,
+      ) as Ok<List<Movement>>).value.single;
+      expect(paid.payeeId, renamed.payeeId);
+      final templates =
+          (await recurring.getTemplates() as Ok<List<RecurringTemplate>>).value;
+      expect(templates.single.payeeId, renamed.payeeId);
     });
 
     test('deletes an unused debt', () async {

@@ -1487,13 +1487,9 @@
   "@debtName": {
     "description": "Label of the debt name."
   },
-  "debtEntityIOwe": "Creditor",
-  "@debtEntityIOwe": {
-    "description": "Label of whom I owe."
-  },
-  "debtEntityOwedToMe": "Debtor",
-  "@debtEntityOwedToMe": {
-    "description": "Label of who owes me."
+  "debtNameHint": "Its entity: find it by this name when paying. Add the bank if it helps.",
+  "@debtNameHint": {
+    "description": "Explains that the debt name is also its entity."
   },
   "debtCurrency": "Currency",
   "@debtCurrency": {
@@ -1560,10 +1556,6 @@
       }
     }
   },
-  "debtErrorPayee": "Enter who it is with.",
-  "@debtErrorPayee": {
-    "description": "Missing creditor or debtor."
-  },
   "debtErrorPending": "Enter a valid amount.",
   "@debtErrorPending": {
     "description": "Invalid pending amount."
@@ -1575,5 +1567,96 @@
   "debtErrorInstallment": "Enter an installment above zero.",
   "@debtErrorInstallment": {
     "description": "Invalid installment."
+  },
+  "movementDebt": "Debt",
+  "@movementDebt": {
+    "description": "Label of the debt a movement pays, collects or adds to."
+  },
+  "movementNewDebt": "New debt",
+  "@movementNewDebt": {
+    "description": "Option that makes a loan given create its debt."
+  },
+  "movementDebtOption": "{name} · {pending} left",
+  "@movementDebtOption": {
+    "description": "A debt in the picker.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pending": {
+        "type": "String"
+      }
+    }
+  },
+  "movementErrorDebt": "Pick the debt.",
+  "@movementErrorDebt": {
+    "description": "Missing debt of a debt category."
+  },
+  "movementErrorDebtPayee": "Enter who it is with.",
+  "@movementErrorDebtPayee": {
+    "description": "Missing payee of a new debt."
+  },
+  "movementErrorDebtName": "Enter the debt's name.",
+  "@movementErrorDebtName": {
+    "description": "Missing name of the debt a loan received creates."
+  },
+  "movementDebtName": "Debt name",
+  "@movementDebtName": {
+    "description": "Label of the name of the debt a loan creates."
+  },
+  "movementDebtPending": "Pending amount",
+  "@movementDebtPending": {
+    "description": "What a received loan leaves to pay."
+  },
+  "movementDebtPendingHint": "What you owe in total; the amount received when empty.",
+  "@movementDebtPendingHint": {
+    "description": "Explains the pending of a loan received."
+  },
+  "movementDebtPillar": "Pillar",
+  "@movementDebtPillar": {
+    "description": "Pillar of the debt a loan received creates."
+  },
+  "movementErrorDebtPillar": "Pick a pillar.",
+  "@movementErrorDebtPillar": {
+    "description": "Missing pillar of a new debt."
+  },
+  "debtPay": "Pay",
+  "@debtPay": {
+    "description": "Starts the payment of a debt I owe."
+  },
+  "debtCollect": "Collect",
+  "@debtCollect": {
+    "description": "Starts the collection of a debt owed to me."
+  },
+  "reminderDebtBody": "Pay it in Saisho Kakeibo.",
+  "@reminderDebtBody": {
+    "description": "Body of a debt payment reminder without installment."
+  },
+  "reminderDebtInstallmentBody": "Installment {amount}.",
+  "@reminderDebtInstallmentBody": {
+    "description": "Body of a debt payment reminder.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderCollectTitle": "Collect {name} today",
+  "@reminderCollectTitle": {
+    "description": "Notification on the due date of a debt owed to me.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderCollectBody": "{amount} still owed to you.",
+  "@reminderCollectBody": {
+    "description": "Body of a debt collection reminder.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   }
 }

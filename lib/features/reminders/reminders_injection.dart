@@ -23,6 +23,7 @@ void registerRemindersDependencies(
         movements: getIt(),
         currencies: getIt(),
         scheduler: getIt(),
+        debts: getIt(),
       ),
     )
     ..registerLazySingleton(
@@ -30,6 +31,8 @@ void registerRemindersDependencies(
         watchSettings: getIt(),
         watchTemplates: getIt(),
         watchAccounts: getIt(),
+        watchDebts: getIt(),
+        watchMovements: getIt(),
         syncReminders: getIt(),
         scheduler: getIt(),
       ),

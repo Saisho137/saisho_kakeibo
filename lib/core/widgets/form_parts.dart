@@ -18,6 +18,23 @@ class ReadOnlyField extends StatelessWidget {
   }
 }
 
+/// Drops the keyboard focus as soon as [child] is touched. A menu or dialog
+/// opened from it would otherwise give the focus back to the last text
+/// field when it closes, and the keyboard would pop up again.
+class UnfocusOnPointer extends StatelessWidget {
+  const new({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerDown: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      child: child,
+    );
+  }
+}
+
 /// Title above a form control that has no label of its own.
 class FormLabel extends StatelessWidget {
   const new(this.text, {super.key});

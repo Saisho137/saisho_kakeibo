@@ -152,7 +152,6 @@ class _Detail extends StatelessWidget {
     final dueDay = debt.dueDay;
     final dueDate = debt.dueDate;
     final details = [
-      ?state.payeeOf(debt.payeeId)?.name,
       ?state.pillar?.name,
       if (dueDay != null) l10n.debtsDueDay(dueDay),
       if (dueDate != null)
@@ -162,7 +161,7 @@ class _Detail extends StatelessWidget {
         ),
     ];
     final days = <(DateTime, List<Movement>)>[];
-    for (final m in status.payments) {
+    for (final m in state.debtMovements) {
       final day = m.date.toDateTime();
       if (days.isEmpty || days.last.$1 != day) days.add((day, []));
       days.last.$2.add(m);
@@ -205,23 +204,42 @@ class _Detail extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-          child: Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: OutlinedButton.icon(
-              icon: const Icon(Icons.tune_rounded),
-              label: Text(l10n.debtEditPending),
-              onPressed: () async {
-                final cubit = context.read<DebtDetailCubit>();
-                final pending = await showDialog<int>(
-                  context: context,
-                  builder: (_) => _EditPendingDialog(
-                    currency: currency,
-                    current: status.pending,
+          child: Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: [
+              if (state.paymentCategory case final category?)
+                FilledButton.icon(
+                  icon: Icon(
+                    debt.iOwe ? Icons.payments_rounded : Icons.savings_rounded,
                   ),
-                );
-                if (pending != null) await cubit.editPending(pending);
-              },
-            ),
+                  label: Text(debt.iOwe ? l10n.debtPay : l10n.debtCollect),
+                  // "Pay" opens the payment with this debt and its
+                  // installment (RF-09).
+                  onPressed: () => context.push(
+                    AppRoutes.newMovement(
+                      debt.iOwe ? MovementType.expense : MovementType.income,
+                      categoryId: category.id,
+                      debtId: debt.id,
+                    ),
+                  ),
+                ),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.tune_rounded),
+                label: Text(l10n.debtEditPending),
+                onPressed: () async {
+                  final cubit = context.read<DebtDetailCubit>();
+                  final pending = await showDialog<int>(
+                    context: context,
+                    builder: (_) => _EditPendingDialog(
+                      currency: currency,
+                      current: status.pending,
+                    ),
+                  );
+                  if (pending != null) await cubit.editPending(pending);
+                },
+              ),
+            ],
           ),
         ),
         SectionHeader(l10n.debtMovements),

@@ -10,6 +10,9 @@ import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
+import 'package:saisho_kakeibo/features/debts/domain/services/debt_status.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/movement_form_page.dart';
@@ -17,6 +20,7 @@ import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 
 import '../../../helpers/account_fixtures.dart';
 import '../../../helpers/category_fixtures.dart';
+import '../../../helpers/debt_fixtures.dart' as fixtures;
 import '../../../helpers/helpers.dart';
 import '../../../helpers/movement_fixtures.dart';
 
@@ -278,5 +282,111 @@ void main() {
     await tester.pump();
 
     expect(find.text('Something went wrong. Please try again.'), findsOne);
+  });
+
+  group('debt section', () {
+    final loanGiven = category(
+      id: 14,
+      name: 'Loan given',
+      role: CategoryRole.loanGiven,
+    );
+    final loanReceived = category(
+      id: 13,
+      name: 'Loan received',
+      type: CategoryType.income,
+      role: CategoryRole.loanReceived,
+    );
+    final anaLoan = fixtures.debt(
+      id: 2,
+      type: DebtType.owedToMe,
+      name: 'Ana',
+      initialPending: 100000,
+    );
+    final debts = [(debt: anaLoan, status: DebtStatus.of(anaLoan, const []))];
+
+    testWidgets('a loan given picks a debt or creates one', (tester) async {
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(
+          categoryId: 14,
+          categories: [food, loanGiven],
+          debts: debts,
+          debtId: 2,
+          debtTouched: true,
+        ),
+      );
+      await pumpView(tester);
+
+      expect(find.text('Ana · 100.000 left'), findsOneWidget);
+      expect(find.text('Entity'), findsNothing);
+      await tester.tap(find.text('Ana · 100.000 left'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('New debt').last);
+      await tester.pumpAndSettle();
+      verify(() => cubit.debtChanged(null)).called(1);
+    });
+
+    testWidgets('a new debt shows its fields and errors', (tester) async {
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(
+          type: MovementType.income,
+          categoryId: 13,
+          categories: [loanReceived],
+          pillars: const [survival],
+          showErrors: true,
+          errors: const {
+            MovementError.missingDebt,
+            MovementError.missingDebtPillar,
+          },
+        ),
+      );
+      await pumpView(tester);
+
+      expect(find.text('Debt'), findsNothing);
+      expect(find.text('Entity'), findsNothing);
+      expect(find.text("Enter the debt's name."), findsOneWidget);
+      expect(find.text('Pick a pillar.'), findsOneWidget);
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Debt name'),
+        'Car loan',
+      );
+      await tester.enterText(find.byKey(const ValueKey('debtPending')), '7000');
+      await tester.ensureVisible(find.text('Pillar'));
+      await tester.tap(find.text('Pillar'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(survival.name).last);
+      await tester.pumpAndSettle();
+
+      verify(() => cubit.payeeChanged('Car loan')).called(1);
+      verify(() => cubit.debtPendingChanged('7000')).called(1);
+      verify(() => cubit.debtPillarChanged(survival.id)).called(1);
+    });
+
+    testWidgets('a new loan given asks who it is with', (tester) async {
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(
+          categoryId: 14,
+          categories: [loanGiven],
+          newDebt: true,
+          showErrors: true,
+          errors: const {MovementError.missingDebt},
+        ),
+      );
+      await pumpView(tester);
+      expect(find.text('Enter who it is with.'), findsOneWidget);
+    });
+
+    testWidgets('a payment without a debt asks for one', (tester) async {
+      final payment = category(id: 15, role: CategoryRole.debtPayment);
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(
+          categoryId: 15,
+          categories: [payment],
+          showErrors: true,
+          errors: const {MovementError.missingDebt},
+        ),
+      );
+      await pumpView(tester);
+      expect(find.text('Pick the debt.'), findsOneWidget);
+    });
   });
 }

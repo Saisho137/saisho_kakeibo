@@ -10,6 +10,7 @@ import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
 import 'package:saisho_kakeibo/core/widgets/color_picker_dialog.dart';
+import 'package:saisho_kakeibo/core/widgets/form_parts.dart';
 import 'package:saisho_kakeibo/core/widgets/icon_picker_dialog.dart';
 import 'package:saisho_kakeibo/core/widgets/number_grid_dialog.dart';
 import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
@@ -146,6 +147,8 @@ class _Form extends StatelessWidget {
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                   labelText: l10n.debtName,
+                  helperText: l10n.debtNameHint,
+                  helperMaxLines: 2,
                   counterText: '',
                   errorText: errors.contains(DebtError.emptyName)
                       ? l10n.debtErrorName
@@ -173,37 +176,23 @@ class _Form extends StatelessWidget {
             child: Text(l10n.debtChangeColor),
           ),
         ),
-        TextFormField(
-          key: const ValueKey('payee'),
-          initialValue: state.payeeName,
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            labelText: state.iOwe
-                ? l10n.debtEntityIOwe
-                : l10n.debtEntityOwedToMe,
-            errorText: errors.contains(DebtError.missingPayee)
-                ? l10n.debtErrorPayee
-                : null,
-          ),
-          onChanged: cubit.payeeChanged,
-        ),
-        DropdownButtonFormField<String>(
-          // Otherwise closing the menu refocuses the last text field.
-          onTap: () => FocusScope.of(context).unfocus(),
-          key: ValueKey(('currency', state.currencyCode)),
-          initialValue: state.currencyCode,
-          items: [
-            for (final c in state.currencies)
-              DropdownMenuItem(value: c.code, child: Text(c.code)),
-          ],
-          onChanged: state.currencyLocked
-              ? null
-              : (code) {
-                  if (code != null) cubit.currencyChanged(code);
-                },
-          decoration: InputDecoration(
-            labelText: l10n.debtCurrency,
-            helperText: state.currencyLocked ? l10n.debtCurrencyLocked : null,
+        UnfocusOnPointer(
+          child: DropdownButtonFormField<String>(
+            key: ValueKey(('currency', state.currencyCode)),
+            initialValue: state.currencyCode,
+            items: [
+              for (final c in state.currencies)
+                DropdownMenuItem(value: c.code, child: Text(c.code)),
+            ],
+            onChanged: state.currencyLocked
+                ? null
+                : (code) {
+                    if (code != null) cubit.currencyChanged(code);
+                  },
+            decoration: InputDecoration(
+              labelText: l10n.debtCurrency,
+              helperText: state.currencyLocked ? l10n.debtCurrencyLocked : null,
+            ),
           ),
         ),
         TextFormField(
@@ -224,22 +213,22 @@ class _Form extends StatelessWidget {
           onChanged: cubit.pendingChanged,
         ),
         if (state.iOwe)
-          DropdownButtonFormField<int>(
-            // Otherwise closing the menu refocuses the last text field.
-            onTap: () => FocusScope.of(context).unfocus(),
-            key: ValueKey(('pillar', state.pillarId)),
-            initialValue: state.pillarId,
-            items: [
-              for (final p in state.pillars)
-                DropdownMenuItem(value: p.id, child: Text(p.name)),
-            ],
-            onChanged: cubit.pillarChanged,
-            decoration: InputDecoration(
-              labelText: l10n.debtPillar,
-              helperText: l10n.debtPillarHint,
-              errorText: errors.contains(DebtError.missingPillar)
-                  ? l10n.debtErrorPillar
-                  : null,
+          UnfocusOnPointer(
+            child: DropdownButtonFormField<int>(
+              key: ValueKey(('pillar', state.pillarId)),
+              initialValue: state.pillarId,
+              items: [
+                for (final p in state.pillars)
+                  DropdownMenuItem(value: p.id, child: Text(p.name)),
+              ],
+              onChanged: cubit.pillarChanged,
+              decoration: InputDecoration(
+                labelText: l10n.debtPillar,
+                helperText: l10n.debtPillarHint,
+                errorText: errors.contains(DebtError.missingPillar)
+                    ? l10n.debtErrorPillar
+                    : null,
+              ),
             ),
           ),
         TextFormField(

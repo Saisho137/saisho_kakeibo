@@ -13,7 +13,6 @@ abstract class DebtFormState with _$DebtFormState {
     @Default('') String name,
     @Default('') String iconKey,
     @Default(0) int color,
-    String? payeeName,
     @Default('') String currencyCode,
 
     /// A debt with movements keeps its currency.
@@ -27,7 +26,6 @@ abstract class DebtFormState with _$DebtFormState {
     LocalDate? dueDate,
     @Default(<Pillar>[]) List<Pillar> pillars,
     @Default(<Currency>[]) List<Currency> currencies,
-    @Default(<Payee>[]) List<Payee> payees,
     @Default(<DebtError>{}) Set<DebtError> errors,
     @Default(false) bool showErrors,
 

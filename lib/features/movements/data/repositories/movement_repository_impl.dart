@@ -24,6 +24,11 @@ class MovementRepositoryImpl implements MovementRepository {
   );
 
   @override
+  Future<Result<List<Movement>>> getAll() => guardDatabase(
+    () async => (await _dao.getAll()).map((row) => row.toEntity()).toList(),
+  );
+
+  @override
   Stream<List<Payee>> watchPayees() => _dao.watchPayees().map(
     (rows) => rows.map((row) => row.toEntity()).toList(growable: false),
   );

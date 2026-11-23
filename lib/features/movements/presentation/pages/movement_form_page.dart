@@ -12,10 +12,13 @@ import 'package:saisho_kakeibo/core/money/money_formatter.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
+import 'package:saisho_kakeibo/core/widgets/form_parts.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/widgets/amount_keypad.dart';
+import 'package:saisho_kakeibo/features/recurring/domain/rules/recurring_rules.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
@@ -27,6 +30,7 @@ class MovementFormPage extends StatelessWidget {
     this.type = MovementType.expense,
     this.categoryId,
     this.payeeId,
+    this.debtId,
     super.key,
   });
 
@@ -34,6 +38,9 @@ class MovementFormPage extends StatelessWidget {
   final MovementType type;
   final int? categoryId;
   final int? payeeId;
+
+  /// Starts the payment or collection of this debt ("Pay", RF-09).
+  final int? debtId;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +53,7 @@ class MovementFormPage extends StatelessWidget {
             type: type,
             categoryId: categoryId,
             payeeId: payeeId,
+            debtId: debtId,
             id: id,
             minDays: settings.minDaysBetweenPeriods,
           ),
@@ -92,11 +100,13 @@ class MovementFormView extends StatelessWidget {
                 ? null
                 : _CategoryTitle(state: state),
             actions: [
-              // A movement of a template is already recurring.
-              if (state.original case Movement(
-                :final id,
-                recurringTemplateId: null,
-              ))
+              // A movement of a template is already recurring; loans never
+              // repeat.
+              if (state.original
+                  case Movement(:final id, recurringTemplateId: null)
+                  when RecurringRules.allows(
+                    state.category?.role ?? CategoryRole.custom,
+                  ))
                 IconButton(
                   tooltip: l10n.movementMakeRecurring,
                   icon: const Icon(Icons.event_repeat_rounded),
@@ -255,32 +265,35 @@ class _MovementForm extends StatelessWidget {
                   ),
                 ),
               const SizedBox(height: AppSpacing.md),
-              DropdownButtonFormField<int>(
-                initialValue: state.accountId,
-                isExpanded: true,
-                items: [
-                  for (final account in state.accountOptions)
-                    DropdownMenuItem(
-                      value: account.id,
-                      child: Text(
-                        account.isPocket
-                            ? '↳ ${account.name}'
-                            : '${account.name} · ${account.currencyCode}',
-                        overflow: TextOverflow.ellipsis,
+              UnfocusOnPointer(
+                child: DropdownButtonFormField<int>(
+                  initialValue: state.accountId,
+                  isExpanded: true,
+                  items: [
+                    for (final account in state.accountOptions)
+                      DropdownMenuItem(
+                        value: account.id,
+                        child: Text(
+                          account.isPocket
+                              ? '↳ ${account.name}'
+                              : '${account.name} · ${account.currencyCode}',
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                ],
-                onChanged: (id) {
-                  if (id != null) cubit.accountChanged(id);
-                },
-                decoration: InputDecoration(
-                  labelText: l10n.movementAccount,
-                  errorText: errors.contains(MovementError.missingAccount)
-                      ? l10n.movementErrorAccount
-                      : null,
+                  ],
+                  onChanged: (id) {
+                    if (id != null) cubit.accountChanged(id);
+                  },
+                  decoration: InputDecoration(
+                    labelText: l10n.movementAccount,
+                    errorText: errors.contains(MovementError.missingAccount)
+                        ? l10n.movementErrorAccount
+                        : null,
+                  ),
                 ),
               ),
-              _PayeeField(state: state),
+              if (state.showsPayee) _PayeeField(state: state),
+              if (state.debtType != null) _DebtSection(state: state),
               TextFormField(
                 initialValue: state.note,
                 onChanged: cubit.noteChanged,
@@ -354,7 +367,8 @@ class _MovementForm extends StatelessWidget {
   }
 }
 
-/// The payee field, autocompleted with the stored payees (RF-07).
+/// The payee field, autocompleted with the stored payees (RF-07). A loan
+/// received names its debt here, since the debt is its own payee (RF-09).
 class _PayeeField extends StatelessWidget {
   const new({required this.state});
 
@@ -362,7 +376,12 @@ class _PayeeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final cubit = context.read<MovementFormCubit>();
+    final missing =
+        state.showErrors &&
+        state.createsDebt &&
+        state.errors.contains(MovementError.missingDebt);
     return Autocomplete<String>(
       initialValue: TextEditingValue(text: state.payeeName ?? ''),
       optionsBuilder: (value) => state.payeeOptions(value.text),
@@ -374,7 +393,16 @@ class _PayeeField extends StatelessWidget {
             onChanged: cubit.payeeChanged,
             onFieldSubmitted: (_) => onSubmitted(),
             textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(labelText: context.l10n.movementPayee),
+            decoration: InputDecoration(
+              labelText: state.alwaysNewDebt
+                  ? l10n.movementDebtName
+                  : l10n.movementPayee,
+              errorText: !missing
+                  ? null
+                  : state.alwaysNewDebt
+                  ? l10n.movementErrorDebtName
+                  : l10n.movementErrorDebtPayee,
+            ),
           ),
     );
   }
@@ -410,6 +438,94 @@ class _DeleteButton extends StatelessWidget {
         );
         if (confirmed ?? false) await cubit.delete();
       },
+    );
+  }
+}
+
+/// The debt of a debt category (RF-09): the one paid, collected or added
+/// to, or the fields of the debt the movement creates.
+class _DebtSection extends StatelessWidget {
+  const new({required this.state});
+
+  final MovementFormState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final cubit = context.read<MovementFormCubit>();
+    final errors = state.showErrors ? state.errors : const <MovementError>{};
+    final missing = errors.contains(MovementError.missingDebt);
+    String left(int pending) => MoneyFormatter.format(
+      Money(pending, state.currency?.code ?? ''),
+      state.format,
+    );
+    final picker = state.alwaysNewDebt
+        ? null
+        : UnfocusOnPointer(
+            child: DropdownButtonFormField<int?>(
+              key: ValueKey(('debt', state.debtId, state.newDebt)),
+              initialValue: state.createsDebt ? null : state.debtId,
+              isExpanded: true,
+              items: [
+                for (final line in state.debtOptions)
+                  DropdownMenuItem(
+                    value: line.debt.id,
+                    child: Text(
+                      l10n.movementDebtOption(
+                        line.debt.name,
+                        left(line.status.pending),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                if (state.mayCreateDebt)
+                  DropdownMenuItem(child: Text(l10n.movementNewDebt)),
+              ],
+              onChanged: cubit.debtChanged,
+              decoration: InputDecoration(
+                labelText: l10n.movementDebt,
+                errorText: missing && !state.createsDebt
+                    ? l10n.movementErrorDebt
+                    : null,
+              ),
+            ),
+          );
+    return Column(
+      children: [
+        ?picker,
+        if (state.alwaysNewDebt) ...[
+          TextFormField(
+            key: const ValueKey('debtPending'),
+            initialValue: state.debtPendingText,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+            ],
+            decoration: InputDecoration(
+              labelText: l10n.movementDebtPending,
+              helperText: l10n.movementDebtPendingHint,
+            ),
+            onChanged: cubit.debtPendingChanged,
+          ),
+          UnfocusOnPointer(
+            child: DropdownButtonFormField<int>(
+              key: ValueKey(('debtPillar', state.debtPillarId)),
+              initialValue: state.debtPillarId,
+              items: [
+                for (final p in state.pillars)
+                  DropdownMenuItem(value: p.id, child: Text(p.name)),
+              ],
+              onChanged: cubit.debtPillarChanged,
+              decoration: InputDecoration(
+                labelText: l10n.movementDebtPillar,
+                errorText: errors.contains(MovementError.missingDebtPillar)
+                    ? l10n.movementErrorDebtPillar
+                    : null,
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

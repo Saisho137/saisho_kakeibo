@@ -7,6 +7,8 @@ import 'package:saisho_kakeibo/features/accounts/domain/repositories/account_rep
 import 'package:saisho_kakeibo/features/categories/domain/entities/categories_x.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/domain/repositories/category_repository.dart';
+import 'package:saisho_kakeibo/features/debts/domain/repositories/debt_repository.dart';
+import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/rules/payee_rules.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
@@ -24,18 +26,22 @@ final class SaveRecurringTemplateParams {
 }
 
 /// Creates or edits a recurring template (RF-06). Its accounts must be
-/// active, as it keeps creating movements in them.
+/// active, as it keeps creating movements in them. Loans never repeat; a
+/// Debt payment or Loan repaid template pays or collects a debt of its type
+/// and currency, and takes the debt's payee (RF-09).
 class SaveRecurringTemplate
     implements UseCase<Future<Result<int>>, SaveRecurringTemplateParams> {
   const new({
     required this._recurring,
     required this._accounts,
     required this._categories,
+    required this._debts,
   });
 
   final RecurringRepository _recurring;
   final AccountRepository _accounts;
   final CategoryRepository _categories;
+  final DebtRepository _debts;
 
   @override
   Future<Result<int>> call(SaveRecurringTemplateParams params) async {
@@ -69,9 +75,32 @@ class SaveRecurringTemplate
     if ((account?.isArchived ?? false) || (toAccount?.isArchived ?? false)) {
       return const Err(ValidationFailure('Archived accounts take no more.'));
     }
-    return await _recurring.saveTemplate(
-      template.copyWith(payeeId: null),
-      payee: payee,
-    );
+    final role = categories.byId(template.categoryId)!.role;
+    if (!RecurringRules.allows(role)) {
+      return const Err(ValidationFailure('Loans do not repeat.'));
+    }
+    final debtType = DebtRules.typeFor(role);
+    if (debtType == null) {
+      return await _recurring.saveTemplate(
+        template.copyWith(payeeId: null, debtId: null),
+        payee: payee,
+      );
+    }
+    final id = template.debtId;
+    if (id == null) {
+      return const Err(ValidationFailure('This category needs its debt.'));
+    }
+    switch (await _debts.findDebt(id)) {
+      case Err(:final failure):
+        return Err(failure);
+      case Ok(value: final debt?)
+          when debt.type == debtType &&
+              debt.currencyCode == account?.currencyCode:
+        return await _recurring.saveTemplate(
+          template.copyWith(payeeId: debt.payeeId),
+        );
+      case Ok():
+        return const Err(ValidationFailure('Pick a debt that fits.'));
+    }
   }
 }

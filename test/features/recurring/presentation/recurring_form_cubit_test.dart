@@ -10,6 +10,8 @@ import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/get_accounts.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/get_categories.dart';
+import 'package:saisho_kakeibo/features/debts/domain/services/debt_status.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/get_movement.dart';
@@ -24,6 +26,7 @@ import 'package:saisho_kakeibo/features/settings/domain/usecases/get_currencies.
 
 import '../../../helpers/account_fixtures.dart';
 import '../../../helpers/category_fixtures.dart';
+import '../../../helpers/debt_fixtures.dart';
 import '../../../helpers/movement_fixtures.dart';
 import '../../../helpers/recurring_fixtures.dart';
 
@@ -43,6 +46,8 @@ class _MockSave extends Mock implements SaveRecurringTemplate;
 
 class _MockDelete extends Mock implements DeleteRecurringTemplate;
 
+class _MockDebts extends Mock implements GetDebtStatuses;
+
 void main() {
   late _MockGetAccounts getAccounts;
   late _MockGetCategories getCategories;
@@ -52,6 +57,7 @@ void main() {
   late _MockGetTemplate getTemplate;
   late _MockSave save;
   late _MockDelete delete;
+  late _MockDebts getDebts;
 
   const dbError = Err<Never>(DatabaseFailure('disk'));
   const cop = Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop);
@@ -63,6 +69,10 @@ void main() {
   final food = category(id: 10, name: 'Food');
   final salary = category(id: 12, type: CategoryType.income);
   final savings = category(id: 13, type: CategoryType.transfer);
+  final debtPayment = category(id: 14, role: CategoryRole.debtPayment);
+  final loanGiven = category(id: 15, role: CategoryRole.loanGiven);
+  final mortgage = debt(installment: 1500000);
+  final settled = debt(id: 2, initialPending: 0);
 
   setUpAll(() {
     registerFallbackValue(const NoParams());
@@ -78,10 +88,18 @@ void main() {
     getTemplate = _MockGetTemplate();
     save = _MockSave();
     delete = _MockDelete();
+    getDebts = _MockDebts();
+    when(() => getDebts(any())).thenAnswer(
+      (_) async => Ok([
+        (debt: mortgage, status: DebtStatus.of(mortgage, const [])),
+        (debt: settled, status: DebtStatus.of(settled, const [])),
+      ]),
+    );
     when(() => getAccounts(any()))
         .thenAnswer((_) async => Ok([bank, cash, dollars]));
-    when(() => getCategories(any()))
-        .thenAnswer((_) async => Ok([food, salary, savings]));
+    when(() => getCategories(any())).thenAnswer(
+      (_) async => Ok([food, salary, savings, debtPayment, loanGiven]),
+    );
     when(() => getCurrencies(any()))
         .thenAnswer((_) async => const Ok([cop, usd]));
     when(() => getPayees(any())).thenAnswer((_) async => const Ok([netflix]));
@@ -105,6 +123,7 @@ void main() {
     getTemplate: getTemplate,
     saveTemplate: save,
     deleteTemplate: delete,
+    getDebts: getDebts,
   );
 
   SaveRecurringTemplateParams saved() =>
@@ -121,7 +140,7 @@ void main() {
         expect(state.status, RecurringFormStatus.editing);
         expect(state.isEditing, isFalse);
         expect(state.accountId, 1);
-        expect(state.categoryOptions, [food]);
+        expect(state.categoryOptions, [food, debtPayment]);
       },
     );
 
@@ -315,6 +334,26 @@ void main() {
       },
       verify: (cubit) =>
           expect(cubit.state.status, RecurringFormStatus.editing),
+    );
+
+    blocTest<RecurringFormCubit, RecurringFormState>(
+      'a debt payment picks its open debt and its installment',
+      build: buildCubit,
+      act: (cubit) async {
+        await cubit.load();
+        cubit.categoryChanged(14);
+        expect(cubit.state.debtOptions.map((d) => d.debt), [mortgage]);
+        await cubit.submit();
+        expect(cubit.state.errors, contains(MovementError.missingDebt));
+        cubit.debtChanged(1);
+        await cubit.submit();
+      },
+      verify: (cubit) {
+        expect(cubit.state.amountText, '1.500.000');
+        final params = saved();
+        expect(params.template.debtId, 1);
+        expect(params.payeeName, isNull);
+      },
     );
   });
 }

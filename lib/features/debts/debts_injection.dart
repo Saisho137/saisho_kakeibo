@@ -5,6 +5,7 @@ import 'package:saisho_kakeibo/features/debts/domain/repositories/debt_repositor
 import 'package:saisho_kakeibo/features/debts/domain/usecases/delete_debt.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/edit_debt_pending.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/save_debt.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/watch_debts.dart';
 import 'package:saisho_kakeibo/features/debts/presentation/cubit/debt_detail_cubit.dart';
@@ -22,13 +23,13 @@ void registerDebtsDependencies(GetIt getIt) {
     ..registerFactory(() => SaveDebt(getIt()))
     ..registerFactory(() => DeleteDebt(getIt()))
     ..registerFactory(() => EditDebtPending(getIt()))
+    ..registerFactory(() => GetDebtStatuses(debts: getIt(), movements: getIt()))
     ..registerFactory(
       () => DebtsCubit(
         watchDebts: getIt(),
         watchMovements: getIt(),
         watchAccounts: getIt(),
         watchBalances: getIt(),
-        watchPayees: getIt(),
         watchPillars: getIt(),
         watchCurrencies: getIt(),
         watchSettings: getIt(),
@@ -52,7 +53,6 @@ void registerDebtsDependencies(GetIt getIt) {
         getDebt: getIt(),
         getPillars: getIt(),
         getCurrencies: getIt(),
-        getPayees: getIt(),
         debts: getIt(),
         saveDebt: getIt(),
       ),

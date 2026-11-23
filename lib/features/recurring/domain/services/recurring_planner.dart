@@ -40,8 +40,9 @@ final class PlannedOccurrence {
 /// Each active template owes one movement to the current period of its
 /// cadence: the latest dynamic start, or the monthly period of today.
 /// It owes nothing to the period it was created in, to a period that
-/// already had its occurrence (even if that movement was later cancelled)
-/// or while one of its accounts is archived. The amount is the last
+/// already had its occurrence (even if that movement was later cancelled),
+/// while one of its accounts is archived, or once the debt it pays is
+/// settled. The amount is the last
 /// confirmed one.
 abstract final class RecurringPlanner {
   static List<PlannedOccurrence> plan({
@@ -51,6 +52,7 @@ abstract final class RecurringPlanner {
     required List<LocalDate> dynamicStarts,
     required int cutoffDay,
     required Set<(int, LocalDate)> occurrences,
+    Set<int> settledDebts = const {},
   }) {
     final latestStart = dynamicStarts
         .where((s) => !s.isAfter(today))
@@ -80,7 +82,8 @@ abstract final class RecurringPlanner {
       for (final template in templates)
         if (template.isActive &&
             usable(template.accountId) &&
-            usable(template.toAccountId))
+            usable(template.toAccountId) &&
+            !settledDebts.contains(template.debtId))
           if (switch (template.cadence) {
                 RecurringCadence.period => dynamicPeriod,
                 RecurringCadence.monthly => monthlyPeriod,
