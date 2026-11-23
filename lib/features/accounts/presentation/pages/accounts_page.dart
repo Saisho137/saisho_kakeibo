@@ -8,6 +8,7 @@ import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/money.dart';
 import 'package:saisho_kakeibo/core/money/money_formatter.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
+import 'package:saisho_kakeibo/core/widgets/currency_menu_button.dart';
 import 'package:saisho_kakeibo/core/widgets/section_header.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/services/accounts_overview.dart';
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
@@ -95,26 +96,11 @@ class _CurrencyMenu extends StatelessWidget {
   final List<Currency> currencies;
 
   @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      tooltip: context.l10n.accountsCurrencyTooltip,
-      initialValue: selected.code,
-      onSelected: context.read<AccountsCubit>().currencySelected,
-      itemBuilder: (context) => [
-        for (final currency in currencies)
-          PopupMenuItem(value: currency.code, child: Text(currency.code)),
-      ],
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-        child: Row(
-          children: [
-            Text(selected.code),
-            const Icon(Icons.arrow_drop_down_rounded),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => CurrencyMenuButton(
+    selected: selected.code,
+    currencies: currencies,
+    onSelected: context.read<AccountsCubit>().currencySelected,
+  );
 }
 
 class _AccountsList extends StatelessWidget {

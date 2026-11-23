@@ -37,14 +37,24 @@ class PeriodTotalsView extends StatelessWidget {
       child: InkWell(
         onTap: onTap == null ? null : () => onTap?.call(type),
         borderRadius: BorderRadius.circular(tokens.radiusSmall),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            MoneyFormatter.format(
-              Money(amount, currency.code),
-              currency.format,
+        // A 48 tall touch target each (accessibility).
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minHeight: kMinInteractiveDimension,
+            minWidth: kMinInteractiveDimension,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Center(
+              widthFactor: 1,
+              child: Text(
+                MoneyFormatter.format(
+                  Money(amount, currency.code),
+                  currency.format,
+                ),
+                style: style?.copyWith(color: color),
+              ),
             ),
-            style: style?.copyWith(color: color),
           ),
         ),
       ),

@@ -14,15 +14,18 @@ Future<Color?> showColorPickerDialog(
   return showDialog<Color>(
     context: context,
     builder: (context) => AlertDialog(
+      // Scrolls when large text makes it taller than the screen.
+      scrollable: true,
       title: Text(context.l10n.colorPickerTitle),
       content: Wrap(
         spacing: AppSpacing.sm,
         runSpacing: AppSpacing.sm,
         children: [
-          for (final color in IconCatalog.palette)
+          for (final (index, color) in IconCatalog.palette.indexed)
             Semantics(
               button: true,
               selected: color == selected,
+              label: context.l10n.colorSwatchSemantics(index + 1),
               child: InkResponse(
                 onTap: () => Navigator.of(context).pop(color),
                 child: CatalogIconAvatar(

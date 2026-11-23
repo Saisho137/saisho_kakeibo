@@ -319,6 +319,12 @@ void main() {
       verify(() => cubit.currencySelected('USD')).called(1);
     });
 
+    testWidgets('explains an entity without movements', (tester) async {
+      when(() => cubit.state).thenReturn(ready.copyWith(movements: const []));
+      await pumpView(tester);
+      expect(find.textContaining('No movements in this currency.'), findsOne);
+    });
+
     testWidgets('shows loading, missing and failed states', (tester) async {
       when(() => cubit.state).thenReturn(const PayeeDetailState());
       await pumpView(tester);

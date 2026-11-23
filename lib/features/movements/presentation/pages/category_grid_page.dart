@@ -133,10 +133,9 @@ class CategoryGridView extends StatelessWidget {
                   ),
                 SliverPadding(
                   padding: const EdgeInsets.all(AppSpacing.sm),
-                  sliver: SliverGrid.count(
-                    crossAxisCount: 4,
-                    childAspectRatio: 0.8,
-                    children: [
+                  sliver: SliverGrid(
+                    gridDelegate: _CategoryCell.delegate(context),
+                    delegate: SliverChildListDelegate([
                       for (final category in categories)
                         _CategoryCell(
                           category: category,
@@ -147,7 +146,7 @@ class CategoryGridView extends StatelessWidget {
                             ),
                           ),
                         ),
-                    ],
+                    ]),
                   ),
                 ),
               ],
@@ -165,6 +164,22 @@ class _CategoryCell extends StatelessWidget {
   final Category category;
   final VoidCallback onTap;
 
+  static const double _avatarRadius = 24;
+
+  /// Four cells a row, three with large text, each as tall as its icon and
+  /// two lines of its name at the current text size (accessibility).
+  static SliverGridDelegate delegate(BuildContext context) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final style = context.textTheme.bodySmall;
+    final fontSize = style?.fontSize ?? 12;
+    final line = scaler.scale(fontSize) * (style?.height ?? 1.4);
+    return SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: scaler.scale(fontSize) > fontSize * 1.3 ? 3 : 4,
+      mainAxisExtent:
+          _avatarRadius * 2 + AppSpacing.xs * 3 + line * 2 + AppSpacing.sm,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -178,7 +193,7 @@ class _CategoryCell extends StatelessWidget {
             CatalogIconAvatar(
               iconKey: category.iconKey,
               color: Color(category.color),
-              radius: 24,
+              radius: _avatarRadius,
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(

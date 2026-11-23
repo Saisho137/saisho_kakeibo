@@ -103,7 +103,12 @@ class _DonutChartState extends State<DonutChart>
                           ),
                         ),
                       ),
-                      ..._labels(context, geometry),
+                      // The icons and percentages are drawn; screen readers
+                      // get one button per section instead.
+                      ExcludeSemantics(
+                        child: Stack(children: _labels(context, geometry)),
+                      ),
+                      ..._semantics(context, geometry),
                       Center(
                         child: SizedBox.square(
                           dimension: max(centerSide, 0),
@@ -122,6 +127,71 @@ class _DonutChartState extends State<DonutChart>
         );
       },
     );
+  }
+
+  /// A button per section for screen readers (accessibility), small ones
+  /// too: categories, which start an expense, and pillars, which invert
+  /// the donut. Once inverted, only the pillars.
+  List<Widget> _semantics(BuildContext context, DonutGeometry geometry) {
+    final l10n = context.l10n;
+    const side = 24.0;
+    Widget at(double angle, double radius, Widget child) {
+      final point = geometry.pointAt(angle, radius);
+      return Positioned(
+        left: point.dx - side / 2,
+        top: point.dy - side / 2,
+        width: side,
+        height: side,
+        child: child,
+      );
+    }
+
+    final inverted = _curve.value >= 0.5;
+    final categories = geometry.categoryArcs;
+    final categoryPercents = roundPercents([
+      for (final a in categories) a.item.share,
+    ]);
+    final pillars = geometry.pillarArcs;
+    final pillarPercents = roundPercents([
+      for (final a in pillars) a.item.share,
+    ]);
+    return [
+      if (!inverted)
+        for (final (index, arc) in categories.indexed)
+          at(
+            arc.middle,
+            geometry.categoryRadius,
+            Semantics(
+              button: true,
+              label: l10n.donutSectionSemantics(
+                arc.item.name,
+                categoryPercents[index],
+              ),
+              onTapHint: l10n.donutNewExpenseHint,
+              onTap: widget.onCategoryTap == null
+                  ? null
+                  : () => widget.onCategoryTap!(arc.item),
+              child: const SizedBox.expand(),
+            ),
+          ),
+      for (final (index, arc) in pillars.indexed)
+        at(
+          arc.middle,
+          geometry.pillarRadius,
+          Semantics(
+            button: true,
+            label: l10n.donutSectionSemantics(
+              arc.item.pillar?.name ?? l10n.donutNoPillar,
+              pillarPercents[index],
+            ),
+            onTapHint: inverted
+                ? l10n.donutShowCategoriesHint
+                : l10n.donutShowPillarsHint,
+            onTap: _toggle,
+            child: const SizedBox.expand(),
+          ),
+        ),
+    ];
   }
 
   /// Category icons with their percentage, or the pillar names once

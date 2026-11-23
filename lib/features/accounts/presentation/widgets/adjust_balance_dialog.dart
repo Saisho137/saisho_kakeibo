@@ -79,6 +79,8 @@ class _AdjustBalanceDialogState extends State<AdjustBalanceDialog> {
       _ => l10n.adjustRealBalance,
     };
     return AlertDialog(
+      // Scrolls when large text makes it taller than the screen.
+      scrollable: true,
       title: Text(
         widget.account.type == AccountType.investment
             ? l10n.accountUpdateValue

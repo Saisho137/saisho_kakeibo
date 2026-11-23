@@ -222,7 +222,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsBalance => 'Balance';
 
   @override
-  String get accountsCurrencyTooltip => 'Currency';
+  String get currencyMenuTooltip => 'Currency';
 
   @override
   String get accountsShowArchived => 'Show archived';
@@ -1336,4 +1336,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String payeeIsDebt(String name) {
     return 'Debt: $name';
   }
+
+  @override
+  String donutSectionSemantics(String name, int percent) {
+    return '$name, $percent%';
+  }
+
+  @override
+  String get donutNewExpenseHint => 'add an expense';
+
+  @override
+  String get donutShowPillarsHint => 'show the pillars';
+
+  @override
+  String get donutShowCategoriesHint => 'show the categories';
+
+  @override
+  String colorSwatchSemantics(int number) {
+    return 'Color $number';
+  }
+
+  @override
+  String get debtIconTooltip => 'Change icon';
+
+  @override
+  String get payeeNoMovements =>
+      'No movements in this currency. Merge or delete this entity if you no longer need it.';
 }

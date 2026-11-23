@@ -291,6 +291,8 @@ class _EditPendingDialogState extends State<_EditPendingDialog> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return AlertDialog(
+      // Scrolls when large text makes it taller than the screen.
+      scrollable: true,
       title: Text(l10n.debtEditPending),
       content: Column(
         mainAxisSize: MainAxisSize.min,

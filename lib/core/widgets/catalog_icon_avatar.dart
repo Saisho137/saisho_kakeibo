@@ -2,7 +2,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/icons/icon_catalog.dart';
 
-/// A catalog icon as a white glyph on a circle of [color] (RF-07). A
+/// A catalog icon as a glyph on a circle of [color] (RF-07): white, or dark
+/// on light colors so it always stands out. A
 /// [selected] avatar shows a ring around it, as in the pickers.
 class CatalogIconAvatar extends StatelessWidget {
   const new({
@@ -25,7 +26,7 @@ class CatalogIconAvatar extends StatelessWidget {
       backgroundColor: color,
       child: Icon(
         IconCatalog.resolve(iconKey).icon,
-        color: context.tokens.iconGlyph,
+        color: context.tokens.glyphOn(color),
         size: radius,
       ),
     );

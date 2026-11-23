@@ -5,6 +5,7 @@ import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
+import 'package:saisho_kakeibo/core/widgets/currency_menu_button.dart';
 import 'package:saisho_kakeibo/features/payees/presentation/cubit/payees_cubit.dart';
 import 'package:saisho_kakeibo/features/payees/presentation/widgets/payee_net_text.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
@@ -53,24 +54,10 @@ class PayeesView extends StatelessWidget {
               ),
               if (state.currencyOptions.length > 1 &&
                   state.currencyCode != null)
-                PopupMenuButton<String>(
-                  initialValue: state.currencyCode,
+                CurrencyMenuButton(
+                  selected: state.currencyCode!,
+                  currencies: state.currencyOptions,
                   onSelected: cubit.currencySelected,
-                  itemBuilder: (context) => [
-                    for (final c in state.currencyOptions)
-                      PopupMenuItem(value: c.code, child: Text(c.code)),
-                  ],
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(state.currencyCode!),
-                        const Icon(Icons.arrow_drop_down_rounded),
-                      ],
-                    ),
-                  ),
                 ),
             ],
           ),
