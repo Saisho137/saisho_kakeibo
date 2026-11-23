@@ -12,6 +12,9 @@ import 'package:saisho_kakeibo/features/categories/data/datasources/categories_t
 import 'package:saisho_kakeibo/features/categories/data/datasources/category_dao.dart';
 import 'package:saisho_kakeibo/features/categories/data/datasources/pillars_table.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/debts/data/datasources/debt_dao.dart';
+import 'package:saisho_kakeibo/features/debts/data/datasources/debts_table.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movement_dao.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
@@ -42,6 +45,7 @@ part 'app_database.g.dart';
     Categories,
     Payees,
     RecurringTemplates,
+    Debts,
     Movements,
     PeriodStarts,
     RecurringOccurrences,
@@ -54,6 +58,7 @@ part 'app_database.g.dart';
     MovementDao,
     PeriodDao,
     RecurringDao,
+    DebtDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

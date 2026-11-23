@@ -10,6 +10,7 @@ mixin _$PeriodDaoMixin on DatabaseAccessor<AppDatabase> {
   $PillarsTable get pillars => attachedDatabase.pillars;
   $CategoriesTable get categories => attachedDatabase.categories;
   $PayeesTable get payees => attachedDatabase.payees;
+  $DebtsTable get debts => attachedDatabase.debts;
   $RecurringTemplatesTable get recurringTemplates =>
       attachedDatabase.recurringTemplates;
   $MovementsTable get movements => attachedDatabase.movements;
@@ -31,6 +32,8 @@ class PeriodDaoManager {
       $$CategoriesTableTableManager(_db.attachedDatabase, _db.categories);
   $$PayeesTableTableManager get payees =>
       $$PayeesTableTableManager(_db.attachedDatabase, _db.payees);
+  $$DebtsTableTableManager get debts =>
+      $$DebtsTableTableManager(_db.attachedDatabase, _db.debts);
   $$RecurringTemplatesTableTableManager get recurringTemplates =>
       $$RecurringTemplatesTableTableManager(
         _db.attachedDatabase,

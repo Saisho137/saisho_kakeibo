@@ -1869,6 +1869,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pay your credit card today.'**
   String get reminderCardBody;
+
+  /// Title of the Debts screen and its menu item.
+  ///
+  /// In en, this message translates to:
+  /// **'Debts'**
+  String get debtsTitle;
+
+  /// Tooltip of the button that registers a debt.
+  ///
+  /// In en, this message translates to:
+  /// **'New debt'**
+  String get debtsNewTooltip;
+
+  /// Tab of the debts I pay back.
+  ///
+  /// In en, this message translates to:
+  /// **'I owe'**
+  String get debtsIOwe;
+
+  /// Tab of the money owed to me.
+  ///
+  /// In en, this message translates to:
+  /// **'Owed to me'**
+  String get debtsOwedToMe;
+
+  /// Sum of what is left on the active debts.
+  ///
+  /// In en, this message translates to:
+  /// **'Total pending'**
+  String get debtsTotalPending;
+
+  /// What is left on a debt.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left'**
+  String debtsLeft(String amount);
+
+  /// Monthly due day of a debt or card.
+  ///
+  /// In en, this message translates to:
+  /// **'due day {day}'**
+  String debtsDueDay(int day);
+
+  /// Single due date of a debt owed to me.
+  ///
+  /// In en, this message translates to:
+  /// **'due {date}'**
+  String debtsDueDate(String date);
+
+  /// Read-only section of the credit card accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit cards'**
+  String get debtsCreditCards;
+
+  /// Collapsed section of settled debts.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid off ({count})'**
+  String debtsPaidOff(int count);
+
+  /// Empty I owe tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to pay back. Register a credit here; loans you receive show up on their own.'**
+  String get debtsEmptyIOwe;
+
+  /// Empty Owed to me tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody owes you. Loans you give show up here.'**
+  String get debtsEmptyOwedToMe;
+
+  /// Label of what is pending on a debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get debtPending;
+
+  /// Initial pending of a debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered with {amount}'**
+  String debtInitial(String amount);
+
+  /// Marks a settled debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid off'**
+  String get debtPaidOffLabel;
+
+  /// Action that corrects what is pending without moving money.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit pending'**
+  String get debtEditPending;
+
+  /// Explains Edit pending.
+  ///
+  /// In en, this message translates to:
+  /// **'What is pending now, as the bank reports it. No money moves.'**
+  String get debtEditPendingHint;
+
+  /// Tooltip of the debt edit button.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit debt'**
+  String get debtEditTooltip;
+
+  /// Tooltip of the debt delete button.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete debt'**
+  String get debtDeleteTooltip;
+
+  /// Title of the debt delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String debtDeleteTitle(String name);
+
+  /// Message of the debt delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'It has no movements yet.'**
+  String get debtDeleteMessage;
+
+  /// Section with the payments of a debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Movements'**
+  String get debtMovements;
+
+  /// Debt without movements.
+  ///
+  /// In en, this message translates to:
+  /// **'No payments yet.'**
+  String get debtNoMovements;
+
+  /// Debt not found.
+  ///
+  /// In en, this message translates to:
+  /// **'This debt no longer exists.'**
+  String get debtNotFound;
+
+  /// Title of the debt form when creating.
+  ///
+  /// In en, this message translates to:
+  /// **'New debt'**
+  String get debtNewTitle;
+
+  /// Title of the debt form when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {name}'**
+  String debtEditTitle(String name);
+
+  /// Label of the debt name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get debtName;
+
+  /// Label of whom I owe.
+  ///
+  /// In en, this message translates to:
+  /// **'Creditor'**
+  String get debtEntityIOwe;
+
+  /// Label of who owes me.
+  ///
+  /// In en, this message translates to:
+  /// **'Debtor'**
+  String get debtEntityOwedToMe;
+
+  /// Label of the debt currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get debtCurrency;
+
+  /// Why the currency can't change.
+  ///
+  /// In en, this message translates to:
+  /// **'A debt with movements keeps its currency.'**
+  String get debtCurrencyLocked;
+
+  /// Label of the pending amount when registering.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending amount'**
+  String get debtPendingAmount;
+
+  /// Explains the pending amount.
+  ///
+  /// In en, this message translates to:
+  /// **'What is left according to the bank, or what was agreed.'**
+  String get debtPendingHint;
+
+  /// Label of the pillar its payments inherit.
+  ///
+  /// In en, this message translates to:
+  /// **'Pillar'**
+  String get debtPillar;
+
+  /// Explains the debt pillar.
+  ///
+  /// In en, this message translates to:
+  /// **'Its payments count in this pillar.'**
+  String get debtPillarHint;
+
+  /// Label of the installment amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment (optional)'**
+  String get debtInstallment;
+
+  /// Explains the installment.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefills the amount when you pay.'**
+  String get debtInstallmentHint;
+
+  /// Label of the monthly due day.
+  ///
+  /// In en, this message translates to:
+  /// **'Due day (optional)'**
+  String get debtDueDay;
+
+  /// Label of the single due date.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date (optional)'**
+  String get debtDueDate;
+
+  /// No due day or date.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get debtNone;
+
+  /// Clears the due day or date.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get debtClearDue;
+
+  /// Opens the color picker of a debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Change color'**
+  String get debtChangeColor;
+
+  /// Missing debt name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name.'**
+  String get debtErrorName;
+
+  /// Debt name too long.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {max} characters at most.'**
+  String debtErrorNameTooLong(int max);
+
+  /// Missing creditor or debtor.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter who it is with.'**
+  String get debtErrorPayee;
+
+  /// Invalid pending amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount.'**
+  String get debtErrorPending;
+
+  /// Missing pillar of a debt I owe.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a pillar.'**
+  String get debtErrorPillar;
+
+  /// Invalid installment.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an installment above zero.'**
+  String get debtErrorInstallment;
 }
 
 class _AppLocalizationsDelegate

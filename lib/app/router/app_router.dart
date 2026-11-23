@@ -6,6 +6,10 @@ import 'package:saisho_kakeibo/features/accounts/presentation/pages/accounts_pag
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/pages/categories_page.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/pages/category_form_page.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
+import 'package:saisho_kakeibo/features/debts/presentation/pages/debt_detail_page.dart';
+import 'package:saisho_kakeibo/features/debts/presentation/pages/debt_form_page.dart';
+import 'package:saisho_kakeibo/features/debts/presentation/pages/debts_page.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/category_grid_page.dart';
@@ -112,6 +116,38 @@ GoRouter createAppRouter() => GoRouter(
       name: 'editTransfer',
       builder: (context, state) =>
           TransferFormPage(id: int.tryParse(state.pathParameters['id']!) ?? -1),
+    ),
+    GoRoute(
+      path: AppRoutes.debts,
+      name: 'debts',
+      builder: (context, state) => const DebtsPage(),
+      routes: [
+        GoRoute(
+          path: 'new',
+          name: 'newDebt',
+          builder: (context, state) => DebtFormPage(
+            type: state.uri.queryParameters['type'] == DebtType.owedToMe.name
+                ? DebtType.owedToMe
+                : DebtType.iOwe,
+          ),
+        ),
+        GoRoute(
+          path: ':id',
+          name: 'debtDetail',
+          builder: (context, state) => DebtDetailPage(
+            id: int.tryParse(state.pathParameters['id']!) ?? -1,
+          ),
+          routes: [
+            GoRoute(
+              path: 'edit',
+              name: 'editDebt',
+              builder: (context, state) => DebtFormPage(
+                id: int.tryParse(state.pathParameters['id']!) ?? -1,
+              ),
+            ),
+          ],
+        ),
+      ],
     ),
     GoRoute(
       path: AppRoutes.recurring,

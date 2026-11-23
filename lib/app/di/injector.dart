@@ -3,6 +3,7 @@ import 'package:saisho_kakeibo/core/config/app_info.dart';
 import 'package:saisho_kakeibo/core/database/app_database.dart';
 import 'package:saisho_kakeibo/features/accounts/accounts_injection.dart';
 import 'package:saisho_kakeibo/features/categories/categories_injection.dart';
+import 'package:saisho_kakeibo/features/debts/debts_injection.dart';
 import 'package:saisho_kakeibo/features/home/home_injection.dart';
 import 'package:saisho_kakeibo/features/movements/movements_injection.dart';
 import 'package:saisho_kakeibo/features/periods/periods_injection.dart';
@@ -34,6 +35,7 @@ Future<void> configureDependencies({
   registerMovementsDependencies(getIt);
   registerPeriodsDependencies(getIt);
   registerRecurringDependencies(getIt);
+  registerDebtsDependencies(getIt);
   registerHomeDependencies(getIt);
   registerRemindersDependencies(getIt, scheduler: reminderScheduler);
 }

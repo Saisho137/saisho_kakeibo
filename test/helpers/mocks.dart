@@ -6,6 +6,9 @@ import 'package:saisho_kakeibo/features/accounts/presentation/cubit/account_form
 import 'package:saisho_kakeibo/features/accounts/presentation/cubit/accounts_cubit.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/cubit/categories_cubit.dart';
 import 'package:saisho_kakeibo/features/categories/presentation/cubit/category_form_cubit.dart';
+import 'package:saisho_kakeibo/features/debts/presentation/cubit/debt_detail_cubit.dart';
+import 'package:saisho_kakeibo/features/debts/presentation/cubit/debt_form_cubit.dart';
+import 'package:saisho_kakeibo/features/debts/presentation/cubit/debts_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
@@ -62,3 +65,11 @@ class MockRecurringCubit extends MockCubit<RecurringState>
 
 class MockRecurringFormCubit extends MockCubit<RecurringFormState>
     implements RecurringFormCubit;
+
+class MockDebtsCubit extends MockCubit<DebtsState> implements DebtsCubit;
+
+class MockDebtDetailCubit extends MockCubit<DebtDetailState>
+    implements DebtDetailCubit;
+
+class MockDebtFormCubit extends MockCubit<DebtFormState>
+    implements DebtFormCubit;
