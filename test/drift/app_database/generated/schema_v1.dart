@@ -1249,13 +1249,25 @@ class DatabaseAtV1 extends GeneratedDatabase {
     'movements_to_account',
     'CREATE INDEX movements_to_account ON movements (to_account_id)',
   );
-  late final Index movementsCategory = Index(
-    'movements_category',
-    'CREATE INDEX movements_category ON movements (category_id)',
-  );
   late final Index movementsDate = Index(
     'movements_date',
     'CREATE INDEX movements_date ON movements (date)',
+  );
+  late final Index movementsPayee = Index(
+    'movements_payee',
+    'CREATE INDEX movements_payee ON movements (payee_id, type, date, id)',
+  );
+  late final Index movementsCategoryDate = Index(
+    'movements_category_date',
+    'CREATE INDEX movements_category_date ON movements (category_id, date)',
+  );
+  late final Index movementsDebt = Index(
+    'movements_debt',
+    'CREATE INDEX movements_debt ON movements (debt_id)',
+  );
+  late final Index movementsTemplate = Index(
+    'movements_template',
+    'CREATE INDEX movements_template ON movements (recurring_template_id)',
   );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -1275,8 +1287,11 @@ class DatabaseAtV1 extends GeneratedDatabase {
     recurringOccurrences,
     movementsAccount,
     movementsToAccount,
-    movementsCategory,
     movementsDate,
+    movementsPayee,
+    movementsCategoryDate,
+    movementsDebt,
+    movementsTemplate,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
