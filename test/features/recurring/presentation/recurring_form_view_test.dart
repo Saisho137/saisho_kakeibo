@@ -7,6 +7,7 @@ import 'package:saisho_kakeibo/core/error/failure.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/debts/domain/services/debt_status.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
@@ -15,6 +16,7 @@ import 'package:saisho_kakeibo/features/recurring/presentation/pages/recurring_f
 
 import '../../../helpers/account_fixtures.dart';
 import '../../../helpers/category_fixtures.dart';
+import '../../../helpers/debt_fixtures.dart';
 import '../../../helpers/helpers.dart';
 import '../../../helpers/recurring_fixtures.dart';
 
@@ -65,6 +67,30 @@ void main() {
   }
 
   group('RecurringFormView', () {
+    testWidgets('a debt payment picks its debt instead of a payee', (
+      tester,
+    ) async {
+      final mortgage = debt();
+      when(() => cubit.state).thenReturn(
+        editing.copyWith(
+          categories: [category(id: 12, role: CategoryRole.debtPayment)],
+          categoryId: 12,
+          debts: [(debt: mortgage, status: DebtStatus.of(mortgage, const []))],
+          showErrors: true,
+          errors: const {MovementError.missingDebt},
+        ),
+      );
+      await pumpView(tester);
+
+      expect(find.byKey(const ValueKey('payee')), findsNothing);
+      expect(find.text('Pick the debt.'), findsOneWidget);
+      await tester.tap(find.text('Debt'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Mortgage').last);
+      await tester.pumpAndSettle();
+      verify(() => cubit.debtChanged(1)).called(1);
+    });
+
     testWidgets('forwards the fields to the cubit', (tester) async {
       await pumpView(tester);
 

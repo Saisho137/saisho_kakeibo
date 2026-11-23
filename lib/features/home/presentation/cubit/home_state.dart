@@ -20,6 +20,7 @@ abstract class HomeState with _$HomeState {
     List<Category>? categories,
     List<Pillar>? pillars,
     List<Payee>? payees,
+    List<Debt>? debts,
 
     /// Currency picked in the quick menu; the main one until then.
     String? selectedCurrencyCode,
@@ -159,6 +160,7 @@ abstract class HomeState with _$HomeState {
       categories: categories ?? const [],
       pillars: pillars ?? const [],
       currencyCode: code,
+      debts: debts ?? const [],
     );
   }
 

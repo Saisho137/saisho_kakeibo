@@ -37,10 +37,7 @@ class CategoryGridCubit extends Cubit<CategoryGridState> {
             type: type,
             categories: [
               for (final c in categories)
-                if (c.type == categoryType &&
-                    !c.isArchived &&
-                    !c.role.needsDebt)
-                  c,
+                if (c.type == categoryType && !c.isArchived) c,
             ],
             payees: payees,
           ),

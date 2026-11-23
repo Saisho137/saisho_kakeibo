@@ -131,10 +131,12 @@ class _PeriodPage extends StatelessWidget {
                 currency: currency,
                 onTap: (type) => showHistorySheet(context, categoryType: type),
               ),
-              onCategoryTap: (category) => context.push(
+              // A debt's section starts its payment ("Pay", RF-09).
+              onCategoryTap: (section) => context.push(
                 AppRoutes.newMovement(
                   MovementType.expense,
-                  categoryId: category.id,
+                  categoryId: section.category.id,
+                  debtId: section.debt?.id,
                 ),
               ),
             ),

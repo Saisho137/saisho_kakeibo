@@ -25,13 +25,16 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
             ]))
           .watch();
 
+  SimpleSelectStatement<$MovementsTable, MovementRow> _newestFirst() =>
+      select(movements)..orderBy([
+        (m) => OrderingTerm.desc(m.date),
+        (m) => OrderingTerm.desc(m.id),
+      ]);
+
   /// Every movement, newest first.
-  Stream<List<MovementRow>> watchAll() =>
-      (select(movements)..orderBy([
-            (m) => OrderingTerm.desc(m.date),
-            (m) => OrderingTerm.desc(m.id),
-          ]))
-          .watch();
+  Stream<List<MovementRow>> watchAll() => _newestFirst().watch();
+
+  Future<List<MovementRow>> getAll() => _newestFirst().get();
 
   Future<MovementRow?> findById(int id) =>
       (select(movements)..where((m) => m.id.equals(id))).getSingleOrNull();

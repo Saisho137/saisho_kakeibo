@@ -26,12 +26,14 @@ abstract final class AppRoutes {
     MovementType type, {
     int? categoryId,
     int? payeeId,
+    int? debtId,
   }) => Uri(
     path: '/movements/new',
     queryParameters: {
       'type': type.name,
       'category': ?categoryId?.toString(),
       'payee': ?payeeId?.toString(),
+      'debt': ?debtId?.toString(),
     },
   ).toString();
 

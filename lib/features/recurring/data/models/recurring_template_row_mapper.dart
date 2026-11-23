@@ -18,6 +18,7 @@ extension RecurringTemplateRowMapper on RecurringTemplateRow {
     remind: remind,
     isActive: isActive,
     createdOn: createdOn,
+    debtId: debtId,
   );
 }
 
@@ -38,5 +39,6 @@ extension RecurringTemplateCompanionMapper on RecurringTemplate {
     remind: Value(remind),
     isActive: Value(isActive),
     createdOn: Value(createdOn),
+    debtId: Value(debtId),
   );
 }

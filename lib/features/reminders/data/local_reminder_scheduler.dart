@@ -82,6 +82,18 @@ class LocalReminderScheduler implements ReminderScheduler {
           l10n.reminderCardTitle(reminder.name),
           l10n.reminderCardBody,
         ),
+        ReminderKind.debtPayment => (
+          l10n.reminderRecurringTitle(reminder.name),
+          reminder.amount == null
+              ? l10n.reminderDebtBody
+              : l10n.reminderDebtInstallmentBody(reminder.amount!),
+        ),
+        ReminderKind.debtCollection => (
+          l10n.reminderCollectTitle(reminder.name),
+          reminder.amount == null
+              ? null
+              : l10n.reminderCollectBody(reminder.amount!),
+        ),
       };
       await _plugin.zonedSchedule(
         id: reminder.id,

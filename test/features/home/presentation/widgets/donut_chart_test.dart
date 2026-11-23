@@ -49,7 +49,7 @@ void main() {
         body: DonutChart(
           data: donut,
           center: const Text('center'),
-          onCategoryTap: tapped.add,
+          onCategoryTap: (section) => tapped.add(section.category),
         ),
       ),
     );

@@ -9,6 +9,11 @@ enum ReminderKind {
 
   /// The payment day of a credit card (RF-03).
   cardPayment,
+
+  /// The due day of a debt I owe, or the due date of one owed to me
+  /// (RF-09).
+  debtPayment,
+  debtCollection,
 }
 
 /// A local notification on [date] at the global reminder time (RT-11).
@@ -19,11 +24,12 @@ abstract class Reminder with _$Reminder {
     required int id,
     required ReminderKind kind,
 
-    /// Payee or category of a template; name of a card.
+    /// Payee or category of a template; name of a card or a debt.
     required String name,
     required LocalDate date,
 
-    /// Formatted amount of a template, with its currency code.
+    /// Formatted amount of a template or a debt's installment, or what is
+    /// left on a debt owed to me, with its currency code.
     String? amount,
   }) = _Reminder;
 }

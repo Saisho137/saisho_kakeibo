@@ -9,6 +9,7 @@ import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
 import 'package:saisho_kakeibo/features/debts/presentation/cubit/debt_detail_cubit.dart';
@@ -120,6 +121,16 @@ void main() {
       verify(() => router.push<Object?>('/accounts/7')).called(1);
       await tester.tap(find.byTooltip('New debt'));
       verify(() => router.push<Object?>('/debts/new?type=iOwe')).called(1);
+    });
+
+    testWidgets('a debt named after its entity shows the name once', (
+      tester,
+    ) async {
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(debts: [mortgage.copyWith(name: 'Bancolombia')]),
+      );
+      await pumpView(tester);
+      expect(find.text('Bancolombia'), findsOneWidget);
     });
 
     testWidgets('the other tab lists what is owed to me', (tester) async {
@@ -260,6 +271,51 @@ void main() {
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
       verify(() => cubit.delete()).called(1);
+    });
+
+    testWidgets('pays a debt I owe', (tester) async {
+      final categories = [
+        category(id: 12, role: CategoryRole.debtPayment),
+        category(
+          id: 16,
+          type: CategoryType.income,
+          role: CategoryRole.loanRepaid,
+        ),
+      ];
+      when(() => cubit.state)
+          .thenReturn(ready.copyWith(categories: categories));
+      await pumpView(tester);
+      await tester.tap(find.text('Pay'));
+      verify(
+        () => router.push<Object?>(
+          '/movements/new?type=expense&category=12&debt=1',
+        ),
+      ).called(1);
+    });
+
+    testWidgets('collects a debt owed to me', (tester) async {
+      final categories = [
+        category(
+          id: 16,
+          type: CategoryType.income,
+          role: CategoryRole.loanRepaid,
+        ),
+      ];
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(
+          debtId: 3,
+          debts: [lent],
+          movements: const [],
+          categories: categories,
+        ),
+      );
+      await pumpView(tester);
+      await tester.tap(find.text('Collect'));
+      verify(
+        () => router.push<Object?>(
+          '/movements/new?type=income&category=16&debt=3',
+        ),
+      ).called(1);
     });
 
     testWidgets('a debt owed to me shows its date', (tester) async {

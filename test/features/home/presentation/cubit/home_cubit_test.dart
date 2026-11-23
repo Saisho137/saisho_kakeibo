@@ -17,6 +17,7 @@ import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_accounts.
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_categories.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_pillars.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/watch_debts.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
@@ -53,6 +54,8 @@ class _MockWatchPayees extends Mock implements WatchPayees;
 
 class _MockMaterialize extends Mock implements MaterializeRecurring;
 
+class _MockWatchDebts extends Mock implements WatchDebts;
+
 void main() {
   late _MockWatchSettings watchSettings;
   late _MockWatchAccounts watchAccounts;
@@ -64,6 +67,7 @@ void main() {
   late _MockWatchPillars watchPillars;
   late _MockWatchPayees watchPayees;
   late _MockMaterialize materialize;
+  late _MockWatchDebts watchDebts;
 
   const cop = Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop);
   const usd = Currency(code: 'USD', symbol: r'US$', format: CurrencyFormat.usd);
@@ -88,6 +92,8 @@ void main() {
     watchPillars = _MockWatchPillars();
     watchPayees = _MockWatchPayees();
     materialize = _MockMaterialize();
+    watchDebts = _MockWatchDebts();
+    when(() => watchDebts(any())).thenAnswer((_) => Stream.value([]));
     when(() => materialize(any())).thenAnswer((_) async => const Ok(0));
     when(() => watchPayees(any())).thenAnswer(
       (_) => Stream.value([const Payee(id: 5, name: 'Uber', key: 'uber')]),
@@ -118,6 +124,7 @@ void main() {
     watchPillars: watchPillars,
     watchPayees: watchPayees,
     materializeRecurring: materialize,
+    watchDebts: watchDebts,
   );
 
   group('HomeCubit', () {

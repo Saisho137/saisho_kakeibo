@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
 
@@ -60,6 +61,20 @@ void main() {
         ),
         isEmpty,
       );
+    });
+
+    test('each debt category works with its type of debt', () {
+      expect(DebtRules.typeFor(CategoryRole.loanReceived), DebtType.iOwe);
+      expect(DebtRules.typeFor(CategoryRole.debtPayment), DebtType.iOwe);
+      expect(DebtRules.typeFor(CategoryRole.loanGiven), DebtType.owedToMe);
+      expect(DebtRules.typeFor(CategoryRole.loanRepaid), DebtType.owedToMe);
+      expect(DebtRules.typeFor(CategoryRole.custom), isNull);
+      expect(DebtRules.createsDebt(CategoryRole.loanReceived), isTrue);
+      expect(DebtRules.createsDebt(CategoryRole.loanGiven), isTrue);
+      expect(DebtRules.createsDebt(CategoryRole.debtPayment), isFalse);
+      expect(DebtRules.needsExistingDebt(CategoryRole.debtPayment), isTrue);
+      expect(DebtRules.needsExistingDebt(CategoryRole.loanRepaid), isTrue);
+      expect(DebtRules.needsExistingDebt(CategoryRole.loanGiven), isFalse);
     });
   });
 }

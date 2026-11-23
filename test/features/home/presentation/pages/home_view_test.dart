@@ -9,6 +9,7 @@ import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
@@ -17,6 +18,7 @@ import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cub
 
 import '../../../../helpers/account_fixtures.dart';
 import '../../../../helpers/category_fixtures.dart';
+import '../../../../helpers/debt_fixtures.dart';
 import '../../../../helpers/helpers.dart';
 import '../../../../helpers/movement_fixtures.dart';
 
@@ -132,6 +134,35 @@ void main() {
       await tester.tapAt(tester.getCenter(donut) + Offset(radius, 0));
       verify(
         () => router.push<Object?>('/movements/new?type=expense&category=10'),
+      ).called(1);
+    });
+
+    testWidgets("a debt's section starts a payment of that debt", (
+      tester,
+    ) async {
+      when(() => homeCubit.state).thenReturn(
+        ready.copyWith(
+          categories: [category(id: 12, role: CategoryRole.debtPayment)],
+          debts: [debt()],
+          movements: [
+            movement(
+              amount: 500,
+              date: today,
+              categoryId: 12,
+            ).copyWith(debtId: 1),
+          ],
+        ),
+      );
+      await pumpView(tester);
+
+      final donut = find.byType(DonutChart);
+      final box = tester.getSize(donut);
+      final radius = min(box.width, box.height) / 2 - 72;
+      await tester.tapAt(tester.getCenter(donut) + Offset(radius, 0));
+      verify(
+        () => router.push<Object?>(
+          '/movements/new?type=expense&category=12&debt=1',
+        ),
       ).called(1);
     });
 

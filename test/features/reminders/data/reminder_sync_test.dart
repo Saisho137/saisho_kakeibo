@@ -9,6 +9,8 @@ import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/watch_accounts.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/watch_debts.dart';
+import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_template.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/usecases/watch_recurring_templates.dart';
 import 'package:saisho_kakeibo/features/reminders/domain/repositories/reminder_scheduler.dart';
@@ -24,6 +26,10 @@ class _MockWatchAccounts extends Mock implements WatchAccounts;
 
 class _MockSync extends Mock implements SyncReminders;
 
+class _MockWatchDebts extends Mock implements WatchDebts;
+
+class _MockWatchMovements extends Mock implements WatchMovements;
+
 class _MockScheduler extends Mock implements ReminderScheduler;
 
 void main() {
@@ -32,6 +38,8 @@ void main() {
   late _MockWatchAccounts watchAccounts;
   late _MockSync syncReminders;
   late _MockScheduler scheduler;
+  late _MockWatchDebts watchDebts;
+  late _MockWatchMovements watchMovements;
   late StreamController<AppSettings> settings;
   late StreamController<List<RecurringTemplate>> templates;
   late StreamController<List<Account>> accounts;
@@ -47,6 +55,10 @@ void main() {
     watchAccounts = _MockWatchAccounts();
     syncReminders = _MockSync();
     scheduler = _MockScheduler();
+    watchDebts = _MockWatchDebts();
+    watchMovements = _MockWatchMovements();
+    when(() => watchDebts(any())).thenAnswer((_) => const Stream.empty());
+    when(() => watchMovements(any())).thenAnswer((_) => const Stream.empty());
     settings = StreamController();
     templates = StreamController();
     accounts = StreamController();
@@ -61,6 +73,8 @@ void main() {
     watchSettings: watchSettings,
     watchTemplates: watchTemplates,
     watchAccounts: watchAccounts,
+    watchDebts: watchDebts,
+    watchMovements: watchMovements,
     syncReminders: syncReminders,
     scheduler: scheduler,
     delay: const Duration(milliseconds: 20),

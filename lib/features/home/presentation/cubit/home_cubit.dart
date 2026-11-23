@@ -19,6 +19,8 @@ import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart
 import 'package:saisho_kakeibo/features/categories/domain/entities/pillar.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_categories.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/watch_pillars.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/watch_debts.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/donut_data.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/home_balance.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
@@ -50,6 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
     required this._watchPillars,
     required this._watchPayees,
     required this._materializeRecurring,
+    required this._watchDebts,
   }) : super(const HomeState());
 
   final WatchSettings _watchSettings;
@@ -62,6 +65,7 @@ class HomeCubit extends Cubit<HomeState> {
   final WatchPillars _watchPillars;
   final WatchPayees _watchPayees;
   final MaterializeRecurring _materializeRecurring;
+  final WatchDebts _watchDebts;
   final List<StreamSubscription<Object>> _subscriptions = [];
 
   void load() {
@@ -105,6 +109,10 @@ class HomeCubit extends Cubit<HomeState> {
         (payees) => _received(state.copyWith(payees: payees)),
         onError: _failed,
       ),
+      _watchDebts(const NoParams()).listen(
+        (debts) => _received(state.copyWith(debts: debts)),
+        onError: _failed,
+      ),
     ]);
   }
 
@@ -136,7 +144,8 @@ class HomeCubit extends Cubit<HomeState> {
         next.periodStarts != null &&
         next.categories != null &&
         next.pillars != null &&
-        next.payees != null;
+        next.payees != null &&
+        next.debts != null;
     emit(ready ? next.copyWith(status: HomeStatus.success) : next);
   }
 

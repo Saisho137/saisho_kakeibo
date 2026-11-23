@@ -95,6 +95,7 @@ GoRouter createAppRouter() => GoRouter(
           type: _movementType(query['type']),
           categoryId: int.tryParse(query['category'] ?? ''),
           payeeId: int.tryParse(query['payee'] ?? ''),
+          debtId: int.tryParse(query['debt'] ?? ''),
         );
       },
     ),

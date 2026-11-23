@@ -180,41 +180,43 @@ class _TransferForm extends StatelessWidget {
                 onChanged: cubit.toChanged,
               ),
               if (state.isInternal) FormNote(l10n.transferInternalHint),
-              DropdownButtonFormField<int>(
-                // Rebuilt when the suggestion changes the category.
-                key: ValueKey(state.categoryId),
-                initialValue: state.categoryId,
-                isExpanded: true,
-                items: [
-                  for (final category in state.categoryOptions)
-                    DropdownMenuItem(
-                      value: category.id,
-                      child: Row(
-                        children: [
-                          CatalogIconAvatar(
-                            iconKey: category.iconKey,
-                            color: Color(category.color),
-                            radius: 12,
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          Flexible(
-                            child: Text(
-                              category.name,
-                              overflow: TextOverflow.ellipsis,
+              UnfocusOnPointer(
+                child: DropdownButtonFormField<int>(
+                  // Rebuilt when the suggestion changes the category.
+                  key: ValueKey(state.categoryId),
+                  initialValue: state.categoryId,
+                  isExpanded: true,
+                  items: [
+                    for (final category in state.categoryOptions)
+                      DropdownMenuItem(
+                        value: category.id,
+                        child: Row(
+                          children: [
+                            CatalogIconAvatar(
+                              iconKey: category.iconKey,
+                              color: Color(category.color),
+                              radius: 12,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: AppSpacing.sm),
+                            Flexible(
+                              child: Text(
+                                category.name,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                ],
-                onChanged: (id) {
-                  if (id != null) cubit.categoryChanged(id);
-                },
-                decoration: InputDecoration(
-                  labelText: l10n.transferCategory,
-                  errorText: errors.contains(MovementError.missingCategory)
-                      ? l10n.movementErrorCategory
-                      : null,
+                  ],
+                  onChanged: (id) {
+                    if (id != null) cubit.categoryChanged(id);
+                  },
+                  decoration: InputDecoration(
+                    labelText: l10n.transferCategory,
+                    errorText: errors.contains(MovementError.missingCategory)
+                        ? l10n.movementErrorCategory
+                        : null,
+                  ),
                 ),
               ),
               TextFormField(
@@ -359,25 +361,27 @@ class _AccountPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<int>(
-      initialValue: value,
-      isExpanded: true,
-      items: [
-        for (final account in options)
-          DropdownMenuItem(
-            value: account.id,
-            child: Text(
-              account.isPocket
-                  ? '↳ ${account.name}'
-                  : '${account.name} · ${account.currencyCode}',
-              overflow: TextOverflow.ellipsis,
+    return UnfocusOnPointer(
+      child: DropdownButtonFormField<int>(
+        initialValue: value,
+        isExpanded: true,
+        items: [
+          for (final account in options)
+            DropdownMenuItem(
+              value: account.id,
+              child: Text(
+                account.isPocket
+                    ? '↳ ${account.name}'
+                    : '${account.name} · ${account.currencyCode}',
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-      ],
-      onChanged: (id) {
-        if (id != null) onChanged(id);
-      },
-      decoration: InputDecoration(labelText: label, errorText: errorText),
+        ],
+        onChanged: (id) {
+          if (id != null) onChanged(id);
+        },
+        decoration: InputDecoration(labelText: label, errorText: errorText),
+      ),
     );
   }
 }

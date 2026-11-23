@@ -26,6 +26,10 @@ abstract class RecurringFormState with _$RecurringFormState {
     @Default(<Category>[]) List<Category> categories,
     @Default(<Currency>[]) List<Currency> currencies,
     @Default(<Payee>[]) List<Payee> payees,
+
+    /// Debts with their status, for a template that pays one (RF-09).
+    @Default(<DebtWithStatus>[]) List<DebtWithStatus> debts,
+    int? debtId,
     @Default(<MovementError>{}) Set<MovementError> errors,
     @Default(false) bool showErrors,
 
@@ -63,8 +67,8 @@ abstract class RecurringFormState with _$RecurringFormState {
         a,
   ];
 
-  /// Active categories of the template's type, plus the stored one. Debt
-  /// categories wait for the debts (phase 8).
+  /// Active categories of the template's type, plus the stored one. Loans
+  /// never repeat.
   List<Category> get categoryOptions {
     final categoryType = switch (type) {
       MovementType.income => CategoryType.income,
@@ -73,9 +77,30 @@ abstract class RecurringFormState with _$RecurringFormState {
     };
     return [
       for (final c in categories)
-        if (c.type == categoryType && !c.isArchived && !c.role.needsDebt ||
+        if (c.type == categoryType &&
+                !c.isArchived &&
+                RecurringRules.allows(c.role) ||
             c.id == original?.categoryId)
           c,
+    ];
+  }
+
+  /// Type of the debt the category pays or collects, if any.
+  DebtType? get debtType {
+    final role = category?.role;
+    return role == null ? null : DebtRules.typeFor(role);
+  }
+
+  /// Open debts of that type in the account's currency, plus the stored one.
+  List<DebtWithStatus> get debtOptions {
+    final type = debtType;
+    if (type == null) return const [];
+    return [
+      for (final line in debts)
+        if (line.debt.type == type &&
+            line.debt.currencyCode == account?.currencyCode &&
+            (!line.status.isPaidOff || line.debt.id == original?.debtId))
+          line,
     ];
   }
 }

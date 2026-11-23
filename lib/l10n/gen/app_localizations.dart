@@ -2157,6 +2157,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter an installment above zero.'**
   String get debtErrorInstallment;
+
+  /// Label of the debt a movement pays, collects or adds to.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt'**
+  String get movementDebt;
+
+  /// Option that makes a loan given create its debt.
+  ///
+  /// In en, this message translates to:
+  /// **'New debt'**
+  String get movementNewDebt;
+
+  /// A debt in the picker.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {pending} left'**
+  String movementDebtOption(String name, String pending);
+
+  /// Missing debt of a debt category.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the debt.'**
+  String get movementErrorDebt;
+
+  /// Missing payee of a new debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter who it is with.'**
+  String get movementErrorDebtPayee;
+
+  /// Label of the name of the debt a loan creates.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt name'**
+  String get movementDebtName;
+
+  /// Explains the default debt name.
+  ///
+  /// In en, this message translates to:
+  /// **'The entity\'s name when empty.'**
+  String get movementDebtNameHint;
+
+  /// What a received loan leaves to pay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending amount'**
+  String get movementDebtPending;
+
+  /// Explains the pending of a loan received.
+  ///
+  /// In en, this message translates to:
+  /// **'What you owe in total; the amount received when empty.'**
+  String get movementDebtPendingHint;
+
+  /// Pillar of the debt a loan received creates.
+  ///
+  /// In en, this message translates to:
+  /// **'Pillar'**
+  String get movementDebtPillar;
+
+  /// Missing pillar of a new debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a pillar.'**
+  String get movementErrorDebtPillar;
+
+  /// Starts the payment of a debt I owe.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get debtPay;
+
+  /// Starts the collection of a debt owed to me.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect'**
+  String get debtCollect;
+
+  /// Body of a debt payment reminder without installment.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay it in Saisho Kakeibo.'**
+  String get reminderDebtBody;
+
+  /// Body of a debt payment reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment {amount}.'**
+  String reminderDebtInstallmentBody(String amount);
+
+  /// Notification on the due date of a debt owed to me.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect {name} today'**
+  String reminderCollectTitle(String name);
+
+  /// Body of a debt collection reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} still owed to you.'**
+  String reminderCollectBody(String amount);
 }
 
 class _AppLocalizationsDelegate

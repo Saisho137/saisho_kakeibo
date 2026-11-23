@@ -2,6 +2,7 @@ import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/repositories/account_repository.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
 import 'package:saisho_kakeibo/features/periods/domain/repositories/period_repository.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/entities/recurring_occurrence.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
@@ -19,12 +20,14 @@ class MaterializeRecurring implements UseCase<Future<Result<int>>, LocalDate> {
     required this._periods,
     required this._settings,
     required this._accounts,
+    required this._debts,
   });
 
   final RecurringRepository _recurring;
   final PeriodRepository _periods;
   final SettingsRepository _settings;
   final AccountRepository _accounts;
+  final GetDebtStatuses _debts;
 
   @override
   Future<Result<int>> call(LocalDate today) async {
@@ -34,6 +37,7 @@ class MaterializeRecurring implements UseCase<Future<Result<int>>, LocalDate> {
       await _periods.getStarts(),
       await _settings.getSettings(),
       await _accounts.getAccounts(),
+      await _debts(const NoParams()),
     )) {
       case (
         Ok(value: final templates),
@@ -41,6 +45,7 @@ class MaterializeRecurring implements UseCase<Future<Result<int>>, LocalDate> {
         Ok(value: final starts),
         Ok(value: final settings),
         Ok(value: final accounts),
+        Ok(value: final debts),
       ):
         final repairs = RecurringPlanner.reconcile(
           templates: templates,
@@ -66,6 +71,10 @@ class MaterializeRecurring implements UseCase<Future<Result<int>>, LocalDate> {
           today: today,
           dynamicStarts: starts,
           cutoffDay: settings.cutoffDay,
+          settledDebts: {
+            for (final (:debt, :status) in debts)
+              if (status.isPaidOff) debt.id,
+          },
           occurrences: {
             for (final o in occurrences)
               if (!dropped.contains(o.id))
@@ -74,11 +83,12 @@ class MaterializeRecurring implements UseCase<Future<Result<int>>, LocalDate> {
         );
         if (planned.isEmpty) return const Ok(0);
         return await _recurring.materialize(planned);
-      case (Err(:final failure), _, _, _, _) ||
-          (_, Err(:final failure), _, _, _) ||
-          (_, _, Err(:final failure), _, _) ||
-          (_, _, _, Err(:final failure), _) ||
-          (_, _, _, _, Err(:final failure)):
+      case (Err(:final failure), _, _, _, _, _) ||
+          (_, Err(:final failure), _, _, _, _) ||
+          (_, _, Err(:final failure), _, _, _) ||
+          (_, _, _, Err(:final failure), _, _) ||
+          (_, _, _, _, Err(:final failure), _) ||
+          (_, _, _, _, _, Err(:final failure)):
         return Err(failure);
     }
   }

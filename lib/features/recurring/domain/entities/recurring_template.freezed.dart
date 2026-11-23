@@ -27,7 +27,9 @@ mixin _$RecurringTemplate {
 /// transfers, and the date of incomes.
  int? get dueDay;/// Notify on [dueDay]; only possible with one.
  bool get remind;/// A paused template creates nothing.
- bool get isActive;
+ bool get isActive;/// The debt a template of Debt payment or Loan repaid pays or collects
+/// (RF-09), such as a mortgage's installment.
+ int? get debtId;
 /// Create a copy of RecurringTemplate
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -39,20 +41,20 @@ $RecurringTemplateCopyWith<RecurringTemplate> get copyWith => _$RecurringTemplat
 @override
 bool operator ==(Object other) {
   final _this = this as RecurringTemplate;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecurringTemplate&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.accountId, _this.accountId) || other.accountId == _this.accountId)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.createdOn, _this.createdOn) || other.createdOn == _this.createdOn)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.cadence, _this.cadence) || other.cadence == _this.cadence)&&(identical(other.toAccountId, _this.toAccountId) || other.toAccountId == _this.toAccountId)&&(identical(other.toAmount, _this.toAmount) || other.toAmount == _this.toAmount)&&(identical(other.payeeId, _this.payeeId) || other.payeeId == _this.payeeId)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.dueDay, _this.dueDay) || other.dueDay == _this.dueDay)&&(identical(other.remind, _this.remind) || other.remind == _this.remind)&&(identical(other.isActive, _this.isActive) || other.isActive == _this.isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecurringTemplate&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.accountId, _this.accountId) || other.accountId == _this.accountId)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.createdOn, _this.createdOn) || other.createdOn == _this.createdOn)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.cadence, _this.cadence) || other.cadence == _this.cadence)&&(identical(other.toAccountId, _this.toAccountId) || other.toAccountId == _this.toAccountId)&&(identical(other.toAmount, _this.toAmount) || other.toAmount == _this.toAmount)&&(identical(other.payeeId, _this.payeeId) || other.payeeId == _this.payeeId)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.dueDay, _this.dueDay) || other.dueDay == _this.dueDay)&&(identical(other.remind, _this.remind) || other.remind == _this.remind)&&(identical(other.isActive, _this.isActive) || other.isActive == _this.isActive)&&(identical(other.debtId, _this.debtId) || other.debtId == _this.debtId));
 }
 
 
 @override
 int get hashCode {
   final _this = this as RecurringTemplate;
-  return Object.hash(runtimeType,_this.type,_this.categoryId,_this.accountId,_this.amount,_this.createdOn,_this.id,_this.cadence,_this.toAccountId,_this.toAmount,_this.payeeId,_this.note,_this.dueDay,_this.remind,_this.isActive);
+  return Object.hash(runtimeType,_this.type,_this.categoryId,_this.accountId,_this.amount,_this.createdOn,_this.id,_this.cadence,_this.toAccountId,_this.toAmount,_this.payeeId,_this.note,_this.dueDay,_this.remind,_this.isActive,_this.debtId);
 }
 
 @override
 String toString() {
   final _this = this as RecurringTemplate;
-  return 'RecurringTemplate(type: ${_this.type}, categoryId: ${_this.categoryId}, accountId: ${_this.accountId}, amount: ${_this.amount}, createdOn: ${_this.createdOn}, id: ${_this.id}, cadence: ${_this.cadence}, toAccountId: ${_this.toAccountId}, toAmount: ${_this.toAmount}, payeeId: ${_this.payeeId}, note: ${_this.note}, dueDay: ${_this.dueDay}, remind: ${_this.remind}, isActive: ${_this.isActive})';
+  return 'RecurringTemplate(type: ${_this.type}, categoryId: ${_this.categoryId}, accountId: ${_this.accountId}, amount: ${_this.amount}, createdOn: ${_this.createdOn}, id: ${_this.id}, cadence: ${_this.cadence}, toAccountId: ${_this.toAccountId}, toAmount: ${_this.toAmount}, payeeId: ${_this.payeeId}, note: ${_this.note}, dueDay: ${_this.dueDay}, remind: ${_this.remind}, isActive: ${_this.isActive}, debtId: ${_this.debtId})';
 }
 
 
@@ -63,7 +65,7 @@ abstract mixin class $RecurringTemplateCopyWith<$Res>  {
   factory $RecurringTemplateCopyWith(RecurringTemplate value, $Res Function(RecurringTemplate) _then) = _$RecurringTemplateCopyWithImpl;
 @useResult
 $Res call({
- MovementType type, int categoryId, int accountId, int amount, LocalDate createdOn, int id, RecurringCadence cadence, int? toAccountId, int? toAmount, int? payeeId, String? note, int? dueDay, bool remind, bool isActive
+ MovementType type, int categoryId, int accountId, int amount, LocalDate createdOn, int id, RecurringCadence cadence, int? toAccountId, int? toAmount, int? payeeId, String? note, int? dueDay, bool remind, bool isActive, int? debtId
 });
 
 
@@ -80,7 +82,7 @@ class _$RecurringTemplateCopyWithImpl<$Res>
 
 /// Create a copy of RecurringTemplate
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? categoryId = null,Object? accountId = null,Object? amount = null,Object? createdOn = null,Object? id = null,Object? cadence = null,Object? toAccountId = freezed,Object? toAmount = freezed,Object? payeeId = freezed,Object? note = freezed,Object? dueDay = freezed,Object? remind = null,Object? isActive = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? categoryId = null,Object? accountId = null,Object? amount = null,Object? createdOn = null,Object? id = null,Object? cadence = null,Object? toAccountId = freezed,Object? toAmount = freezed,Object? payeeId = freezed,Object? note = freezed,Object? dueDay = freezed,Object? remind = null,Object? isActive = null,Object? debtId = freezed,}) {
   return _then(RecurringTemplate(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as MovementType,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
@@ -96,7 +98,8 @@ as int?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_no
 as String?,dueDay: freezed == dueDay ? _self.dueDay : dueDay // ignore: cast_nullable_to_non_nullable
 as int?,remind: null == remind ? _self.remind : remind // ignore: cast_nullable_to_non_nullable
 as bool,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,debtId: freezed == debtId ? _self.debtId : debtId // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -181,10 +184,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MovementType type,  int categoryId,  int accountId,  int amount,  LocalDate createdOn,  int id,  RecurringCadence cadence,  int? toAccountId,  int? toAmount,  int? payeeId,  String? note,  int? dueDay,  bool remind,  bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MovementType type,  int categoryId,  int accountId,  int amount,  LocalDate createdOn,  int id,  RecurringCadence cadence,  int? toAccountId,  int? toAmount,  int? payeeId,  String? note,  int? dueDay,  bool remind,  bool isActive,  int? debtId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RecurringTemplate() when $default != null:
-return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.createdOn,_that.id,_that.cadence,_that.toAccountId,_that.toAmount,_that.payeeId,_that.note,_that.dueDay,_that.remind,_that.isActive);case _:
+return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.createdOn,_that.id,_that.cadence,_that.toAccountId,_that.toAmount,_that.payeeId,_that.note,_that.dueDay,_that.remind,_that.isActive,_that.debtId);case _:
   return orElse();
 
 }
@@ -202,10 +205,10 @@ return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MovementType type,  int categoryId,  int accountId,  int amount,  LocalDate createdOn,  int id,  RecurringCadence cadence,  int? toAccountId,  int? toAmount,  int? payeeId,  String? note,  int? dueDay,  bool remind,  bool isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MovementType type,  int categoryId,  int accountId,  int amount,  LocalDate createdOn,  int id,  RecurringCadence cadence,  int? toAccountId,  int? toAmount,  int? payeeId,  String? note,  int? dueDay,  bool remind,  bool isActive,  int? debtId)  $default,) {final _that = this;
 switch (_that) {
 case _RecurringTemplate():
-return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.createdOn,_that.id,_that.cadence,_that.toAccountId,_that.toAmount,_that.payeeId,_that.note,_that.dueDay,_that.remind,_that.isActive);case _:
+return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.createdOn,_that.id,_that.cadence,_that.toAccountId,_that.toAmount,_that.payeeId,_that.note,_that.dueDay,_that.remind,_that.isActive,_that.debtId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -222,10 +225,10 @@ return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MovementType type,  int categoryId,  int accountId,  int amount,  LocalDate createdOn,  int id,  RecurringCadence cadence,  int? toAccountId,  int? toAmount,  int? payeeId,  String? note,  int? dueDay,  bool remind,  bool isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MovementType type,  int categoryId,  int accountId,  int amount,  LocalDate createdOn,  int id,  RecurringCadence cadence,  int? toAccountId,  int? toAmount,  int? payeeId,  String? note,  int? dueDay,  bool remind,  bool isActive,  int? debtId)?  $default,) {final _that = this;
 switch (_that) {
 case _RecurringTemplate() when $default != null:
-return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.createdOn,_that.id,_that.cadence,_that.toAccountId,_that.toAmount,_that.payeeId,_that.note,_that.dueDay,_that.remind,_that.isActive);case _:
+return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.createdOn,_that.id,_that.cadence,_that.toAccountId,_that.toAmount,_that.payeeId,_that.note,_that.dueDay,_that.remind,_that.isActive,_that.debtId);case _:
   return null;
 
 }
@@ -237,7 +240,7 @@ return $default(_that.type,_that.categoryId,_that.accountId,_that.amount,_that.c
 
 
 class _RecurringTemplate extends RecurringTemplate {
-  const _RecurringTemplate({required this.type, required this.categoryId, required this.accountId, required this.amount, required this.createdOn, this.id = 0, this.cadence = RecurringCadence.period, this.toAccountId, this.toAmount, this.payeeId, this.note, this.dueDay, this.remind = false, this.isActive = true}): super._();
+  const _RecurringTemplate({required this.type, required this.categoryId, required this.accountId, required this.amount, required this.createdOn, this.id = 0, this.cadence = RecurringCadence.period, this.toAccountId, this.toAmount, this.payeeId, this.note, this.dueDay, this.remind = false, this.isActive = true, this.debtId}): super._();
   
 
 @override final  MovementType type;
@@ -266,6 +269,9 @@ class _RecurringTemplate extends RecurringTemplate {
 @override@JsonKey() final  bool remind;
 /// A paused template creates nothing.
 @override@JsonKey() final  bool isActive;
+/// The debt a template of Debt payment or Loan repaid pays or collects
+/// (RF-09), such as a mortgage's installment.
+@override final  int? debtId;
 
 /// Create a copy of RecurringTemplate
 /// with the given fields replaced by the non-null parameter values.
@@ -277,18 +283,18 @@ _$RecurringTemplateCopyWith<_RecurringTemplate> get copyWith => __$RecurringTemp
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecurringTemplate&&(identical(other.type, type) || other.type == type)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.accountId, accountId) || other.accountId == accountId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.createdOn, createdOn) || other.createdOn == createdOn)&&(identical(other.id, id) || other.id == id)&&(identical(other.cadence, cadence) || other.cadence == cadence)&&(identical(other.toAccountId, toAccountId) || other.toAccountId == toAccountId)&&(identical(other.toAmount, toAmount) || other.toAmount == toAmount)&&(identical(other.payeeId, payeeId) || other.payeeId == payeeId)&&(identical(other.note, note) || other.note == note)&&(identical(other.dueDay, dueDay) || other.dueDay == dueDay)&&(identical(other.remind, remind) || other.remind == remind)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecurringTemplate&&(identical(other.type, type) || other.type == type)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.accountId, accountId) || other.accountId == accountId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.createdOn, createdOn) || other.createdOn == createdOn)&&(identical(other.id, id) || other.id == id)&&(identical(other.cadence, cadence) || other.cadence == cadence)&&(identical(other.toAccountId, toAccountId) || other.toAccountId == toAccountId)&&(identical(other.toAmount, toAmount) || other.toAmount == toAmount)&&(identical(other.payeeId, payeeId) || other.payeeId == payeeId)&&(identical(other.note, note) || other.note == note)&&(identical(other.dueDay, dueDay) || other.dueDay == dueDay)&&(identical(other.remind, remind) || other.remind == remind)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.debtId, debtId) || other.debtId == debtId));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,type,categoryId,accountId,amount,createdOn,id,cadence,toAccountId,toAmount,payeeId,note,dueDay,remind,isActive);
+    return Object.hash(runtimeType,type,categoryId,accountId,amount,createdOn,id,cadence,toAccountId,toAmount,payeeId,note,dueDay,remind,isActive,debtId);
 }
 
 @override
 String toString() {
-    return 'RecurringTemplate(type: $type, categoryId: $categoryId, accountId: $accountId, amount: $amount, createdOn: $createdOn, id: $id, cadence: $cadence, toAccountId: $toAccountId, toAmount: $toAmount, payeeId: $payeeId, note: $note, dueDay: $dueDay, remind: $remind, isActive: $isActive)';
+    return 'RecurringTemplate(type: $type, categoryId: $categoryId, accountId: $accountId, amount: $amount, createdOn: $createdOn, id: $id, cadence: $cadence, toAccountId: $toAccountId, toAmount: $toAmount, payeeId: $payeeId, note: $note, dueDay: $dueDay, remind: $remind, isActive: $isActive, debtId: $debtId)';
 }
 
 
@@ -299,7 +305,7 @@ abstract mixin class _$RecurringTemplateCopyWith<$Res> implements $RecurringTemp
   factory _$RecurringTemplateCopyWith(_RecurringTemplate value, $Res Function(_RecurringTemplate) _then) = __$RecurringTemplateCopyWithImpl;
 @override @useResult
 $Res call({
- MovementType type, int categoryId, int accountId, int amount, LocalDate createdOn, int id, RecurringCadence cadence, int? toAccountId, int? toAmount, int? payeeId, String? note, int? dueDay, bool remind, bool isActive
+ MovementType type, int categoryId, int accountId, int amount, LocalDate createdOn, int id, RecurringCadence cadence, int? toAccountId, int? toAmount, int? payeeId, String? note, int? dueDay, bool remind, bool isActive, int? debtId
 });
 
 
@@ -316,7 +322,7 @@ class __$RecurringTemplateCopyWithImpl<$Res>
 
 /// Create a copy of RecurringTemplate
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? categoryId = null,Object? accountId = null,Object? amount = null,Object? createdOn = null,Object? id = null,Object? cadence = null,Object? toAccountId = freezed,Object? toAmount = freezed,Object? payeeId = freezed,Object? note = freezed,Object? dueDay = freezed,Object? remind = null,Object? isActive = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? categoryId = null,Object? accountId = null,Object? amount = null,Object? createdOn = null,Object? id = null,Object? cadence = null,Object? toAccountId = freezed,Object? toAmount = freezed,Object? payeeId = freezed,Object? note = freezed,Object? dueDay = freezed,Object? remind = null,Object? isActive = null,Object? debtId = freezed,}) {
   return _then(_RecurringTemplate(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as MovementType,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
@@ -332,7 +338,8 @@ as int?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_no
 as String?,dueDay: freezed == dueDay ? _self.dueDay : dueDay // ignore: cast_nullable_to_non_nullable
 as int?,remind: null == remind ? _self.remind : remind // ignore: cast_nullable_to_non_nullable
 as bool,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,debtId: freezed == debtId ? _self.debtId : debtId // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

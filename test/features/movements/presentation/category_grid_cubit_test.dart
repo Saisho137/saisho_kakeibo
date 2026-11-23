@@ -46,12 +46,12 @@ void main() {
     getPayeeSuggestions: getSuggestions,
   );
 
-  test('shows the active categories of the type, without debt ones', () async {
+  test('shows the active categories of the type, debt ones too', () async {
     final cubit = build();
     await cubit.load(MovementType.expense);
 
     expect(cubit.state.status, CategoryGridStatus.success);
-    expect(cubit.state.visibleCategories, [food, car]);
+    expect(cubit.state.visibleCategories, [food, car, debt]);
     expect(cubit.state.visiblePayees, isEmpty);
 
     await cubit.load(MovementType.income);

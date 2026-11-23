@@ -211,7 +211,11 @@ class _DebtTile extends StatelessWidget {
         color: Color(debt.color),
       ),
       title: Text(
-        '${debt.name} · ${state.payeeOf(debt)?.name ?? ''}',
+        // A debt named after its payee shows the name once.
+        switch (state.payeeOf(debt)?.name) {
+          final payee? when payee != debt.name => '${debt.name} · $payee',
+          _ => debt.name,
+        },
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Column(

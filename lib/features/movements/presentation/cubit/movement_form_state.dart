@@ -31,6 +31,26 @@ abstract class MovementFormState with _$MovementFormState {
     @Default(<Category>[]) List<Category> categories,
     @Default(<Currency>[]) List<Currency> currencies,
     @Default(<Payee>[]) List<Payee> payees,
+
+    /// Every debt with its status, and the pillars a new debt can take.
+    @Default(<DebtWithStatus>[]) List<DebtWithStatus> debts,
+    @Default(<Pillar>[]) List<Pillar> pillars,
+
+    /// The debt picked; `null` with [newDebt] or before picking.
+    int? debtId,
+
+    /// The movement creates its debt (RF-09).
+    @Default(false) bool newDebt,
+
+    /// Whether the user picked the debt; then the payee no longer does.
+    @Default(false) bool debtTouched,
+
+    /// Name of a new debt; the payee's when empty.
+    @Default('') String debtName,
+    int? debtPillarId,
+
+    /// What a loan received leaves pending; the amount when empty.
+    @Default('') String debtPendingText,
     @Default(<MovementError>{}) Set<MovementError> errors,
     @Default(false) bool showErrors,
 
@@ -69,10 +89,64 @@ abstract class MovementFormState with _$MovementFormState {
         : CategoryType.expense;
     return [
       for (final c in categories)
-        if (c.type == categoryType && !c.isArchived && !c.role.needsDebt ||
+        if (c.type == categoryType && !c.isArchived ||
             c.id == original?.categoryId)
           c,
     ];
+  }
+
+  /// Type of the debt the category works with, if any (RF-09).
+  DebtType? get debtType {
+    final role = category?.role;
+    return role == null ? null : DebtRules.typeFor(role);
+  }
+
+  /// A loan received always creates its debt; it shows no picker.
+  bool get alwaysNewDebt =>
+      !isEditing && category?.role == CategoryRole.loanReceived;
+
+  /// A loan given may create its debt instead of adding to one.
+  bool get mayCreateDebt =>
+      !isEditing && category?.role == CategoryRole.loanGiven;
+
+  /// The movement creates its debt: always for a loan received.
+  bool get createsDebt => alwaysNewDebt || (mayCreateDebt && newDebt);
+
+  /// Debts of the category's type in the account's currency that are still
+  /// open, plus the stored one.
+  List<DebtWithStatus> get debtOptions {
+    final type = debtType;
+    if (type == null) return const [];
+    return [
+      for (final line in debts)
+        if (line.debt.type == type &&
+            line.debt.currencyCode == account?.currencyCode &&
+            (!line.status.isPaidOff || line.debt.id == original?.debtId))
+          line,
+    ];
+  }
+
+  DebtWithStatus? get debt =>
+      debts.where((d) => d.debt.id == debtId).firstOrNull;
+
+  /// A movement on an existing debt takes the debt's payee.
+  bool get showsPayee => debtType == null || createsDebt;
+
+  /// What the form tells the save about its debt.
+  DebtChoice? get debtChoice {
+    if (debtType == null) return null;
+    if (createsDebt) {
+      final pending = debtPendingText.trim().isEmpty
+          ? null
+          : AmountParser.parse(debtPendingText, format);
+      return NewDebt(
+        name: debtName,
+        pillarId: debtPillarId,
+        initialPending: pending,
+      );
+    }
+    final id = debtId;
+    return id == null ? null : ExistingDebt(id);
   }
 
   /// Payee names that match what is typed (RF-07).

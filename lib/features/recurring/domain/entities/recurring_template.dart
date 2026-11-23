@@ -53,6 +53,10 @@ abstract class RecurringTemplate with _$RecurringTemplate {
 
     /// A paused template creates nothing.
     @Default(true) bool isActive,
+
+    /// The debt a template of Debt payment or Loan repaid pays or collects
+    /// (RF-09), such as a mortgage's installment.
+    int? debtId,
   }) = _RecurringTemplate;
 
   const new _();
@@ -69,6 +73,7 @@ abstract class RecurringTemplate with _$RecurringTemplate {
     payeeId: payeeId,
     note: note,
     recurringTemplateId: id,
+    debtId: debtId,
     isPending: true,
   );
 }

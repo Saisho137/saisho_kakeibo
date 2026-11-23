@@ -1,4 +1,5 @@
 import 'package:saisho_kakeibo/core/text/text_normalizer.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 
 /// A field of the debt form that does not pass the rules.
@@ -17,6 +18,24 @@ abstract final class DebtRules {
   static const int maxNameLength = 30;
   static const int minDueDay = 1;
   static const int maxDueDay = 31;
+
+  /// Type of the debt a core category works with (RF-09): Loan received
+  /// and Debt payment, what I owe; Loan given and Loan repaid, what I am
+  /// owed. `null` for the other categories.
+  static DebtType? typeFor(CategoryRole role) => switch (role) {
+    CategoryRole.loanReceived || CategoryRole.debtPayment => DebtType.iOwe,
+    CategoryRole.loanGiven || CategoryRole.loanRepaid => DebtType.owedToMe,
+    _ => null,
+  };
+
+  /// Whether a movement of [role] may create its debt: a loan received
+  /// always does; a loan given does unless it adds to an open one.
+  static bool createsDebt(CategoryRole role) =>
+      role == CategoryRole.loanReceived || role == CategoryRole.loanGiven;
+
+  /// Whether [role] only works with a debt that already exists.
+  static bool needsExistingDebt(CategoryRole role) =>
+      role == CategoryRole.debtPayment || role == CategoryRole.loanRepaid;
 
   /// Cleans the name and drops the fields of the other type: a debt owed
   /// to me has no pillar nor monthly day; one I owe has no single date.

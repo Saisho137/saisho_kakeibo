@@ -12,6 +12,8 @@ abstract interface class MovementRepository {
   /// Every movement, newest first.
   Stream<List<Movement>> watchAll();
 
+  Future<Result<List<Movement>>> getAll();
+
   Stream<List<Payee>> watchPayees();
 
   Future<Result<Movement?>> findById(int id);

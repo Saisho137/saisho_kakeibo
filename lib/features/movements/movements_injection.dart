@@ -27,13 +27,16 @@ void registerMovementsDependencies(GetIt getIt) {
     )
     ..registerFactory(() => WatchAccountMovements(getIt()))
     ..registerFactory(() => WatchPayees(getIt()))
-    ..registerFactory(() => DeleteMovement(getIt()))
+    ..registerFactory(
+      () => DeleteMovement(getIt(), debts: getIt(), categories: getIt()),
+    )
     ..registerFactory(
       () => SaveMovement(
         movements: getIt(),
         accounts: getIt(),
         categories: getIt(),
         recurring: getIt(),
+        debts: getIt(),
       ),
     )
     ..registerFactory(
@@ -63,6 +66,8 @@ void registerMovementsDependencies(GetIt getIt) {
         suggestPeriodStart: getIt(),
         saveMovement: getIt(),
         deleteMovement: getIt(),
+        getDebts: getIt(),
+        getPillars: getIt(),
       ),
     )
     ..registerFactory(

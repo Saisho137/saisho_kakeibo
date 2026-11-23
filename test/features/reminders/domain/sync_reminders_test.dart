@@ -6,8 +6,10 @@ import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
+import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/repositories/account_repository.dart';
 import 'package:saisho_kakeibo/features/categories/domain/repositories/category_repository.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
 import 'package:saisho_kakeibo/features/movements/domain/repositories/movement_repository.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 import 'package:saisho_kakeibo/features/reminders/domain/entities/reminder.dart';
@@ -33,6 +35,8 @@ class _MockCurrencies extends Mock implements CurrencyRepository;
 
 class _MockScheduler extends Mock implements ReminderScheduler;
 
+class _MockDebts extends Mock implements GetDebtStatuses;
+
 void main() {
   late _MockSettings settings;
   late _MockRecurring recurring;
@@ -41,11 +45,15 @@ void main() {
   late _MockMovements movements;
   late _MockCurrencies currencies;
   late _MockScheduler scheduler;
+  late _MockDebts debts;
 
   const cop = Currency(code: 'COP', symbol: r'$', format: CurrencyFormat.cop);
   final today = LocalDate(2026, 1, 20);
 
-  setUpAll(() => registerFallbackValue(<Reminder>[]));
+  setUpAll(() {
+    registerFallbackValue(<Reminder>[]);
+    registerFallbackValue(const NoParams());
+  });
 
   setUp(() {
     settings = _MockSettings();
@@ -55,6 +63,8 @@ void main() {
     movements = _MockMovements();
     currencies = _MockCurrencies();
     scheduler = _MockScheduler();
+    debts = _MockDebts();
+    when(() => debts(any())).thenAnswer((_) async => const Ok([]));
     when(() => settings.getSettings())
         .thenAnswer((_) async => const Ok(AppSettings(reminderMinutes: 450)));
     when(() => recurring.getTemplates())
@@ -79,6 +89,7 @@ void main() {
     movements: movements,
     currencies: currencies,
     scheduler: scheduler,
+    debts: debts,
   );
 
   group('SyncReminders', () {

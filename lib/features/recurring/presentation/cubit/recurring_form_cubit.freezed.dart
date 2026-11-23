@@ -17,7 +17,8 @@ mixin _$RecurringFormState {
 
  RecurringFormStatus get status;/// The stored template when editing; `null` when creating.
  RecurringTemplate? get original; MovementType get type; RecurringCadence get cadence; int? get categoryId; int? get accountId; int? get toAccountId; String get amountText;/// What a transfer adds to [toAccountId]; only between currencies.
- String get toAmountText; String? get payeeName; String get note; int? get dueDay; bool get remind; List<Account> get accounts; List<Category> get categories; List<Currency> get currencies; List<Payee> get payees; Set<MovementError> get errors; bool get showErrors;/// Last failure of a save or delete, shown once by the UI.
+ String get toAmountText; String? get payeeName; String get note; int? get dueDay; bool get remind; List<Account> get accounts; List<Category> get categories; List<Currency> get currencies; List<Payee> get payees;/// Debts with their status, for a template that pays one (RF-09).
+ List<DebtWithStatus> get debts; int? get debtId; Set<MovementError> get errors; bool get showErrors;/// Last failure of a save or delete, shown once by the UI.
  Failure? get failure;
 /// Create a copy of RecurringFormState
 /// with the given fields replaced by the non-null parameter values.
@@ -30,20 +31,20 @@ $RecurringFormStateCopyWith<RecurringFormState> get copyWith => _$RecurringFormS
 @override
 bool operator ==(Object other) {
   final _this = this as RecurringFormState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecurringFormState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.original, _this.original) || other.original == _this.original)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.cadence, _this.cadence) || other.cadence == _this.cadence)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.accountId, _this.accountId) || other.accountId == _this.accountId)&&(identical(other.toAccountId, _this.toAccountId) || other.toAccountId == _this.toAccountId)&&(identical(other.amountText, _this.amountText) || other.amountText == _this.amountText)&&(identical(other.toAmountText, _this.toAmountText) || other.toAmountText == _this.toAmountText)&&(identical(other.payeeName, _this.payeeName) || other.payeeName == _this.payeeName)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.dueDay, _this.dueDay) || other.dueDay == _this.dueDay)&&(identical(other.remind, _this.remind) || other.remind == _this.remind)&&const DeepCollectionEquality().equals(other.accounts, _this.accounts)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&const DeepCollectionEquality().equals(other.currencies, _this.currencies)&&const DeepCollectionEquality().equals(other.payees, _this.payees)&&const DeepCollectionEquality().equals(other.errors, _this.errors)&&(identical(other.showErrors, _this.showErrors) || other.showErrors == _this.showErrors)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecurringFormState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.original, _this.original) || other.original == _this.original)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.cadence, _this.cadence) || other.cadence == _this.cadence)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.accountId, _this.accountId) || other.accountId == _this.accountId)&&(identical(other.toAccountId, _this.toAccountId) || other.toAccountId == _this.toAccountId)&&(identical(other.amountText, _this.amountText) || other.amountText == _this.amountText)&&(identical(other.toAmountText, _this.toAmountText) || other.toAmountText == _this.toAmountText)&&(identical(other.payeeName, _this.payeeName) || other.payeeName == _this.payeeName)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.dueDay, _this.dueDay) || other.dueDay == _this.dueDay)&&(identical(other.remind, _this.remind) || other.remind == _this.remind)&&const DeepCollectionEquality().equals(other.accounts, _this.accounts)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&const DeepCollectionEquality().equals(other.currencies, _this.currencies)&&const DeepCollectionEquality().equals(other.payees, _this.payees)&&const DeepCollectionEquality().equals(other.debts, _this.debts)&&(identical(other.debtId, _this.debtId) || other.debtId == _this.debtId)&&const DeepCollectionEquality().equals(other.errors, _this.errors)&&(identical(other.showErrors, _this.showErrors) || other.showErrors == _this.showErrors)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
 }
 
 
 @override
 int get hashCode {
   final _this = this as RecurringFormState;
-  return Object.hashAll([runtimeType,_this.status,_this.original,_this.type,_this.cadence,_this.categoryId,_this.accountId,_this.toAccountId,_this.amountText,_this.toAmountText,_this.payeeName,_this.note,_this.dueDay,_this.remind,const DeepCollectionEquality().hash(_this.accounts),const DeepCollectionEquality().hash(_this.categories),const DeepCollectionEquality().hash(_this.currencies),const DeepCollectionEquality().hash(_this.payees),const DeepCollectionEquality().hash(_this.errors),_this.showErrors,_this.failure]);
+  return Object.hashAll([runtimeType,_this.status,_this.original,_this.type,_this.cadence,_this.categoryId,_this.accountId,_this.toAccountId,_this.amountText,_this.toAmountText,_this.payeeName,_this.note,_this.dueDay,_this.remind,const DeepCollectionEquality().hash(_this.accounts),const DeepCollectionEquality().hash(_this.categories),const DeepCollectionEquality().hash(_this.currencies),const DeepCollectionEquality().hash(_this.payees),const DeepCollectionEquality().hash(_this.debts),_this.debtId,const DeepCollectionEquality().hash(_this.errors),_this.showErrors,_this.failure]);
 }
 
 @override
 String toString() {
   final _this = this as RecurringFormState;
-  return 'RecurringFormState(status: ${_this.status}, original: ${_this.original}, type: ${_this.type}, cadence: ${_this.cadence}, categoryId: ${_this.categoryId}, accountId: ${_this.accountId}, toAccountId: ${_this.toAccountId}, amountText: ${_this.amountText}, toAmountText: ${_this.toAmountText}, payeeName: ${_this.payeeName}, note: ${_this.note}, dueDay: ${_this.dueDay}, remind: ${_this.remind}, accounts: ${_this.accounts}, categories: ${_this.categories}, currencies: ${_this.currencies}, payees: ${_this.payees}, errors: ${_this.errors}, showErrors: ${_this.showErrors}, failure: ${_this.failure})';
+  return 'RecurringFormState(status: ${_this.status}, original: ${_this.original}, type: ${_this.type}, cadence: ${_this.cadence}, categoryId: ${_this.categoryId}, accountId: ${_this.accountId}, toAccountId: ${_this.toAccountId}, amountText: ${_this.amountText}, toAmountText: ${_this.toAmountText}, payeeName: ${_this.payeeName}, note: ${_this.note}, dueDay: ${_this.dueDay}, remind: ${_this.remind}, accounts: ${_this.accounts}, categories: ${_this.categories}, currencies: ${_this.currencies}, payees: ${_this.payees}, debts: ${_this.debts}, debtId: ${_this.debtId}, errors: ${_this.errors}, showErrors: ${_this.showErrors}, failure: ${_this.failure})';
 }
 
 
@@ -54,7 +55,7 @@ abstract mixin class $RecurringFormStateCopyWith<$Res>  {
   factory $RecurringFormStateCopyWith(RecurringFormState value, $Res Function(RecurringFormState) _then) = _$RecurringFormStateCopyWithImpl;
 @useResult
 $Res call({
- RecurringFormStatus status, RecurringTemplate? original, MovementType type, RecurringCadence cadence, int? categoryId, int? accountId, int? toAccountId, String amountText, String toAmountText, String? payeeName, String note, int? dueDay, bool remind, List<Account> accounts, List<Category> categories, List<Currency> currencies, List<Payee> payees, Set<MovementError> errors, bool showErrors, Failure? failure
+ RecurringFormStatus status, RecurringTemplate? original, MovementType type, RecurringCadence cadence, int? categoryId, int? accountId, int? toAccountId, String amountText, String toAmountText, String? payeeName, String note, int? dueDay, bool remind, List<Account> accounts, List<Category> categories, List<Currency> currencies, List<Payee> payees, List<DebtWithStatus> debts, int? debtId, Set<MovementError> errors, bool showErrors, Failure? failure
 });
 
 
@@ -71,7 +72,7 @@ class _$RecurringFormStateCopyWithImpl<$Res>
 
 /// Create a copy of RecurringFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? original = freezed,Object? type = null,Object? cadence = null,Object? categoryId = freezed,Object? accountId = freezed,Object? toAccountId = freezed,Object? amountText = null,Object? toAmountText = null,Object? payeeName = freezed,Object? note = null,Object? dueDay = freezed,Object? remind = null,Object? accounts = null,Object? categories = null,Object? currencies = null,Object? payees = null,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? original = freezed,Object? type = null,Object? cadence = null,Object? categoryId = freezed,Object? accountId = freezed,Object? toAccountId = freezed,Object? amountText = null,Object? toAmountText = null,Object? payeeName = freezed,Object? note = null,Object? dueDay = freezed,Object? remind = null,Object? accounts = null,Object? categories = null,Object? currencies = null,Object? payees = null,Object? debts = null,Object? debtId = freezed,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
   return _then(RecurringFormState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as RecurringFormStatus,original: freezed == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
@@ -90,7 +91,9 @@ as bool,accounts: null == accounts ? _self.accounts : accounts // ignore: cast_n
 as List<Account>,categories: null == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
 as List<Category>,currencies: null == currencies ? _self.currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,payees: null == payees ? _self.payees : payees // ignore: cast_nullable_to_non_nullable
-as List<Payee>,errors: null == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
+as List<Payee>,debts: null == debts ? _self.debts : debts // ignore: cast_nullable_to_non_nullable
+as List<DebtWithStatus>,debtId: freezed == debtId ? _self.debtId : debtId // ignore: cast_nullable_to_non_nullable
+as int?,errors: null == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
 as Set<MovementError>,showErrors: null == showErrors ? _self.showErrors : showErrors // ignore: cast_nullable_to_non_nullable
 as bool,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
@@ -190,10 +193,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RecurringFormStatus status,  RecurringTemplate? original,  MovementType type,  RecurringCadence cadence,  int? categoryId,  int? accountId,  int? toAccountId,  String amountText,  String toAmountText,  String? payeeName,  String note,  int? dueDay,  bool remind,  List<Account> accounts,  List<Category> categories,  List<Currency> currencies,  List<Payee> payees,  Set<MovementError> errors,  bool showErrors,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RecurringFormStatus status,  RecurringTemplate? original,  MovementType type,  RecurringCadence cadence,  int? categoryId,  int? accountId,  int? toAccountId,  String amountText,  String toAmountText,  String? payeeName,  String note,  int? dueDay,  bool remind,  List<Account> accounts,  List<Category> categories,  List<Currency> currencies,  List<Payee> payees,  List<DebtWithStatus> debts,  int? debtId,  Set<MovementError> errors,  bool showErrors,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RecurringFormState() when $default != null:
-return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categoryId,_that.accountId,_that.toAccountId,_that.amountText,_that.toAmountText,_that.payeeName,_that.note,_that.dueDay,_that.remind,_that.accounts,_that.categories,_that.currencies,_that.payees,_that.errors,_that.showErrors,_that.failure);case _:
+return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categoryId,_that.accountId,_that.toAccountId,_that.amountText,_that.toAmountText,_that.payeeName,_that.note,_that.dueDay,_that.remind,_that.accounts,_that.categories,_that.currencies,_that.payees,_that.debts,_that.debtId,_that.errors,_that.showErrors,_that.failure);case _:
   return orElse();
 
 }
@@ -211,10 +214,10 @@ return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categ
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RecurringFormStatus status,  RecurringTemplate? original,  MovementType type,  RecurringCadence cadence,  int? categoryId,  int? accountId,  int? toAccountId,  String amountText,  String toAmountText,  String? payeeName,  String note,  int? dueDay,  bool remind,  List<Account> accounts,  List<Category> categories,  List<Currency> currencies,  List<Payee> payees,  Set<MovementError> errors,  bool showErrors,  Failure? failure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RecurringFormStatus status,  RecurringTemplate? original,  MovementType type,  RecurringCadence cadence,  int? categoryId,  int? accountId,  int? toAccountId,  String amountText,  String toAmountText,  String? payeeName,  String note,  int? dueDay,  bool remind,  List<Account> accounts,  List<Category> categories,  List<Currency> currencies,  List<Payee> payees,  List<DebtWithStatus> debts,  int? debtId,  Set<MovementError> errors,  bool showErrors,  Failure? failure)  $default,) {final _that = this;
 switch (_that) {
 case _RecurringFormState():
-return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categoryId,_that.accountId,_that.toAccountId,_that.amountText,_that.toAmountText,_that.payeeName,_that.note,_that.dueDay,_that.remind,_that.accounts,_that.categories,_that.currencies,_that.payees,_that.errors,_that.showErrors,_that.failure);case _:
+return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categoryId,_that.accountId,_that.toAccountId,_that.amountText,_that.toAmountText,_that.payeeName,_that.note,_that.dueDay,_that.remind,_that.accounts,_that.categories,_that.currencies,_that.payees,_that.debts,_that.debtId,_that.errors,_that.showErrors,_that.failure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -231,10 +234,10 @@ return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categ
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RecurringFormStatus status,  RecurringTemplate? original,  MovementType type,  RecurringCadence cadence,  int? categoryId,  int? accountId,  int? toAccountId,  String amountText,  String toAmountText,  String? payeeName,  String note,  int? dueDay,  bool remind,  List<Account> accounts,  List<Category> categories,  List<Currency> currencies,  List<Payee> payees,  Set<MovementError> errors,  bool showErrors,  Failure? failure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RecurringFormStatus status,  RecurringTemplate? original,  MovementType type,  RecurringCadence cadence,  int? categoryId,  int? accountId,  int? toAccountId,  String amountText,  String toAmountText,  String? payeeName,  String note,  int? dueDay,  bool remind,  List<Account> accounts,  List<Category> categories,  List<Currency> currencies,  List<Payee> payees,  List<DebtWithStatus> debts,  int? debtId,  Set<MovementError> errors,  bool showErrors,  Failure? failure)?  $default,) {final _that = this;
 switch (_that) {
 case _RecurringFormState() when $default != null:
-return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categoryId,_that.accountId,_that.toAccountId,_that.amountText,_that.toAmountText,_that.payeeName,_that.note,_that.dueDay,_that.remind,_that.accounts,_that.categories,_that.currencies,_that.payees,_that.errors,_that.showErrors,_that.failure);case _:
+return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categoryId,_that.accountId,_that.toAccountId,_that.amountText,_that.toAmountText,_that.payeeName,_that.note,_that.dueDay,_that.remind,_that.accounts,_that.categories,_that.currencies,_that.payees,_that.debts,_that.debtId,_that.errors,_that.showErrors,_that.failure);case _:
   return null;
 
 }
@@ -246,7 +249,7 @@ return $default(_that.status,_that.original,_that.type,_that.cadence,_that.categ
 
 
 class _RecurringFormState extends RecurringFormState {
-  const _RecurringFormState({this.status = RecurringFormStatus.loading, this.original, this.type = MovementType.expense, this.cadence = RecurringCadence.period, this.categoryId, this.accountId, this.toAccountId, this.amountText = '', this.toAmountText = '', this.payeeName, this.note = '', this.dueDay, this.remind = false,  List<Account> accounts = const <Account>[],  List<Category> categories = const <Category>[],  List<Currency> currencies = const <Currency>[],  List<Payee> payees = const <Payee>[],  Set<MovementError> errors = const <MovementError>{}, this.showErrors = false, this.failure}): _accounts = accounts,_categories = categories,_currencies = currencies,_payees = payees,_errors = errors,super._();
+  const _RecurringFormState({this.status = RecurringFormStatus.loading, this.original, this.type = MovementType.expense, this.cadence = RecurringCadence.period, this.categoryId, this.accountId, this.toAccountId, this.amountText = '', this.toAmountText = '', this.payeeName, this.note = '', this.dueDay, this.remind = false,  List<Account> accounts = const <Account>[],  List<Category> categories = const <Category>[],  List<Currency> currencies = const <Currency>[],  List<Payee> payees = const <Payee>[],  List<DebtWithStatus> debts = const <DebtWithStatus>[], this.debtId,  Set<MovementError> errors = const <MovementError>{}, this.showErrors = false, this.failure}): _accounts = accounts,_categories = categories,_currencies = currencies,_payees = payees,_debts = debts,_errors = errors,super._();
   
 
 @override@JsonKey() final  RecurringFormStatus status;
@@ -292,6 +295,16 @@ class _RecurringFormState extends RecurringFormState {
   return EqualUnmodifiableListView(_payees);
 }
 
+/// Debts with their status, for a template that pays one (RF-09).
+ final  List<DebtWithStatus> _debts;
+/// Debts with their status, for a template that pays one (RF-09).
+@override@JsonKey() List<DebtWithStatus> get debts {
+  if (_debts is EqualUnmodifiableListView) return _debts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_debts);
+}
+
+@override final  int? debtId;
  final  Set<MovementError> _errors;
 @override@JsonKey() Set<MovementError> get errors {
   if (_errors is EqualUnmodifiableSetView) return _errors;
@@ -313,18 +326,18 @@ _$RecurringFormStateCopyWith<_RecurringFormState> get copyWith => __$RecurringFo
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecurringFormState&&(identical(other.status, status) || other.status == status)&&(identical(other.original, original) || other.original == original)&&(identical(other.type, type) || other.type == type)&&(identical(other.cadence, cadence) || other.cadence == cadence)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.accountId, accountId) || other.accountId == accountId)&&(identical(other.toAccountId, toAccountId) || other.toAccountId == toAccountId)&&(identical(other.amountText, amountText) || other.amountText == amountText)&&(identical(other.toAmountText, toAmountText) || other.toAmountText == toAmountText)&&(identical(other.payeeName, payeeName) || other.payeeName == payeeName)&&(identical(other.note, note) || other.note == note)&&(identical(other.dueDay, dueDay) || other.dueDay == dueDay)&&(identical(other.remind, remind) || other.remind == remind)&&const DeepCollectionEquality().equals(other.accounts, _accounts)&&const DeepCollectionEquality().equals(other.categories, _categories)&&const DeepCollectionEquality().equals(other.currencies, _currencies)&&const DeepCollectionEquality().equals(other.payees, _payees)&&const DeepCollectionEquality().equals(other.errors, _errors)&&(identical(other.showErrors, showErrors) || other.showErrors == showErrors)&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecurringFormState&&(identical(other.status, status) || other.status == status)&&(identical(other.original, original) || other.original == original)&&(identical(other.type, type) || other.type == type)&&(identical(other.cadence, cadence) || other.cadence == cadence)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.accountId, accountId) || other.accountId == accountId)&&(identical(other.toAccountId, toAccountId) || other.toAccountId == toAccountId)&&(identical(other.amountText, amountText) || other.amountText == amountText)&&(identical(other.toAmountText, toAmountText) || other.toAmountText == toAmountText)&&(identical(other.payeeName, payeeName) || other.payeeName == payeeName)&&(identical(other.note, note) || other.note == note)&&(identical(other.dueDay, dueDay) || other.dueDay == dueDay)&&(identical(other.remind, remind) || other.remind == remind)&&const DeepCollectionEquality().equals(other.accounts, _accounts)&&const DeepCollectionEquality().equals(other.categories, _categories)&&const DeepCollectionEquality().equals(other.currencies, _currencies)&&const DeepCollectionEquality().equals(other.payees, _payees)&&const DeepCollectionEquality().equals(other.debts, _debts)&&(identical(other.debtId, debtId) || other.debtId == debtId)&&const DeepCollectionEquality().equals(other.errors, _errors)&&(identical(other.showErrors, showErrors) || other.showErrors == showErrors)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
 int get hashCode {
-    return Object.hashAll([runtimeType,status,original,type,cadence,categoryId,accountId,toAccountId,amountText,toAmountText,payeeName,note,dueDay,remind,const DeepCollectionEquality().hash(_accounts),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_currencies),const DeepCollectionEquality().hash(_payees),const DeepCollectionEquality().hash(_errors),showErrors,failure]);
+    return Object.hashAll([runtimeType,status,original,type,cadence,categoryId,accountId,toAccountId,amountText,toAmountText,payeeName,note,dueDay,remind,const DeepCollectionEquality().hash(_accounts),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_currencies),const DeepCollectionEquality().hash(_payees),const DeepCollectionEquality().hash(_debts),debtId,const DeepCollectionEquality().hash(_errors),showErrors,failure]);
 }
 
 @override
 String toString() {
-    return 'RecurringFormState(status: $status, original: $original, type: $type, cadence: $cadence, categoryId: $categoryId, accountId: $accountId, toAccountId: $toAccountId, amountText: $amountText, toAmountText: $toAmountText, payeeName: $payeeName, note: $note, dueDay: $dueDay, remind: $remind, accounts: $accounts, categories: $categories, currencies: $currencies, payees: $payees, errors: $errors, showErrors: $showErrors, failure: $failure)';
+    return 'RecurringFormState(status: $status, original: $original, type: $type, cadence: $cadence, categoryId: $categoryId, accountId: $accountId, toAccountId: $toAccountId, amountText: $amountText, toAmountText: $toAmountText, payeeName: $payeeName, note: $note, dueDay: $dueDay, remind: $remind, accounts: $accounts, categories: $categories, currencies: $currencies, payees: $payees, debts: $debts, debtId: $debtId, errors: $errors, showErrors: $showErrors, failure: $failure)';
 }
 
 
@@ -335,7 +348,7 @@ abstract mixin class _$RecurringFormStateCopyWith<$Res> implements $RecurringFor
   factory _$RecurringFormStateCopyWith(_RecurringFormState value, $Res Function(_RecurringFormState) _then) = __$RecurringFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- RecurringFormStatus status, RecurringTemplate? original, MovementType type, RecurringCadence cadence, int? categoryId, int? accountId, int? toAccountId, String amountText, String toAmountText, String? payeeName, String note, int? dueDay, bool remind, List<Account> accounts, List<Category> categories, List<Currency> currencies, List<Payee> payees, Set<MovementError> errors, bool showErrors, Failure? failure
+ RecurringFormStatus status, RecurringTemplate? original, MovementType type, RecurringCadence cadence, int? categoryId, int? accountId, int? toAccountId, String amountText, String toAmountText, String? payeeName, String note, int? dueDay, bool remind, List<Account> accounts, List<Category> categories, List<Currency> currencies, List<Payee> payees, List<DebtWithStatus> debts, int? debtId, Set<MovementError> errors, bool showErrors, Failure? failure
 });
 
 
@@ -352,7 +365,7 @@ class __$RecurringFormStateCopyWithImpl<$Res>
 
 /// Create a copy of RecurringFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? original = freezed,Object? type = null,Object? cadence = null,Object? categoryId = freezed,Object? accountId = freezed,Object? toAccountId = freezed,Object? amountText = null,Object? toAmountText = null,Object? payeeName = freezed,Object? note = null,Object? dueDay = freezed,Object? remind = null,Object? accounts = null,Object? categories = null,Object? currencies = null,Object? payees = null,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? original = freezed,Object? type = null,Object? cadence = null,Object? categoryId = freezed,Object? accountId = freezed,Object? toAccountId = freezed,Object? amountText = null,Object? toAmountText = null,Object? payeeName = freezed,Object? note = null,Object? dueDay = freezed,Object? remind = null,Object? accounts = null,Object? categories = null,Object? currencies = null,Object? payees = null,Object? debts = null,Object? debtId = freezed,Object? errors = null,Object? showErrors = null,Object? failure = freezed,}) {
   return _then(_RecurringFormState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as RecurringFormStatus,original: freezed == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
@@ -371,7 +384,9 @@ as bool,accounts: null == accounts ? _self._accounts : accounts // ignore: cast_
 as List<Account>,categories: null == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<Category>,currencies: null == currencies ? _self._currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,payees: null == payees ? _self._payees : payees // ignore: cast_nullable_to_non_nullable
-as List<Payee>,errors: null == errors ? _self._errors : errors // ignore: cast_nullable_to_non_nullable
+as List<Payee>,debts: null == debts ? _self._debts : debts // ignore: cast_nullable_to_non_nullable
+as List<DebtWithStatus>,debtId: freezed == debtId ? _self.debtId : debtId // ignore: cast_nullable_to_non_nullable
+as int?,errors: null == errors ? _self._errors : errors // ignore: cast_nullable_to_non_nullable
 as Set<MovementError>,showErrors: null == showErrors ? _self.showErrors : showErrors // ignore: cast_nullable_to_non_nullable
 as bool,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,

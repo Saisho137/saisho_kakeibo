@@ -26,6 +26,7 @@ void registerRecurringDependencies(GetIt getIt) {
         recurring: getIt(),
         accounts: getIt(),
         categories: getIt(),
+        debts: getIt(),
       ),
     )
     ..registerFactory(
@@ -34,6 +35,7 @@ void registerRecurringDependencies(GetIt getIt) {
         periods: getIt(),
         settings: getIt(),
         accounts: getIt(),
+        debts: getIt(),
       ),
     )
     ..registerFactory(
@@ -56,6 +58,7 @@ void registerRecurringDependencies(GetIt getIt) {
         getTemplate: getIt(),
         saveTemplate: getIt(),
         deleteTemplate: getIt(),
+        getDebts: getIt(),
       ),
     );
 }

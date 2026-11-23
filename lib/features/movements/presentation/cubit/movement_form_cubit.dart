@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:saisho_kakeibo/core/error/failure.dart';
 import 'package:saisho_kakeibo/core/error/result.dart';
 import 'package:saisho_kakeibo/core/money/amount_input.dart';
+import 'package:saisho_kakeibo/core/money/amount_parser.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/text/text_normalizer.dart';
@@ -13,7 +14,13 @@ import 'package:saisho_kakeibo/features/accounts/domain/entities/accounts_x.dart
 import 'package:saisho_kakeibo/features/accounts/domain/usecases/get_accounts.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/categories_x.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
+import 'package:saisho_kakeibo/features/categories/domain/entities/pillar.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/get_categories.dart';
+import 'package:saisho_kakeibo/features/categories/domain/usecases/get_pillars.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
+import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/debt_choice.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement_draft.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
@@ -41,6 +48,8 @@ class MovementFormCubit extends Cubit<MovementFormState> {
     required this._suggestPeriodStart,
     required this._saveMovement,
     required this._deleteMovement,
+    required this._getDebts,
+    required this._getPillars,
   }) : super(const MovementFormState());
 
   final GetAccounts _getAccounts;
@@ -52,16 +61,20 @@ class MovementFormCubit extends Cubit<MovementFormState> {
   final SuggestPeriodStart _suggestPeriodStart;
   final SaveMovement _saveMovement;
   final DeleteMovement _deleteMovement;
+  final GetDebtStatuses _getDebts;
+  final GetPillars _getPillars;
 
   /// Days between period starts, from Settings.
   int _minDays = 21;
 
   /// Starts a movement of [type] from a [categoryId] or a [payeeId], or
-  /// loads the movement [id] to edit it.
+  /// loads the movement [id] to edit it. [debtId] starts the payment of
+  /// that debt, with its installment ("Pay", RF-09).
   Future<void> load({
     MovementType type = MovementType.expense,
     int? categoryId,
     int? payeeId,
+    int? debtId,
     int? id,
     int minDays = 21,
   }) async {
@@ -92,11 +105,15 @@ class MovementFormCubit extends Cubit<MovementFormState> {
         );
         return;
     }
+    final debts = await _getDebts(const NoParams());
+    final pillars = await _getPillars(const NoParams());
     final loaded = state.copyWith(
       accounts: accounts,
       categories: categories,
       currencies: currencies,
       payees: payees,
+      debts: debts is Ok<List<DebtWithStatus>> ? debts.value : const [],
+      pillars: pillars is Ok<List<Pillar>> ? pillars.value : const [],
     );
 
     if (id != null) {
@@ -121,6 +138,8 @@ class MovementFormCubit extends Cubit<MovementFormState> {
         note: movement.note ?? '',
         startsPeriod: movement.startsPeriod,
         isPending: movement.isPending,
+        debtId: movement.debtId,
+        debtTouched: true,
       );
       emit(
         next.copyWith(
@@ -139,14 +158,19 @@ class MovementFormCubit extends Cubit<MovementFormState> {
       ),
     );
     final draft = drafted is Ok<MovementDraft> ? drafted.value : null;
-    final next = loaded.copyWith(
-      type: type,
-      categoryId: draft?.categoryId ?? categoryId,
-      accountId: draft?.accountId,
-      payeeName: draft?.payeeName,
-      date: LocalDate.today(),
+    final paid = loaded.debts.where((d) => d.debt.id == debtId).firstOrNull;
+    final next = _withDebtDefaults(
+      loaded.copyWith(
+        type: type,
+        categoryId: draft?.categoryId ?? categoryId,
+        accountId: draft?.accountId,
+        payeeName: draft?.payeeName,
+        date: LocalDate.today(),
+        debtId: paid?.debt.id,
+        debtTouched: paid != null,
+      ),
     );
-    final amount = draft?.amount;
+    final amount = draft?.amount ?? paid?.debt.installment;
     emit(
       next.copyWith(
         status: MovementFormStatus.editing,
@@ -173,7 +197,44 @@ class MovementFormCubit extends Cubit<MovementFormState> {
     );
   }
 
-  void categoryChanged(int id) => _change(state.copyWith(categoryId: id));
+  /// Another category starts its debt choice over.
+  void categoryChanged(int id) => _change(
+    _withDebtDefaults(
+      state.copyWith(
+        categoryId: id,
+        debtId: null,
+        debtTouched: false,
+        newDebt: false,
+      ),
+    ),
+  );
+
+  /// Picks the debt the movement pays, collects or adds to; `null` with a
+  /// loan given creates a new one. A new movement takes its installment.
+  void debtChanged(int? id) {
+    final next = state.copyWith(
+      debtId: id,
+      newDebt: id == null,
+      debtTouched: true,
+    );
+    final installment = next.debt?.debt.installment;
+    final empty = state.amount.evaluate(state.format) ?? 0;
+    _change(
+      !state.isEditing && installment != null && empty == 0
+          ? next.copyWith(
+              amount: AmountInput.fromMinor(installment, next.format),
+              amountSelected: true,
+            )
+          : next,
+    );
+  }
+
+  void debtNameChanged(String name) => _change(state.copyWith(debtName: name));
+
+  void debtPillarChanged(int? id) => _change(state.copyWith(debtPillarId: id));
+
+  void debtPendingChanged(String text) =>
+      _change(state.copyWith(debtPendingText: text));
 
   /// An account in a currency with other decimals clears the amount, so it
   /// is never read with the wrong number of decimals.
@@ -187,7 +248,33 @@ class MovementFormCubit extends Cubit<MovementFormState> {
     );
   }
 
-  void payeeChanged(String name) => _change(state.copyWith(payeeName: name));
+  /// A loan given to someone who already owes adds to that debt unless the
+  /// user picked another (RF-09).
+  void payeeChanged(String name) =>
+      _change(_withDebtDefaults(state.copyWith(payeeName: name)));
+
+  /// Defaults of the debt choice: a loan given adds to the open debt of its
+  /// payee, or creates one; a single open debt to pay is picked for the
+  /// user.
+  static MovementFormState _withDebtDefaults(MovementFormState form) {
+    if (form.debtTouched || form.isEditing) return form;
+    final role = form.category?.role;
+    if (role == CategoryRole.loanGiven) {
+      final key = TextNormalizer.key(form.payeeName ?? '');
+      final payee = form.payees.where((p) => p.key == key).firstOrNull;
+      final open = form.debtOptions
+          .where((d) => payee != null && d.debt.payeeId == payee.id)
+          .firstOrNull;
+      return form.copyWith(debtId: open?.debt.id, newDebt: open == null);
+    }
+    if (role != null && DebtRules.needsExistingDebt(role)) {
+      final options = form.debtOptions;
+      return form.copyWith(
+        debtId: options.length == 1 ? options.single.debt.id : form.debtId,
+      );
+    }
+    return form;
+  }
 
   void noteChanged(String note) => _change(state.copyWith(note: note));
 
@@ -208,7 +295,11 @@ class MovementFormCubit extends Cubit<MovementFormState> {
     }
     emit(state.copyWith(status: MovementFormStatus.saving, errors: {}));
     final result = await _saveMovement(
-      SaveMovementParams(movement, payeeName: state.payeeName),
+      SaveMovementParams(
+        movement,
+        payeeName: state.showsPayee ? state.payeeName : null,
+        debt: state.debtChoice,
+      ),
     );
     emit(switch (result) {
       Ok() => state.copyWith(status: MovementFormStatus.saved),
@@ -276,6 +367,15 @@ class MovementFormCubit extends Cubit<MovementFormState> {
       category: form.category,
     );
     if (amount == null) errors.add(MovementError.invalidAmount);
+    if (form.debtType != null) {
+      final payee = form.payeeName?.trim() ?? '';
+      if (form.createsDebt ? payee.isEmpty : form.debtId == null) {
+        errors.add(MovementError.missingDebt);
+      }
+      if (form.alwaysNewDebt && form.debtPillarId == null) {
+        errors.add(MovementError.missingDebtPillar);
+      }
+    }
     return (errors.isEmpty ? movement : null, errors);
   }
 }

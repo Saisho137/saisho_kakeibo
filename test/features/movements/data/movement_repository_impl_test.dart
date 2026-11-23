@@ -231,6 +231,10 @@ void main() {
       }
 
       expect(
+        (await repository.getAll() as Ok<List<Movement>>).value,
+        hasLength(3),
+      );
+      expect(
         repository.watchAll(),
         emits(
           isA<List<Movement>>().having(

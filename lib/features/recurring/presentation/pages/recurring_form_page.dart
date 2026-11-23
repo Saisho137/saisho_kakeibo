@@ -156,43 +156,43 @@ class _Form extends StatelessWidget {
           onSelectionChanged: (values) => cubit.typeChanged(values.single),
         ),
         const SizedBox(height: AppSpacing.md),
-        DropdownButtonFormField<int>(
-          // Otherwise closing the menu refocuses the last text field.
-          onTap: () => FocusScope.of(context).unfocus(),
-          key: ValueKey(('category', state.type, state.categoryId)),
-          initialValue:
-              state.categoryOptions.any((c) => c.id == state.categoryId)
-              ? state.categoryId
-              : null,
-          isExpanded: true,
-          items: [
-            for (final category in state.categoryOptions)
-              DropdownMenuItem(
-                value: category.id,
-                child: Row(
-                  children: [
-                    CatalogIconAvatar(
-                      iconKey: category.iconKey,
-                      color: Color(category.color),
-                      radius: 12,
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Flexible(
-                      child: Text(
-                        category.name,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-          ],
-          onChanged: cubit.categoryChanged,
-          decoration: InputDecoration(
-            labelText: l10n.recurringCategory,
-            errorText: errors.contains(MovementError.missingCategory)
-                ? l10n.movementErrorCategory
+        UnfocusOnPointer(
+          child: DropdownButtonFormField<int>(
+            key: ValueKey(('category', state.type, state.categoryId)),
+            initialValue:
+                state.categoryOptions.any((c) => c.id == state.categoryId)
+                ? state.categoryId
                 : null,
+            isExpanded: true,
+            items: [
+              for (final category in state.categoryOptions)
+                DropdownMenuItem(
+                  value: category.id,
+                  child: Row(
+                    children: [
+                      CatalogIconAvatar(
+                        iconKey: category.iconKey,
+                        color: Color(category.color),
+                        radius: 12,
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Flexible(
+                        child: Text(
+                          category.name,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+            onChanged: cubit.categoryChanged,
+            decoration: InputDecoration(
+              labelText: l10n.recurringCategory,
+              errorText: errors.contains(MovementError.missingCategory)
+                  ? l10n.movementErrorCategory
+                  : null,
+            ),
           ),
         ),
         _AccountField(
@@ -248,7 +248,35 @@ class _Form extends StatelessWidget {
             ),
             onChanged: cubit.toAmountChanged,
           ),
-        if (!isTransfer)
+        if (state.debtType != null)
+          UnfocusOnPointer(
+            child: DropdownButtonFormField<int>(
+              key: ValueKey(('debt', state.debtId)),
+              initialValue:
+                  state.debtOptions.any((d) => d.debt.id == state.debtId)
+                  ? state.debtId
+                  : null,
+              isExpanded: true,
+              items: [
+                for (final line in state.debtOptions)
+                  DropdownMenuItem(
+                    value: line.debt.id,
+                    child: Text(
+                      line.debt.name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              ],
+              onChanged: cubit.debtChanged,
+              decoration: InputDecoration(
+                labelText: l10n.movementDebt,
+                errorText: errors.contains(MovementError.missingDebt)
+                    ? l10n.movementErrorDebt
+                    : null,
+              ),
+            ),
+          ),
+        if (!isTransfer && state.debtType == null)
           TextFormField(
             key: const ValueKey('payee'),
             initialValue: state.payeeName,
@@ -357,24 +385,24 @@ class _AccountField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<int>(
-      // Otherwise closing the menu refocuses the last text field.
-      onTap: () => FocusScope.of(context).unfocus(),
-      key: ValueKey((label, value)),
-      initialValue: options.any((a) => a.id == value) ? value : null,
-      isExpanded: true,
-      items: [
-        for (final account in options)
-          DropdownMenuItem(
-            value: account.id,
-            child: Text(
-              '${account.name} · ${account.currencyCode}',
-              overflow: TextOverflow.ellipsis,
+    return UnfocusOnPointer(
+      child: DropdownButtonFormField<int>(
+        key: ValueKey((label, value)),
+        initialValue: options.any((a) => a.id == value) ? value : null,
+        isExpanded: true,
+        items: [
+          for (final account in options)
+            DropdownMenuItem(
+              value: account.id,
+              child: Text(
+                '${account.name} · ${account.currencyCode}',
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-      ],
-      onChanged: onChanged,
-      decoration: InputDecoration(labelText: label, errorText: errorText),
+        ],
+        onChanged: onChanged,
+        decoration: InputDecoration(labelText: label, errorText: errorText),
+      ),
     );
   }
 }

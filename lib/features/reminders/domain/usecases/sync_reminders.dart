@@ -4,6 +4,7 @@ import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/core/usecase/usecase.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/repositories/account_repository.dart';
 import 'package:saisho_kakeibo/features/categories/domain/repositories/category_repository.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
 import 'package:saisho_kakeibo/features/movements/domain/repositories/movement_repository.dart';
 import 'package:saisho_kakeibo/features/recurring/domain/repositories/recurring_repository.dart';
 import 'package:saisho_kakeibo/features/reminders/domain/repositories/reminder_scheduler.dart';
@@ -23,6 +24,7 @@ class SyncReminders implements UseCase<Future<Result<int>>, LocalDate> {
     required this._movements,
     required this._currencies,
     required this._scheduler,
+    required this._debts,
   });
 
   final SettingsRepository _settings;
@@ -32,6 +34,7 @@ class SyncReminders implements UseCase<Future<Result<int>>, LocalDate> {
   final MovementRepository _movements;
   final CurrencyRepository _currencies;
   final ReminderScheduler _scheduler;
+  final GetDebtStatuses _debts;
 
   @override
   Future<Result<int>> call(LocalDate today) async {
@@ -42,6 +45,7 @@ class SyncReminders implements UseCase<Future<Result<int>>, LocalDate> {
       await _categories.getCategories(),
       await _movements.getPayees(),
       await _currencies.getCurrencies(),
+      await _debts(const NoParams()),
     )) {
       case (
         Ok(value: final settings),
@@ -50,6 +54,7 @@ class SyncReminders implements UseCase<Future<Result<int>>, LocalDate> {
         Ok(value: final categories),
         Ok(value: final payees),
         Ok(value: final currencies),
+        Ok(value: final debts),
       ):
         try {
           if (!settings.notificationsEnabled) {
@@ -63,6 +68,7 @@ class SyncReminders implements UseCase<Future<Result<int>>, LocalDate> {
             payees: payees,
             currencies: currencies,
             today: today,
+            debts: debts,
           );
           await _scheduler.replaceAll(
             reminders,
@@ -72,12 +78,13 @@ class SyncReminders implements UseCase<Future<Result<int>>, LocalDate> {
         } on Exception catch (e) {
           return Err(UnexpectedFailure(e.toString()));
         }
-      case (Err(:final failure), _, _, _, _, _) ||
-          (_, Err(:final failure), _, _, _, _) ||
-          (_, _, Err(:final failure), _, _, _) ||
-          (_, _, _, Err(:final failure), _, _) ||
-          (_, _, _, _, Err(:final failure), _) ||
-          (_, _, _, _, _, Err(:final failure)):
+      case (Err(:final failure), _, _, _, _, _, _) ||
+          (_, Err(:final failure), _, _, _, _, _) ||
+          (_, _, Err(:final failure), _, _, _, _) ||
+          (_, _, _, Err(:final failure), _, _, _) ||
+          (_, _, _, _, Err(:final failure), _, _) ||
+          (_, _, _, _, _, Err(:final failure), _) ||
+          (_, _, _, _, _, _, Err(:final failure)):
         return Err(failure);
     }
   }

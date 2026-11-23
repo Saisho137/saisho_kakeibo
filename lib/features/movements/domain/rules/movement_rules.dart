@@ -12,6 +12,13 @@ enum MovementError {
   /// Only incomes and expenses have a payee.
   unexpectedPayee,
   noteTooLong,
+
+  /// A debt category without its debt, or a new debt without its payee
+  /// (RF-09). The quick entry checks it; the debt rules decide the rest.
+  missingDebt,
+
+  /// A loan received creates a debt I owe, which needs a pillar.
+  missingDebtPillar,
 }
 
 /// Rules of a movement (RT-04, RT-05).

@@ -32,7 +32,7 @@ class DonutPainter extends CustomPainter {
         canvas,
         arc,
         g.categoryRadius,
-        _stroke(Color(arc.item.category.color), g.categoryStroke),
+        _stroke(Color(arc.item.color), g.categoryStroke),
         gap: g.categoryArcs.length > 1 ? gap : 0,
       );
     }

@@ -3188,826 +3188,6 @@ class PayeesCompanion extends UpdateCompanion<PayeeRow> {
   }
 }
 
-class $RecurringTemplatesTable extends RecurringTemplates
-    with TableInfo<$RecurringTemplatesTable, RecurringTemplateRow> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $RecurringTemplatesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  @override
-  late final GeneratedColumnWithTypeConverter<MovementType, String> type =
-      GeneratedColumn<String>(
-        'type',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-      ).withConverter<MovementType>($RecurringTemplatesTable.$convertertype);
-  @override
-  late final GeneratedColumnWithTypeConverter<RecurringCadence, String>
-  cadence = GeneratedColumn<String>(
-    'cadence',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  ).withConverter<RecurringCadence>($RecurringTemplatesTable.$convertercadence);
-  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
-    'categoryId',
-  );
-  @override
-  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
-    'category_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES categories (id)',
-    ),
-  );
-  static const VerificationMeta _accountIdMeta = const VerificationMeta(
-    'accountId',
-  );
-  @override
-  late final GeneratedColumn<int> accountId = GeneratedColumn<int>(
-    'account_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES accounts (id) ON DELETE CASCADE',
-    ),
-  );
-  static const VerificationMeta _toAccountIdMeta = const VerificationMeta(
-    'toAccountId',
-  );
-  @override
-  late final GeneratedColumn<int> toAccountId = GeneratedColumn<int>(
-    'to_account_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES accounts (id) ON DELETE CASCADE',
-    ),
-  );
-  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
-  @override
-  late final GeneratedColumn<int> amount = GeneratedColumn<int>(
-    'amount',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _toAmountMeta = const VerificationMeta(
-    'toAmount',
-  );
-  @override
-  late final GeneratedColumn<int> toAmount = GeneratedColumn<int>(
-    'to_amount',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _payeeIdMeta = const VerificationMeta(
-    'payeeId',
-  );
-  @override
-  late final GeneratedColumn<int> payeeId = GeneratedColumn<int>(
-    'payee_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES payees (id)',
-    ),
-  );
-  static const VerificationMeta _noteMeta = const VerificationMeta('note');
-  @override
-  late final GeneratedColumn<String> note = GeneratedColumn<String>(
-    'note',
-    aliasedName,
-    true,
-    additionalChecks: GeneratedColumn.checkTextLength(),
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _dueDayMeta = const VerificationMeta('dueDay');
-  @override
-  late final GeneratedColumn<int> dueDay = GeneratedColumn<int>(
-    'due_day',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _remindMeta = const VerificationMeta('remind');
-  @override
-  late final GeneratedColumn<bool> remind = GeneratedColumn<bool>(
-    'remind',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("remind" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  static const VerificationMeta _isActiveMeta = const VerificationMeta(
-    'isActive',
-  );
-  @override
-  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
-    'is_active',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_active" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
-  @override
-  late final GeneratedColumnWithTypeConverter<LocalDate, String> createdOn =
-      GeneratedColumn<String>(
-        'created_on',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-      ).withConverter<LocalDate>($RecurringTemplatesTable.$convertercreatedOn);
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    type,
-    cadence,
-    categoryId,
-    accountId,
-    toAccountId,
-    amount,
-    toAmount,
-    payeeId,
-    note,
-    dueDay,
-    remind,
-    isActive,
-    createdOn,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'recurring_templates';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<RecurringTemplateRow> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('category_id')) {
-      context.handle(
-        _categoryIdMeta,
-        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_categoryIdMeta);
-    }
-    if (data.containsKey('account_id')) {
-      context.handle(
-        _accountIdMeta,
-        accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_accountIdMeta);
-    }
-    if (data.containsKey('to_account_id')) {
-      context.handle(
-        _toAccountIdMeta,
-        toAccountId.isAcceptableOrUnknown(
-          data['to_account_id']!,
-          _toAccountIdMeta,
-        ),
-      );
-    }
-    if (data.containsKey('amount')) {
-      context.handle(
-        _amountMeta,
-        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_amountMeta);
-    }
-    if (data.containsKey('to_amount')) {
-      context.handle(
-        _toAmountMeta,
-        toAmount.isAcceptableOrUnknown(data['to_amount']!, _toAmountMeta),
-      );
-    }
-    if (data.containsKey('payee_id')) {
-      context.handle(
-        _payeeIdMeta,
-        payeeId.isAcceptableOrUnknown(data['payee_id']!, _payeeIdMeta),
-      );
-    }
-    if (data.containsKey('note')) {
-      context.handle(
-        _noteMeta,
-        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
-      );
-    }
-    if (data.containsKey('due_day')) {
-      context.handle(
-        _dueDayMeta,
-        dueDay.isAcceptableOrUnknown(data['due_day']!, _dueDayMeta),
-      );
-    }
-    if (data.containsKey('remind')) {
-      context.handle(
-        _remindMeta,
-        remind.isAcceptableOrUnknown(data['remind']!, _remindMeta),
-      );
-    }
-    if (data.containsKey('is_active')) {
-      context.handle(
-        _isActiveMeta,
-        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  RecurringTemplateRow map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return RecurringTemplateRow(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      type: $RecurringTemplatesTable.$convertertype.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}type'],
-        )!,
-      ),
-      cadence: $RecurringTemplatesTable.$convertercadence.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}cadence'],
-        )!,
-      ),
-      categoryId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}category_id'],
-      )!,
-      accountId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}account_id'],
-      )!,
-      toAccountId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}to_account_id'],
-      ),
-      amount: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}amount'],
-      )!,
-      toAmount: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}to_amount'],
-      ),
-      payeeId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}payee_id'],
-      ),
-      note: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}note'],
-      ),
-      dueDay: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}due_day'],
-      ),
-      remind: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}remind'],
-      )!,
-      isActive: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_active'],
-      )!,
-      createdOn: $RecurringTemplatesTable.$convertercreatedOn.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}created_on'],
-        )!,
-      ),
-    );
-  }
-
-  @override
-  $RecurringTemplatesTable createAlias(String alias) {
-    return $RecurringTemplatesTable(attachedDatabase, alias);
-  }
-
-  static JsonTypeConverter2<MovementType, String, String> $convertertype =
-      const EnumNameConverter<MovementType>(MovementType.values);
-  static JsonTypeConverter2<RecurringCadence, String, String>
-  $convertercadence = const EnumNameConverter<RecurringCadence>(
-    RecurringCadence.values,
-  );
-  static TypeConverter<LocalDate, String> $convertercreatedOn =
-      const LocalDateConverter();
-}
-
-class RecurringTemplateRow extends DataClass
-    implements Insertable<RecurringTemplateRow> {
-  final int id;
-  final MovementType type;
-  final RecurringCadence cadence;
-  final int categoryId;
-  final int accountId;
-  final int? toAccountId;
-  final int amount;
-  final int? toAmount;
-  final int? payeeId;
-  final String? note;
-  final int? dueDay;
-  final bool remind;
-  final bool isActive;
-  final LocalDate createdOn;
-  const RecurringTemplateRow({
-    required this.id,
-    required this.type,
-    required this.cadence,
-    required this.categoryId,
-    required this.accountId,
-    this.toAccountId,
-    required this.amount,
-    this.toAmount,
-    this.payeeId,
-    this.note,
-    this.dueDay,
-    required this.remind,
-    required this.isActive,
-    required this.createdOn,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    {
-      map['type'] = Variable<String>(
-        $RecurringTemplatesTable.$convertertype.toSql(type),
-      );
-    }
-    {
-      map['cadence'] = Variable<String>(
-        $RecurringTemplatesTable.$convertercadence.toSql(cadence),
-      );
-    }
-    map['category_id'] = Variable<int>(categoryId);
-    map['account_id'] = Variable<int>(accountId);
-    if (!nullToAbsent || toAccountId != null) {
-      map['to_account_id'] = Variable<int>(toAccountId);
-    }
-    map['amount'] = Variable<int>(amount);
-    if (!nullToAbsent || toAmount != null) {
-      map['to_amount'] = Variable<int>(toAmount);
-    }
-    if (!nullToAbsent || payeeId != null) {
-      map['payee_id'] = Variable<int>(payeeId);
-    }
-    if (!nullToAbsent || note != null) {
-      map['note'] = Variable<String>(note);
-    }
-    if (!nullToAbsent || dueDay != null) {
-      map['due_day'] = Variable<int>(dueDay);
-    }
-    map['remind'] = Variable<bool>(remind);
-    map['is_active'] = Variable<bool>(isActive);
-    {
-      map['created_on'] = Variable<String>(
-        $RecurringTemplatesTable.$convertercreatedOn.toSql(createdOn),
-      );
-    }
-    return map;
-  }
-
-  RecurringTemplatesCompanion toCompanion(bool nullToAbsent) {
-    return RecurringTemplatesCompanion(
-      id: Value(id),
-      type: Value(type),
-      cadence: Value(cadence),
-      categoryId: Value(categoryId),
-      accountId: Value(accountId),
-      toAccountId: toAccountId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(toAccountId),
-      amount: Value(amount),
-      toAmount: toAmount == null && nullToAbsent
-          ? const Value.absent()
-          : Value(toAmount),
-      payeeId: payeeId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(payeeId),
-      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
-      dueDay: dueDay == null && nullToAbsent
-          ? const Value.absent()
-          : Value(dueDay),
-      remind: Value(remind),
-      isActive: Value(isActive),
-      createdOn: Value(createdOn),
-    );
-  }
-
-  factory RecurringTemplateRow.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RecurringTemplateRow(
-      id: serializer.fromJson<int>(json['id']),
-      type: $RecurringTemplatesTable.$convertertype.fromJson(
-        serializer.fromJson<String>(json['type']),
-      ),
-      cadence: $RecurringTemplatesTable.$convertercadence.fromJson(
-        serializer.fromJson<String>(json['cadence']),
-      ),
-      categoryId: serializer.fromJson<int>(json['categoryId']),
-      accountId: serializer.fromJson<int>(json['accountId']),
-      toAccountId: serializer.fromJson<int?>(json['toAccountId']),
-      amount: serializer.fromJson<int>(json['amount']),
-      toAmount: serializer.fromJson<int?>(json['toAmount']),
-      payeeId: serializer.fromJson<int?>(json['payeeId']),
-      note: serializer.fromJson<String?>(json['note']),
-      dueDay: serializer.fromJson<int?>(json['dueDay']),
-      remind: serializer.fromJson<bool>(json['remind']),
-      isActive: serializer.fromJson<bool>(json['isActive']),
-      createdOn: serializer.fromJson<LocalDate>(json['createdOn']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'type': serializer.toJson<String>(
-        $RecurringTemplatesTable.$convertertype.toJson(type),
-      ),
-      'cadence': serializer.toJson<String>(
-        $RecurringTemplatesTable.$convertercadence.toJson(cadence),
-      ),
-      'categoryId': serializer.toJson<int>(categoryId),
-      'accountId': serializer.toJson<int>(accountId),
-      'toAccountId': serializer.toJson<int?>(toAccountId),
-      'amount': serializer.toJson<int>(amount),
-      'toAmount': serializer.toJson<int?>(toAmount),
-      'payeeId': serializer.toJson<int?>(payeeId),
-      'note': serializer.toJson<String?>(note),
-      'dueDay': serializer.toJson<int?>(dueDay),
-      'remind': serializer.toJson<bool>(remind),
-      'isActive': serializer.toJson<bool>(isActive),
-      'createdOn': serializer.toJson<LocalDate>(createdOn),
-    };
-  }
-
-  RecurringTemplateRow copyWith({
-    int? id,
-    MovementType? type,
-    RecurringCadence? cadence,
-    int? categoryId,
-    int? accountId,
-    Value<int?> toAccountId = const Value.absent(),
-    int? amount,
-    Value<int?> toAmount = const Value.absent(),
-    Value<int?> payeeId = const Value.absent(),
-    Value<String?> note = const Value.absent(),
-    Value<int?> dueDay = const Value.absent(),
-    bool? remind,
-    bool? isActive,
-    LocalDate? createdOn,
-  }) => RecurringTemplateRow(
-    id: id ?? this.id,
-    type: type ?? this.type,
-    cadence: cadence ?? this.cadence,
-    categoryId: categoryId ?? this.categoryId,
-    accountId: accountId ?? this.accountId,
-    toAccountId: toAccountId.present ? toAccountId.value : this.toAccountId,
-    amount: amount ?? this.amount,
-    toAmount: toAmount.present ? toAmount.value : this.toAmount,
-    payeeId: payeeId.present ? payeeId.value : this.payeeId,
-    note: note.present ? note.value : this.note,
-    dueDay: dueDay.present ? dueDay.value : this.dueDay,
-    remind: remind ?? this.remind,
-    isActive: isActive ?? this.isActive,
-    createdOn: createdOn ?? this.createdOn,
-  );
-  RecurringTemplateRow copyWithCompanion(RecurringTemplatesCompanion data) {
-    return RecurringTemplateRow(
-      id: data.id.present ? data.id.value : this.id,
-      type: data.type.present ? data.type.value : this.type,
-      cadence: data.cadence.present ? data.cadence.value : this.cadence,
-      categoryId: data.categoryId.present
-          ? data.categoryId.value
-          : this.categoryId,
-      accountId: data.accountId.present ? data.accountId.value : this.accountId,
-      toAccountId: data.toAccountId.present
-          ? data.toAccountId.value
-          : this.toAccountId,
-      amount: data.amount.present ? data.amount.value : this.amount,
-      toAmount: data.toAmount.present ? data.toAmount.value : this.toAmount,
-      payeeId: data.payeeId.present ? data.payeeId.value : this.payeeId,
-      note: data.note.present ? data.note.value : this.note,
-      dueDay: data.dueDay.present ? data.dueDay.value : this.dueDay,
-      remind: data.remind.present ? data.remind.value : this.remind,
-      isActive: data.isActive.present ? data.isActive.value : this.isActive,
-      createdOn: data.createdOn.present ? data.createdOn.value : this.createdOn,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('RecurringTemplateRow(')
-          ..write('id: $id, ')
-          ..write('type: $type, ')
-          ..write('cadence: $cadence, ')
-          ..write('categoryId: $categoryId, ')
-          ..write('accountId: $accountId, ')
-          ..write('toAccountId: $toAccountId, ')
-          ..write('amount: $amount, ')
-          ..write('toAmount: $toAmount, ')
-          ..write('payeeId: $payeeId, ')
-          ..write('note: $note, ')
-          ..write('dueDay: $dueDay, ')
-          ..write('remind: $remind, ')
-          ..write('isActive: $isActive, ')
-          ..write('createdOn: $createdOn')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    type,
-    cadence,
-    categoryId,
-    accountId,
-    toAccountId,
-    amount,
-    toAmount,
-    payeeId,
-    note,
-    dueDay,
-    remind,
-    isActive,
-    createdOn,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is RecurringTemplateRow &&
-          other.id == this.id &&
-          other.type == this.type &&
-          other.cadence == this.cadence &&
-          other.categoryId == this.categoryId &&
-          other.accountId == this.accountId &&
-          other.toAccountId == this.toAccountId &&
-          other.amount == this.amount &&
-          other.toAmount == this.toAmount &&
-          other.payeeId == this.payeeId &&
-          other.note == this.note &&
-          other.dueDay == this.dueDay &&
-          other.remind == this.remind &&
-          other.isActive == this.isActive &&
-          other.createdOn == this.createdOn);
-}
-
-class RecurringTemplatesCompanion
-    extends UpdateCompanion<RecurringTemplateRow> {
-  final Value<int> id;
-  final Value<MovementType> type;
-  final Value<RecurringCadence> cadence;
-  final Value<int> categoryId;
-  final Value<int> accountId;
-  final Value<int?> toAccountId;
-  final Value<int> amount;
-  final Value<int?> toAmount;
-  final Value<int?> payeeId;
-  final Value<String?> note;
-  final Value<int?> dueDay;
-  final Value<bool> remind;
-  final Value<bool> isActive;
-  final Value<LocalDate> createdOn;
-  const RecurringTemplatesCompanion({
-    this.id = const Value.absent(),
-    this.type = const Value.absent(),
-    this.cadence = const Value.absent(),
-    this.categoryId = const Value.absent(),
-    this.accountId = const Value.absent(),
-    this.toAccountId = const Value.absent(),
-    this.amount = const Value.absent(),
-    this.toAmount = const Value.absent(),
-    this.payeeId = const Value.absent(),
-    this.note = const Value.absent(),
-    this.dueDay = const Value.absent(),
-    this.remind = const Value.absent(),
-    this.isActive = const Value.absent(),
-    this.createdOn = const Value.absent(),
-  });
-  RecurringTemplatesCompanion.insert({
-    this.id = const Value.absent(),
-    required MovementType type,
-    required RecurringCadence cadence,
-    required int categoryId,
-    required int accountId,
-    this.toAccountId = const Value.absent(),
-    required int amount,
-    this.toAmount = const Value.absent(),
-    this.payeeId = const Value.absent(),
-    this.note = const Value.absent(),
-    this.dueDay = const Value.absent(),
-    this.remind = const Value.absent(),
-    this.isActive = const Value.absent(),
-    required LocalDate createdOn,
-  }) : type = Value(type),
-       cadence = Value(cadence),
-       categoryId = Value(categoryId),
-       accountId = Value(accountId),
-       amount = Value(amount),
-       createdOn = Value(createdOn);
-  static Insertable<RecurringTemplateRow> custom({
-    Expression<int>? id,
-    Expression<String>? type,
-    Expression<String>? cadence,
-    Expression<int>? categoryId,
-    Expression<int>? accountId,
-    Expression<int>? toAccountId,
-    Expression<int>? amount,
-    Expression<int>? toAmount,
-    Expression<int>? payeeId,
-    Expression<String>? note,
-    Expression<int>? dueDay,
-    Expression<bool>? remind,
-    Expression<bool>? isActive,
-    Expression<String>? createdOn,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (type != null) 'type': type,
-      if (cadence != null) 'cadence': cadence,
-      if (categoryId != null) 'category_id': categoryId,
-      if (accountId != null) 'account_id': accountId,
-      if (toAccountId != null) 'to_account_id': toAccountId,
-      if (amount != null) 'amount': amount,
-      if (toAmount != null) 'to_amount': toAmount,
-      if (payeeId != null) 'payee_id': payeeId,
-      if (note != null) 'note': note,
-      if (dueDay != null) 'due_day': dueDay,
-      if (remind != null) 'remind': remind,
-      if (isActive != null) 'is_active': isActive,
-      if (createdOn != null) 'created_on': createdOn,
-    });
-  }
-
-  RecurringTemplatesCompanion copyWith({
-    Value<int>? id,
-    Value<MovementType>? type,
-    Value<RecurringCadence>? cadence,
-    Value<int>? categoryId,
-    Value<int>? accountId,
-    Value<int?>? toAccountId,
-    Value<int>? amount,
-    Value<int?>? toAmount,
-    Value<int?>? payeeId,
-    Value<String?>? note,
-    Value<int?>? dueDay,
-    Value<bool>? remind,
-    Value<bool>? isActive,
-    Value<LocalDate>? createdOn,
-  }) {
-    return RecurringTemplatesCompanion(
-      id: id ?? this.id,
-      type: type ?? this.type,
-      cadence: cadence ?? this.cadence,
-      categoryId: categoryId ?? this.categoryId,
-      accountId: accountId ?? this.accountId,
-      toAccountId: toAccountId ?? this.toAccountId,
-      amount: amount ?? this.amount,
-      toAmount: toAmount ?? this.toAmount,
-      payeeId: payeeId ?? this.payeeId,
-      note: note ?? this.note,
-      dueDay: dueDay ?? this.dueDay,
-      remind: remind ?? this.remind,
-      isActive: isActive ?? this.isActive,
-      createdOn: createdOn ?? this.createdOn,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (type.present) {
-      map['type'] = Variable<String>(
-        $RecurringTemplatesTable.$convertertype.toSql(type.value),
-      );
-    }
-    if (cadence.present) {
-      map['cadence'] = Variable<String>(
-        $RecurringTemplatesTable.$convertercadence.toSql(cadence.value),
-      );
-    }
-    if (categoryId.present) {
-      map['category_id'] = Variable<int>(categoryId.value);
-    }
-    if (accountId.present) {
-      map['account_id'] = Variable<int>(accountId.value);
-    }
-    if (toAccountId.present) {
-      map['to_account_id'] = Variable<int>(toAccountId.value);
-    }
-    if (amount.present) {
-      map['amount'] = Variable<int>(amount.value);
-    }
-    if (toAmount.present) {
-      map['to_amount'] = Variable<int>(toAmount.value);
-    }
-    if (payeeId.present) {
-      map['payee_id'] = Variable<int>(payeeId.value);
-    }
-    if (note.present) {
-      map['note'] = Variable<String>(note.value);
-    }
-    if (dueDay.present) {
-      map['due_day'] = Variable<int>(dueDay.value);
-    }
-    if (remind.present) {
-      map['remind'] = Variable<bool>(remind.value);
-    }
-    if (isActive.present) {
-      map['is_active'] = Variable<bool>(isActive.value);
-    }
-    if (createdOn.present) {
-      map['created_on'] = Variable<String>(
-        $RecurringTemplatesTable.$convertercreatedOn.toSql(createdOn.value),
-      );
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('RecurringTemplatesCompanion(')
-          ..write('id: $id, ')
-          ..write('type: $type, ')
-          ..write('cadence: $cadence, ')
-          ..write('categoryId: $categoryId, ')
-          ..write('accountId: $accountId, ')
-          ..write('toAccountId: $toAccountId, ')
-          ..write('amount: $amount, ')
-          ..write('toAmount: $toAmount, ')
-          ..write('payeeId: $payeeId, ')
-          ..write('note: $note, ')
-          ..write('dueDay: $dueDay, ')
-          ..write('remind: $remind, ')
-          ..write('isActive: $isActive, ')
-          ..write('createdOn: $createdOn')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $DebtsTable extends Debts with TableInfo<$DebtsTable, DebtRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -4820,6 +4000,879 @@ class DebtsCompanion extends UpdateCompanion<DebtRow> {
           ..write('dueDay: $dueDay, ')
           ..write('dueDate: $dueDate, ')
           ..write('createdOn: $createdOn')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $RecurringTemplatesTable extends RecurringTemplates
+    with TableInfo<$RecurringTemplatesTable, RecurringTemplateRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RecurringTemplatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<MovementType, String> type =
+      GeneratedColumn<String>(
+        'type',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<MovementType>($RecurringTemplatesTable.$convertertype);
+  @override
+  late final GeneratedColumnWithTypeConverter<RecurringCadence, String>
+  cadence = GeneratedColumn<String>(
+    'cadence',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  ).withConverter<RecurringCadence>($RecurringTemplatesTable.$convertercadence);
+  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
+    'categoryId',
+  );
+  @override
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+    'category_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES categories (id)',
+    ),
+  );
+  static const VerificationMeta _accountIdMeta = const VerificationMeta(
+    'accountId',
+  );
+  @override
+  late final GeneratedColumn<int> accountId = GeneratedColumn<int>(
+    'account_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES accounts (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _toAccountIdMeta = const VerificationMeta(
+    'toAccountId',
+  );
+  @override
+  late final GeneratedColumn<int> toAccountId = GeneratedColumn<int>(
+    'to_account_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES accounts (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<int> amount = GeneratedColumn<int>(
+    'amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _toAmountMeta = const VerificationMeta(
+    'toAmount',
+  );
+  @override
+  late final GeneratedColumn<int> toAmount = GeneratedColumn<int>(
+    'to_amount',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _payeeIdMeta = const VerificationMeta(
+    'payeeId',
+  );
+  @override
+  late final GeneratedColumn<int> payeeId = GeneratedColumn<int>(
+    'payee_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES payees (id)',
+    ),
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    additionalChecks: GeneratedColumn.checkTextLength(),
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _dueDayMeta = const VerificationMeta('dueDay');
+  @override
+  late final GeneratedColumn<int> dueDay = GeneratedColumn<int>(
+    'due_day',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _remindMeta = const VerificationMeta('remind');
+  @override
+  late final GeneratedColumn<bool> remind = GeneratedColumn<bool>(
+    'remind',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("remind" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<LocalDate, String> createdOn =
+      GeneratedColumn<String>(
+        'created_on',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<LocalDate>($RecurringTemplatesTable.$convertercreatedOn);
+  static const VerificationMeta _debtIdMeta = const VerificationMeta('debtId');
+  @override
+  late final GeneratedColumn<int> debtId = GeneratedColumn<int>(
+    'debt_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES debts (id) ON DELETE CASCADE',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    type,
+    cadence,
+    categoryId,
+    accountId,
+    toAccountId,
+    amount,
+    toAmount,
+    payeeId,
+    note,
+    dueDay,
+    remind,
+    isActive,
+    createdOn,
+    debtId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'recurring_templates';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RecurringTemplateRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('category_id')) {
+      context.handle(
+        _categoryIdMeta,
+        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryIdMeta);
+    }
+    if (data.containsKey('account_id')) {
+      context.handle(
+        _accountIdMeta,
+        accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_accountIdMeta);
+    }
+    if (data.containsKey('to_account_id')) {
+      context.handle(
+        _toAccountIdMeta,
+        toAccountId.isAcceptableOrUnknown(
+          data['to_account_id']!,
+          _toAccountIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('amount')) {
+      context.handle(
+        _amountMeta,
+        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    if (data.containsKey('to_amount')) {
+      context.handle(
+        _toAmountMeta,
+        toAmount.isAcceptableOrUnknown(data['to_amount']!, _toAmountMeta),
+      );
+    }
+    if (data.containsKey('payee_id')) {
+      context.handle(
+        _payeeIdMeta,
+        payeeId.isAcceptableOrUnknown(data['payee_id']!, _payeeIdMeta),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('due_day')) {
+      context.handle(
+        _dueDayMeta,
+        dueDay.isAcceptableOrUnknown(data['due_day']!, _dueDayMeta),
+      );
+    }
+    if (data.containsKey('remind')) {
+      context.handle(
+        _remindMeta,
+        remind.isAcceptableOrUnknown(data['remind']!, _remindMeta),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('debt_id')) {
+      context.handle(
+        _debtIdMeta,
+        debtId.isAcceptableOrUnknown(data['debt_id']!, _debtIdMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RecurringTemplateRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RecurringTemplateRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      type: $RecurringTemplatesTable.$convertertype.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}type'],
+        )!,
+      ),
+      cadence: $RecurringTemplatesTable.$convertercadence.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}cadence'],
+        )!,
+      ),
+      categoryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}category_id'],
+      )!,
+      accountId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}account_id'],
+      )!,
+      toAccountId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}to_account_id'],
+      ),
+      amount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount'],
+      )!,
+      toAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}to_amount'],
+      ),
+      payeeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}payee_id'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      dueDay: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}due_day'],
+      ),
+      remind: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}remind'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      createdOn: $RecurringTemplatesTable.$convertercreatedOn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}created_on'],
+        )!,
+      ),
+      debtId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}debt_id'],
+      ),
+    );
+  }
+
+  @override
+  $RecurringTemplatesTable createAlias(String alias) {
+    return $RecurringTemplatesTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<MovementType, String, String> $convertertype =
+      const EnumNameConverter<MovementType>(MovementType.values);
+  static JsonTypeConverter2<RecurringCadence, String, String>
+  $convertercadence = const EnumNameConverter<RecurringCadence>(
+    RecurringCadence.values,
+  );
+  static TypeConverter<LocalDate, String> $convertercreatedOn =
+      const LocalDateConverter();
+}
+
+class RecurringTemplateRow extends DataClass
+    implements Insertable<RecurringTemplateRow> {
+  final int id;
+  final MovementType type;
+  final RecurringCadence cadence;
+  final int categoryId;
+  final int accountId;
+  final int? toAccountId;
+  final int amount;
+  final int? toAmount;
+  final int? payeeId;
+  final String? note;
+  final int? dueDay;
+  final bool remind;
+  final bool isActive;
+  final LocalDate createdOn;
+
+  /// The debt it pays; a debt can only go away without movements, and its
+  /// templates go with it.
+  final int? debtId;
+  const RecurringTemplateRow({
+    required this.id,
+    required this.type,
+    required this.cadence,
+    required this.categoryId,
+    required this.accountId,
+    this.toAccountId,
+    required this.amount,
+    this.toAmount,
+    this.payeeId,
+    this.note,
+    this.dueDay,
+    required this.remind,
+    required this.isActive,
+    required this.createdOn,
+    this.debtId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['type'] = Variable<String>(
+        $RecurringTemplatesTable.$convertertype.toSql(type),
+      );
+    }
+    {
+      map['cadence'] = Variable<String>(
+        $RecurringTemplatesTable.$convertercadence.toSql(cadence),
+      );
+    }
+    map['category_id'] = Variable<int>(categoryId);
+    map['account_id'] = Variable<int>(accountId);
+    if (!nullToAbsent || toAccountId != null) {
+      map['to_account_id'] = Variable<int>(toAccountId);
+    }
+    map['amount'] = Variable<int>(amount);
+    if (!nullToAbsent || toAmount != null) {
+      map['to_amount'] = Variable<int>(toAmount);
+    }
+    if (!nullToAbsent || payeeId != null) {
+      map['payee_id'] = Variable<int>(payeeId);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    if (!nullToAbsent || dueDay != null) {
+      map['due_day'] = Variable<int>(dueDay);
+    }
+    map['remind'] = Variable<bool>(remind);
+    map['is_active'] = Variable<bool>(isActive);
+    {
+      map['created_on'] = Variable<String>(
+        $RecurringTemplatesTable.$convertercreatedOn.toSql(createdOn),
+      );
+    }
+    if (!nullToAbsent || debtId != null) {
+      map['debt_id'] = Variable<int>(debtId);
+    }
+    return map;
+  }
+
+  RecurringTemplatesCompanion toCompanion(bool nullToAbsent) {
+    return RecurringTemplatesCompanion(
+      id: Value(id),
+      type: Value(type),
+      cadence: Value(cadence),
+      categoryId: Value(categoryId),
+      accountId: Value(accountId),
+      toAccountId: toAccountId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toAccountId),
+      amount: Value(amount),
+      toAmount: toAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toAmount),
+      payeeId: payeeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(payeeId),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      dueDay: dueDay == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dueDay),
+      remind: Value(remind),
+      isActive: Value(isActive),
+      createdOn: Value(createdOn),
+      debtId: debtId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(debtId),
+    );
+  }
+
+  factory RecurringTemplateRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RecurringTemplateRow(
+      id: serializer.fromJson<int>(json['id']),
+      type: $RecurringTemplatesTable.$convertertype.fromJson(
+        serializer.fromJson<String>(json['type']),
+      ),
+      cadence: $RecurringTemplatesTable.$convertercadence.fromJson(
+        serializer.fromJson<String>(json['cadence']),
+      ),
+      categoryId: serializer.fromJson<int>(json['categoryId']),
+      accountId: serializer.fromJson<int>(json['accountId']),
+      toAccountId: serializer.fromJson<int?>(json['toAccountId']),
+      amount: serializer.fromJson<int>(json['amount']),
+      toAmount: serializer.fromJson<int?>(json['toAmount']),
+      payeeId: serializer.fromJson<int?>(json['payeeId']),
+      note: serializer.fromJson<String?>(json['note']),
+      dueDay: serializer.fromJson<int?>(json['dueDay']),
+      remind: serializer.fromJson<bool>(json['remind']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      createdOn: serializer.fromJson<LocalDate>(json['createdOn']),
+      debtId: serializer.fromJson<int?>(json['debtId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'type': serializer.toJson<String>(
+        $RecurringTemplatesTable.$convertertype.toJson(type),
+      ),
+      'cadence': serializer.toJson<String>(
+        $RecurringTemplatesTable.$convertercadence.toJson(cadence),
+      ),
+      'categoryId': serializer.toJson<int>(categoryId),
+      'accountId': serializer.toJson<int>(accountId),
+      'toAccountId': serializer.toJson<int?>(toAccountId),
+      'amount': serializer.toJson<int>(amount),
+      'toAmount': serializer.toJson<int?>(toAmount),
+      'payeeId': serializer.toJson<int?>(payeeId),
+      'note': serializer.toJson<String?>(note),
+      'dueDay': serializer.toJson<int?>(dueDay),
+      'remind': serializer.toJson<bool>(remind),
+      'isActive': serializer.toJson<bool>(isActive),
+      'createdOn': serializer.toJson<LocalDate>(createdOn),
+      'debtId': serializer.toJson<int?>(debtId),
+    };
+  }
+
+  RecurringTemplateRow copyWith({
+    int? id,
+    MovementType? type,
+    RecurringCadence? cadence,
+    int? categoryId,
+    int? accountId,
+    Value<int?> toAccountId = const Value.absent(),
+    int? amount,
+    Value<int?> toAmount = const Value.absent(),
+    Value<int?> payeeId = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    Value<int?> dueDay = const Value.absent(),
+    bool? remind,
+    bool? isActive,
+    LocalDate? createdOn,
+    Value<int?> debtId = const Value.absent(),
+  }) => RecurringTemplateRow(
+    id: id ?? this.id,
+    type: type ?? this.type,
+    cadence: cadence ?? this.cadence,
+    categoryId: categoryId ?? this.categoryId,
+    accountId: accountId ?? this.accountId,
+    toAccountId: toAccountId.present ? toAccountId.value : this.toAccountId,
+    amount: amount ?? this.amount,
+    toAmount: toAmount.present ? toAmount.value : this.toAmount,
+    payeeId: payeeId.present ? payeeId.value : this.payeeId,
+    note: note.present ? note.value : this.note,
+    dueDay: dueDay.present ? dueDay.value : this.dueDay,
+    remind: remind ?? this.remind,
+    isActive: isActive ?? this.isActive,
+    createdOn: createdOn ?? this.createdOn,
+    debtId: debtId.present ? debtId.value : this.debtId,
+  );
+  RecurringTemplateRow copyWithCompanion(RecurringTemplatesCompanion data) {
+    return RecurringTemplateRow(
+      id: data.id.present ? data.id.value : this.id,
+      type: data.type.present ? data.type.value : this.type,
+      cadence: data.cadence.present ? data.cadence.value : this.cadence,
+      categoryId: data.categoryId.present
+          ? data.categoryId.value
+          : this.categoryId,
+      accountId: data.accountId.present ? data.accountId.value : this.accountId,
+      toAccountId: data.toAccountId.present
+          ? data.toAccountId.value
+          : this.toAccountId,
+      amount: data.amount.present ? data.amount.value : this.amount,
+      toAmount: data.toAmount.present ? data.toAmount.value : this.toAmount,
+      payeeId: data.payeeId.present ? data.payeeId.value : this.payeeId,
+      note: data.note.present ? data.note.value : this.note,
+      dueDay: data.dueDay.present ? data.dueDay.value : this.dueDay,
+      remind: data.remind.present ? data.remind.value : this.remind,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      createdOn: data.createdOn.present ? data.createdOn.value : this.createdOn,
+      debtId: data.debtId.present ? data.debtId.value : this.debtId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RecurringTemplateRow(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('cadence: $cadence, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('accountId: $accountId, ')
+          ..write('toAccountId: $toAccountId, ')
+          ..write('amount: $amount, ')
+          ..write('toAmount: $toAmount, ')
+          ..write('payeeId: $payeeId, ')
+          ..write('note: $note, ')
+          ..write('dueDay: $dueDay, ')
+          ..write('remind: $remind, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdOn: $createdOn, ')
+          ..write('debtId: $debtId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    type,
+    cadence,
+    categoryId,
+    accountId,
+    toAccountId,
+    amount,
+    toAmount,
+    payeeId,
+    note,
+    dueDay,
+    remind,
+    isActive,
+    createdOn,
+    debtId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RecurringTemplateRow &&
+          other.id == this.id &&
+          other.type == this.type &&
+          other.cadence == this.cadence &&
+          other.categoryId == this.categoryId &&
+          other.accountId == this.accountId &&
+          other.toAccountId == this.toAccountId &&
+          other.amount == this.amount &&
+          other.toAmount == this.toAmount &&
+          other.payeeId == this.payeeId &&
+          other.note == this.note &&
+          other.dueDay == this.dueDay &&
+          other.remind == this.remind &&
+          other.isActive == this.isActive &&
+          other.createdOn == this.createdOn &&
+          other.debtId == this.debtId);
+}
+
+class RecurringTemplatesCompanion
+    extends UpdateCompanion<RecurringTemplateRow> {
+  final Value<int> id;
+  final Value<MovementType> type;
+  final Value<RecurringCadence> cadence;
+  final Value<int> categoryId;
+  final Value<int> accountId;
+  final Value<int?> toAccountId;
+  final Value<int> amount;
+  final Value<int?> toAmount;
+  final Value<int?> payeeId;
+  final Value<String?> note;
+  final Value<int?> dueDay;
+  final Value<bool> remind;
+  final Value<bool> isActive;
+  final Value<LocalDate> createdOn;
+  final Value<int?> debtId;
+  const RecurringTemplatesCompanion({
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.cadence = const Value.absent(),
+    this.categoryId = const Value.absent(),
+    this.accountId = const Value.absent(),
+    this.toAccountId = const Value.absent(),
+    this.amount = const Value.absent(),
+    this.toAmount = const Value.absent(),
+    this.payeeId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.dueDay = const Value.absent(),
+    this.remind = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.createdOn = const Value.absent(),
+    this.debtId = const Value.absent(),
+  });
+  RecurringTemplatesCompanion.insert({
+    this.id = const Value.absent(),
+    required MovementType type,
+    required RecurringCadence cadence,
+    required int categoryId,
+    required int accountId,
+    this.toAccountId = const Value.absent(),
+    required int amount,
+    this.toAmount = const Value.absent(),
+    this.payeeId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.dueDay = const Value.absent(),
+    this.remind = const Value.absent(),
+    this.isActive = const Value.absent(),
+    required LocalDate createdOn,
+    this.debtId = const Value.absent(),
+  }) : type = Value(type),
+       cadence = Value(cadence),
+       categoryId = Value(categoryId),
+       accountId = Value(accountId),
+       amount = Value(amount),
+       createdOn = Value(createdOn);
+  static Insertable<RecurringTemplateRow> custom({
+    Expression<int>? id,
+    Expression<String>? type,
+    Expression<String>? cadence,
+    Expression<int>? categoryId,
+    Expression<int>? accountId,
+    Expression<int>? toAccountId,
+    Expression<int>? amount,
+    Expression<int>? toAmount,
+    Expression<int>? payeeId,
+    Expression<String>? note,
+    Expression<int>? dueDay,
+    Expression<bool>? remind,
+    Expression<bool>? isActive,
+    Expression<String>? createdOn,
+    Expression<int>? debtId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (type != null) 'type': type,
+      if (cadence != null) 'cadence': cadence,
+      if (categoryId != null) 'category_id': categoryId,
+      if (accountId != null) 'account_id': accountId,
+      if (toAccountId != null) 'to_account_id': toAccountId,
+      if (amount != null) 'amount': amount,
+      if (toAmount != null) 'to_amount': toAmount,
+      if (payeeId != null) 'payee_id': payeeId,
+      if (note != null) 'note': note,
+      if (dueDay != null) 'due_day': dueDay,
+      if (remind != null) 'remind': remind,
+      if (isActive != null) 'is_active': isActive,
+      if (createdOn != null) 'created_on': createdOn,
+      if (debtId != null) 'debt_id': debtId,
+    });
+  }
+
+  RecurringTemplatesCompanion copyWith({
+    Value<int>? id,
+    Value<MovementType>? type,
+    Value<RecurringCadence>? cadence,
+    Value<int>? categoryId,
+    Value<int>? accountId,
+    Value<int?>? toAccountId,
+    Value<int>? amount,
+    Value<int?>? toAmount,
+    Value<int?>? payeeId,
+    Value<String?>? note,
+    Value<int?>? dueDay,
+    Value<bool>? remind,
+    Value<bool>? isActive,
+    Value<LocalDate>? createdOn,
+    Value<int?>? debtId,
+  }) {
+    return RecurringTemplatesCompanion(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      cadence: cadence ?? this.cadence,
+      categoryId: categoryId ?? this.categoryId,
+      accountId: accountId ?? this.accountId,
+      toAccountId: toAccountId ?? this.toAccountId,
+      amount: amount ?? this.amount,
+      toAmount: toAmount ?? this.toAmount,
+      payeeId: payeeId ?? this.payeeId,
+      note: note ?? this.note,
+      dueDay: dueDay ?? this.dueDay,
+      remind: remind ?? this.remind,
+      isActive: isActive ?? this.isActive,
+      createdOn: createdOn ?? this.createdOn,
+      debtId: debtId ?? this.debtId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(
+        $RecurringTemplatesTable.$convertertype.toSql(type.value),
+      );
+    }
+    if (cadence.present) {
+      map['cadence'] = Variable<String>(
+        $RecurringTemplatesTable.$convertercadence.toSql(cadence.value),
+      );
+    }
+    if (categoryId.present) {
+      map['category_id'] = Variable<int>(categoryId.value);
+    }
+    if (accountId.present) {
+      map['account_id'] = Variable<int>(accountId.value);
+    }
+    if (toAccountId.present) {
+      map['to_account_id'] = Variable<int>(toAccountId.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<int>(amount.value);
+    }
+    if (toAmount.present) {
+      map['to_amount'] = Variable<int>(toAmount.value);
+    }
+    if (payeeId.present) {
+      map['payee_id'] = Variable<int>(payeeId.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (dueDay.present) {
+      map['due_day'] = Variable<int>(dueDay.value);
+    }
+    if (remind.present) {
+      map['remind'] = Variable<bool>(remind.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (createdOn.present) {
+      map['created_on'] = Variable<String>(
+        $RecurringTemplatesTable.$convertercreatedOn.toSql(createdOn.value),
+      );
+    }
+    if (debtId.present) {
+      map['debt_id'] = Variable<int>(debtId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RecurringTemplatesCompanion(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('cadence: $cadence, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('accountId: $accountId, ')
+          ..write('toAccountId: $toAccountId, ')
+          ..write('amount: $amount, ')
+          ..write('toAmount: $toAmount, ')
+          ..write('payeeId: $payeeId, ')
+          ..write('note: $note, ')
+          ..write('dueDay: $dueDay, ')
+          ..write('remind: $remind, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdOn: $createdOn, ')
+          ..write('debtId: $debtId')
           ..write(')'))
         .toString();
   }
@@ -6199,9 +6252,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PillarsTable pillars = $PillarsTable(this);
   late final $CategoriesTable categories = $CategoriesTable(this);
   late final $PayeesTable payees = $PayeesTable(this);
+  late final $DebtsTable debts = $DebtsTable(this);
   late final $RecurringTemplatesTable recurringTemplates =
       $RecurringTemplatesTable(this);
-  late final $DebtsTable debts = $DebtsTable(this);
   late final $MovementsTable movements = $MovementsTable(this);
   late final $PeriodStartsTable periodStarts = $PeriodStartsTable(this);
   late final $RecurringOccurrencesTable recurringOccurrences =
@@ -6241,8 +6294,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     pillars,
     categories,
     payees,
-    recurringTemplates,
     debts,
+    recurringTemplates,
     movements,
     periodStarts,
     recurringOccurrences,
@@ -6263,6 +6316,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     WritePropagation(
       on: TableUpdateQuery.onTableName(
         'accounts',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recurring_templates', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'debts',
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('recurring_templates', kind: UpdateKind.delete)],
@@ -8840,6 +8900,25 @@ final class $$PayeesTableReferences
     extends BaseReferences<_$AppDatabase, $PayeesTable, PayeeRow> {
   $$PayeesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
+  static MultiTypedResultKey<$DebtsTable, List<DebtRow>> _debtsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.debts,
+    aliasName: 'payees__id__debts__payee_id',
+  );
+
+  $$DebtsTableProcessedTableManager get debtsRefs {
+    final manager = $$DebtsTableTableManager(
+      $_db,
+      $_db.debts,
+    ).filter((f) => f.payeeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_debtsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<
     $RecurringTemplatesTable,
     List<RecurringTemplateRow>
@@ -8859,25 +8938,6 @@ final class $$PayeesTableReferences
     final cache = $_typedResult.readTableOrNull(
       _recurringTemplatesRefsTable($_db),
     );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<$DebtsTable, List<DebtRow>> _debtsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.debts,
-    aliasName: 'payees__id__debts__payee_id',
-  );
-
-  $$DebtsTableProcessedTableManager get debtsRefs {
-    final manager = $$DebtsTableTableManager(
-      $_db,
-      $_db.debts,
-    ).filter((f) => f.payeeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_debtsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -8926,31 +8986,6 @@ class $$PayeesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  Expression<bool> recurringTemplatesRefs(
-    Expression<bool> Function($$RecurringTemplatesTableFilterComposer f) f,
-  ) {
-    final $$RecurringTemplatesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.recurringTemplates,
-      getReferencedColumn: (t) => t.payeeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$RecurringTemplatesTableFilterComposer(
-            $db: $db,
-            $table: $db.recurringTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
   Expression<bool> debtsRefs(
     Expression<bool> Function($$DebtsTableFilterComposer f) f,
   ) {
@@ -8967,6 +9002,31 @@ class $$PayeesTableFilterComposer
           }) => $$DebtsTableFilterComposer(
             $db: $db,
             $table: $db.debts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> recurringTemplatesRefs(
+    Expression<bool> Function($$RecurringTemplatesTableFilterComposer f) f,
+  ) {
+    final $$RecurringTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recurringTemplates,
+      getReferencedColumn: (t) => t.payeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecurringTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.recurringTemplates,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9045,6 +9105,31 @@ class $$PayeesTableAnnotationComposer
   GeneratedColumn<String> get key =>
       $composableBuilder(column: $table.key, builder: (column) => column);
 
+  Expression<T> debtsRefs<T extends Object>(
+    Expression<T> Function($$DebtsTableAnnotationComposer a) f,
+  ) {
+    final $$DebtsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.debts,
+      getReferencedColumn: (t) => t.payeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DebtsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.debts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> recurringTemplatesRefs<T extends Object>(
     Expression<T> Function($$RecurringTemplatesTableAnnotationComposer a) f,
   ) {
@@ -9068,31 +9153,6 @@ class $$PayeesTableAnnotationComposer
                     $removeJoinBuilderFromRootComposer,
               ),
         );
-    return f(composer);
-  }
-
-  Expression<T> debtsRefs<T extends Object>(
-    Expression<T> Function($$DebtsTableAnnotationComposer a) f,
-  ) {
-    final $$DebtsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.debts,
-      getReferencedColumn: (t) => t.payeeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$DebtsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.debts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
     return f(composer);
   }
 
@@ -9136,8 +9196,8 @@ class $$PayeesTableTableManager
           (PayeeRow, $$PayeesTableReferences),
           PayeeRow,
           PrefetchHooks Function({
-            bool recurringTemplatesRefs,
             bool debtsRefs,
+            bool recurringTemplatesRefs,
             bool movementsRefs,
           })
         > {
@@ -9172,20 +9232,36 @@ class $$PayeesTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
-                recurringTemplatesRefs = false,
                 debtsRefs = false,
+                recurringTemplatesRefs = false,
                 movementsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
-                    if (recurringTemplatesRefs) db.recurringTemplates,
                     if (debtsRefs) db.debts,
+                    if (recurringTemplatesRefs) db.recurringTemplates,
                     if (movementsRefs) db.movements,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
+                      if (debtsRefs)
+                        await $_getPrefetchedDataByColumns<
+                          PayeeRow,
+                          $PayeesTable,
+                          DebtRow,
+                          $DebtsTable
+                        >(
+                          currentTable: table,
+                          referencedTable: $$PayeesTableReferences
+                              ._debtsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$PayeesTableReferences(db, table, p0).debtsRefs,
+                          currentColumn: 'id',
+                          referencedColumn: 'payee_id',
+                          typedResults: items,
+                        ),
                       if (recurringTemplatesRefs)
                         await $_getPrefetchedDataByColumns<
                           PayeeRow,
@@ -9202,22 +9278,6 @@ class $$PayeesTableTableManager
                                 table,
                                 p0,
                               ).recurringTemplatesRefs,
-                          currentColumn: 'id',
-                          referencedColumn: 'payee_id',
-                          typedResults: items,
-                        ),
-                      if (debtsRefs)
-                        await $_getPrefetchedDataByColumns<
-                          PayeeRow,
-                          $PayeesTable,
-                          DebtRow,
-                          $DebtsTable
-                        >(
-                          currentTable: table,
-                          referencedTable: $$PayeesTableReferences
-                              ._debtsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$PayeesTableReferences(db, table, p0).debtsRefs,
                           currentColumn: 'id',
                           referencedColumn: 'payee_id',
                           typedResults: items,
@@ -9263,974 +9323,9 @@ typedef $$PayeesTableProcessedTableManager =
       (PayeeRow, $$PayeesTableReferences),
       PayeeRow,
       PrefetchHooks Function({
-        bool recurringTemplatesRefs,
         bool debtsRefs,
+        bool recurringTemplatesRefs,
         bool movementsRefs,
-      })
-    >;
-typedef $$RecurringTemplatesTableCreateCompanionBuilder =
-    RecurringTemplatesCompanion Function({
-      Value<int> id,
-      required MovementType type,
-      required RecurringCadence cadence,
-      required int categoryId,
-      required int accountId,
-      Value<int?> toAccountId,
-      required int amount,
-      Value<int?> toAmount,
-      Value<int?> payeeId,
-      Value<String?> note,
-      Value<int?> dueDay,
-      Value<bool> remind,
-      Value<bool> isActive,
-      required LocalDate createdOn,
-    });
-typedef $$RecurringTemplatesTableUpdateCompanionBuilder =
-    RecurringTemplatesCompanion Function({
-      Value<int> id,
-      Value<MovementType> type,
-      Value<RecurringCadence> cadence,
-      Value<int> categoryId,
-      Value<int> accountId,
-      Value<int?> toAccountId,
-      Value<int> amount,
-      Value<int?> toAmount,
-      Value<int?> payeeId,
-      Value<String?> note,
-      Value<int?> dueDay,
-      Value<bool> remind,
-      Value<bool> isActive,
-      Value<LocalDate> createdOn,
-    });
-
-final class $$RecurringTemplatesTableReferences
-    extends
-        BaseReferences<
-          _$AppDatabase,
-          $RecurringTemplatesTable,
-          RecurringTemplateRow
-        > {
-  $$RecurringTemplatesTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static $CategoriesTable _categoryIdTable(_$AppDatabase db) => db.categories
-      .createAlias('recurring_templates__category_id__categories__id');
-
-  $$CategoriesTableProcessedTableManager get categoryId {
-    final $_column = $_itemColumn<int>('category_id')!;
-
-    final manager = $$CategoriesTableTableManager(
-      $_db,
-      $_db.categories,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $AccountsTable _accountIdTable(_$AppDatabase db) =>
-      db.accounts.createAlias('recurring_templates__account_id__accounts__id');
-
-  $$AccountsTableProcessedTableManager get accountId {
-    final $_column = $_itemColumn<int>('account_id')!;
-
-    final manager = $$AccountsTableTableManager(
-      $_db,
-      $_db.accounts,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_accountIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $AccountsTable _toAccountIdTable(_$AppDatabase db) => db.accounts
-      .createAlias('recurring_templates__to_account_id__accounts__id');
-
-  $$AccountsTableProcessedTableManager? get toAccountId {
-    final $_column = $_itemColumn<int>('to_account_id');
-    if ($_column == null) return null;
-    final manager = $$AccountsTableTableManager(
-      $_db,
-      $_db.accounts,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_toAccountIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $PayeesTable _payeeIdTable(_$AppDatabase db) =>
-      db.payees.createAlias('recurring_templates__payee_id__payees__id');
-
-  $$PayeesTableProcessedTableManager? get payeeId {
-    final $_column = $_itemColumn<int>('payee_id');
-    if ($_column == null) return null;
-    final manager = $$PayeesTableTableManager(
-      $_db,
-      $_db.payees,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_payeeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static MultiTypedResultKey<$MovementsTable, List<MovementRow>>
-  _movementsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.movements,
-    aliasName: 'recurring_templates__id__movements__recurring_template_id',
-  );
-
-  $$MovementsTableProcessedTableManager get movementsRefs {
-    final manager = $$MovementsTableTableManager($_db, $_db.movements).filter(
-      (f) => f.recurringTemplateId.id.sqlEquals($_itemColumn<int>('id')!),
-    );
-
-    final cache = $_typedResult.readTableOrNull(_movementsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<
-    $RecurringOccurrencesTable,
-    List<RecurringOccurrenceRow>
-  >
-  _recurringOccurrencesRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.recurringOccurrences,
-        aliasName:
-            'recurring_templates__id__recurring_occurrences__template_id',
-      );
-
-  $$RecurringOccurrencesTableProcessedTableManager
-  get recurringOccurrencesRefs {
-    final manager = $$RecurringOccurrencesTableTableManager(
-      $_db,
-      $_db.recurringOccurrences,
-    ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _recurringOccurrencesRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$RecurringTemplatesTableFilterComposer
-    extends Composer<_$AppDatabase, $RecurringTemplatesTable> {
-  $$RecurringTemplatesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnWithTypeConverterFilters<MovementType, MovementType, String> get type =>
-      $composableBuilder(
-        column: $table.type,
-        builder: (column) => ColumnWithTypeConverterFilters(column),
-      );
-
-  ColumnWithTypeConverterFilters<RecurringCadence, RecurringCadence, String>
-  get cadence => $composableBuilder(
-    column: $table.cadence,
-    builder: (column) => ColumnWithTypeConverterFilters(column),
-  );
-
-  ColumnFilters<int> get amount => $composableBuilder(
-    column: $table.amount,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get toAmount => $composableBuilder(
-    column: $table.toAmount,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get note => $composableBuilder(
-    column: $table.note,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get dueDay => $composableBuilder(
-    column: $table.dueDay,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get remind => $composableBuilder(
-    column: $table.remind,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get isActive => $composableBuilder(
-    column: $table.isActive,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnWithTypeConverterFilters<LocalDate, LocalDate, String> get createdOn =>
-      $composableBuilder(
-        column: $table.createdOn,
-        builder: (column) => ColumnWithTypeConverterFilters(column),
-      );
-
-  $$CategoriesTableFilterComposer get categoryId {
-    final $$CategoriesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.categoryId,
-      referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTableFilterComposer(
-            $db: $db,
-            $table: $db.categories,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AccountsTableFilterComposer get accountId {
-    final $$AccountsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.accountId,
-      referencedTable: $db.accounts,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AccountsTableFilterComposer(
-            $db: $db,
-            $table: $db.accounts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AccountsTableFilterComposer get toAccountId {
-    final $$AccountsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.toAccountId,
-      referencedTable: $db.accounts,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AccountsTableFilterComposer(
-            $db: $db,
-            $table: $db.accounts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$PayeesTableFilterComposer get payeeId {
-    final $$PayeesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.payeeId,
-      referencedTable: $db.payees,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$PayeesTableFilterComposer(
-            $db: $db,
-            $table: $db.payees,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<bool> movementsRefs(
-    Expression<bool> Function($$MovementsTableFilterComposer f) f,
-  ) {
-    final $$MovementsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.movements,
-      getReferencedColumn: (t) => t.recurringTemplateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$MovementsTableFilterComposer(
-            $db: $db,
-            $table: $db.movements,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> recurringOccurrencesRefs(
-    Expression<bool> Function($$RecurringOccurrencesTableFilterComposer f) f,
-  ) {
-    final $$RecurringOccurrencesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.recurringOccurrences,
-      getReferencedColumn: (t) => t.templateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$RecurringOccurrencesTableFilterComposer(
-            $db: $db,
-            $table: $db.recurringOccurrences,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$RecurringTemplatesTableOrderingComposer
-    extends Composer<_$AppDatabase, $RecurringTemplatesTable> {
-  $$RecurringTemplatesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get type => $composableBuilder(
-    column: $table.type,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get cadence => $composableBuilder(
-    column: $table.cadence,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get amount => $composableBuilder(
-    column: $table.amount,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get toAmount => $composableBuilder(
-    column: $table.toAmount,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get note => $composableBuilder(
-    column: $table.note,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get dueDay => $composableBuilder(
-    column: $table.dueDay,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get remind => $composableBuilder(
-    column: $table.remind,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get isActive => $composableBuilder(
-    column: $table.isActive,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get createdOn => $composableBuilder(
-    column: $table.createdOn,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$CategoriesTableOrderingComposer get categoryId {
-    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.categoryId,
-      referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTableOrderingComposer(
-            $db: $db,
-            $table: $db.categories,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AccountsTableOrderingComposer get accountId {
-    final $$AccountsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.accountId,
-      referencedTable: $db.accounts,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AccountsTableOrderingComposer(
-            $db: $db,
-            $table: $db.accounts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AccountsTableOrderingComposer get toAccountId {
-    final $$AccountsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.toAccountId,
-      referencedTable: $db.accounts,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AccountsTableOrderingComposer(
-            $db: $db,
-            $table: $db.accounts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$PayeesTableOrderingComposer get payeeId {
-    final $$PayeesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.payeeId,
-      referencedTable: $db.payees,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$PayeesTableOrderingComposer(
-            $db: $db,
-            $table: $db.payees,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$RecurringTemplatesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $RecurringTemplatesTable> {
-  $$RecurringTemplatesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<MovementType, String> get type =>
-      $composableBuilder(column: $table.type, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<RecurringCadence, String> get cadence =>
-      $composableBuilder(column: $table.cadence, builder: (column) => column);
-
-  GeneratedColumn<int> get amount =>
-      $composableBuilder(column: $table.amount, builder: (column) => column);
-
-  GeneratedColumn<int> get toAmount =>
-      $composableBuilder(column: $table.toAmount, builder: (column) => column);
-
-  GeneratedColumn<String> get note =>
-      $composableBuilder(column: $table.note, builder: (column) => column);
-
-  GeneratedColumn<int> get dueDay =>
-      $composableBuilder(column: $table.dueDay, builder: (column) => column);
-
-  GeneratedColumn<bool> get remind =>
-      $composableBuilder(column: $table.remind, builder: (column) => column);
-
-  GeneratedColumn<bool> get isActive =>
-      $composableBuilder(column: $table.isActive, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<LocalDate, String> get createdOn =>
-      $composableBuilder(column: $table.createdOn, builder: (column) => column);
-
-  $$CategoriesTableAnnotationComposer get categoryId {
-    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.categoryId,
-      referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.categories,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AccountsTableAnnotationComposer get accountId {
-    final $$AccountsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.accountId,
-      referencedTable: $db.accounts,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AccountsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.accounts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AccountsTableAnnotationComposer get toAccountId {
-    final $$AccountsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.toAccountId,
-      referencedTable: $db.accounts,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AccountsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.accounts,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$PayeesTableAnnotationComposer get payeeId {
-    final $$PayeesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.payeeId,
-      referencedTable: $db.payees,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$PayeesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.payees,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<T> movementsRefs<T extends Object>(
-    Expression<T> Function($$MovementsTableAnnotationComposer a) f,
-  ) {
-    final $$MovementsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.movements,
-      getReferencedColumn: (t) => t.recurringTemplateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$MovementsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.movements,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> recurringOccurrencesRefs<T extends Object>(
-    Expression<T> Function($$RecurringOccurrencesTableAnnotationComposer a) f,
-  ) {
-    final $$RecurringOccurrencesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.recurringOccurrences,
-          getReferencedColumn: (t) => t.templateId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$RecurringOccurrencesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.recurringOccurrences,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
-}
-
-class $$RecurringTemplatesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $RecurringTemplatesTable,
-          RecurringTemplateRow,
-          $$RecurringTemplatesTableFilterComposer,
-          $$RecurringTemplatesTableOrderingComposer,
-          $$RecurringTemplatesTableAnnotationComposer,
-          $$RecurringTemplatesTableCreateCompanionBuilder,
-          $$RecurringTemplatesTableUpdateCompanionBuilder,
-          (RecurringTemplateRow, $$RecurringTemplatesTableReferences),
-          RecurringTemplateRow,
-          PrefetchHooks Function({
-            bool categoryId,
-            bool accountId,
-            bool toAccountId,
-            bool payeeId,
-            bool movementsRefs,
-            bool recurringOccurrencesRefs,
-          })
-        > {
-  $$RecurringTemplatesTableTableManager(
-    _$AppDatabase db,
-    $RecurringTemplatesTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$RecurringTemplatesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$RecurringTemplatesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$RecurringTemplatesTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<MovementType> type = const Value.absent(),
-                Value<RecurringCadence> cadence = const Value.absent(),
-                Value<int> categoryId = const Value.absent(),
-                Value<int> accountId = const Value.absent(),
-                Value<int?> toAccountId = const Value.absent(),
-                Value<int> amount = const Value.absent(),
-                Value<int?> toAmount = const Value.absent(),
-                Value<int?> payeeId = const Value.absent(),
-                Value<String?> note = const Value.absent(),
-                Value<int?> dueDay = const Value.absent(),
-                Value<bool> remind = const Value.absent(),
-                Value<bool> isActive = const Value.absent(),
-                Value<LocalDate> createdOn = const Value.absent(),
-              }) => RecurringTemplatesCompanion(
-                id: id,
-                type: type,
-                cadence: cadence,
-                categoryId: categoryId,
-                accountId: accountId,
-                toAccountId: toAccountId,
-                amount: amount,
-                toAmount: toAmount,
-                payeeId: payeeId,
-                note: note,
-                dueDay: dueDay,
-                remind: remind,
-                isActive: isActive,
-                createdOn: createdOn,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required MovementType type,
-                required RecurringCadence cadence,
-                required int categoryId,
-                required int accountId,
-                Value<int?> toAccountId = const Value.absent(),
-                required int amount,
-                Value<int?> toAmount = const Value.absent(),
-                Value<int?> payeeId = const Value.absent(),
-                Value<String?> note = const Value.absent(),
-                Value<int?> dueDay = const Value.absent(),
-                Value<bool> remind = const Value.absent(),
-                Value<bool> isActive = const Value.absent(),
-                required LocalDate createdOn,
-              }) => RecurringTemplatesCompanion.insert(
-                id: id,
-                type: type,
-                cadence: cadence,
-                categoryId: categoryId,
-                accountId: accountId,
-                toAccountId: toAccountId,
-                amount: amount,
-                toAmount: toAmount,
-                payeeId: payeeId,
-                note: note,
-                dueDay: dueDay,
-                remind: remind,
-                isActive: isActive,
-                createdOn: createdOn,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<$RecurringTemplatesTable, RecurringTemplateRow>(
-                    table,
-                  ),
-                  $$RecurringTemplatesTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({
-                categoryId = false,
-                accountId = false,
-                toAccountId = false,
-                payeeId = false,
-                movementsRefs = false,
-                recurringOccurrencesRefs = false,
-              }) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (movementsRefs) db.movements,
-                    if (recurringOccurrencesRefs) db.recurringOccurrences,
-                  ],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (categoryId) {
-                          state = state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.categoryId,
-                            referencedTable: $$RecurringTemplatesTableReferences
-                                ._categoryIdTable(db),
-                            referencedColumn:
-                                $$RecurringTemplatesTableReferences
-                                    ._categoryIdTable(db)
-                                    .id,
-                          ) as T;
-                        }
-                        if (accountId) {
-                          state = state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.accountId,
-                            referencedTable: $$RecurringTemplatesTableReferences
-                                ._accountIdTable(db),
-                            referencedColumn:
-                                $$RecurringTemplatesTableReferences
-                                    ._accountIdTable(db)
-                                    .id,
-                          ) as T;
-                        }
-                        if (toAccountId) {
-                          state = state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.toAccountId,
-                            referencedTable: $$RecurringTemplatesTableReferences
-                                ._toAccountIdTable(db),
-                            referencedColumn:
-                                $$RecurringTemplatesTableReferences
-                                    ._toAccountIdTable(db)
-                                    .id,
-                          ) as T;
-                        }
-                        if (payeeId) {
-                          state = state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.payeeId,
-                            referencedTable: $$RecurringTemplatesTableReferences
-                                ._payeeIdTable(db),
-                            referencedColumn:
-                                $$RecurringTemplatesTableReferences
-                                    ._payeeIdTable(db)
-                                    .id,
-                          ) as T;
-                        }
-
-                        return state;
-                      },
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (movementsRefs)
-                        await $_getPrefetchedDataByColumns<
-                          RecurringTemplateRow,
-                          $RecurringTemplatesTable,
-                          MovementRow,
-                          $MovementsTable
-                        >(
-                          currentTable: table,
-                          referencedTable: $$RecurringTemplatesTableReferences
-                              ._movementsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$RecurringTemplatesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).movementsRefs,
-                          currentColumn: 'id',
-                          referencedColumn: 'recurring_template_id',
-                          typedResults: items,
-                        ),
-                      if (recurringOccurrencesRefs)
-                        await $_getPrefetchedDataByColumns<
-                          RecurringTemplateRow,
-                          $RecurringTemplatesTable,
-                          RecurringOccurrenceRow,
-                          $RecurringOccurrencesTable
-                        >(
-                          currentTable: table,
-                          referencedTable: $$RecurringTemplatesTableReferences
-                              ._recurringOccurrencesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$RecurringTemplatesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).recurringOccurrencesRefs,
-                          currentColumn: 'id',
-                          referencedColumn: 'template_id',
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$RecurringTemplatesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $RecurringTemplatesTable,
-      RecurringTemplateRow,
-      $$RecurringTemplatesTableFilterComposer,
-      $$RecurringTemplatesTableOrderingComposer,
-      $$RecurringTemplatesTableAnnotationComposer,
-      $$RecurringTemplatesTableCreateCompanionBuilder,
-      $$RecurringTemplatesTableUpdateCompanionBuilder,
-      (RecurringTemplateRow, $$RecurringTemplatesTableReferences),
-      RecurringTemplateRow,
-      PrefetchHooks Function({
-        bool categoryId,
-        bool accountId,
-        bool toAccountId,
-        bool payeeId,
-        bool movementsRefs,
-        bool recurringOccurrencesRefs,
       })
     >;
 typedef $$DebtsTableCreateCompanionBuilder = DebtsCompanion Function({
@@ -10318,6 +9413,30 @@ final class $$DebtsTableReferences
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $RecurringTemplatesTable,
+    List<RecurringTemplateRow>
+  >
+  _recurringTemplatesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.recurringTemplates,
+        aliasName: 'debts__id__recurring_templates__debt_id',
+      );
+
+  $$RecurringTemplatesTableProcessedTableManager get recurringTemplatesRefs {
+    final manager = $$RecurringTemplatesTableTableManager(
+      $_db,
+      $_db.recurringTemplates,
+    ).filter((f) => f.debtId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _recurringTemplatesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 
@@ -10473,6 +9592,31 @@ class $$DebtsTableFilterComposer extends Composer<_$AppDatabase, $DebtsTable> {
           ),
     );
     return composer;
+  }
+
+  Expression<bool> recurringTemplatesRefs(
+    Expression<bool> Function($$RecurringTemplatesTableFilterComposer f) f,
+  ) {
+    final $$RecurringTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recurringTemplates,
+      getReferencedColumn: (t) => t.debtId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecurringTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.recurringTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 
   Expression<bool> movementsRefs(
@@ -10752,6 +9896,32 @@ class $$DebtsTableAnnotationComposer
     return composer;
   }
 
+  Expression<T> recurringTemplatesRefs<T extends Object>(
+    Expression<T> Function($$RecurringTemplatesTableAnnotationComposer a) f,
+  ) {
+    final $$RecurringTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.recurringTemplates,
+          getReferencedColumn: (t) => t.debtId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RecurringTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.recurringTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
   Expression<T> movementsRefs<T extends Object>(
     Expression<T> Function($$MovementsTableAnnotationComposer a) f,
   ) {
@@ -10795,6 +9965,7 @@ class $$DebtsTableTableManager
             bool payeeId,
             bool currencyCode,
             bool pillarId,
+            bool recurringTemplatesRefs,
             bool movementsRefs,
           })
         > {
@@ -10886,11 +10057,15 @@ class $$DebtsTableTableManager
                 payeeId = false,
                 currencyCode = false,
                 pillarId = false,
+                recurringTemplatesRefs = false,
                 movementsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
-                  explicitlyWatchedTables: [if (movementsRefs) db.movements],
+                  explicitlyWatchedTables: [
+                    if (recurringTemplatesRefs) db.recurringTemplates,
+                    if (movementsRefs) db.movements,
+                  ],
                   addJoins:
                       <
                         T extends TableManagerState<
@@ -10945,6 +10120,26 @@ class $$DebtsTableTableManager
                       },
                   getPrefetchedDataCallback: (items) async {
                     return [
+                      if (recurringTemplatesRefs)
+                        await $_getPrefetchedDataByColumns<
+                          DebtRow,
+                          $DebtsTable,
+                          RecurringTemplateRow,
+                          $RecurringTemplatesTable
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DebtsTableReferences
+                              ._recurringTemplatesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DebtsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recurringTemplatesRefs,
+                          currentColumn: 'id',
+                          referencedColumn: 'debt_id',
+                          typedResults: items,
+                        ),
                       if (movementsRefs)
                         await $_getPrefetchedDataByColumns<
                           DebtRow,
@@ -10989,7 +10184,1080 @@ typedef $$DebtsTableProcessedTableManager =
         bool payeeId,
         bool currencyCode,
         bool pillarId,
+        bool recurringTemplatesRefs,
         bool movementsRefs,
+      })
+    >;
+typedef $$RecurringTemplatesTableCreateCompanionBuilder =
+    RecurringTemplatesCompanion Function({
+      Value<int> id,
+      required MovementType type,
+      required RecurringCadence cadence,
+      required int categoryId,
+      required int accountId,
+      Value<int?> toAccountId,
+      required int amount,
+      Value<int?> toAmount,
+      Value<int?> payeeId,
+      Value<String?> note,
+      Value<int?> dueDay,
+      Value<bool> remind,
+      Value<bool> isActive,
+      required LocalDate createdOn,
+      Value<int?> debtId,
+    });
+typedef $$RecurringTemplatesTableUpdateCompanionBuilder =
+    RecurringTemplatesCompanion Function({
+      Value<int> id,
+      Value<MovementType> type,
+      Value<RecurringCadence> cadence,
+      Value<int> categoryId,
+      Value<int> accountId,
+      Value<int?> toAccountId,
+      Value<int> amount,
+      Value<int?> toAmount,
+      Value<int?> payeeId,
+      Value<String?> note,
+      Value<int?> dueDay,
+      Value<bool> remind,
+      Value<bool> isActive,
+      Value<LocalDate> createdOn,
+      Value<int?> debtId,
+    });
+
+final class $$RecurringTemplatesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $RecurringTemplatesTable,
+          RecurringTemplateRow
+        > {
+  $$RecurringTemplatesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $CategoriesTable _categoryIdTable(_$AppDatabase db) => db.categories
+      .createAlias('recurring_templates__category_id__categories__id');
+
+  $$CategoriesTableProcessedTableManager get categoryId {
+    final $_column = $_itemColumn<int>('category_id')!;
+
+    final manager = $$CategoriesTableTableManager(
+      $_db,
+      $_db.categories,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $AccountsTable _accountIdTable(_$AppDatabase db) =>
+      db.accounts.createAlias('recurring_templates__account_id__accounts__id');
+
+  $$AccountsTableProcessedTableManager get accountId {
+    final $_column = $_itemColumn<int>('account_id')!;
+
+    final manager = $$AccountsTableTableManager(
+      $_db,
+      $_db.accounts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_accountIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $AccountsTable _toAccountIdTable(_$AppDatabase db) => db.accounts
+      .createAlias('recurring_templates__to_account_id__accounts__id');
+
+  $$AccountsTableProcessedTableManager? get toAccountId {
+    final $_column = $_itemColumn<int>('to_account_id');
+    if ($_column == null) return null;
+    final manager = $$AccountsTableTableManager(
+      $_db,
+      $_db.accounts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_toAccountIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $PayeesTable _payeeIdTable(_$AppDatabase db) =>
+      db.payees.createAlias('recurring_templates__payee_id__payees__id');
+
+  $$PayeesTableProcessedTableManager? get payeeId {
+    final $_column = $_itemColumn<int>('payee_id');
+    if ($_column == null) return null;
+    final manager = $$PayeesTableTableManager(
+      $_db,
+      $_db.payees,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_payeeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DebtsTable _debtIdTable(_$AppDatabase db) =>
+      db.debts.createAlias('recurring_templates__debt_id__debts__id');
+
+  $$DebtsTableProcessedTableManager? get debtId {
+    final $_column = $_itemColumn<int>('debt_id');
+    if ($_column == null) return null;
+    final manager = $$DebtsTableTableManager(
+      $_db,
+      $_db.debts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_debtIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$MovementsTable, List<MovementRow>>
+  _movementsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.movements,
+    aliasName: 'recurring_templates__id__movements__recurring_template_id',
+  );
+
+  $$MovementsTableProcessedTableManager get movementsRefs {
+    final manager = $$MovementsTableTableManager($_db, $_db.movements).filter(
+      (f) => f.recurringTemplateId.id.sqlEquals($_itemColumn<int>('id')!),
+    );
+
+    final cache = $_typedResult.readTableOrNull(_movementsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $RecurringOccurrencesTable,
+    List<RecurringOccurrenceRow>
+  >
+  _recurringOccurrencesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.recurringOccurrences,
+        aliasName:
+            'recurring_templates__id__recurring_occurrences__template_id',
+      );
+
+  $$RecurringOccurrencesTableProcessedTableManager
+  get recurringOccurrencesRefs {
+    final manager = $$RecurringOccurrencesTableTableManager(
+      $_db,
+      $_db.recurringOccurrences,
+    ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _recurringOccurrencesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$RecurringTemplatesTableFilterComposer
+    extends Composer<_$AppDatabase, $RecurringTemplatesTable> {
+  $$RecurringTemplatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<MovementType, MovementType, String> get type =>
+      $composableBuilder(
+        column: $table.type,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnWithTypeConverterFilters<RecurringCadence, RecurringCadence, String>
+  get cadence => $composableBuilder(
+    column: $table.cadence,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<int> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get toAmount => $composableBuilder(
+    column: $table.toAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get dueDay => $composableBuilder(
+    column: $table.dueDay,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get remind => $composableBuilder(
+    column: $table.remind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<LocalDate, LocalDate, String> get createdOn =>
+      $composableBuilder(
+        column: $table.createdOn,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  $$CategoriesTableFilterComposer get categoryId {
+    final $$CategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableFilterComposer get accountId {
+    final $$AccountsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.accountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableFilterComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableFilterComposer get toAccountId {
+    final $$AccountsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.toAccountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableFilterComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PayeesTableFilterComposer get payeeId {
+    final $$PayeesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.payeeId,
+      referencedTable: $db.payees,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PayeesTableFilterComposer(
+            $db: $db,
+            $table: $db.payees,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DebtsTableFilterComposer get debtId {
+    final $$DebtsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.debtId,
+      referencedTable: $db.debts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DebtsTableFilterComposer(
+            $db: $db,
+            $table: $db.debts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> movementsRefs(
+    Expression<bool> Function($$MovementsTableFilterComposer f) f,
+  ) {
+    final $$MovementsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.recurringTemplateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableFilterComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> recurringOccurrencesRefs(
+    Expression<bool> Function($$RecurringOccurrencesTableFilterComposer f) f,
+  ) {
+    final $$RecurringOccurrencesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recurringOccurrences,
+      getReferencedColumn: (t) => t.templateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecurringOccurrencesTableFilterComposer(
+            $db: $db,
+            $table: $db.recurringOccurrences,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$RecurringTemplatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecurringTemplatesTable> {
+  $$RecurringTemplatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cadence => $composableBuilder(
+    column: $table.cadence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get toAmount => $composableBuilder(
+    column: $table.toAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get dueDay => $composableBuilder(
+    column: $table.dueDay,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get remind => $composableBuilder(
+    column: $table.remind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdOn => $composableBuilder(
+    column: $table.createdOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CategoriesTableOrderingComposer get categoryId {
+    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableOrderingComposer get accountId {
+    final $$AccountsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.accountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableOrderingComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableOrderingComposer get toAccountId {
+    final $$AccountsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.toAccountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableOrderingComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PayeesTableOrderingComposer get payeeId {
+    final $$PayeesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.payeeId,
+      referencedTable: $db.payees,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PayeesTableOrderingComposer(
+            $db: $db,
+            $table: $db.payees,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DebtsTableOrderingComposer get debtId {
+    final $$DebtsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.debtId,
+      referencedTable: $db.debts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DebtsTableOrderingComposer(
+            $db: $db,
+            $table: $db.debts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RecurringTemplatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecurringTemplatesTable> {
+  $$RecurringTemplatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<MovementType, String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<RecurringCadence, String> get cadence =>
+      $composableBuilder(column: $table.cadence, builder: (column) => column);
+
+  GeneratedColumn<int> get amount =>
+      $composableBuilder(column: $table.amount, builder: (column) => column);
+
+  GeneratedColumn<int> get toAmount =>
+      $composableBuilder(column: $table.toAmount, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<int> get dueDay =>
+      $composableBuilder(column: $table.dueDay, builder: (column) => column);
+
+  GeneratedColumn<bool> get remind =>
+      $composableBuilder(column: $table.remind, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<LocalDate, String> get createdOn =>
+      $composableBuilder(column: $table.createdOn, builder: (column) => column);
+
+  $$CategoriesTableAnnotationComposer get categoryId {
+    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableAnnotationComposer get accountId {
+    final $$AccountsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.accountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AccountsTableAnnotationComposer get toAccountId {
+    final $$AccountsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.toAccountId,
+      referencedTable: $db.accounts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AccountsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.accounts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PayeesTableAnnotationComposer get payeeId {
+    final $$PayeesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.payeeId,
+      referencedTable: $db.payees,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PayeesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.payees,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DebtsTableAnnotationComposer get debtId {
+    final $$DebtsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.debtId,
+      referencedTable: $db.debts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DebtsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.debts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> movementsRefs<T extends Object>(
+    Expression<T> Function($$MovementsTableAnnotationComposer a) f,
+  ) {
+    final $$MovementsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.movements,
+      getReferencedColumn: (t) => t.recurringTemplateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.movements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> recurringOccurrencesRefs<T extends Object>(
+    Expression<T> Function($$RecurringOccurrencesTableAnnotationComposer a) f,
+  ) {
+    final $$RecurringOccurrencesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.recurringOccurrences,
+          getReferencedColumn: (t) => t.templateId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RecurringOccurrencesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.recurringOccurrences,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$RecurringTemplatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RecurringTemplatesTable,
+          RecurringTemplateRow,
+          $$RecurringTemplatesTableFilterComposer,
+          $$RecurringTemplatesTableOrderingComposer,
+          $$RecurringTemplatesTableAnnotationComposer,
+          $$RecurringTemplatesTableCreateCompanionBuilder,
+          $$RecurringTemplatesTableUpdateCompanionBuilder,
+          (RecurringTemplateRow, $$RecurringTemplatesTableReferences),
+          RecurringTemplateRow,
+          PrefetchHooks Function({
+            bool categoryId,
+            bool accountId,
+            bool toAccountId,
+            bool payeeId,
+            bool debtId,
+            bool movementsRefs,
+            bool recurringOccurrencesRefs,
+          })
+        > {
+  $$RecurringTemplatesTableTableManager(
+    _$AppDatabase db,
+    $RecurringTemplatesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RecurringTemplatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RecurringTemplatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RecurringTemplatesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<MovementType> type = const Value.absent(),
+                Value<RecurringCadence> cadence = const Value.absent(),
+                Value<int> categoryId = const Value.absent(),
+                Value<int> accountId = const Value.absent(),
+                Value<int?> toAccountId = const Value.absent(),
+                Value<int> amount = const Value.absent(),
+                Value<int?> toAmount = const Value.absent(),
+                Value<int?> payeeId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<int?> dueDay = const Value.absent(),
+                Value<bool> remind = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<LocalDate> createdOn = const Value.absent(),
+                Value<int?> debtId = const Value.absent(),
+              }) => RecurringTemplatesCompanion(
+                id: id,
+                type: type,
+                cadence: cadence,
+                categoryId: categoryId,
+                accountId: accountId,
+                toAccountId: toAccountId,
+                amount: amount,
+                toAmount: toAmount,
+                payeeId: payeeId,
+                note: note,
+                dueDay: dueDay,
+                remind: remind,
+                isActive: isActive,
+                createdOn: createdOn,
+                debtId: debtId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required MovementType type,
+                required RecurringCadence cadence,
+                required int categoryId,
+                required int accountId,
+                Value<int?> toAccountId = const Value.absent(),
+                required int amount,
+                Value<int?> toAmount = const Value.absent(),
+                Value<int?> payeeId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<int?> dueDay = const Value.absent(),
+                Value<bool> remind = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                required LocalDate createdOn,
+                Value<int?> debtId = const Value.absent(),
+              }) => RecurringTemplatesCompanion.insert(
+                id: id,
+                type: type,
+                cadence: cadence,
+                categoryId: categoryId,
+                accountId: accountId,
+                toAccountId: toAccountId,
+                amount: amount,
+                toAmount: toAmount,
+                payeeId: payeeId,
+                note: note,
+                dueDay: dueDay,
+                remind: remind,
+                isActive: isActive,
+                createdOn: createdOn,
+                debtId: debtId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$RecurringTemplatesTable, RecurringTemplateRow>(
+                    table,
+                  ),
+                  $$RecurringTemplatesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                categoryId = false,
+                accountId = false,
+                toAccountId = false,
+                payeeId = false,
+                debtId = false,
+                movementsRefs = false,
+                recurringOccurrencesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (movementsRefs) db.movements,
+                    if (recurringOccurrencesRefs) db.recurringOccurrences,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (categoryId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.categoryId,
+                            referencedTable: $$RecurringTemplatesTableReferences
+                                ._categoryIdTable(db),
+                            referencedColumn:
+                                $$RecurringTemplatesTableReferences
+                                    ._categoryIdTable(db)
+                                    .id,
+                          ) as T;
+                        }
+                        if (accountId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.accountId,
+                            referencedTable: $$RecurringTemplatesTableReferences
+                                ._accountIdTable(db),
+                            referencedColumn:
+                                $$RecurringTemplatesTableReferences
+                                    ._accountIdTable(db)
+                                    .id,
+                          ) as T;
+                        }
+                        if (toAccountId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.toAccountId,
+                            referencedTable: $$RecurringTemplatesTableReferences
+                                ._toAccountIdTable(db),
+                            referencedColumn:
+                                $$RecurringTemplatesTableReferences
+                                    ._toAccountIdTable(db)
+                                    .id,
+                          ) as T;
+                        }
+                        if (payeeId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.payeeId,
+                            referencedTable: $$RecurringTemplatesTableReferences
+                                ._payeeIdTable(db),
+                            referencedColumn:
+                                $$RecurringTemplatesTableReferences
+                                    ._payeeIdTable(db)
+                                    .id,
+                          ) as T;
+                        }
+                        if (debtId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.debtId,
+                            referencedTable: $$RecurringTemplatesTableReferences
+                                ._debtIdTable(db),
+                            referencedColumn:
+                                $$RecurringTemplatesTableReferences
+                                    ._debtIdTable(db)
+                                    .id,
+                          ) as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (movementsRefs)
+                        await $_getPrefetchedDataByColumns<
+                          RecurringTemplateRow,
+                          $RecurringTemplatesTable,
+                          MovementRow,
+                          $MovementsTable
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RecurringTemplatesTableReferences
+                              ._movementsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RecurringTemplatesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).movementsRefs,
+                          currentColumn: 'id',
+                          referencedColumn: 'recurring_template_id',
+                          typedResults: items,
+                        ),
+                      if (recurringOccurrencesRefs)
+                        await $_getPrefetchedDataByColumns<
+                          RecurringTemplateRow,
+                          $RecurringTemplatesTable,
+                          RecurringOccurrenceRow,
+                          $RecurringOccurrencesTable
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RecurringTemplatesTableReferences
+                              ._recurringOccurrencesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RecurringTemplatesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recurringOccurrencesRefs,
+                          currentColumn: 'id',
+                          referencedColumn: 'template_id',
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$RecurringTemplatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RecurringTemplatesTable,
+      RecurringTemplateRow,
+      $$RecurringTemplatesTableFilterComposer,
+      $$RecurringTemplatesTableOrderingComposer,
+      $$RecurringTemplatesTableAnnotationComposer,
+      $$RecurringTemplatesTableCreateCompanionBuilder,
+      $$RecurringTemplatesTableUpdateCompanionBuilder,
+      (RecurringTemplateRow, $$RecurringTemplatesTableReferences),
+      RecurringTemplateRow,
+      PrefetchHooks Function({
+        bool categoryId,
+        bool accountId,
+        bool toAccountId,
+        bool payeeId,
+        bool debtId,
+        bool movementsRefs,
+        bool recurringOccurrencesRefs,
       })
     >;
 typedef $$MovementsTableCreateCompanionBuilder = MovementsCompanion Function({
@@ -12571,10 +12839,10 @@ class $AppDatabaseManager {
       $$CategoriesTableTableManager(_db, _db.categories);
   $$PayeesTableTableManager get payees =>
       $$PayeesTableTableManager(_db, _db.payees);
-  $$RecurringTemplatesTableTableManager get recurringTemplates =>
-      $$RecurringTemplatesTableTableManager(_db, _db.recurringTemplates);
   $$DebtsTableTableManager get debts =>
       $$DebtsTableTableManager(_db, _db.debts);
+  $$RecurringTemplatesTableTableManager get recurringTemplates =>
+      $$RecurringTemplatesTableTableManager(_db, _db.recurringTemplates);
   $$MovementsTableTableManager get movements =>
       $$MovementsTableTableManager(_db, _db.movements);
   $$PeriodStartsTableTableManager get periodStarts =>

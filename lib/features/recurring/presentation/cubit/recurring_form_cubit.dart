@@ -15,6 +15,9 @@ import 'package:saisho_kakeibo/features/accounts/domain/usecases/get_accounts.da
 import 'package:saisho_kakeibo/features/categories/domain/entities/categories_x.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/categories/domain/usecases/get_categories.dart';
+import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
+import 'package:saisho_kakeibo/features/debts/domain/rules/debt_rules.dart';
+import 'package:saisho_kakeibo/features/debts/domain/usecases/get_debt_statuses.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/rules/movement_rules.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/get_movement.dart';
@@ -42,6 +45,7 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
     required this._getTemplate,
     required this._saveTemplate,
     required this._deleteTemplate,
+    required this._getDebts,
   }) : super(const RecurringFormState());
 
   final GetAccounts _getAccounts;
@@ -52,6 +56,7 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
   final GetRecurringTemplate _getTemplate;
   final SaveRecurringTemplate _saveTemplate;
   final DeleteRecurringTemplate _deleteTemplate;
+  final GetDebtStatuses _getDebts;
 
   /// Loads the template [id], or starts one from the movement
   /// [fromMovementId], or an empty expense in the main account.
@@ -85,7 +90,9 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
         );
         return;
     }
+    final debts = await _getDebts(const NoParams());
     final loaded = state.copyWith(
+      debts: debts is Ok<List<DebtWithStatus>> ? debts.value : const [],
       status: RecurringFormStatus.editing,
       accounts: accounts,
       categories: categories,
@@ -114,6 +121,7 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
           toAmount: m.toAmount,
           payeeId: m.payeeId,
           note: m.note,
+          debtId: m.debtId,
           createdOn: LocalDate.today(),
         );
         emit(_fill(loaded, template));
@@ -134,6 +142,7 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
       note: t.note ?? '',
       dueDay: t.dueDay,
       remind: t.remind,
+      debtId: t.debtId,
     );
     String text(int amount, Account? account) => MoneyFormatter.format(
       Money(amount, account?.currencyCode ?? ''),
@@ -158,7 +167,30 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
   void cadenceChanged(RecurringCadence cadence) =>
       _change(state.copyWith(cadence: cadence));
 
-  void categoryChanged(int? id) => _change(state.copyWith(categoryId: id));
+  /// Another category starts the debt choice over.
+  void categoryChanged(int? id) =>
+      _change(state.copyWith(categoryId: id, debtId: null));
+
+  /// The debt a Debt payment or Loan repaid template pays; a new template
+  /// takes its installment.
+  void debtChanged(int? id) {
+    final next = state.copyWith(debtId: id);
+    final installment = next.debtOptions
+        .where((d) => d.debt.id == id)
+        .firstOrNull
+        ?.debt
+        .installment;
+    _change(
+      installment != null && state.amountText.trim().isEmpty
+          ? next.copyWith(
+              amountText: MoneyFormatter.format(
+                Money(installment, next.account?.currencyCode ?? ''),
+                next.formatOf(next.account),
+              ),
+            )
+          : next,
+    );
+  }
 
   void accountChanged(int? id) => _change(state.copyWith(accountId: id));
 
@@ -188,7 +220,10 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
     }
     emit(state.copyWith(status: RecurringFormStatus.saving));
     final result = await _saveTemplate(
-      SaveRecurringTemplateParams(template, payeeName: state.payeeName),
+      SaveRecurringTemplateParams(
+        template,
+        payeeName: state.debtType == null ? state.payeeName : null,
+      ),
     );
     emit(switch (result) {
       Ok() => state.copyWith(status: RecurringFormStatus.saved),
@@ -254,6 +289,7 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
             note: form.note,
             dueDay: form.dueDay,
             remind: form.remind,
+            debtId: form.debtType == null ? null : form.debtId,
           ),
     );
     final errors = RecurringRules.validate(
@@ -264,6 +300,9 @@ class RecurringFormCubit extends Cubit<RecurringFormState> {
     );
     if (amount == null || toAmount == null) {
       errors.add(MovementError.invalidAmount);
+    }
+    if (form.debtType != null && form.debtId == null) {
+      errors.add(MovementError.missingDebt);
     }
     return (errors.isEmpty ? template : null, errors);
   }
