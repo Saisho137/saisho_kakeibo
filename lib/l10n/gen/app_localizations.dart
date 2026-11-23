@@ -2032,17 +2032,11 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get debtName;
 
-  /// Label of whom I owe.
+  /// Explains that the debt name is also its entity.
   ///
   /// In en, this message translates to:
-  /// **'Creditor'**
-  String get debtEntityIOwe;
-
-  /// Label of who owes me.
-  ///
-  /// In en, this message translates to:
-  /// **'Debtor'**
-  String get debtEntityOwedToMe;
+  /// **'Its entity: find it by this name when paying. Add the bank if it helps.'**
+  String get debtNameHint;
 
   /// Label of the debt currency.
   ///
@@ -2134,12 +2128,6 @@ abstract class AppLocalizations {
   /// **'Use {max} characters at most.'**
   String debtErrorNameTooLong(int max);
 
-  /// Missing creditor or debtor.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter who it is with.'**
-  String get debtErrorPayee;
-
   /// Invalid pending amount.
   ///
   /// In en, this message translates to:
@@ -2188,17 +2176,17 @@ abstract class AppLocalizations {
   /// **'Enter who it is with.'**
   String get movementErrorDebtPayee;
 
+  /// Missing name of the debt a loan received creates.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the debt\'s name.'**
+  String get movementErrorDebtName;
+
   /// Label of the name of the debt a loan creates.
   ///
   /// In en, this message translates to:
   /// **'Debt name'**
   String get movementDebtName;
-
-  /// Explains the default debt name.
-  ///
-  /// In en, this message translates to:
-  /// **'The entity\'s name when empty.'**
-  String get movementDebtNameHint;
 
   /// What a received loan leaves to pay.
   ///

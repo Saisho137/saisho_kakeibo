@@ -147,6 +147,8 @@ class _Form extends StatelessWidget {
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                   labelText: l10n.debtName,
+                  helperText: l10n.debtNameHint,
+                  helperMaxLines: 2,
                   counterText: '',
                   errorText: errors.contains(DebtError.emptyName)
                       ? l10n.debtErrorName
@@ -173,20 +175,6 @@ class _Form extends StatelessWidget {
             },
             child: Text(l10n.debtChangeColor),
           ),
-        ),
-        TextFormField(
-          key: const ValueKey('payee'),
-          initialValue: state.payeeName,
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            labelText: state.iOwe
-                ? l10n.debtEntityIOwe
-                : l10n.debtEntityOwedToMe,
-            errorText: errors.contains(DebtError.missingPayee)
-                ? l10n.debtErrorPayee
-                : null,
-          ),
-          onChanged: cubit.payeeChanged,
         ),
         UnfocusOnPointer(
           child: DropdownButtonFormField<String>(

@@ -487,17 +487,31 @@ void main() {
       );
 
       cubit
-        ..payeeChanged('Davivienda')
-        ..debtNameChanged('Car loan')
+        ..payeeChanged('Car loan')
         ..debtPillarChanged(1)
         ..debtPendingChanged('7');
       await cubit.submit();
       final params = saved();
-      expect(
-        params.debt,
-        const NewDebt(name: 'Car loan', pillarId: 1, initialPending: 7),
+      expect(params.debt, const NewDebt(pillarId: 1, initialPending: 7));
+      expect(params.payeeName, 'Car loan');
+    });
+
+    test('a payment picks the debt of its payee', () async {
+      final car = fixtures.debt(id: 4, name: 'Uber', payeeId: 5);
+      when(() => getDebts(any())).thenAnswer(
+        (_) async => Ok([
+          for (final d in [mortgage, car])
+            (debt: d, status: DebtStatus.of(d, const [])),
+        ]),
       );
-      expect(params.payeeName, 'Davivienda');
+      when(() => prefill(any())).thenAnswer(
+        (_) async => const Ok(
+          MovementDraft(categoryId: 12, accountId: 1, payeeName: 'Uber'),
+        ),
+      );
+      final cubit = build();
+      await cubit.load(payeeId: 5);
+      expect(cubit.state.debtId, 4);
     });
 
     test('a loan given adds to the open debt of its payee', () async {

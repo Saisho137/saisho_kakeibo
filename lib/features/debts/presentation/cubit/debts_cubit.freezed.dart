@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$DebtsState {
 
  DebtsStatus get status;/// Every stream's latest value; `null` until it arrives.
- List<Debt>? get debts; List<Movement>? get movements; List<Account>? get accounts; Map<int, int>? get balances; List<Payee>? get payees; List<Pillar>? get pillars; List<Currency> get currencies; AppSettings? get settings;/// Currency picked on the screen; the main one until then.
+ List<Debt>? get debts; List<Movement>? get movements; List<Account>? get accounts; Map<int, int>? get balances; List<Pillar>? get pillars; List<Currency> get currencies; AppSettings? get settings;/// Currency picked on the screen; the main one until then.
  String? get selectedCurrencyCode; Failure? get failure;
 /// Create a copy of DebtsState
 /// with the given fields replaced by the non-null parameter values.
@@ -29,20 +29,20 @@ $DebtsStateCopyWith<DebtsState> get copyWith => _$DebtsStateCopyWithImpl<DebtsSt
 @override
 bool operator ==(Object other) {
   final _this = this as DebtsState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DebtsState&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.debts, _this.debts)&&const DeepCollectionEquality().equals(other.movements, _this.movements)&&const DeepCollectionEquality().equals(other.accounts, _this.accounts)&&const DeepCollectionEquality().equals(other.balances, _this.balances)&&const DeepCollectionEquality().equals(other.payees, _this.payees)&&const DeepCollectionEquality().equals(other.pillars, _this.pillars)&&const DeepCollectionEquality().equals(other.currencies, _this.currencies)&&(identical(other.settings, _this.settings) || other.settings == _this.settings)&&(identical(other.selectedCurrencyCode, _this.selectedCurrencyCode) || other.selectedCurrencyCode == _this.selectedCurrencyCode)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DebtsState&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.debts, _this.debts)&&const DeepCollectionEquality().equals(other.movements, _this.movements)&&const DeepCollectionEquality().equals(other.accounts, _this.accounts)&&const DeepCollectionEquality().equals(other.balances, _this.balances)&&const DeepCollectionEquality().equals(other.pillars, _this.pillars)&&const DeepCollectionEquality().equals(other.currencies, _this.currencies)&&(identical(other.settings, _this.settings) || other.settings == _this.settings)&&(identical(other.selectedCurrencyCode, _this.selectedCurrencyCode) || other.selectedCurrencyCode == _this.selectedCurrencyCode)&&(identical(other.failure, _this.failure) || other.failure == _this.failure));
 }
 
 
 @override
 int get hashCode {
   final _this = this as DebtsState;
-  return Object.hash(runtimeType,_this.status,const DeepCollectionEquality().hash(_this.debts),const DeepCollectionEquality().hash(_this.movements),const DeepCollectionEquality().hash(_this.accounts),const DeepCollectionEquality().hash(_this.balances),const DeepCollectionEquality().hash(_this.payees),const DeepCollectionEquality().hash(_this.pillars),const DeepCollectionEquality().hash(_this.currencies),_this.settings,_this.selectedCurrencyCode,_this.failure);
+  return Object.hash(runtimeType,_this.status,const DeepCollectionEquality().hash(_this.debts),const DeepCollectionEquality().hash(_this.movements),const DeepCollectionEquality().hash(_this.accounts),const DeepCollectionEquality().hash(_this.balances),const DeepCollectionEquality().hash(_this.pillars),const DeepCollectionEquality().hash(_this.currencies),_this.settings,_this.selectedCurrencyCode,_this.failure);
 }
 
 @override
 String toString() {
   final _this = this as DebtsState;
-  return 'DebtsState(status: ${_this.status}, debts: ${_this.debts}, movements: ${_this.movements}, accounts: ${_this.accounts}, balances: ${_this.balances}, payees: ${_this.payees}, pillars: ${_this.pillars}, currencies: ${_this.currencies}, settings: ${_this.settings}, selectedCurrencyCode: ${_this.selectedCurrencyCode}, failure: ${_this.failure})';
+  return 'DebtsState(status: ${_this.status}, debts: ${_this.debts}, movements: ${_this.movements}, accounts: ${_this.accounts}, balances: ${_this.balances}, pillars: ${_this.pillars}, currencies: ${_this.currencies}, settings: ${_this.settings}, selectedCurrencyCode: ${_this.selectedCurrencyCode}, failure: ${_this.failure})';
 }
 
 
@@ -53,7 +53,7 @@ abstract mixin class $DebtsStateCopyWith<$Res>  {
   factory $DebtsStateCopyWith(DebtsState value, $Res Function(DebtsState) _then) = _$DebtsStateCopyWithImpl;
 @useResult
 $Res call({
- DebtsStatus status, List<Debt>? debts, List<Movement>? movements, List<Account>? accounts, Map<int, int>? balances, List<Payee>? payees, List<Pillar>? pillars, List<Currency> currencies, AppSettings? settings, String? selectedCurrencyCode, Failure? failure
+ DebtsStatus status, List<Debt>? debts, List<Movement>? movements, List<Account>? accounts, Map<int, int>? balances, List<Pillar>? pillars, List<Currency> currencies, AppSettings? settings, String? selectedCurrencyCode, Failure? failure
 });
 
 
@@ -70,15 +70,14 @@ class _$DebtsStateCopyWithImpl<$Res>
 
 /// Create a copy of DebtsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? debts = freezed,Object? movements = freezed,Object? accounts = freezed,Object? balances = freezed,Object? payees = freezed,Object? pillars = freezed,Object? currencies = null,Object? settings = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? debts = freezed,Object? movements = freezed,Object? accounts = freezed,Object? balances = freezed,Object? pillars = freezed,Object? currencies = null,Object? settings = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
   return _then(DebtsState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DebtsStatus,debts: freezed == debts ? _self.debts : debts // ignore: cast_nullable_to_non_nullable
 as List<Debt>?,movements: freezed == movements ? _self.movements : movements // ignore: cast_nullable_to_non_nullable
 as List<Movement>?,accounts: freezed == accounts ? _self.accounts : accounts // ignore: cast_nullable_to_non_nullable
 as List<Account>?,balances: freezed == balances ? _self.balances : balances // ignore: cast_nullable_to_non_nullable
-as Map<int, int>?,payees: freezed == payees ? _self.payees : payees // ignore: cast_nullable_to_non_nullable
-as List<Payee>?,pillars: freezed == pillars ? _self.pillars : pillars // ignore: cast_nullable_to_non_nullable
+as Map<int, int>?,pillars: freezed == pillars ? _self.pillars : pillars // ignore: cast_nullable_to_non_nullable
 as List<Pillar>?,currencies: null == currencies ? _self.currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,settings: freezed == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
 as AppSettings?,selectedCurrencyCode: freezed == selectedCurrencyCode ? _self.selectedCurrencyCode : selectedCurrencyCode // ignore: cast_nullable_to_non_nullable
@@ -180,10 +179,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DebtsStatus status,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Payee>? payees,  List<Pillar>? pillars,  List<Currency> currencies,  AppSettings? settings,  String? selectedCurrencyCode,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DebtsStatus status,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Pillar>? pillars,  List<Currency> currencies,  AppSettings? settings,  String? selectedCurrencyCode,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DebtsState() when $default != null:
-return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.balances,_that.payees,_that.pillars,_that.currencies,_that.settings,_that.selectedCurrencyCode,_that.failure);case _:
+return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.balances,_that.pillars,_that.currencies,_that.settings,_that.selectedCurrencyCode,_that.failure);case _:
   return orElse();
 
 }
@@ -201,10 +200,10 @@ return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.ba
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DebtsStatus status,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Payee>? payees,  List<Pillar>? pillars,  List<Currency> currencies,  AppSettings? settings,  String? selectedCurrencyCode,  Failure? failure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DebtsStatus status,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Pillar>? pillars,  List<Currency> currencies,  AppSettings? settings,  String? selectedCurrencyCode,  Failure? failure)  $default,) {final _that = this;
 switch (_that) {
 case _DebtsState():
-return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.balances,_that.payees,_that.pillars,_that.currencies,_that.settings,_that.selectedCurrencyCode,_that.failure);case _:
+return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.balances,_that.pillars,_that.currencies,_that.settings,_that.selectedCurrencyCode,_that.failure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -221,10 +220,10 @@ return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.ba
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DebtsStatus status,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Payee>? payees,  List<Pillar>? pillars,  List<Currency> currencies,  AppSettings? settings,  String? selectedCurrencyCode,  Failure? failure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DebtsStatus status,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Pillar>? pillars,  List<Currency> currencies,  AppSettings? settings,  String? selectedCurrencyCode,  Failure? failure)?  $default,) {final _that = this;
 switch (_that) {
 case _DebtsState() when $default != null:
-return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.balances,_that.payees,_that.pillars,_that.currencies,_that.settings,_that.selectedCurrencyCode,_that.failure);case _:
+return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.balances,_that.pillars,_that.currencies,_that.settings,_that.selectedCurrencyCode,_that.failure);case _:
   return null;
 
 }
@@ -236,7 +235,7 @@ return $default(_that.status,_that.debts,_that.movements,_that.accounts,_that.ba
 
 
 class _DebtsState extends DebtsState {
-  const _DebtsState({this.status = DebtsStatus.loading,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Payee>? payees,  List<Pillar>? pillars,  List<Currency> currencies = const <Currency>[], this.settings, this.selectedCurrencyCode, this.failure}): _debts = debts,_movements = movements,_accounts = accounts,_balances = balances,_payees = payees,_pillars = pillars,_currencies = currencies,super._();
+  const _DebtsState({this.status = DebtsStatus.loading,  List<Debt>? debts,  List<Movement>? movements,  List<Account>? accounts,  Map<int, int>? balances,  List<Pillar>? pillars,  List<Currency> currencies = const <Currency>[], this.settings, this.selectedCurrencyCode, this.failure}): _debts = debts,_movements = movements,_accounts = accounts,_balances = balances,_pillars = pillars,_currencies = currencies,super._();
   
 
 @override@JsonKey() final  DebtsStatus status;
@@ -278,15 +277,6 @@ class _DebtsState extends DebtsState {
   return EqualUnmodifiableMapView(value);
 }
 
- final  List<Payee>? _payees;
-@override List<Payee>? get payees {
-  final value = _payees;
-  if (value == null) return null;
-  if (_payees is EqualUnmodifiableListView) return _payees;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
-}
-
  final  List<Pillar>? _pillars;
 @override List<Pillar>? get pillars {
   final value = _pillars;
@@ -318,18 +308,18 @@ _$DebtsStateCopyWith<_DebtsState> get copyWith => __$DebtsStateCopyWithImpl<_Deb
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DebtsState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.debts, _debts)&&const DeepCollectionEquality().equals(other.movements, _movements)&&const DeepCollectionEquality().equals(other.accounts, _accounts)&&const DeepCollectionEquality().equals(other.balances, _balances)&&const DeepCollectionEquality().equals(other.payees, _payees)&&const DeepCollectionEquality().equals(other.pillars, _pillars)&&const DeepCollectionEquality().equals(other.currencies, _currencies)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.selectedCurrencyCode, selectedCurrencyCode) || other.selectedCurrencyCode == selectedCurrencyCode)&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DebtsState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.debts, _debts)&&const DeepCollectionEquality().equals(other.movements, _movements)&&const DeepCollectionEquality().equals(other.accounts, _accounts)&&const DeepCollectionEquality().equals(other.balances, _balances)&&const DeepCollectionEquality().equals(other.pillars, _pillars)&&const DeepCollectionEquality().equals(other.currencies, _currencies)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.selectedCurrencyCode, selectedCurrencyCode) || other.selectedCurrencyCode == selectedCurrencyCode)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_debts),const DeepCollectionEquality().hash(_movements),const DeepCollectionEquality().hash(_accounts),const DeepCollectionEquality().hash(_balances),const DeepCollectionEquality().hash(_payees),const DeepCollectionEquality().hash(_pillars),const DeepCollectionEquality().hash(_currencies),settings,selectedCurrencyCode,failure);
+    return Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_debts),const DeepCollectionEquality().hash(_movements),const DeepCollectionEquality().hash(_accounts),const DeepCollectionEquality().hash(_balances),const DeepCollectionEquality().hash(_pillars),const DeepCollectionEquality().hash(_currencies),settings,selectedCurrencyCode,failure);
 }
 
 @override
 String toString() {
-    return 'DebtsState(status: $status, debts: $debts, movements: $movements, accounts: $accounts, balances: $balances, payees: $payees, pillars: $pillars, currencies: $currencies, settings: $settings, selectedCurrencyCode: $selectedCurrencyCode, failure: $failure)';
+    return 'DebtsState(status: $status, debts: $debts, movements: $movements, accounts: $accounts, balances: $balances, pillars: $pillars, currencies: $currencies, settings: $settings, selectedCurrencyCode: $selectedCurrencyCode, failure: $failure)';
 }
 
 
@@ -340,7 +330,7 @@ abstract mixin class _$DebtsStateCopyWith<$Res> implements $DebtsStateCopyWith<$
   factory _$DebtsStateCopyWith(_DebtsState value, $Res Function(_DebtsState) _then) = __$DebtsStateCopyWithImpl;
 @override @useResult
 $Res call({
- DebtsStatus status, List<Debt>? debts, List<Movement>? movements, List<Account>? accounts, Map<int, int>? balances, List<Payee>? payees, List<Pillar>? pillars, List<Currency> currencies, AppSettings? settings, String? selectedCurrencyCode, Failure? failure
+ DebtsStatus status, List<Debt>? debts, List<Movement>? movements, List<Account>? accounts, Map<int, int>? balances, List<Pillar>? pillars, List<Currency> currencies, AppSettings? settings, String? selectedCurrencyCode, Failure? failure
 });
 
 
@@ -357,15 +347,14 @@ class __$DebtsStateCopyWithImpl<$Res>
 
 /// Create a copy of DebtsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? debts = freezed,Object? movements = freezed,Object? accounts = freezed,Object? balances = freezed,Object? payees = freezed,Object? pillars = freezed,Object? currencies = null,Object? settings = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? debts = freezed,Object? movements = freezed,Object? accounts = freezed,Object? balances = freezed,Object? pillars = freezed,Object? currencies = null,Object? settings = freezed,Object? selectedCurrencyCode = freezed,Object? failure = freezed,}) {
   return _then(_DebtsState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DebtsStatus,debts: freezed == debts ? _self._debts : debts // ignore: cast_nullable_to_non_nullable
 as List<Debt>?,movements: freezed == movements ? _self._movements : movements // ignore: cast_nullable_to_non_nullable
 as List<Movement>?,accounts: freezed == accounts ? _self._accounts : accounts // ignore: cast_nullable_to_non_nullable
 as List<Account>?,balances: freezed == balances ? _self._balances : balances // ignore: cast_nullable_to_non_nullable
-as Map<int, int>?,payees: freezed == payees ? _self._payees : payees // ignore: cast_nullable_to_non_nullable
-as List<Payee>?,pillars: freezed == pillars ? _self._pillars : pillars // ignore: cast_nullable_to_non_nullable
+as Map<int, int>?,pillars: freezed == pillars ? _self._pillars : pillars // ignore: cast_nullable_to_non_nullable
 as List<Pillar>?,currencies: null == currencies ? _self._currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,settings: freezed == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
 as AppSettings?,selectedCurrencyCode: freezed == selectedCurrencyCode ? _self.selectedCurrencyCode : selectedCurrencyCode // ignore: cast_nullable_to_non_nullable

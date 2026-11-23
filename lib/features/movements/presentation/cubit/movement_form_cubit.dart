@@ -229,8 +229,6 @@ class MovementFormCubit extends Cubit<MovementFormState> {
     );
   }
 
-  void debtNameChanged(String name) => _change(state.copyWith(debtName: name));
-
   void debtPillarChanged(int? id) => _change(state.copyWith(debtPillarId: id));
 
   void debtPendingChanged(String text) =>
@@ -254,23 +252,25 @@ class MovementFormCubit extends Cubit<MovementFormState> {
       _change(_withDebtDefaults(state.copyWith(payeeName: name)));
 
   /// Defaults of the debt choice: a loan given adds to the open debt of its
-  /// payee, or creates one; a single open debt to pay is picked for the
-  /// user.
+  /// payee, or creates one; a payment picks the debt of its payee (the debt
+  /// itself, RF-09), or the single open one.
   static MovementFormState _withDebtDefaults(MovementFormState form) {
     if (form.debtTouched || form.isEditing) return form;
     final role = form.category?.role;
+    final key = TextNormalizer.key(form.payeeName ?? '');
+    final payee = form.payees.where((p) => p.key == key).firstOrNull;
+    final ofPayee = form.debtOptions
+        .where((d) => payee != null && d.debt.payeeId == payee.id)
+        .firstOrNull;
     if (role == CategoryRole.loanGiven) {
-      final key = TextNormalizer.key(form.payeeName ?? '');
-      final payee = form.payees.where((p) => p.key == key).firstOrNull;
-      final open = form.debtOptions
-          .where((d) => payee != null && d.debt.payeeId == payee.id)
-          .firstOrNull;
-      return form.copyWith(debtId: open?.debt.id, newDebt: open == null);
+      return form.copyWith(debtId: ofPayee?.debt.id, newDebt: ofPayee == null);
     }
     if (role != null && DebtRules.needsExistingDebt(role)) {
       final options = form.debtOptions;
       return form.copyWith(
-        debtId: options.length == 1 ? options.single.debt.id : form.debtId,
+        debtId:
+            ofPayee?.debt.id ??
+            (options.length == 1 ? options.single.debt.id : form.debtId),
       );
     }
     return form;

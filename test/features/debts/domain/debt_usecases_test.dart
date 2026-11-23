@@ -51,23 +51,19 @@ void main() {
   });
 
   group('SaveDebt', () {
-    test('creates a debt with its payee', () async {
+    test('the debt is its own payee', () async {
       final result = await SaveDebt(debts)(
-        SaveDebtParams(debt(id: 0, payeeId: 0), payeeName: ' bancolombia '),
+        SaveDebtParams(debt(id: 0, payeeId: 0, name: ' mortgage bancolombia ')),
       );
 
       expect((result as Ok<int>).value, 1);
       final captured = verify(
         () => debts.saveDebt(captureAny(), payee: captureAny(named: 'payee')),
       ).captured;
-      expect((captured.last as PayeeName).name, 'Bancolombia');
+      expect((captured.last as PayeeName).name, 'Mortgage bancolombia');
     });
 
     test('rejects invalid debts', () async {
-      expect(
-        await SaveDebt(debts)(SaveDebtParams(debt(id: 0, payeeId: 0))),
-        isValidationError(),
-      );
       expect(
         await SaveDebt(debts)(SaveDebtParams(debt(name: ''))),
         isValidationError(),

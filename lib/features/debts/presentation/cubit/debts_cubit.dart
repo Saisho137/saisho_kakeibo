@@ -16,8 +16,6 @@ import 'package:saisho_kakeibo/features/debts/domain/services/debt_status.dart';
 import 'package:saisho_kakeibo/features/debts/domain/usecases/watch_debts.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_movements.dart';
-import 'package:saisho_kakeibo/features/movements/domain/usecases/watch_payees.dart';
-import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_currencies.dart';
 import 'package:saisho_kakeibo/features/settings/domain/usecases/watch_settings.dart';
 
@@ -32,7 +30,6 @@ class DebtsCubit extends Cubit<DebtsState> {
     required this._watchMovements,
     required this._watchAccounts,
     required this._watchBalances,
-    required this._watchPayees,
     required this._watchPillars,
     required this._watchCurrencies,
     required this._watchSettings,
@@ -42,7 +39,6 @@ class DebtsCubit extends Cubit<DebtsState> {
   final WatchMovements _watchMovements;
   final WatchAccounts _watchAccounts;
   final WatchAccountBalances _watchBalances;
-  final WatchPayees _watchPayees;
   final WatchPillars _watchPillars;
   final WatchCurrencies _watchCurrencies;
   final WatchSettings _watchSettings;
@@ -66,10 +62,6 @@ class DebtsCubit extends Cubit<DebtsState> {
       ),
       _watchBalances(const NoParams()).listen(
         (balances) => _received(state.copyWith(balances: balances)),
-        onError: _failed,
-      ),
-      _watchPayees(const NoParams()).listen(
-        (payees) => _received(state.copyWith(payees: payees)),
         onError: _failed,
       ),
       _watchPillars(const NoParams()).listen(
@@ -96,7 +88,6 @@ class DebtsCubit extends Cubit<DebtsState> {
         next.movements != null &&
         next.accounts != null &&
         next.balances != null &&
-        next.payees != null &&
         next.pillars != null &&
         next.currencies.isNotEmpty &&
         next.settings != null;

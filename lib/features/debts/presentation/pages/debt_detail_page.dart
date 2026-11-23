@@ -152,7 +152,6 @@ class _Detail extends StatelessWidget {
     final dueDay = debt.dueDay;
     final dueDate = debt.dueDate;
     final details = [
-      ?state.payeeOf(debt.payeeId)?.name,
       ?state.pillar?.name,
       if (dueDay != null) l10n.debtsDueDay(dueDay),
       if (dueDate != null)

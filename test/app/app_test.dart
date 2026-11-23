@@ -306,7 +306,7 @@ void main() {
         await tester.tap(find.text(key));
       }
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Entity'),
+        find.widgetWithText(TextFormField, 'Debt name'),
         'Davivienda',
       );
       await tester.ensureVisible(find.text('Pillar'));
@@ -334,6 +334,26 @@ void main() {
 
       expect(find.text('4.000 COP'), findsOneWidget);
       expect(find.text('20%'), findsOneWidget);
+
+      // The debt is its own entity: the search of the grid finds it.
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Expense'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField), 'davi');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Davivienda'));
+      await tester.pumpAndSettle();
+      expect(find.text('Davivienda · 4.000 left'), findsOneWidget);
+      await tester.tap(find.text('1'));
+      await tester.tap(find.text('000'));
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      await tester.goTo('Debts');
+      await tester.pumpAndSettle();
+      expect(find.text('3.000 left'), findsOneWidget);
 
       await tester.disposeDriftStreams();
     });

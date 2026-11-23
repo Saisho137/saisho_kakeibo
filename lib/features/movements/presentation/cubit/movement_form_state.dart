@@ -45,8 +45,7 @@ abstract class MovementFormState with _$MovementFormState {
     /// Whether the user picked the debt; then the payee no longer does.
     @Default(false) bool debtTouched,
 
-    /// Name of a new debt; the payee's when empty.
-    @Default('') String debtName,
+    /// Pillar of the debt a loan received creates.
     int? debtPillarId,
 
     /// What a loan received leaves pending; the amount when empty.
@@ -139,11 +138,7 @@ abstract class MovementFormState with _$MovementFormState {
       final pending = debtPendingText.trim().isEmpty
           ? null
           : AmountParser.parse(debtPendingText, format);
-      return NewDebt(
-        name: debtName,
-        pillarId: debtPillarId,
-        initialPending: pending,
-      );
+      return NewDebt(pillarId: debtPillarId, initialPending: pending);
     }
     final id = debtId;
     return id == null ? null : ExistingDebt(id);

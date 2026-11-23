@@ -30,7 +30,7 @@ void main() {
     });
 
     test('validate checks every field', () {
-      expect(DebtRules.validate(debt(), hasPayee: true), isEmpty);
+      expect(DebtRules.validate(debt()), isEmpty);
       expect(
         DebtRules.validate(
           debt(
@@ -40,25 +40,18 @@ void main() {
             installment: 0,
             dueDay: 32,
           ),
-          hasPayee: false,
         ),
         {
           DebtError.emptyName,
-          DebtError.missingPayee,
           DebtError.invalidPending,
           DebtError.missingPillar,
           DebtError.invalidInstallment,
           DebtError.invalidDueDay,
         },
       );
-      expect(DebtRules.validate(debt(name: 'x' * 31), hasPayee: true), {
-        DebtError.nameTooLong,
-      });
+      expect(DebtRules.validate(debt(name: 'x' * 41)), {DebtError.nameTooLong});
       expect(
-        DebtRules.validate(
-          debt(type: DebtType.owedToMe, installment: 5),
-          hasPayee: true,
-        ),
+        DebtRules.validate(debt(type: DebtType.owedToMe, installment: 5)),
         isEmpty,
       );
     });

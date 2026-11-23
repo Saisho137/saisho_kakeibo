@@ -19,12 +19,10 @@ final class ExistingDebt extends DebtChoice {
   int get hashCode => id.hashCode;
 }
 
-/// A debt the movement creates: a loan received or a new loan given.
+/// A debt the movement creates: a loan received or a new loan given. It is
+/// named after the movement's payee, which is the debt itself.
 final class NewDebt extends DebtChoice {
-  const new({this.name = '', this.pillarId, this.initialPending});
-
-  /// Empty takes the payee's name.
-  final String name;
+  const new({this.pillarId, this.initialPending});
 
   /// Only a debt I owe has one.
   final int? pillarId;
@@ -36,10 +34,9 @@ final class NewDebt extends DebtChoice {
   @override
   bool operator ==(Object other) =>
       other is NewDebt &&
-      other.name == name &&
       other.pillarId == pillarId &&
       other.initialPending == initialPending;
 
   @override
-  int get hashCode => Object.hash(name, pillarId, initialPending);
+  int get hashCode => Object.hash(pillarId, initialPending);
 }

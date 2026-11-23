@@ -82,7 +82,6 @@ void main() {
       movements: [payment, settle],
       accounts: [account(id: 1), visa],
       balances: const {7: -1200000},
-      payees: payees,
       pillars: pillars,
       currencies: const [cop, usd],
       settings: const AppSettings(),
@@ -102,7 +101,7 @@ void main() {
       await pumpView(tester);
 
       expect(find.text('750.000'), findsOneWidget);
-      expect(find.text('Mortgage · Bancolombia'), findsOneWidget);
+      expect(find.text('Mortgage'), findsOneWidget);
       expect(find.text('750.000 left'), findsOneWidget);
       expect(find.text('25%'), findsOneWidget);
       expect(find.text('Survival · due day 5'), findsOneWidget);
@@ -115,7 +114,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Paid off'), findsOneWidget);
 
-      await tester.tap(find.text('Mortgage · Bancolombia'));
+      await tester.tap(find.text('Mortgage'));
       verify(() => router.push<Object?>('/debts/1')).called(1);
       await tester.tap(find.text('Visa'));
       verify(() => router.push<Object?>('/accounts/7')).called(1);
@@ -123,22 +122,12 @@ void main() {
       verify(() => router.push<Object?>('/debts/new?type=iOwe')).called(1);
     });
 
-    testWidgets('a debt named after its entity shows the name once', (
-      tester,
-    ) async {
-      when(() => cubit.state).thenReturn(
-        ready.copyWith(debts: [mortgage.copyWith(name: 'Bancolombia')]),
-      );
-      await pumpView(tester);
-      expect(find.text('Bancolombia'), findsOneWidget);
-    });
-
     testWidgets('the other tab lists what is owed to me', (tester) async {
       await pumpView(tester);
       await tester.tap(find.text('Owed to me'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Loan to Ana · Ana'), findsOneWidget);
+      expect(find.text('Loan to Ana'), findsOneWidget);
       expect(find.textContaining('due Jun 1, 2026'), findsOneWidget);
       await tester.tap(find.byTooltip('New debt'));
       verify(() => router.push<Object?>('/debts/new?type=owedToMe')).called(1);
@@ -217,7 +206,7 @@ void main() {
 
       expect(find.text('750.000 COP'), findsOneWidget);
       expect(find.text('Registered with 1.000.000'), findsOneWidget);
-      expect(find.text('Bancolombia · Survival · due day 5'), findsOneWidget);
+      expect(find.text('Survival · due day 5'), findsOneWidget);
       expect(find.text('Today'), findsOneWidget);
       expect(find.text('-250.000'), findsOneWidget);
       expect(find.byTooltip('Delete debt'), findsNothing);
@@ -400,8 +389,6 @@ void main() {
       verify(() => cubit.typeChanged(DebtType.owedToMe)).called(1);
       await tester.enterText(find.byKey(const ValueKey('name')), 'Car');
       verify(() => cubit.nameChanged('Car')).called(1);
-      await tester.enterText(find.byKey(const ValueKey('payee')), 'Bank');
-      verify(() => cubit.payeeChanged('Bank')).called(1);
       await tester.enterText(find.byKey(const ValueKey('pending')), '100');
       verify(() => cubit.pendingChanged('100')).called(1);
       await tester.enterText(find.byKey(const ValueKey('installment')), '5');
@@ -454,7 +441,6 @@ void main() {
           showErrors: true,
           errors: {
             DebtError.emptyName,
-            DebtError.missingPayee,
             DebtError.invalidPending,
             DebtError.invalidInstallment,
           },
@@ -463,10 +449,8 @@ void main() {
       await pumpView(tester);
 
       expect(find.text('Pillar'), findsNothing);
-      expect(find.text('Debtor'), findsOneWidget);
       expect(find.text('Jun 1, 2026'), findsOneWidget);
       expect(find.text('Enter a name.'), findsOneWidget);
-      expect(find.text('Enter who it is with.'), findsOneWidget);
       expect(find.text('Enter a valid amount.'), findsOneWidget);
       expect(find.text('Enter an installment above zero.'), findsOneWidget);
       await tester.tap(find.byTooltip('Clear'));
@@ -496,7 +480,7 @@ void main() {
       expect(find.text('Edit Mortgage'), findsOneWidget);
       expect(find.text('I owe'), findsNothing);
       expect(find.text('A debt with movements keeps its currency.'), findsOne);
-      expect(find.text('Use 30 characters at most.'), findsOneWidget);
+      expect(find.text('Use 40 characters at most.'), findsOneWidget);
       expect(find.text('Pick a pillar.'), findsOneWidget);
       await tester.tap(find.byTooltip('Clear'));
       verify(() => cubit.dueDayChanged(null)).called(1);

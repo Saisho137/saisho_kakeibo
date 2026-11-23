@@ -342,10 +342,11 @@ void main() {
       await pumpView(tester);
 
       expect(find.text('Debt'), findsNothing);
-      expect(find.text('Enter who it is with.'), findsOneWidget);
+      expect(find.text('Entity'), findsNothing);
+      expect(find.text("Enter the debt's name."), findsOneWidget);
       expect(find.text('Pick a pillar.'), findsOneWidget);
       await tester.enterText(
-        find.byKey(const ValueKey('debtName')),
+        find.widgetWithText(TextFormField, 'Debt name'),
         'Car loan',
       );
       await tester.enterText(find.byKey(const ValueKey('debtPending')), '7000');
@@ -355,9 +356,23 @@ void main() {
       await tester.tap(find.text(survival.name).last);
       await tester.pumpAndSettle();
 
-      verify(() => cubit.debtNameChanged('Car loan')).called(1);
+      verify(() => cubit.payeeChanged('Car loan')).called(1);
       verify(() => cubit.debtPendingChanged('7000')).called(1);
       verify(() => cubit.debtPillarChanged(survival.id)).called(1);
+    });
+
+    testWidgets('a new loan given asks who it is with', (tester) async {
+      when(() => cubit.state).thenReturn(
+        ready.copyWith(
+          categoryId: 14,
+          categories: [loanGiven],
+          newDebt: true,
+          showErrors: true,
+          errors: const {MovementError.missingDebt},
+        ),
+      );
+      await pumpView(tester);
+      expect(find.text('Enter who it is with.'), findsOneWidget);
     });
 
     testWidgets('a payment without a debt asks for one', (tester) async {

@@ -257,8 +257,8 @@ void main() {
       await save()(
         SaveMovementParams(
           movement(categoryId: 21),
-          payeeName: 'Ana',
-          debt: const NewDebt(name: 'Trip loan'),
+          payeeName: 'ana',
+          debt: const NewDebt(),
         ),
       );
       final created =
@@ -268,7 +268,7 @@ void main() {
               as Debt;
       expect(created.type, DebtType.owedToMe);
       expect(created.initialPending, 0);
-      expect(created.name, 'Trip loan');
+      expect(created.name, 'Ana');
     });
 
     test('a payment of an existing debt takes the debt payee', () async {
@@ -353,10 +353,10 @@ void main() {
     test('debt choices compare by value', () {
       expect(const ExistingDebt(1), const ExistingDebt(1));
       expect(const ExistingDebt(1).hashCode, const ExistingDebt(1).hashCode);
-      expect(const NewDebt(name: 'a'), const NewDebt(name: 'a'));
+      expect(const NewDebt(pillarId: 1), const NewDebt(pillarId: 1));
       expect(
-        const NewDebt(name: 'a').hashCode,
-        const NewDebt(name: 'a').hashCode,
+        const NewDebt(pillarId: 1).hashCode,
+        const NewDebt(pillarId: 1).hashCode,
       );
     });
   });

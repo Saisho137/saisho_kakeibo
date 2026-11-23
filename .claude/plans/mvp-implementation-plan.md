@@ -126,9 +126,9 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 ## Fase 8 — Deudas
 
-- [x] Tabla `debts`: tipo (I owe / Owed to me), nombre, ícono, entidad, moneda, pendiente inicial, pilar (I owe), cuota, día de pago o fecha límite.
+- [x] Tabla `debts`: tipo (I owe / Owed to me), nombre (que es también su entidad), ícono, moneda, pendiente inicial, pilar (I owe), cuota, día de pago o fecha límite.
 - [x] Pendiente = inicial − pagos que la referencian; *Edit pending* corrige sin mover dinero; negativo en rojo; *Paid off* automático al llegar a 0. La corrección se guarda aparte (`adjustment`); el inicial se sigue mostrando. Una deuda solo se borra sin movimientos.
-- [x] Integración con categorías core: Loan received crea deuda por pagar; Loan given crea por cobrar o suma a la existente de esa entidad; Debt payment y Loan repaid exigen elegir la deuda; el pilar de un pago sale de su deuda. El pago toma la entidad de la deuda; borrar el préstamo que creó una deuda sin otros movimientos borra la deuda. Las plantillas recurrentes pueden pagar o cobrar una deuda (no prestar) y dejan de materializarse al saldarla.
+- [x] Integración con categorías core: Loan received crea deuda por pagar; Loan given crea por cobrar o suma a la existente de esa entidad; Debt payment y Loan repaid exigen elegir la deuda; el pilar de un pago sale de su deuda. La deuda es su propia entidad (su nombre), así que la búsqueda del registro rápido la encuentra y abre su pago; renombrarla mueve sus movimientos y plantillas. El pago toma la entidad de la deuda; borrar el préstamo que creó una deuda sin otros movimientos borra la deuda. Las plantillas recurrentes pueden pagar o cobrar una deuda (no prestar) y dejan de materializarse al saldarla.
 - [x] Pantalla **Debts**: pestañas, sección de tarjetas de solo lectura, *Paid off* colapsado; detalle con sus movimientos y *Pay* / *Collect* (con la cuota precargada).
 - [x] Recordatorios de deudas: día de pago de las que debo (con la cuota) y fecha límite de las que me deben (con el pendiente), mientras no estén saldadas.
 - [x] Mostrar en el registro rápido las categorías de deudas (`CategoryRole.needsDebt`) con sus campos: elegir o crear la deuda.

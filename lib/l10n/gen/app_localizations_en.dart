@@ -1100,10 +1100,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get debtName => 'Name';
 
   @override
-  String get debtEntityIOwe => 'Creditor';
-
-  @override
-  String get debtEntityOwedToMe => 'Debtor';
+  String get debtNameHint =>
+      'Its entity: find it by this name when paying. Add the bank if it helps.';
 
   @override
   String get debtCurrency => 'Currency';
@@ -1154,9 +1152,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get debtErrorPayee => 'Enter who it is with.';
-
-  @override
   String get debtErrorPending => 'Enter a valid amount.';
 
   @override
@@ -1183,10 +1178,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get movementErrorDebtPayee => 'Enter who it is with.';
 
   @override
-  String get movementDebtName => 'Debt name';
+  String get movementErrorDebtName => 'Enter the debt\'s name.';
 
   @override
-  String get movementDebtNameHint => 'The entity\'s name when empty.';
+  String get movementDebtName => 'Debt name';
 
   @override
   String get movementDebtPending => 'Pending amount';

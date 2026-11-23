@@ -15,7 +15,6 @@ abstract class DebtsState with _$DebtsState {
     List<Movement>? movements,
     List<Account>? accounts,
     Map<int, int>? balances,
-    List<Payee>? payees,
     List<Pillar>? pillars,
     @Default(<Currency>[]) List<Currency> currencies,
     AppSettings? settings,
@@ -77,9 +76,6 @@ abstract class DebtsState with _$DebtsState {
           a.currencyCode == currencyCode)
         (a, balances?[a.id] ?? a.openingBalance),
   ];
-
-  Payee? payeeOf(Debt debt) =>
-      payees?.where((p) => p.id == debt.payeeId).firstOrNull;
 
   Pillar? pillarOf(Debt debt) =>
       pillars?.where((p) => p.id == debt.pillarId).firstOrNull;

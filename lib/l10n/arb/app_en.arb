@@ -1487,13 +1487,9 @@
   "@debtName": {
     "description": "Label of the debt name."
   },
-  "debtEntityIOwe": "Creditor",
-  "@debtEntityIOwe": {
-    "description": "Label of whom I owe."
-  },
-  "debtEntityOwedToMe": "Debtor",
-  "@debtEntityOwedToMe": {
-    "description": "Label of who owes me."
+  "debtNameHint": "Its entity: find it by this name when paying. Add the bank if it helps.",
+  "@debtNameHint": {
+    "description": "Explains that the debt name is also its entity."
   },
   "debtCurrency": "Currency",
   "@debtCurrency": {
@@ -1560,10 +1556,6 @@
       }
     }
   },
-  "debtErrorPayee": "Enter who it is with.",
-  "@debtErrorPayee": {
-    "description": "Missing creditor or debtor."
-  },
   "debtErrorPending": "Enter a valid amount.",
   "@debtErrorPending": {
     "description": "Invalid pending amount."
@@ -1604,13 +1596,13 @@
   "@movementErrorDebtPayee": {
     "description": "Missing payee of a new debt."
   },
+  "movementErrorDebtName": "Enter the debt's name.",
+  "@movementErrorDebtName": {
+    "description": "Missing name of the debt a loan received creates."
+  },
   "movementDebtName": "Debt name",
   "@movementDebtName": {
     "description": "Label of the name of the debt a loan creates."
-  },
-  "movementDebtNameHint": "The entity's name when empty.",
-  "@movementDebtNameHint": {
-    "description": "Explains the default debt name."
   },
   "movementDebtPending": "Pending amount",
   "@movementDebtPending": {

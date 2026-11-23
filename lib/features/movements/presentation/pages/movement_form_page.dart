@@ -367,7 +367,8 @@ class _MovementForm extends StatelessWidget {
   }
 }
 
-/// The payee field, autocompleted with the stored payees (RF-07).
+/// The payee field, autocompleted with the stored payees (RF-07). A loan
+/// received names its debt here, since the debt is its own payee (RF-09).
 class _PayeeField extends StatelessWidget {
   const new({required this.state});
 
@@ -375,7 +376,12 @@ class _PayeeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final cubit = context.read<MovementFormCubit>();
+    final missing =
+        state.showErrors &&
+        state.createsDebt &&
+        state.errors.contains(MovementError.missingDebt);
     return Autocomplete<String>(
       initialValue: TextEditingValue(text: state.payeeName ?? ''),
       optionsBuilder: (value) => state.payeeOptions(value.text),
@@ -387,7 +393,16 @@ class _PayeeField extends StatelessWidget {
             onChanged: cubit.payeeChanged,
             onFieldSubmitted: (_) => onSubmitted(),
             textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(labelText: context.l10n.movementPayee),
+            decoration: InputDecoration(
+              labelText: state.alwaysNewDebt
+                  ? l10n.movementDebtName
+                  : l10n.movementPayee,
+              errorText: !missing
+                  ? null
+                  : state.alwaysNewDebt
+                  ? l10n.movementErrorDebtName
+                  : l10n.movementErrorDebtPayee,
+            ),
           ),
     );
   }
@@ -478,19 +493,6 @@ class _DebtSection extends StatelessWidget {
     return Column(
       children: [
         ?picker,
-        if (state.createsDebt) ...[
-          if (missing) FormNote(l10n.movementErrorDebtPayee, isError: true),
-          TextFormField(
-            key: const ValueKey('debtName'),
-            initialValue: state.debtName,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(
-              labelText: l10n.movementDebtName,
-              helperText: l10n.movementDebtNameHint,
-            ),
-            onChanged: cubit.debtNameChanged,
-          ),
-        ],
         if (state.alwaysNewDebt) ...[
           TextFormField(
             key: const ValueKey('debtPending'),

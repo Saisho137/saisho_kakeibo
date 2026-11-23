@@ -11,8 +11,9 @@ abstract interface class DebtRepository {
 
   Future<Result<Debt?>> findDebt(int id);
 
-  /// Inserts or replaces [debt]. With a [payee], it is found by key or
-  /// created and set on the debt. Returns its id.
+  /// Inserts or replaces [debt]. With a [payee], found by key or created,
+  /// the debt, its movements and its recurring templates take it, so a
+  /// renamed debt keeps its history together. Returns its id.
   Future<Result<int>> saveDebt(Debt debt, {PayeeName? payee});
 
   /// Movements that reference the debt [id], newest first.

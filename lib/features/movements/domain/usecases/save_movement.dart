@@ -36,8 +36,9 @@ final class SaveMovementParams {
 ///
 /// A debt category needs its debt (RF-09): of its type and currency. A
 /// movement on an existing debt takes the debt's payee. A loan received,
-/// or a loan given that adds to no debt, creates its debt first; if the
-/// movement then fails, that debt is deleted again.
+/// or a loan given that adds to no debt, creates its debt first, named
+/// after the payee; if the movement then fails, that debt is deleted
+/// again.
 class SaveMovement implements UseCase<Future<Result<int>>, SaveMovementParams> {
   const new({
     required this._movements,
@@ -121,7 +122,7 @@ class SaveMovement implements UseCase<Future<Result<int>>, SaveMovementParams> {
           }
           toSave = toSave.copyWith(debtId: id, payeeId: debt.payeeId);
           savePayee = null;
-        case NewDebt(:final name, :final pillarId, :final initialPending)
+        case NewDebt(:final pillarId, :final initialPending)
             when DebtRules.createsDebt(role):
           if (payee == null) {
             return const Err(ValidationFailure('A new debt needs a payee.'));
@@ -131,7 +132,7 @@ class SaveMovement implements UseCase<Future<Result<int>>, SaveMovementParams> {
           final debt = DebtRules.normalize(
             Debt(
               type: debtType,
-              name: name.trim().isEmpty ? payee.name : name,
+              name: payee.name,
               iconKey: category.iconKey,
               color: category.color,
               payeeId: 0,
@@ -141,7 +142,7 @@ class SaveMovement implements UseCase<Future<Result<int>>, SaveMovementParams> {
               createdOn: movement.date,
             ),
           );
-          if (DebtRules.validate(debt, hasPayee: true).isNotEmpty) {
+          if (DebtRules.validate(debt).isNotEmpty) {
             return const Err(ValidationFailure('Invalid new debt.'));
           }
           switch (await _debts.saveDebt(debt, payee: payee)) {

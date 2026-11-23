@@ -53,6 +53,7 @@ void registerMovementsDependencies(GetIt getIt) {
       () => CategoryGridCubit(
         getCategories: getIt(),
         getPayeeSuggestions: getIt(),
+        getDebts: getIt(),
       ),
     )
     ..registerFactory(
