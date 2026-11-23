@@ -13,8 +13,13 @@ import 'package:saisho_kakeibo/features/recurring/data/datasources/recurring_tem
 @DataClassName('MovementRow')
 @TableIndex(name: 'movements_account', columns: {#accountId})
 @TableIndex(name: 'movements_to_account', columns: {#toAccountId})
-@TableIndex(name: 'movements_category', columns: {#categoryId})
 @TableIndex(name: 'movements_date', columns: {#date})
+// The latest movement of a payee, of a category or of a debt (RF-08,
+// RF-09) without a full scan.
+@TableIndex(name: 'movements_payee', columns: {#payeeId, #type, #date, #id})
+@TableIndex(name: 'movements_category_date', columns: {#categoryId, #date})
+@TableIndex(name: 'movements_debt', columns: {#debtId})
+@TableIndex(name: 'movements_template', columns: {#recurringTemplateId})
 class Movements extends Table {
   IntColumn get id => integer().autoIncrement()();
 

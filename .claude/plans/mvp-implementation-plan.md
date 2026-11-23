@@ -143,7 +143,7 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 ## Fase 10 — Pulido del MVP
 
 - [x] Revisión de accesibilidad: tooltips, etiquetas semánticas en la dona, escalado de texto, contraste en tema oscuro. (10a: pruebas `meetsGuideline` y de texto al 150/200 %, glifo oscuro sobre colores claros.)
-- [ ] Rendimiento: consultas agregadas con índices (fecha, cuenta, categoría), pruebas con unos 5.000 movimientos.
+- [x] Rendimiento: consultas agregadas con índices (fecha, cuenta, categoría), pruebas con unos 5.000 movimientos. (10b: índices de entidad, deuda y plantilla; `test/performance/large_data_test.dart` con presupuestos.)
 - [x] Estados vacíos y mensajes de error en todas las pantallas. (10a: revisadas; faltaba el detalle de una entidad sin movimientos.)
 - [ ] Ícono de la app y pantalla de inicio (splash).
 - [ ] Revisión de cobertura por capa y deuda técnica acumulada.

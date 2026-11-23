@@ -1808,12 +1808,12 @@
       "type": "index",
       "data": {
         "on": 8,
-        "name": "movements_category",
+        "name": "movements_date",
         "sql": null,
         "unique": false,
         "columns": [
           {
-            "column": "category_id",
+            "column": "date",
             "order_by": null
           }
         ]
@@ -1827,12 +1827,85 @@
       "type": "index",
       "data": {
         "on": 8,
-        "name": "movements_date",
+        "name": "movements_payee",
         "sql": null,
         "unique": false,
         "columns": [
           {
+            "column": "payee_id",
+            "order_by": null
+          },
+          {
+            "column": "type",
+            "order_by": null
+          },
+          {
             "column": "date",
+            "order_by": null
+          },
+          {
+            "column": "id",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "references": [
+        8
+      ],
+      "type": "index",
+      "data": {
+        "on": 8,
+        "name": "movements_category_date",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "category_id",
+            "order_by": null
+          },
+          {
+            "column": "date",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "references": [
+        8
+      ],
+      "type": "index",
+      "data": {
+        "on": 8,
+        "name": "movements_debt",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "debt_id",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "references": [
+        8
+      ],
+      "type": "index",
+      "data": {
+        "on": 8,
+        "name": "movements_template",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "recurring_template_id",
             "order_by": null
           }
         ]
@@ -1958,20 +2031,47 @@
       ]
     },
     {
-      "name": "movements_category",
-      "sql": [
-        {
-          "dialect": "sqlite",
-          "sql": "CREATE INDEX movements_category ON movements (category_id)"
-        }
-      ]
-    },
-    {
       "name": "movements_date",
       "sql": [
         {
           "dialect": "sqlite",
           "sql": "CREATE INDEX movements_date ON movements (date)"
+        }
+      ]
+    },
+    {
+      "name": "movements_payee",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX movements_payee ON movements (payee_id, type, date, id)"
+        }
+      ]
+    },
+    {
+      "name": "movements_category_date",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX movements_category_date ON movements (category_id, date)"
+        }
+      ]
+    },
+    {
+      "name": "movements_debt",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX movements_debt ON movements (debt_id)"
+        }
+      ]
+    },
+    {
+      "name": "movements_template",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX movements_template ON movements (recurring_template_id)"
         }
       ]
     }
