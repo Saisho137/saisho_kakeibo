@@ -136,9 +136,9 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 
 ## Fase 9 — Entidades
 
-- [ ] Pantalla **Entities**: periodo actual o histórico, orden (más gastado, más usado, A-Z), búsqueda.
-- [ ] Detalle: totales, promedio, último precio y gráfico de evolución del precio con `fl_chart` (validar si necesita `MaterialUiCompatibilityBridge`).
-- [ ] *Rename*, *Merge into…* (mueve movimientos y borra la origen) y *Delete* (bloqueado si una deuda la usa).
+- [x] Pantalla **Entities**: periodo actual o histórico, orden (más gastado, más usado, A-Z), búsqueda. Total neto (ingresos − egresos), en verde si es positivo; *All time* incluye las entidades sin movimientos.
+- [x] Detalle: totales, promedio, último precio y gráfico de evolución del precio con `fl_chart` (no necesita `MaterialUiCompatibilityBridge`).
+- [x] *Rename*, *Merge into…* (mueve movimientos y borra la origen) y *Delete* (bloqueado si una deuda la usa). Renombrar o fusionar la entidad de una deuda renombra la deuda.
 
 ## Fase 10 — Pulido del MVP
 
@@ -175,7 +175,7 @@ Seguimiento detallado en la nota *Stack técnico* del vault, sección "Pendiente
 
 - [x] Proteger `main` en GitHub exigiendo la CI.
 - [ ] Revisar `workmanager` (fase 11).
-- [ ] Validar `fl_chart` con `material_ui` (fase 9).
+- [x] Validar `fl_chart` con `material_ui` (fase 9).
 - [ ] Sincronizar mejoras útiles con el arquetipo (remoto `archetype`).
 
 ## Fuera del MVP (no planificado aquí)

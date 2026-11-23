@@ -12,6 +12,7 @@ abstract final class AppRoutes {
   static const String categories = '/categories';
   static const String recurring = '/recurring';
   static const String debts = '/debts';
+  static const String payees = '/payees';
 
   static String editCurrency(String code) => '/settings/currencies/$code';
 
@@ -62,4 +63,6 @@ abstract final class AppRoutes {
   static String debtDetail(int id) => '/debts/$id';
 
   static String editDebt(int id) => '/debts/$id/edit';
+
+  static String payeeDetail(int id) => '/payees/$id';
 }

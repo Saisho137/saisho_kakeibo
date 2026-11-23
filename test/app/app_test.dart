@@ -358,6 +358,54 @@ void main() {
       await tester.disposeDriftStreams();
     });
 
+    testWidgets('merges a duplicated entity from Entities', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+
+      for (final (payee, keys) in [
+        ('Peaje Palmas', ['9', '000']),
+        ('Peaje Las Palmas', ['8', '000']),
+      ]) {
+        await tester.tap(find.text('Expense'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Car'));
+        await tester.pumpAndSettle();
+        for (final key in keys) {
+          await tester.tap(find.text(key));
+        }
+        await tester.enterText(
+          find.widgetWithText(TextFormField, 'Entity'),
+          payee,
+        );
+        await tester.tap(find.text('Save'));
+        await tester.pumpAndSettle();
+      }
+
+      await tester.goTo('Entities');
+      await tester.pumpAndSettle();
+      expect(find.text('Peaje Palmas'), findsOneWidget);
+      expect(find.text('Peaje Las Palmas'), findsOneWidget);
+      await tester.tap(find.text('Peaje Las Palmas'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('More actions'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Merge into…'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Peaje Palmas').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Merge'));
+      await tester.pumpAndSettle();
+
+      // Back on Entities, a single one with both movements.
+      expect(find.text('Peaje Las Palmas'), findsNothing);
+      expect(find.text('×2'), findsOneWidget);
+      expect(find.text('17.000'), findsOneWidget);
+
+      await tester.disposeDriftStreams();
+    });
+
     testWidgets('a new period creates the pending recurring movements', (
       tester,
     ) async {

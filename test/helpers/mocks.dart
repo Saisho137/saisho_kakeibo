@@ -13,6 +13,8 @@ import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart'
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/category_grid_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/movement_form_cubit.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/cubit/transfer_form_cubit.dart';
+import 'package:saisho_kakeibo/features/payees/presentation/cubit/payee_detail_cubit.dart';
+import 'package:saisho_kakeibo/features/payees/presentation/cubit/payees_cubit.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/cubit/period_starts_cubit.dart';
 import 'package:saisho_kakeibo/features/recurring/presentation/cubit/recurring_cubit.dart';
 import 'package:saisho_kakeibo/features/recurring/presentation/cubit/recurring_form_cubit.dart';
@@ -73,3 +75,8 @@ class MockDebtDetailCubit extends MockCubit<DebtDetailState>
 
 class MockDebtFormCubit extends MockCubit<DebtFormState>
     implements DebtFormCubit;
+
+class MockPayeesCubit extends MockCubit<PayeesState> implements PayeesCubit;
+
+class MockPayeeDetailCubit extends MockCubit<PayeeDetailState>
+    implements PayeeDetailCubit;

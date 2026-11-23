@@ -2247,6 +2247,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} still owed to you.'**
   String reminderCollectBody(String amount);
+
+  /// Title of the Entities screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Entities'**
+  String get payeesTitle;
+
+  /// Scope of the current period.
+  ///
+  /// In en, this message translates to:
+  /// **'This period'**
+  String get payeesThisPeriod;
+
+  /// Scope of every movement.
+  ///
+  /// In en, this message translates to:
+  /// **'All time'**
+  String get payeesAllTime;
+
+  /// Tooltip of the sort menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get payeesSortTooltip;
+
+  /// Sort by expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Most spent'**
+  String get payeesSortSpent;
+
+  /// Sort by number of movements.
+  ///
+  /// In en, this message translates to:
+  /// **'Most used'**
+  String get payeesSortUsed;
+
+  /// Sort alphabetically.
+  ///
+  /// In en, this message translates to:
+  /// **'A-Z'**
+  String get payeesSortName;
+
+  /// Hint of the entity search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search entities'**
+  String get payeesSearchHint;
+
+  /// Empty list in the period.
+  ///
+  /// In en, this message translates to:
+  /// **'No entities with movements in this period.'**
+  String get payeesEmptyPeriod;
+
+  /// Empty list overall.
+  ///
+  /// In en, this message translates to:
+  /// **'No entities yet. They are created when you type them in a movement.'**
+  String get payeesEmpty;
+
+  /// How many movements an entity has.
+  ///
+  /// In en, this message translates to:
+  /// **'×{count}'**
+  String payeesCount(int count);
+
+  /// Missing entity.
+  ///
+  /// In en, this message translates to:
+  /// **'This entity no longer exists.'**
+  String get payeeNotFound;
+
+  /// Label of the number of movements.
+  ///
+  /// In en, this message translates to:
+  /// **'Movements'**
+  String get payeeMovementCount;
+
+  /// Label of the mean price.
+  ///
+  /// In en, this message translates to:
+  /// **'Average price'**
+  String get payeeAveragePrice;
+
+  /// Label of the latest price.
+  ///
+  /// In en, this message translates to:
+  /// **'Last price'**
+  String get payeeLastPrice;
+
+  /// Header of the price chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Price over time'**
+  String get payeePriceChart;
+
+  /// Header of the entity's movements.
+  ///
+  /// In en, this message translates to:
+  /// **'Movements'**
+  String get payeeMovements;
+
+  /// Tooltip of the entity menu.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get payeeMoreTooltip;
+
+  /// Rename action.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get payeeRename;
+
+  /// Label of the entity name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get payeeName;
+
+  /// Empty entity name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name.'**
+  String get payeeErrorName;
+
+  /// Name of another entity.
+  ///
+  /// In en, this message translates to:
+  /// **'Another entity has this name: merge into it instead.'**
+  String get payeeErrorNameTaken;
+
+  /// A debt shares the entity.
+  ///
+  /// In en, this message translates to:
+  /// **'The debt {name} is renamed too.'**
+  String payeeRenameDebt(String name);
+
+  /// Merge action.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge into…'**
+  String get payeeMerge;
+
+  /// Title of the merge target picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge {name} into…'**
+  String payeeMergeTitle(String name);
+
+  /// Title of the merge confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge into {name}?'**
+  String payeeMergeConfirmTitle(String name);
+
+  /// Explains a merge.
+  ///
+  /// In en, this message translates to:
+  /// **'The movements of {from} move to {into}, and {from} is deleted.'**
+  String payeeMergeMessage(String from, String into);
+
+  /// Confirms a merge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get payeeMergeAction;
+
+  /// No merge target.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no other entity to merge into.'**
+  String get payeeNoMergeTargets;
+
+  /// Title of the entity delete confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String payeeDeleteTitle(String name);
+
+  /// Explains deleting an entity.
+  ///
+  /// In en, this message translates to:
+  /// **'Its movements stay, without entity.'**
+  String get payeeDeleteMessage;
+
+  /// Why an entity can't be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'It is the debt {name}: rename it or merge it instead.'**
+  String payeeDeleteBlocked(String name);
+
+  /// Link to the debt that is this entity.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt: {name}'**
+  String payeeIsDebt(String name);
 }
 
 class _AppLocalizationsDelegate

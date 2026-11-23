@@ -1219,4 +1219,121 @@ class AppLocalizationsEn extends AppLocalizations {
   String reminderCollectBody(String amount) {
     return '$amount still owed to you.';
   }
+
+  @override
+  String get payeesTitle => 'Entities';
+
+  @override
+  String get payeesThisPeriod => 'This period';
+
+  @override
+  String get payeesAllTime => 'All time';
+
+  @override
+  String get payeesSortTooltip => 'Sort';
+
+  @override
+  String get payeesSortSpent => 'Most spent';
+
+  @override
+  String get payeesSortUsed => 'Most used';
+
+  @override
+  String get payeesSortName => 'A-Z';
+
+  @override
+  String get payeesSearchHint => 'Search entities';
+
+  @override
+  String get payeesEmptyPeriod => 'No entities with movements in this period.';
+
+  @override
+  String get payeesEmpty =>
+      'No entities yet. They are created when you type them in a movement.';
+
+  @override
+  String payeesCount(int count) {
+    return '×$count';
+  }
+
+  @override
+  String get payeeNotFound => 'This entity no longer exists.';
+
+  @override
+  String get payeeMovementCount => 'Movements';
+
+  @override
+  String get payeeAveragePrice => 'Average price';
+
+  @override
+  String get payeeLastPrice => 'Last price';
+
+  @override
+  String get payeePriceChart => 'Price over time';
+
+  @override
+  String get payeeMovements => 'Movements';
+
+  @override
+  String get payeeMoreTooltip => 'More actions';
+
+  @override
+  String get payeeRename => 'Rename';
+
+  @override
+  String get payeeName => 'Name';
+
+  @override
+  String get payeeErrorName => 'Enter a name.';
+
+  @override
+  String get payeeErrorNameTaken =>
+      'Another entity has this name: merge into it instead.';
+
+  @override
+  String payeeRenameDebt(String name) {
+    return 'The debt $name is renamed too.';
+  }
+
+  @override
+  String get payeeMerge => 'Merge into…';
+
+  @override
+  String payeeMergeTitle(String name) {
+    return 'Merge $name into…';
+  }
+
+  @override
+  String payeeMergeConfirmTitle(String name) {
+    return 'Merge into $name?';
+  }
+
+  @override
+  String payeeMergeMessage(String from, String into) {
+    return 'The movements of $from move to $into, and $from is deleted.';
+  }
+
+  @override
+  String get payeeMergeAction => 'Merge';
+
+  @override
+  String get payeeNoMergeTargets => 'There is no other entity to merge into.';
+
+  @override
+  String payeeDeleteTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get payeeDeleteMessage => 'Its movements stay, without entity.';
+
+  @override
+  String payeeDeleteBlocked(String name) {
+    return 'It is the debt $name: rename it or merge it instead.';
+  }
+
+  @override
+  String payeeIsDebt(String name) {
+    return 'Debt: $name';
+  }
 }

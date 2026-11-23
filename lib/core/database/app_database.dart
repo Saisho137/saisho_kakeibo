@@ -18,6 +18,7 @@ import 'package:saisho_kakeibo/features/debts/domain/entities/debt.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movement_dao.dart';
 import 'package:saisho_kakeibo/features/movements/data/datasources/movements_table.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
+import 'package:saisho_kakeibo/features/payees/data/datasources/payee_dao.dart';
 import 'package:saisho_kakeibo/features/payees/data/datasources/payees_table.dart';
 import 'package:saisho_kakeibo/features/periods/data/datasources/period_dao.dart';
 import 'package:saisho_kakeibo/features/periods/data/datasources/period_starts_table.dart';
@@ -59,6 +60,7 @@ part 'app_database.g.dart';
     PeriodDao,
     RecurringDao,
     DebtDao,
+    PayeeDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

@@ -15,6 +15,8 @@ import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart'
 import 'package:saisho_kakeibo/features/movements/presentation/pages/category_grid_page.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/movement_form_page.dart';
 import 'package:saisho_kakeibo/features/movements/presentation/pages/transfer_form_page.dart';
+import 'package:saisho_kakeibo/features/payees/presentation/pages/payee_detail_page.dart';
+import 'package:saisho_kakeibo/features/payees/presentation/pages/payees_page.dart';
 import 'package:saisho_kakeibo/features/recurring/presentation/pages/recurring_form_page.dart';
 import 'package:saisho_kakeibo/features/recurring/presentation/pages/recurring_page.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/pages/currency_form_page.dart';
@@ -147,6 +149,20 @@ GoRouter createAppRouter() => GoRouter(
               ),
             ),
           ],
+        ),
+      ],
+    ),
+    GoRoute(
+      path: AppRoutes.payees,
+      name: 'payees',
+      builder: (context, state) => const PayeesPage(),
+      routes: [
+        GoRoute(
+          path: ':id',
+          name: 'payeeDetail',
+          builder: (context, state) => PayeeDetailPage(
+            id: int.tryParse(state.pathParameters['id']!) ?? -1,
+          ),
         ),
       ],
     ),
