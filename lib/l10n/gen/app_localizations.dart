@@ -1690,12 +1690,6 @@ abstract class AppLocalizations {
   /// **'This recurring movement no longer exists.'**
   String get recurringNotFound;
 
-  /// Label of the template type selector.
-  ///
-  /// In en, this message translates to:
-  /// **'Type'**
-  String get recurringType;
-
   /// Label of the cadence selector.
   ///
   /// In en, this message translates to:
@@ -2415,12 +2409,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Merge'**
   String get payeeMergeAction;
-
-  /// No merge target.
-  ///
-  /// In en, this message translates to:
-  /// **'There is no other entity to merge into.'**
-  String get payeeNoMergeTargets;
 
   /// Title of the entity delete confirmation.
   ///

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The app's brand colors: AppTheme's seed (indigo), with the ledger's
+     spine and coin. Placeholder icon until a designed one replaces it. -->
+<resources>
+    <color name="brand_indigo">#FF3F51B5</color>
+    <color name="brand_spine">#FFC5CAE9</color>
+    <color name="brand_coin">#FFFFB300</color>
+    <color name="brand_page">#FFFFFFFF</color>
+    <!-- Behind the splash icon: the app's own background, so the first
+         Flutter frame does not flash. -->
+    <color name="splash_background">#FFFBF8FF</color>
+</resources>

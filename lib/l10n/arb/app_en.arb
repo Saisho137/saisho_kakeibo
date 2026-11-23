@@ -1204,10 +1204,6 @@
   "@recurringNotFound": {
     "description": "Template not found."
   },
-  "recurringType": "Type",
-  "@recurringType": {
-    "description": "Label of the template type selector."
-  },
   "recurringCadence": "Creates its pending movement",
   "@recurringCadence": {
     "description": "Label of the cadence selector."
@@ -1798,10 +1794,6 @@
   "payeeMergeAction": "Merge",
   "@payeeMergeAction": {
     "description": "Confirms a merge."
-  },
-  "payeeNoMergeTargets": "There is no other entity to merge into.",
-  "@payeeNoMergeTargets": {
-    "description": "No merge target."
   },
   "payeeDeleteTitle": "Delete {name}?",
   "@payeeDeleteTitle": {

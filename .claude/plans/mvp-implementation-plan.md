@@ -145,8 +145,8 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [x] Revisión de accesibilidad: tooltips, etiquetas semánticas en la dona, escalado de texto, contraste en tema oscuro. (10a: pruebas `meetsGuideline` y de texto al 150/200 %, glifo oscuro sobre colores claros.)
 - [x] Rendimiento: consultas agregadas con índices (fecha, cuenta, categoría), pruebas con unos 5.000 movimientos. (10b: índices de entidad, deuda y plantilla; `test/performance/large_data_test.dart` con presupuestos.)
 - [x] Estados vacíos y mensajes de error en todas las pantallas. (10a: revisadas; faltaba el detalle de una entidad sin movimientos.)
-- [ ] Ícono de la app y pantalla de inicio (splash).
-- [ ] Revisión de cobertura por capa y deuda técnica acumulada.
+- [x] Ícono de la app y pantalla de inicio (splash). (10c: ícono provisional en vectores, adaptativo y temático; splash del sistema en Android 12+.)
+- [x] Revisión de cobertura por capa y deuda técnica acumulada. (10c: 99,5 %; se quitó código y textos sin uso y comentarios de fases viejas.)
 
 ## Fase 11 — Google Sign-In y respaldo en Drive
 
@@ -162,6 +162,7 @@ Lo último del MVP (RF-12, RT-09).
 ## Fase 12 — Release 1.0.0
 
 - [ ] Firma de release con `android/key.properties`.
+- [ ] Reemplazar el ícono provisional por uno diseñado (y su PNG de 512 × 512 si se publica).
 - [ ] Congelar `schemaVersion = 1`, exportar el esquema y activar las pruebas de migración.
 - [ ] `make build-release` (APK firmado) e instalación en el teléfono.
 - [ ] Prueba de punta a punta con datos reales del primer mes, incluido un respaldo y una restauración.
