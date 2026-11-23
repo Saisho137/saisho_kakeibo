@@ -1,11 +1,13 @@
 // Fails when line coverage in coverage/lcov.info is below a threshold.
 //
 // Usage: dart run tool/check_coverage.dart [minPercent]
-// Generated files are ignored, so only hand-written code counts.
+// Generated files are ignored, so only hand-written code counts. So are
+// drift's table definitions (`*_table.dart`): they only declare columns
+// for the generator and never run, since the generated code replaces them.
 import 'dart:io';
 
 const _defaultMinimum = 80.0;
-const _ignoredSuffixes = ['.g.dart', '.freezed.dart'];
+const _ignoredSuffixes = ['.g.dart', '.freezed.dart', '_table.dart'];
 const _ignoredPrefixes = ['lib/l10n/gen/'];
 
 void main(List<String> args) {

@@ -35,14 +35,6 @@ enum CategoryRole {
   /// Core categories come with the app and cannot be deleted or archived.
   bool get isCore => this != custom;
 
-  /// Roles that create or pay a debt. Their movements need debts, which
-  /// arrive in phase 8; until then the quick entry leaves them out.
-  bool get needsDebt =>
-      this == loanReceived ||
-      this == loanRepaid ||
-      this == loanGiven ||
-      this == debtPayment;
-
   /// Type of the only category with this role; `null` for [custom].
   CategoryType? get type => switch (this) {
     custom => null,

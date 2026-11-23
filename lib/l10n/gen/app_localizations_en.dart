@@ -900,9 +900,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recurringNotFound => 'This recurring movement no longer exists.';
 
   @override
-  String get recurringType => 'Type';
-
-  @override
   String get recurringCadence => 'Creates its pending movement';
 
   @override
@@ -1315,9 +1312,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get payeeMergeAction => 'Merge';
-
-  @override
-  String get payeeNoMergeTargets => 'There is no other entity to merge into.';
 
   @override
   String payeeDeleteTitle(String name) {

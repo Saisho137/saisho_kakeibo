@@ -47,10 +47,10 @@ abstract class Movement with _$Movement {
     int? payeeId,
     String? note,
 
-    /// Debt the movement creates or pays (phase 8).
+    /// Debt the movement creates, pays or collects (RF-09).
     int? debtId,
 
-    /// Template a pending movement was created from (phase 7).
+    /// Template a pending movement was created from (RF-06).
     int? recurringTemplateId,
 
     /// Waiting for confirmation. A pending income does not move the balance
