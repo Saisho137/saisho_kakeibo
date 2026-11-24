@@ -43,7 +43,7 @@ void main() {
 
       testWidgets('the quick entry fits', (tester) async {
         await start(tester, scale);
-        await tester.tap(find.text('Expense'));
+        await tester.tap(find.byTooltip('Expense'));
         await tester.pumpAndSettle();
         await tester.tap(find.text('Eating out'));
         await tester.pumpAndSettle();

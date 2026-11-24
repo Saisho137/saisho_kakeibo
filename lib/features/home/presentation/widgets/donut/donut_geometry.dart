@@ -53,7 +53,7 @@ final class DonutGeometry {
     required this.borderWidth,
     required this.borderHitWidth,
     this.inverted = 0,
-    this.iconSpace = 44,
+    this.iconSpace = 52,
   }) : categoryArcs = _arcs([
          for (final pillar in data.pillars)
            for (final category in pillar.categories) (category, category.share),

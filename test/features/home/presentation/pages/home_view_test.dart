@@ -205,9 +205,9 @@ void main() {
     testWidgets('starts an expense, a transfer or an income', (tester) async {
       await pumpView(tester);
 
-      await tester.tap(find.text('Expense'));
+      await tester.tap(find.byTooltip('Expense'));
       verify(() => router.push<Object?>('/entry/expense')).called(1);
-      await tester.tap(find.text('Income'));
+      await tester.tap(find.byTooltip('Income'));
       verify(() => router.push<Object?>('/entry/income')).called(1);
       await tester.tap(find.byTooltip('Transfer'));
       verify(() => router.push<Object?>('/transfers/new')).called(1);
@@ -230,6 +230,19 @@ void main() {
         await tester.pumpAndSettle();
         verify(() => router.push<Object?>(route)).called(1);
       }
+    });
+
+    testWidgets('the navigation is as wide as its names', (tester) async {
+      await pumpView(tester);
+      await tester.tap(find.byTooltip('Go to'));
+      await tester.pumpAndSettle();
+
+      final width = tester.getSize(find.byType(Drawer)).width;
+      expect(width, lessThan(304));
+      expect(
+        width,
+        greaterThan(tester.getSize(find.text('Categories')).width + 56),
+      );
     });
 
     testWidgets('the quick menu switches every option', (tester) async {

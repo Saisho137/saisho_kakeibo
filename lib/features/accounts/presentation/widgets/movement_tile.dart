@@ -68,11 +68,12 @@ class MovementTile extends StatelessWidget {
     final tile = ListTile(
       onTap: onTap,
       leading: isAdjustment
-          ? CircleAvatar(
-              backgroundColor: tokens.neutral,
+          ? SizedBox.square(
+              dimension: 40,
               child: Icon(
-                Icons.tune_rounded,
-                color: tokens.glyphOn(tokens.neutral),
+                Icons.tune_outlined,
+                color: tokens.transfer,
+                size: 30,
               ),
             )
           : CatalogIconAvatar(

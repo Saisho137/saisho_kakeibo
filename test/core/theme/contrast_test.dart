@@ -30,6 +30,43 @@ void main() {
         }
       }
 
+      test('the Expense, Transfer and Income rings', () {
+        for (final color in [
+          tokens.incomeAccent,
+          tokens.expenseAccent,
+          tokens.transfer,
+        ]) {
+          expect(
+            AppTokens.contrast(color, scheme.surface),
+            greaterThanOrEqualTo(AppTokens.minGlyphContrast),
+            reason: '$color',
+          );
+        }
+      });
+
+      test('line icons and their text in any palette color', () {
+        for (final color in IconCatalog.palette) {
+          expect(
+            AppTokens.contrast(
+              AppTokens.readable(color, on: scheme.surface),
+              scheme.surface,
+            ),
+            greaterThanOrEqualTo(AppTokens.minGlyphContrast),
+          );
+          expect(
+            AppTokens.contrast(
+              AppTokens.readable(
+                color,
+                on: scheme.surface,
+                min: AppTokens.minTextContrast,
+              ),
+              scheme.surface,
+            ),
+            greaterThanOrEqualTo(AppTokens.minTextContrast),
+          );
+        }
+      });
+
       test('ink on the brand color', () {
         expect(
           AppTokens.contrast(tokens.onBrand, tokens.brand),
@@ -45,6 +82,15 @@ void main() {
       });
     });
   }
+
+  test('readable keeps a color that already contrasts', () {
+    const indigo = Color(0xFF3949AB);
+    expect(AppTokens.readable(indigo, on: Colors.white), indigo);
+    expect(
+      AppTokens.readable(const Color(0xFFFFB300), on: Colors.white),
+      isNot(const Color(0xFFFFB300)),
+    );
+  });
 
   test('icon glyphs on every palette color and the neutral one', () {
     for (final tokens in [AppTokens.light, AppTokens.dark]) {

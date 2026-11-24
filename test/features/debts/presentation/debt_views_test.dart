@@ -420,7 +420,7 @@ void main() {
       await pumpView(tester);
       await tester.tap(find.byType(InkResponse).first);
       await tester.pumpAndSettle();
-      await tester.tap(find.byIcon(Icons.home_rounded).first);
+      await tester.tap(find.byIcon(Icons.home_outlined).first);
       await tester.pumpAndSettle();
       verify(() => cubit.iconChanged('home', any())).called(1);
 

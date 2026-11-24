@@ -204,7 +204,7 @@ void main() {
       await tester.pumpAndSettle();
       await step(
         'open the quick entry',
-        () => tester.tap(find.text('Expense')),
+        () => tester.tap(find.byTooltip('Expense')),
       );
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();

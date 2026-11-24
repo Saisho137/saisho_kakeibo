@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
+import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
 import 'package:saisho_kakeibo/core/widgets/currency_menu_button.dart';
@@ -143,8 +144,13 @@ class _List extends StatelessWidget {
                 iconKey: category.iconKey,
                 color: Color(category.color),
               ),
-              null => const CircleAvatar(
-                child: Icon(Icons.storefront_outlined),
+              null => SizedBox.square(
+                dimension: 40,
+                child: Icon(
+                  Icons.storefront_outlined,
+                  size: 30,
+                  color: context.tokens.transfer,
+                ),
               ),
             },
             title: Text(payee.name, overflow: TextOverflow.ellipsis),

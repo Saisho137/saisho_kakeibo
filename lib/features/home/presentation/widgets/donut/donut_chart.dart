@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/percentages.dart';
+import 'package:saisho_kakeibo/core/theme/app_tokens.dart';
 import 'package:saisho_kakeibo/core/widgets/catalog_icon_avatar.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/donut_data.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_geometry.dart';
@@ -88,7 +89,14 @@ class _DonutChartState extends State<DonutChart>
                   borderHitWidth: tokens.pillarBorderHitWidth,
                   inverted: _curve.value,
                 );
-                final centerSide = geometry.innerRadius * sqrt2;
+                // A box inside the hole, taller than wide: the center is a
+                // column (the totals), which gets more room than in the
+                // inscribed square.
+                final hole = max(geometry.innerRadius, 0);
+                final centerHeight = hole * 1.5;
+                final centerWidth = sqrt(
+                  4 * hole * hole - pow(centerHeight, 2),
+                );
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTapUp: (details) =>
@@ -110,8 +118,9 @@ class _DonutChartState extends State<DonutChart>
                       ),
                       ..._semantics(context, geometry),
                       Center(
-                        child: SizedBox.square(
-                          dimension: max(centerSide, 0),
+                        child: SizedBox(
+                          width: centerWidth,
+                          height: centerHeight,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: widget.center,
@@ -197,7 +206,7 @@ class _DonutChartState extends State<DonutChart>
   /// Category icons with their percentage, or the pillar names once
   /// inverted. Sections under 3 % have none.
   List<Widget> _labels(BuildContext context, DonutGeometry geometry) {
-    const side = 44.0;
+    const side = 52.0;
     Widget at(double angle, Widget child, Key key) {
       final point = geometry.pointAt(angle, geometry.labelRadius);
       return Positioned(
@@ -229,9 +238,18 @@ class _DonutChartState extends State<DonutChart>
                   CatalogIconAvatar(
                     iconKey: arc.item.iconKey,
                     color: Color(arc.item.color),
-                    radius: 12,
+                    radius: 16,
                   ),
-                  Text('${percents[index]}%', style: textStyle),
+                  Text(
+                    '${percents[index]}%',
+                    style: textStyle?.copyWith(
+                      color: AppTokens.readable(
+                        Color(arc.item.color),
+                        on: context.colors.surface,
+                        min: AppTokens.minTextContrast,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               ValueKey(

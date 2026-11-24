@@ -115,7 +115,7 @@ void main() {
         find
             .descendant(
               of: find.byType(AlertDialog),
-              matching: find.byIcon(Icons.restaurant_rounded),
+              matching: find.byIcon(Icons.restaurant_outlined),
             )
             .first,
       );
