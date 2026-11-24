@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The app's brand colors: AppTheme's seed (indigo), with the ledger's
+<!-- The app's brand colors: the amber-mustard AppTokens.brand, with the ledger's
      spine and coin. Placeholder icon until a designed one replaces it. -->
 <resources>
-    <color name="brand_indigo">#FF3F51B5</color>
-    <color name="brand_spine">#FFC5CAE9</color>
-    <color name="brand_coin">#FFFFB300</color>
-    <color name="brand_page">#FFFFFFFF</color>
+    <color name="brand_amber">#FFE5A93B</color>
+    <color name="brand_spine">#FFF3D9A4</color>
+    <color name="brand_coin">#FFFFE08A</color>
+    <!-- Dark ink of the ledger's lines and the coin, as on the app's bars. -->
+    <color name="brand_ink">#FF34260A</color>
+    <color name="brand_page">#FFFFF8EC</color>
     <!-- Behind the splash icon: the app's own background, so the first
          Flutter frame does not flash. -->
-    <color name="splash_background">#FFFBF8FF</color>
+    <color name="splash_background">#FFFFF8EC</color>
 </resources>

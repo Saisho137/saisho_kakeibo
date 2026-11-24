@@ -16,15 +16,15 @@
         android:pathData="M34,36 A4,4 0 0 1 38,32 H41 V76 H38 A4,4 0 0 1 34,72 Z" />
     <!-- The lines of the ledger. -->
     <path
-        android:fillColor="@color/brand_indigo"
+        android:fillColor="@color/brand_ink"
         android:pathData="M46,42 H64 V45 H46 Z M46,50 H64 V53 H46 Z M46,58 H57 V61 H46 Z" />
     <!-- The coin, with its rim. -->
     <path
         android:fillColor="@color/brand_coin"
-        android:strokeColor="@color/brand_indigo"
+        android:strokeColor="@color/brand_ink"
         android:strokeWidth="2"
         android:pathData="M57,68 A11,11 0 1 0 79,68 A11,11 0 1 0 57,68 Z" />
     <path
-        android:fillColor="@color/brand_indigo"
+        android:fillColor="@color/brand_ink"
         android:pathData="M66.5,62 H69.5 V74 H66.5 Z" />
 </vector>

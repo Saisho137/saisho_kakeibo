@@ -5,7 +5,9 @@ import 'package:saisho_kakeibo/app/di/injector.dart';
 import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
+import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
+import 'package:saisho_kakeibo/core/theme/app_typography.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
@@ -54,6 +56,8 @@ class HomeView extends StatelessWidget {
                 onPressed: () => Scaffold.of(context).openDrawer(),
               ),
             ),
+            titleSpacing: 0,
+            title: _Title(filter: state.settings?.balanceFilter),
             actions: [
               Builder(
                 builder: (context) => IconButton(
@@ -95,6 +99,42 @@ class HomeView extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+/// The app's name in its script and, under it, what the quick menu's
+/// filter keeps (RF-17).
+class _Title extends StatelessWidget {
+  const new({required this.filter});
+
+  /// `null` while the settings load.
+  final BalanceFilter? filter;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final ink = context.tokens.onBrand;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          l10n.appTitle,
+          style: TextStyle(
+            fontFamily: AppTypography.wordmarkFamily,
+            fontSize: 24,
+            height: 1.2,
+            color: ink,
+          ),
+        ),
+        if (filter case final kept?)
+          Text(switch (kept) {
+            BalanceFilter.both => l10n.homeFilterAll,
+            BalanceFilter.cash => l10n.homeFilterCash,
+            BalanceFilter.bank => l10n.homeFilterBank,
+          }, style: context.textTheme.bodySmall?.copyWith(color: ink)),
+      ],
     );
   }
 }

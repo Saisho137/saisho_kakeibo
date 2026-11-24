@@ -849,6 +849,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get balanceFilterBoth => 'Both';
 
   @override
+  String get homeFilterAll => 'All accounts';
+
+  @override
+  String get homeFilterCash => 'Cash';
+
+  @override
+  String get homeFilterBank => 'Bank accounts';
+
+  @override
   String get quickMenuTheme => 'Theme';
 
   @override

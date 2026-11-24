@@ -121,6 +121,31 @@ void main() {
       );
     });
 
+    for (final (filter, label) in [
+      (BalanceFilter.both, 'All accounts'),
+      (BalanceFilter.cash, 'Cash'),
+      (BalanceFilter.bank, 'Bank accounts'),
+    ]) {
+      testWidgets('the bar names the app and the ${filter.name} filter', (
+        tester,
+      ) async {
+        when(() => homeCubit.state).thenReturn(
+          ready.copyWith(
+            settings: ready.settings!.copyWith(balanceFilter: filter),
+          ),
+        );
+        await pumpView(tester);
+        expect(find.text('Saisho Kakeibo'), findsOneWidget);
+        expect(find.text(label), findsOneWidget);
+      });
+    }
+
+    testWidgets('the bar has no filter while loading', (tester) async {
+      when(() => homeCubit.state).thenReturn(const HomeState());
+      await pumpView(tester);
+      expect(find.text('All accounts'), findsNothing);
+    });
+
     testWidgets('a category of the donut starts an expense of it', (
       tester,
     ) async {

@@ -1594,6 +1594,24 @@ abstract class AppLocalizations {
   /// **'Both'**
   String get balanceFilterBoth;
 
+  /// Under the app name in the Home bar: the quick menu's filter keeps every account.
+  ///
+  /// In en, this message translates to:
+  /// **'All accounts'**
+  String get homeFilterAll;
+
+  /// Under the app name in the Home bar: only the cash accounts are shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get homeFilterCash;
+
+  /// Under the app name in the Home bar: only the non-cash accounts are shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank accounts'**
+  String get homeFilterBank;
+
   /// Quick menu group: theme.
   ///
   /// In en, this message translates to:

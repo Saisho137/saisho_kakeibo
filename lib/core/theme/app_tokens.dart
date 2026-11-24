@@ -9,6 +9,8 @@ import 'package:material_ui/material_ui.dart';
 @immutable
 class AppTokens extends ThemeExtension<AppTokens> {
   const new({
+    required this.brand,
+    required this.onBrand,
     required this.income,
     required this.expense,
     required this.transfer,
@@ -23,10 +25,12 @@ class AppTokens extends ThemeExtension<AppTokens> {
   });
 
   static const AppTokens light = AppTokens(
-    income: Color(0xFF1B5E20),
-    expense: Color(0xFFB71C1C),
-    transfer: Color(0xFF616161),
-    neutral: Color(0xFFBDBDBD),
+    brand: Color(0xFFE5A93B),
+    onBrand: Color(0xFF34260A),
+    income: Color(0xFF127033),
+    expense: Color(0xFFBF2626),
+    transfer: Color(0xFF6B6153),
+    neutral: Color(0xFFCFC6B6),
     iconGlyph: Color(0xFFFFFFFF),
     iconGlyphDark: Color(0xDE000000),
     radius: 16,
@@ -37,10 +41,12 @@ class AppTokens extends ThemeExtension<AppTokens> {
   );
 
   static const AppTokens dark = AppTokens(
-    income: Color(0xFF81C784),
-    expense: Color(0xFFEF9A9A),
-    transfer: Color(0xFFBDBDBD),
-    neutral: Color(0xFF616161),
+    brand: Color(0xFFD99D33),
+    onBrand: Color(0xFF2B1F07),
+    income: Color(0xFF6FD08A),
+    expense: Color(0xFFFF8A80),
+    transfer: Color(0xFFC2B8A7),
+    neutral: Color(0xFF5C5447),
     iconGlyph: Color(0xFFFFFFFF),
     iconGlyphDark: Color(0xDE000000),
     radius: 16,
@@ -49,6 +55,12 @@ class AppTokens extends ThemeExtension<AppTokens> {
     pillarBorderWidth: 8,
     pillarBorderHitWidth: 32,
   );
+
+  /// The app's amber-mustard: the bars and the Balance (RF-17).
+  final Color brand;
+
+  /// Text and icons on [brand].
+  final Color onBrand;
 
   /// Income totals and buttons.
   final Color income;
@@ -100,6 +112,8 @@ class AppTokens extends ThemeExtension<AppTokens> {
 
   @override
   AppTokens copyWith({
+    Color? brand,
+    Color? onBrand,
     Color? income,
     Color? expense,
     Color? transfer,
@@ -113,6 +127,8 @@ class AppTokens extends ThemeExtension<AppTokens> {
     double? pillarBorderHitWidth,
   }) {
     return AppTokens(
+      brand: brand ?? this.brand,
+      onBrand: onBrand ?? this.onBrand,
       income: income ?? this.income,
       expense: expense ?? this.expense,
       transfer: transfer ?? this.transfer,
@@ -131,6 +147,8 @@ class AppTokens extends ThemeExtension<AppTokens> {
   AppTokens lerp(covariant AppTokens? other, double t) {
     if (other == null) return this;
     return AppTokens(
+      brand: Color.lerp(brand, other.brand, t)!,
+      onBrand: Color.lerp(onBrand, other.onBrand, t)!,
       income: Color.lerp(income, other.income, t)!,
       expense: Color.lerp(expense, other.expense, t)!,
       transfer: Color.lerp(transfer, other.transfer, t)!,
