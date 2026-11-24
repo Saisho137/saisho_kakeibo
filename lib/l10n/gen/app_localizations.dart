@@ -1660,6 +1660,24 @@ abstract class AppLocalizations {
   /// **'By category'**
   String get historyByCategory;
 
+  /// Tooltip of the Balance atop the history, which closes it.
+  ///
+  /// In en, this message translates to:
+  /// **'Close the history'**
+  String get historyCloseTooltip;
+
+  /// Screen reader label of a day's movement count badge in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 movement} other{{count} movements}}'**
+  String historyDayMovements(int count);
+
+  /// Screen reader label of a day's balance in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance of the day: {amount}'**
+  String historyDayBalance(String amount);
+
   /// Empty history.
   ///
   /// In en, this message translates to:

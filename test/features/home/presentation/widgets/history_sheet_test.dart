@@ -1,14 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/balance_pill.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
@@ -102,13 +105,25 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  /// A day's header as the history writes it.
+  String fullDate(LocalDate day) =>
+      (day.year == today.year
+              ? DateFormat.MMMMd('en')
+              : DateFormat.yMMMMd('en'))
+          .format(day.toDateTime());
+
   group('HistoryView', () {
     testWidgets('lists the period by day', (tester) async {
       await open(tester);
 
       expect(find.textContaining('Since '), findsOneWidget);
-      expect(find.text('Today'), findsOneWidget);
-      expect(find.text('Yesterday'), findsOneWidget);
+      expect(find.text(fullDate(today)), findsOneWidget);
+      expect(find.text(fullDate(today.addDays(-1))), findsOneWidget);
+      // Each day's count and balance: the pending income waits.
+      expect(find.text('2'), findsOneWidget);
+      expect(find.text('3'), findsOneWidget);
+      expect(find.text('-1.000'), findsOneWidget);
+      expect(find.text('0'), findsOneWidget);
       expect(find.text('Uber'), findsOneWidget);
       expect(find.text('-625'), findsOneWidget);
       expect(find.text('Pending'), findsOneWidget);
@@ -121,6 +136,39 @@ void main() {
       verify(() => router.push<Object?>('/transfers/4')).called(1);
       await tester.tap(find.text('Balance adjustment'));
       verify(() => router.push<Object?>('/accounts/2')).called(1);
+    });
+
+    testWidgets('folds and unfolds a day', (tester) async {
+      await open(tester);
+
+      await tester.tap(find.text(fullDate(today)));
+      await tester.pumpAndSettle();
+      expect(find.text('Uber'), findsNothing);
+      expect(find.text('To Bank'), findsOneWidget);
+
+      await tester.tap(find.text(fullDate(today)));
+      await tester.pumpAndSettle();
+      expect(find.text('Uber'), findsOneWidget);
+    });
+
+    testWidgets('the Balance is centered and closes it', (tester) async {
+      await open(tester);
+
+      final width =
+          tester.view.physicalSize.width / tester.view.devicePixelRatio;
+      expect(
+        tester.getCenter(find.byType(BalancePill)).dx,
+        closeTo(width / 2, 0.5),
+      );
+      // The switch's 48 dp target ends at the margin, as the grip starts.
+      expect(
+        tester.getCenter(find.byIcon(Icons.donut_small_outlined)).dx,
+        closeTo(width - AppSpacing.md - kMinInteractiveDimension / 2, 0.5),
+      );
+
+      await tester.tap(find.byTooltip('Close the history'));
+      await tester.pumpAndSettle();
+      expect(find.byType(HistoryView), findsNothing);
     });
 
     testWidgets('groups by category, adding up to 100 %', (tester) async {
@@ -144,16 +192,20 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('No movements in this period.'), findsOneWidget);
 
-      await tester.tap(find.text('By day'));
+      await tester.tap(find.byTooltip('By day'));
       await tester.pumpAndSettle();
-      expect(find.text('Today'), findsOneWidget);
+      expect(find.text(fullDate(today)), findsOneWidget);
+
+      await tester.tap(find.byTooltip('By category'));
+      await tester.pumpAndSettle();
+      expect(find.text('Expenses'), findsOneWidget);
     });
 
     testWidgets('shows nothing before loading', (tester) async {
       when(() => cubit.state).thenReturn(const HomeState());
       await open(tester);
 
-      expect(find.text('By day'), findsNothing);
+      expect(find.byTooltip('By category'), findsNothing);
     });
 
     testWidgets('an empty period says so', (tester) async {

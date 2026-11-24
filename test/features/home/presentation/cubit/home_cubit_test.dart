@@ -227,6 +227,7 @@ void main() {
         const CurrencyTotals(),
       );
       expect(state.donutOf(Period(start: movementDay)).isEmpty, isTrue);
+      expect(state.netOf([movement()]), 0);
     });
 
     test('totals a period over every account of the currency', () {

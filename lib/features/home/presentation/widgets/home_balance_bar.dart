@@ -6,8 +6,8 @@ import 'package:saisho_kakeibo/app/router/app_routes.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/money.dart';
-import 'package:saisho_kakeibo/core/money/money_formatter.dart';
 import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/balance_pill.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
@@ -44,15 +44,15 @@ class HomeBalanceBar extends StatelessWidget {
                 unawaited(showHistorySheet(context));
               }
             },
-            child: Row(
-              children: [
-                const Expanded(child: _Grip()),
-                Flexible(
-                  flex: 4,
-                  child: _BalancePill(balance: balance, currency: currency),
-                ),
-                const Expanded(child: _Grip()),
-              ],
+            child: BalanceRow(
+              leading: const BalanceGrip(),
+              pill: BalancePill(
+                balance: balance,
+                currency: currency,
+                tooltip: l10n.homeHistoryTooltip,
+                onTap: () => showHistorySheet(context),
+              ),
+              trailing: const BalanceGrip(),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -91,91 +91,6 @@ class HomeBalanceBar extends StatelessWidget {
 
   static const double _mainRing = 96;
   static const double _transferRing = 56;
-}
-
-class _BalancePill extends StatelessWidget {
-  const new({required this.balance, required this.currency});
-
-  final Money balance;
-  final Currency currency;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final tokens = context.tokens;
-    final textTheme = context.textTheme;
-    final ink = tokens.onBrand;
-    final radius = BorderRadius.circular(tokens.radiusSmall);
-    return Tooltip(
-      message: l10n.homeHistoryTooltip,
-      child: Material(
-        color: tokens.brand,
-        elevation: 2,
-        borderRadius: radius,
-        child: InkWell(
-          onTap: () => showHistorySheet(context),
-          borderRadius: radius,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: kMinInteractiveDimension,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.sm,
-              ),
-              child: Center(
-                widthFactor: 1,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(text: '${l10n.homeBalance} '),
-                        TextSpan(
-                          text: '${currency.code} ',
-                          style: textTheme.labelMedium?.copyWith(color: ink),
-                        ),
-                        TextSpan(
-                          text: MoneyFormatter.format(balance, currency.format),
-                          style: textTheme.titleLarge?.copyWith(color: ink),
-                        ),
-                      ],
-                    ),
-                    style: textTheme.titleMedium?.copyWith(color: ink),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Three lines beside the Balance that hint it can be pulled up.
-class _Grip extends StatelessWidget {
-  const new();
-
-  @override
-  Widget build(BuildContext context) {
-    final color = context.tokens.brand;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var i = 0; i < 3; i++)
-            Container(
-              height: 2,
-              margin: const EdgeInsets.symmetric(vertical: 3),
-              color: color,
-            ),
-        ],
-      ),
-    );
-  }
 }
 
 /// A round button drawn as a ring, without text: its [tooltip] names it,
