@@ -96,35 +96,27 @@ class _HistoryViewState extends State<HistoryView> {
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          child: Row(
-            children: [
-              const Expanded(child: BalanceGrip()),
-              if (balance != null)
-                Flexible(
-                  flex: 4,
-                  child: BalancePill(
+          child: BalanceRow(
+            leading: const BalanceGrip(),
+            pill: balance == null
+                ? const SizedBox.shrink()
+                : BalancePill(
                     balance: balance,
                     currency: currency,
                     tooltip: l10n.historyCloseTooltip,
                     onTap: () => Navigator.of(context).pop(),
                   ),
-                ),
-              Expanded(
-                // By day or by category, only here (RF-14).
-                child: IconButton(
-                  tooltip: _byCategory
-                      ? l10n.historyByDay
-                      : l10n.historyByCategory,
-                  icon: Icon(
-                    _byCategory
-                        ? Icons.calendar_month_outlined
-                        : Icons.donut_small_outlined,
-                    color: context.colors.primary,
-                  ),
-                  onPressed: () => setState(() => _byCategory = !_byCategory),
-                ),
+            // By day or by category, only here (RF-14).
+            trailing: IconButton(
+              tooltip: _byCategory ? l10n.historyByDay : l10n.historyByCategory,
+              icon: Icon(
+                _byCategory
+                    ? Icons.calendar_month_outlined
+                    : Icons.donut_small_outlined,
+                color: context.colors.primary,
               ),
-            ],
+              onPressed: () => setState(() => _byCategory = !_byCategory),
+            ),
           ),
         ),
         if (_byCategory) ...[

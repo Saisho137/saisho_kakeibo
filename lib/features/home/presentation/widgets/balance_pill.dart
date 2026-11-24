@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:saisho_kakeibo/core/extensions/build_context_x.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
@@ -82,11 +84,14 @@ class BalancePill extends StatelessWidget {
 class BalanceGrip extends StatelessWidget {
   const new({super.key});
 
+  /// As wide as the history's switch, so the Balance stays centered.
+  static const double width = kMinInteractiveDimension;
+
   @override
   Widget build(BuildContext context) {
     final color = context.tokens.brand;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+    return SizedBox(
+      width: width,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -96,6 +101,48 @@ class BalanceGrip extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 3),
               color: color,
             ),
+        ],
+      ),
+    );
+  }
+}
+
+/// [pill] centered on the row's X axis, with [leading] against the left
+/// edge and [trailing] against the right one (both sides take the same
+/// room, whatever they hold).
+class BalanceRow extends StatelessWidget {
+  const new({
+    required this.leading,
+    required this.pill,
+    required this.trailing,
+    super.key,
+  });
+
+  final Widget leading;
+  final Widget pill;
+  final Widget trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) => Row(
+        children: [
+          Expanded(
+            child: Align(alignment: Alignment.centerLeft, child: leading),
+          ),
+          ConstrainedBox(
+            // Room for both sides, which a long Balance shrinks to fit.
+            constraints: BoxConstraints(
+              maxWidth: max(
+                0,
+                constraints.maxWidth - 2 * (BalanceGrip.width + AppSpacing.sm),
+              ),
+            ),
+            child: pill,
+          ),
+          Expanded(
+            child: Align(alignment: Alignment.centerRight, child: trailing),
+          ),
         ],
       ),
     );

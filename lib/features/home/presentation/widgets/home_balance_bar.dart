@@ -44,20 +44,15 @@ class HomeBalanceBar extends StatelessWidget {
                 unawaited(showHistorySheet(context));
               }
             },
-            child: Row(
-              children: [
-                const Expanded(child: BalanceGrip()),
-                Flexible(
-                  flex: 4,
-                  child: BalancePill(
-                    balance: balance,
-                    currency: currency,
-                    tooltip: l10n.homeHistoryTooltip,
-                    onTap: () => showHistorySheet(context),
-                  ),
-                ),
-                const Expanded(child: BalanceGrip()),
-              ],
+            child: BalanceRow(
+              leading: const BalanceGrip(),
+              pill: BalancePill(
+                balance: balance,
+                currency: currency,
+                tooltip: l10n.homeHistoryTooltip,
+                onTap: () => showHistorySheet(context),
+              ),
+              trailing: const BalanceGrip(),
             ),
           ),
           const SizedBox(height: AppSpacing.md),

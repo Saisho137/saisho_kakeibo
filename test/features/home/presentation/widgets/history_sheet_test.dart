@@ -6,10 +6,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/balance_pill.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
@@ -149,8 +151,20 @@ void main() {
       expect(find.text('Uber'), findsOneWidget);
     });
 
-    testWidgets('the Balance closes it', (tester) async {
+    testWidgets('the Balance is centered and closes it', (tester) async {
       await open(tester);
+
+      final width =
+          tester.view.physicalSize.width / tester.view.devicePixelRatio;
+      expect(
+        tester.getCenter(find.byType(BalancePill)).dx,
+        closeTo(width / 2, 0.5),
+      );
+      // The switch's 48 dp target ends at the margin, as the grip starts.
+      expect(
+        tester.getCenter(find.byIcon(Icons.donut_small_outlined)).dx,
+        closeTo(width - AppSpacing.md - kMinInteractiveDimension / 2, 0.5),
+      );
 
       await tester.tap(find.byTooltip('Close the history'));
       await tester.pumpAndSettle();

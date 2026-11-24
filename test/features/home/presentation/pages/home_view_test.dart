@@ -7,11 +7,13 @@ import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
+import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/pages/home_page.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/balance_pill.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/settings/presentation/cubit/settings_cubit.dart';
@@ -230,6 +232,21 @@ void main() {
         await tester.pumpAndSettle();
         verify(() => router.push<Object?>(route)).called(1);
       }
+    });
+
+    testWidgets('the Balance is centered between its grips', (tester) async {
+      await pumpView(tester);
+
+      final pill = tester.getCenter(find.byType(BalancePill));
+      expect(
+        pill.dx,
+        closeTo(
+          tester.view.physicalSize.width / 2 / tester.view.devicePixelRatio,
+          0.5,
+        ),
+      );
+      final grips = find.byType(BalanceGrip);
+      expect(tester.getTopLeft(grips.first).dx, AppSpacing.md);
     });
 
     testWidgets('the navigation is as wide as its names', (tester) async {
