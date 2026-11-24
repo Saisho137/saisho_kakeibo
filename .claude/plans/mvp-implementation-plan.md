@@ -162,11 +162,11 @@ Fase intermedia larga, antes de OAuth, a partir del uso real en el teléfono y c
 
 ### 10e — Home
 
-- [ ] Totales del centro de la dona con un ancho máximo y **un solo tamaño de letra para los tres**, calculado por el más largo: totales con los mismos dígitos se ven del mismo tamaño.
-- [ ] Botones de acción más grandes y sin texto, de aro (tipo Monefy): tres en lugar de dos, **−** gasto (rojo), **⇄** transferencia (más pequeño, en el medio) y **+** ingreso (verde). Con tooltips y etiquetas semánticas, porque pierden el texto.
-- [ ] Barra del Balance como separador visual: píldora de color sólido (amarillo) con el texto en tinta de contraste, y las líneas de agarre a los lados que indican que sube el historial.
-- [ ] Íconos de línea, del color de la categoría y sin círculo de relleno (estilo minimalista de Monefy), en la dona, la cuadrícula de categorías y las listas, con los íconos que ya tenemos (Material *outlined*). Si no alcanza la identidad buscada, más adelante se evalúa una colección de íconos externa.
-- [ ] Panel de ajustes de la derecha (`NavigationMenu`) con el ancho de sus opciones, no el ancho fijo del `Drawer`.
+- [x] Totales del centro de la dona con un ancho máximo y **un solo tamaño de letra para los tres**, calculado por el más largo: totales con los mismos dígitos se ven del mismo tamaño. (Los tres en `titleLarge`, escalados juntos dentro de un rectángulo más alto que ancho en el hueco de la dona, que conserva los 48 dp de cada total en un celular de 411 dp.)
+- [x] Botones de acción más grandes y sin texto, de aro (tipo Monefy): tres en lugar de dos, **−** gasto (rojo), **⇄** transferencia (más pequeño, en el medio) y **+** ingreso (verde). Con tooltips y etiquetas semánticas, porque pierden el texto. (Aros de 96 y 56 dp con `incomeAccent` y `expenseAccent`, colores más vivos que pasan 3:1 como gráficos; respetan la barra de gestos.)
+- [x] Barra del Balance como separador visual: píldora de color sólido (amarillo) con el texto en tinta de contraste, y las líneas de agarre a los lados que indican que sube el historial.
+- [x] Íconos de línea, del color de la categoría y sin círculo de relleno (estilo minimalista de Monefy), en la dona, la cuadrícula de categorías y las listas, con los íconos que ya tenemos (Material *outlined*). (Un color claro se oscurece lo justo para 3:1 sobre la crema, `AppTokens.readable`; los íconos de la dona crecieron y su porcentaje va en el color de la categoría.) Si no alcanza la identidad buscada, más adelante se evalúa una colección de íconos externa.
+- [x] Panel de ajustes de la derecha (`NavigationMenu`) con el ancho de sus opciones, no el ancho fijo del `Drawer`.
 
 ### 10f — Historial
 

@@ -214,7 +214,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Expense'));
+      await tester.tap(find.byTooltip('Expense'));
       await tester.pumpAndSettle();
       expect(find.text('Debt payment'), findsOneWidget);
       await tester.tap(find.text('Eating out'));
@@ -298,7 +298,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Income'));
+      await tester.tap(find.byTooltip('Income'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Loan received'));
       await tester.pumpAndSettle();
@@ -340,7 +340,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pageBack();
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Expense'));
+      await tester.tap(find.byTooltip('Expense'));
       await tester.pumpAndSettle();
       await tester.enterText(find.byType(TextField), 'davi');
       await tester.pumpAndSettle();
@@ -368,7 +368,7 @@ void main() {
         ('Peaje Palmas', ['9', '000']),
         ('Peaje Las Palmas', ['8', '000']),
       ]) {
-        await tester.tap(find.text('Expense'));
+        await tester.tap(find.byTooltip('Expense'));
         await tester.pumpAndSettle();
         await tester.tap(find.text('Car'));
         await tester.pumpAndSettle();

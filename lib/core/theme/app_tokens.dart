@@ -12,7 +12,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
     required this.brand,
     required this.onBrand,
     required this.income,
+    required this.incomeAccent,
     required this.expense,
+    required this.expenseAccent,
     required this.transfer,
     required this.neutral,
     required this.iconGlyph,
@@ -28,7 +30,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
     brand: Color(0xFFE5A93B),
     onBrand: Color(0xFF34260A),
     income: Color(0xFF127033),
+    incomeAccent: Color(0xFF2E9E4E),
     expense: Color(0xFFBF2626),
+    expenseAccent: Color(0xFFE5484D),
     transfer: Color(0xFF6B6153),
     neutral: Color(0xFFCFC6B6),
     iconGlyph: Color(0xFFFFFFFF),
@@ -44,7 +48,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
     brand: Color(0xFFD99D33),
     onBrand: Color(0xFF2B1F07),
     income: Color(0xFF6FD08A),
+    incomeAccent: Color(0xFF6FD08A),
     expense: Color(0xFFFF8A80),
+    expenseAccent: Color(0xFFFF8A80),
     transfer: Color(0xFFC2B8A7),
     neutral: Color(0xFF5C5447),
     iconGlyph: Color(0xFFFFFFFF),
@@ -62,11 +68,17 @@ class AppTokens extends ThemeExtension<AppTokens> {
   /// Text and icons on [brand].
   final Color onBrand;
 
-  /// Income totals and buttons.
+  /// Income totals and text.
   final Color income;
 
-  /// Expense totals and buttons.
+  /// Livelier [income] for graphics, such as the Income ring (3:1).
+  final Color incomeAccent;
+
+  /// Expense totals and text.
   final Color expense;
+
+  /// Livelier [expense] for graphics, such as the Expense ring (3:1).
+  final Color expenseAccent;
 
   /// Transfer totals.
   final Color transfer;
@@ -84,12 +96,32 @@ class AppTokens extends ThemeExtension<AppTokens> {
   /// Minimum contrast of a glyph on its circle (WCAG, for graphics).
   static const double minGlyphContrast = 3;
 
+  /// Minimum contrast of normal text (WCAG AA).
+  static const double minTextContrast = 4.5;
+
   /// The glyph that reads on [background]: [iconGlyph] when it contrasts
   /// enough, [iconGlyphDark] otherwise (accessibility).
   Color glyphOn(Color background) =>
       contrast(iconGlyph, background) >= minGlyphContrast
       ? iconGlyph
       : iconGlyphDark;
+
+  /// [color], deepened toward black on a light surface (or lightened
+  /// toward white on a dark one) just enough to reach the graphics
+  /// contrast on [on] (accessibility): a line icon in a category's color.
+  /// Text in that color asks [minTextContrast] as [min].
+  static Color readable(
+    Color color, {
+    required Color on,
+    double min = minGlyphContrast,
+  }) {
+    final target = on.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+    var result = color;
+    for (var t = 0.1; contrast(result, on) < min; t += 0.1) {
+      result = Color.lerp(color, target, t)!;
+    }
+    return result;
+  }
 
   /// WCAG contrast ratio of two opaque colors, from 1 to 21.
   static double contrast(Color a, Color b) {
@@ -115,7 +147,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
     Color? brand,
     Color? onBrand,
     Color? income,
+    Color? incomeAccent,
     Color? expense,
+    Color? expenseAccent,
     Color? transfer,
     Color? neutral,
     Color? iconGlyph,
@@ -130,7 +164,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
       brand: brand ?? this.brand,
       onBrand: onBrand ?? this.onBrand,
       income: income ?? this.income,
+      incomeAccent: incomeAccent ?? this.incomeAccent,
       expense: expense ?? this.expense,
+      expenseAccent: expenseAccent ?? this.expenseAccent,
       transfer: transfer ?? this.transfer,
       neutral: neutral ?? this.neutral,
       iconGlyph: iconGlyph ?? this.iconGlyph,
@@ -150,7 +186,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
       brand: Color.lerp(brand, other.brand, t)!,
       onBrand: Color.lerp(onBrand, other.onBrand, t)!,
       income: Color.lerp(income, other.income, t)!,
+      incomeAccent: Color.lerp(incomeAccent, other.incomeAccent, t)!,
       expense: Color.lerp(expense, other.expense, t)!,
+      expenseAccent: Color.lerp(expenseAccent, other.expenseAccent, t)!,
       transfer: Color.lerp(transfer, other.transfer, t)!,
       neutral: Color.lerp(neutral, other.neutral, t)!,
       iconGlyph: Color.lerp(iconGlyph, other.iconGlyph, t)!,

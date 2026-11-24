@@ -47,7 +47,7 @@ void main() {
   testWidgets('the quick entry', (tester) async {
     final semantics = tester.ensureSemantics();
     await start(tester);
-    await tester.tap(find.text('Expense'));
+    await tester.tap(find.byTooltip('Expense'));
     await tester.pumpAndSettle();
     await check(tester);
     await tester.tap(find.text('Eating out'));

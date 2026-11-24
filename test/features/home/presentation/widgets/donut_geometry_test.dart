@@ -43,6 +43,7 @@ void main() {
         ringWidth: 36,
         borderWidth: 8,
         borderHitWidth: 32,
+        iconSpace: 44,
         inverted: inverted,
       );
 
