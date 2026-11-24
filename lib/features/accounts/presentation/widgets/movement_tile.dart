@@ -21,6 +21,7 @@ class MovementTile extends StatelessWidget {
     this.payee,
     this.otherAccount,
     this.onTap,
+    this.dot = false,
     super.key,
   });
 
@@ -33,6 +34,10 @@ class MovementTile extends StatelessWidget {
   /// The other side of a transfer.
   final Account? otherAccount;
   final VoidCallback? onTap;
+
+  /// A compact row led by a dot of its type's color instead of the
+  /// category icon, its amount in plain ink: the history's view by day.
+  final bool dot;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,17 @@ class MovementTile extends StatelessWidget {
     );
     final tile = ListTile(
       onTap: onTap,
-      leading: isAdjustment
+      visualDensity: dot ? VisualDensity.compact : null,
+      minLeadingWidth: dot ? 16 : null,
+      leading: dot
+          ? _Dot(
+              color: switch (movement.type) {
+                MovementType.income => tokens.incomeAccent,
+                MovementType.expense => tokens.expenseAccent,
+                _ => tokens.transfer,
+              },
+            )
+          : isAdjustment
           ? SizedBox.square(
               dimension: 40,
               child: Icon(
@@ -89,9 +104,30 @@ class MovementTile extends StatelessWidget {
           : Text(details.join(' · '), overflow: TextOverflow.ellipsis),
       trailing: Text(
         '$sign$amount',
-        style: context.textTheme.titleSmall?.copyWith(color: color),
+        style: context.textTheme.titleSmall?.copyWith(
+          color: dot ? context.colors.onSurface : color,
+        ),
       ),
     );
     return movement.isPending ? Opacity(opacity: 0.6, child: tile) : tile;
+  }
+}
+
+class _Dot extends StatelessWidget {
+  const new({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: 16,
+      child: Center(
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          child: const SizedBox.square(dimension: 10),
+        ),
+      ),
+    );
   }
 }

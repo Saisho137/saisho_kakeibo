@@ -170,10 +170,12 @@ Fase intermedia larga, antes de OAuth, a partir del uso real en el teléfono y c
 
 ### 10f — Historial
 
-- [ ] Rediseño del panel del historial con la paleta y el estilo del Home, aprovechando mejor el espacio (filas más compactas, sin tarjetas).
-- [ ] Separador de día con la fecha completa (*23 November*), un contador de movimientos en una insignia y el balance del día a la derecha (verde si es positivo, rojo si es negativo). Los días se pueden plegar.
-- [ ] Filas: punto de color del tipo (verde ingreso, rojo gasto, neutro transferencia), categoría arriba y entidad o nota debajo, y el monto a la derecha.
-- [ ] El selector *By day / By category* pasa a ser un ícono a la derecha de la barra del Balance, visible solo con el historial abierto.
+- [x] Rediseño del panel del historial con la paleta y el estilo del Home, aprovechando mejor el espacio (filas más compactas, sin tarjetas).
+- [x] Separador de día con la fecha completa (*23 November*), un contador de movimientos en una insignia y el balance del día a la derecha (verde si es positivo, rojo si es negativo). Los días se pueden plegar.
+- [x] Filas: punto de color del tipo (verde ingreso, rojo gasto, neutro transferencia), categoría arriba y entidad o nota debajo, y el monto a la derecha.
+- [x] El selector *By day / By category* pasa a ser un ícono a la derecha de la barra del Balance, visible solo con el historial abierto.
+- [x] **Error (ANR en el Poco X7):** la app dejaba de responder al animar el cambio de tema. `AppTokens.readable` (10e) buscaba el contraste en un ciclo sin tope y, sobre una superficie gris media de la animación, ningún color lo alcanza: en release los canales se recortan a [0, 1] y el ciclo no terminaba. Ahora da como mucho 10 pasos hacia el extremo de más contraste; prueba de regresión sobre toda la transición crema → noche.
+- [ ] Pendiente de la próxima ronda: Monefy deja los botones − ⇄ + visibles sobre el historial abierto; el nuestro es un panel modal que los tapa.
 
 ## Fase 11 — Google Sign-In y respaldo en Drive
 

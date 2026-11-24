@@ -1176,6 +1176,28 @@
   "@historyByCategory": {
     "description": "History view: totals by category."
   },
+  "historyCloseTooltip": "Close the history",
+  "@historyCloseTooltip": {
+    "description": "Tooltip of the Balance atop the history, which closes it."
+  },
+  "historyDayMovements": "{count, plural, =1{1 movement} other{{count} movements}}",
+  "@historyDayMovements": {
+    "description": "Screen reader label of a day's movement count badge in the history.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "historyDayBalance": "Balance of the day: {amount}",
+  "@historyDayBalance": {
+    "description": "Screen reader label of a day's balance in the history.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "historyEmpty": "No movements in this period.",
   "@historyEmpty": {
     "description": "Empty history."

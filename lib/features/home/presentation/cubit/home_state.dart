@@ -119,6 +119,17 @@ abstract class HomeState with _$HomeState {
     return [for (final MapEntry(:key, :value) in groups.entries) (key, value)];
   }
 
+  /// Income less expenses of [movements] in the active currency, as the
+  /// totals count them: a day's balance in the history.
+  int netOf(Iterable<Movement> movements) {
+    final code = currencyCode;
+    if (code == null) return 0;
+    final totals =
+        PeriodTotals.of(movements, accounts ?? const [])[code] ??
+        const CurrencyTotals();
+    return totals.income - totals.expenses;
+  }
+
   /// Categories of [type] in [period] by amount, largest first, with their
   /// share of the type's total (RF-14).
   List<({Category category, int amount, double share})> categoriesOf(

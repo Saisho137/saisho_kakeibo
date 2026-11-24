@@ -882,6 +882,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyByCategory => 'By category';
 
   @override
+  String get historyCloseTooltip => 'Close the history';
+
+  @override
+  String historyDayMovements(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count movements',
+      one: '1 movement',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyDayBalance(String amount) {
+    return 'Balance of the day: $amount';
+  }
+
+  @override
   String get historyEmpty => 'No movements in this period.';
 
   @override

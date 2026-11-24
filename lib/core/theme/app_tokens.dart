@@ -106,22 +106,31 @@ class AppTokens extends ThemeExtension<AppTokens> {
       ? iconGlyph
       : iconGlyphDark;
 
-  /// [color], deepened toward black on a light surface (or lightened
-  /// toward white on a dark one) just enough to reach the graphics
-  /// contrast on [on] (accessibility): a line icon in a category's color.
-  /// Text in that color asks [minTextContrast] as [min].
+  /// [color], moved toward black or white (whichever contrasts more with
+  /// [on]) just enough to reach the graphics contrast on it
+  /// (accessibility): a line icon in a category's color. Text in that
+  /// color asks [minTextContrast] as [min].
+  ///
+  /// It takes at most [_readableSteps] steps: on a mid-gray surface, such
+  /// as one halfway through the light-to-dark theme animation, no color
+  /// may reach [min], and it then settles for the extreme.
   static Color readable(
     Color color, {
     required Color on,
     double min = minGlyphContrast,
   }) {
-    final target = on.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+    final target = contrast(Colors.black, on) >= contrast(Colors.white, on)
+        ? Colors.black
+        : Colors.white;
     var result = color;
-    for (var t = 0.1; contrast(result, on) < min; t += 0.1) {
-      result = Color.lerp(color, target, t)!;
+    for (var step = 1; step <= _readableSteps; step++) {
+      if (contrast(result, on) >= min) break;
+      result = Color.lerp(color, target, step / _readableSteps)!;
     }
     return result;
   }
+
+  static const int _readableSteps = 10;
 
   /// WCAG contrast ratio of two opaque colors, from 1 to 21.
   static double contrast(Color a, Color b) {

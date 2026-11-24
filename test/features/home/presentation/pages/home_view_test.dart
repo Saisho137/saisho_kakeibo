@@ -266,7 +266,7 @@ void main() {
 
       await tester.tap(find.byTooltip('History'));
       await tester.pumpAndSettle();
-      expect(find.text('By day'), findsOneWidget);
+      expect(find.byTooltip('By category'), findsOneWidget);
       expect(find.text('Food'), findsWidgets);
       await tester.tapAt(const Offset(10, 10));
       await tester.pumpAndSettle();
@@ -277,7 +277,7 @@ void main() {
         1000,
       );
       await tester.pumpAndSettle();
-      expect(find.text('By day'), findsOneWidget);
+      expect(find.byTooltip('By category'), findsOneWidget);
       await tester.tapAt(const Offset(10, 10));
       await tester.pumpAndSettle();
 

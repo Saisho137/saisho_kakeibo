@@ -83,6 +83,34 @@ void main() {
     });
   }
 
+  test('readable ends on any surface, mid-gray ones too', () {
+    // A theme animation crosses every gray between cream and night; on
+    // those no color reaches 3:1, which once froze the app (ANR).
+    const purple = Color(0xFF8E24AA);
+    for (var t = 0.0; t <= 1; t += 0.05) {
+      final surface = Color.lerp(
+        AppTheme.light.colorScheme.surface,
+        AppTheme.dark.colorScheme.surface,
+        t,
+      )!;
+      final result = AppTokens.readable(purple, on: surface);
+      expect(
+        AppTokens.contrast(result, surface),
+        greaterThanOrEqualTo(
+          AppTokens.contrast(
+            purple,
+            surface,
+          ).clamp(0, AppTokens.minGlyphContrast),
+        ),
+      );
+    }
+    // The extreme when nothing reaches the contrast.
+    expect(
+      AppTokens.readable(purple, on: const Color(0xFF777777), min: 21),
+      Colors.black,
+    );
+  });
+
   test('readable keeps a color that already contrasts', () {
     const indigo = Color(0xFF3949AB);
     expect(AppTokens.readable(indigo, on: Colors.white), indigo);
