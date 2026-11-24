@@ -263,6 +263,29 @@ void main() {
       );
     });
 
+    test("the quick menu's filter narrows the totals and the donut", () {
+      final state = HomeState(
+        today: movementDay,
+        settings: const AppSettings(
+          periodType: PeriodType.monthly,
+          balanceFilter: BalanceFilter.cash,
+        ),
+        accounts: [cash, card],
+        periodStarts: const [],
+        categories: [category(id: 10)],
+        pillars: pillars,
+        movements: [
+          movement(accountId: 2, amount: 300, categoryId: 10),
+          movement(amount: 40, categoryId: 10),
+        ],
+      );
+      final period = state.periods.first;
+
+      expect(state.totalsOf(period), const CurrencyTotals(expenses: 40));
+      expect(state.donutOf(period).total, 40);
+      expect(state.historyOf(period).single.movement.amount, 40);
+    });
+
     group('history', () {
       // Monthly from the 27th; account 4 is a USD account.
       final usdBank = account(id: 4, currencyCode: 'USD');

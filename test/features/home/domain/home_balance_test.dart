@@ -3,8 +3,10 @@ import 'package:saisho_kakeibo/core/money/money.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/home/domain/services/home_balance.dart';
+import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 
 import '../../../helpers/account_fixtures.dart';
+import '../../../helpers/movement_fixtures.dart';
 
 void main() {
   final cash = account(id: 1, type: AccountType.cash, includeInBalance: true);
@@ -47,6 +49,43 @@ void main() {
           filter: BalanceFilter.both,
         ),
         const Money(9, 'COP'),
+      );
+    });
+  });
+
+  group('HomeFilter', () {
+    final expense = movement(accountId: 2);
+    final fromCash = movement(); // Of the cash account.
+    final toCash = movement(
+      type: MovementType.transfer,
+      accountId: 2,
+      toAccountId: 1,
+    );
+
+    test('Both keeps every movement', () {
+      expect(BalanceFilter.both.keepsMovement(expense, accounts), isTrue);
+      expect(
+        BalanceFilter.both.keepsMovement(movement(accountId: 99), []),
+        isTrue,
+      );
+    });
+
+    test('keeps the movements of a kept account', () {
+      expect(BalanceFilter.cash.keepsMovement(fromCash, accounts), isTrue);
+      expect(BalanceFilter.cash.keepsMovement(expense, accounts), isFalse);
+      expect(BalanceFilter.bank.keepsMovement(expense, accounts), isTrue);
+      expect(BalanceFilter.bank.keepsMovement(fromCash, accounts), isFalse);
+    });
+
+    test('keeps a transfer when either side is kept', () {
+      expect(BalanceFilter.cash.keepsMovement(toCash, accounts), isTrue);
+      expect(BalanceFilter.bank.keepsMovement(toCash, accounts), isTrue);
+    });
+
+    test('drops a movement of an unknown account', () {
+      expect(
+        BalanceFilter.cash.keepsMovement(movement(accountId: 99), accounts),
+        isFalse,
       );
     });
   });

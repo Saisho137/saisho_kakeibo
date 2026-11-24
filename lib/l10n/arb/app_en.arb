@@ -1132,6 +1132,18 @@
   "@balanceFilterBoth": {
     "description": "Balance filter: every account in the Balance."
   },
+  "homeFilterAll": "All accounts",
+  "@homeFilterAll": {
+    "description": "Under the app name in the Home bar: the quick menu's filter keeps every account."
+  },
+  "homeFilterCash": "Cash",
+  "@homeFilterCash": {
+    "description": "Under the app name in the Home bar: only the cash accounts are shown."
+  },
+  "homeFilterBank": "Bank accounts",
+  "@homeFilterBank": {
+    "description": "Under the app name in the Home bar: only the non-cash accounts are shown."
+  },
   "quickMenuTheme": "Theme",
   "@quickMenuTheme": {
     "description": "Quick menu group: theme."

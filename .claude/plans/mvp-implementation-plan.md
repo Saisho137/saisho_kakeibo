@@ -30,6 +30,7 @@
 | 8 | Deudas | RF-09 |
 | 9 | Entidades | RF-08 |
 | 10 | Pulido del MVP | RF-17, accesibilidad, rendimiento |
+| 10d–10f | Identidad visual y retroalimentación de uso | RF-01, RF-14, RF-17 |
 | 11 | Google Sign-In y respaldo en Drive | RF-12, RT-09 |
 | 12 | Release 1.0.0 | RT-01 |
 
@@ -147,6 +148,32 @@ El núcleo contable. Es la fase más grande: conviene dividirla en dos o tres PR
 - [x] Estados vacíos y mensajes de error en todas las pantallas. (10a: revisadas; faltaba el detalle de una entidad sin movimientos.)
 - [x] Ícono de la app y pantalla de inicio (splash). (10c: ícono provisional en vectores, adaptativo y temático; splash del sistema en Android 12+.)
 - [x] Revisión de cobertura por capa y deuda técnica acumulada. (10c: 99,5 %; se quitó código y textos sin uso y comentarios de fases viejas.)
+
+## Fases 10d–10f — Identidad visual y retroalimentación de uso
+
+Fase intermedia larga, antes de OAuth, a partir del uso real en el teléfono y con Monefy como referencia de estética (no de identidad): mismos contrastes, color sólido e iconografía de línea, pero con un **amarillo** propio en lugar de verde. Cada sub-fase es su rama y su PR; la lista crece con cada ronda de retroalimentación.
+
+### 10d — Errores y paleta
+
+- [x] El filtro *Cash / Bank / Both* del menú rápido filtra todo el Home, no solo el Balance: dona, totales del centro e historial (antes el diseño decía "afecta solo al Balance"). Una transferencia cuenta si alguno de sus dos lados pasa el filtro.
+- [x] Paleta nueva en `AppTokens` y `ColorScheme`: primario amarillo entre ámbar y mostaza (cálido, que no canse la vista) con tinta oscura encima (el blanco sobre amarillo no pasa WCAG), fondo crema en el tema claro para descansar la vista, ingreso verde y gasto rojo más vivos (tipo Monefy), y un tema oscuro coherente (superficies cálidas y amarillo como acento). Las pruebas de contraste de 10a se mantienen en verde. (Marca `#E5A93B` con tinta `#34260A`, crema `#FFF8EC`; los roles de Material salen de la misma semilla, así que botones de texto y switches usan un ámbar profundo que sí se lee. Ingreso y gasto quedan en `#127033` y `#BF2626`, lo más vivo que pasa 4,5:1 sobre la crema; los aros y puntos de 10e pueden ser más vivos porque son gráficos, 3:1.)
+- [x] Barra superior de color sólido amarillo, con el nombre de la app en una fuente manuscrita incluida en la app (sin depender de internet) a la derecha del botón ☰ y, debajo y más pequeño, el filtro del Balance activo (*All accounts*, *Cash*, *Bank*), para que se vea qué filtro se está usando. (Fuente Courgette, OFL, en `assets/fonts/courgette`.)
+- [x] Ícono provisional y splash con la nueva paleta.
+
+### 10e — Home
+
+- [ ] Totales del centro de la dona con un ancho máximo y **un solo tamaño de letra para los tres**, calculado por el más largo: totales con los mismos dígitos se ven del mismo tamaño.
+- [ ] Botones de acción más grandes y sin texto, de aro (tipo Monefy): tres en lugar de dos, **−** gasto (rojo), **⇄** transferencia (más pequeño, en el medio) y **+** ingreso (verde). Con tooltips y etiquetas semánticas, porque pierden el texto.
+- [ ] Barra del Balance como separador visual: píldora de color sólido (amarillo) con el texto en tinta de contraste, y las líneas de agarre a los lados que indican que sube el historial.
+- [ ] Íconos de línea, del color de la categoría y sin círculo de relleno (estilo minimalista de Monefy), en la dona, la cuadrícula de categorías y las listas, con los íconos que ya tenemos (Material *outlined*). Si no alcanza la identidad buscada, más adelante se evalúa una colección de íconos externa.
+- [ ] Panel de ajustes de la derecha (`NavigationMenu`) con el ancho de sus opciones, no el ancho fijo del `Drawer`.
+
+### 10f — Historial
+
+- [ ] Rediseño del panel del historial con la paleta y el estilo del Home, aprovechando mejor el espacio (filas más compactas, sin tarjetas).
+- [ ] Separador de día con la fecha completa (*23 November*), un contador de movimientos en una insignia y el balance del día a la derecha (verde si es positivo, rojo si es negativo). Los días se pueden plegar.
+- [ ] Filas: punto de color del tipo (verde ingreso, rojo gasto, neutro transferencia), categoría arriba y entidad o nota debajo, y el monto a la derecha.
+- [ ] El selector *By day / By category* pasa a ser un ícono a la derecha de la barra del Balance, visible solo con el historial abierto.
 
 ## Fase 11 — Google Sign-In y respaldo en Drive
 

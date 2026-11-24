@@ -83,6 +83,15 @@ abstract class HomeState with _$HomeState {
         : periods[currentIndex];
   }
 
+  /// Movements of [period] that the quick menu's filter keeps (RF-17).
+  Iterable<Movement> _shownIn(Period period) {
+    final filter = settings?.balanceFilter ?? BalanceFilter.both;
+    final accounts = this.accounts ?? const <Account>[];
+    return (movements ?? const <Movement>[]).where(
+      (m) => period.contains(m.date) && filter.keepsMovement(m, accounts),
+    );
+  }
+
   /// Movements of [period] in the active currency, newest first, each with
   /// the account it is seen from: its own, or the receiver of a transfer
   /// from another currency.
@@ -91,12 +100,11 @@ abstract class HomeState with _$HomeState {
     final accounts = this.accounts ?? const <Account>[];
     if (code == null) return const [];
     return [
-      for (final m in movements ?? const <Movement>[])
-        if (period.contains(m.date))
-          if (accounts.byId(m.accountId)?.currencyCode == code)
-            (movement: m, accountId: m.accountId)
-          else if (accounts.byId(m.toAccountId)?.currencyCode == code)
-            (movement: m, accountId: m.toAccountId!),
+      for (final m in _shownIn(period))
+        if (accounts.byId(m.accountId)?.currencyCode == code)
+          (movement: m, accountId: m.accountId)
+        else if (accounts.byId(m.toAccountId)?.currencyCode == code)
+          (movement: m, accountId: m.toAccountId!),
     ];
   }
 
@@ -120,7 +128,7 @@ abstract class HomeState with _$HomeState {
     final code = currencyCode;
     if (code == null) return const [];
     final amounts = PeriodTotals.byCategory(
-      (movements ?? const <Movement>[]).where((m) => period.contains(m.date)),
+      _shownIn(period),
       accounts ?? const [],
       currencyCode: code,
       type: type,
@@ -137,14 +145,11 @@ abstract class HomeState with _$HomeState {
       payees?.where((p) => p.id == movement.payeeId).firstOrNull;
 
   /// Income, Expenses and Transfers of [period] in the active currency,
-  /// over every account of it (RF-14).
+  /// over every account of it that the filter keeps (RF-14).
   CurrencyTotals totalsOf(Period period) {
     final code = currencyCode;
     if (code == null) return const CurrencyTotals();
-    final inPeriod = (movements ?? const <Movement>[]).where(
-      (m) => period.contains(m.date),
-    );
-    return PeriodTotals.of(inPeriod, accounts ?? const [])[code] ??
+    return PeriodTotals.of(_shownIn(period), accounts ?? const [])[code] ??
         const CurrencyTotals();
   }
 
@@ -153,9 +158,7 @@ abstract class HomeState with _$HomeState {
     final code = currencyCode;
     if (code == null) return const DonutData(total: 0, pillars: []);
     return DonutData.of(
-      movements: (movements ?? const <Movement>[]).where(
-        (m) => period.contains(m.date),
-      ),
+      movements: _shownIn(period),
       accounts: accounts ?? const [],
       categories: categories ?? const [],
       pillars: pillars ?? const [],

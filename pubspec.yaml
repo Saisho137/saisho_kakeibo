@@ -49,3 +49,6 @@ flutter:
     - family: RobotoFlex
       fonts:
         - asset: assets/fonts/roboto_flex/RobotoFlex.ttf
+    - family: Courgette
+      fonts:
+        - asset: assets/fonts/courgette/Courgette-Regular.ttf

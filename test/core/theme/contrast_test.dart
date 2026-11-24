@@ -6,7 +6,7 @@ import 'package:saisho_kakeibo/core/theme/app_tokens.dart';
 
 /// The app's own colors stay readable in both themes (accessibility): the
 /// money colors are text (4.5:1, WCAG AA) and the icon glyphs sit on the
-/// palette colors (3:1 for graphics).
+/// palette colors (3:1 for graphics). The ink on the brand bars is text.
 void main() {
   for (final theme in [AppTheme.light, AppTheme.dark]) {
     final tokens = theme.extension<AppTokens>()!;
@@ -29,6 +29,20 @@ void main() {
           });
         }
       }
+
+      test('ink on the brand color', () {
+        expect(
+          AppTokens.contrast(tokens.onBrand, tokens.brand),
+          greaterThanOrEqualTo(4.5),
+        );
+      });
+
+      test('Material primary reads as text on the surface', () {
+        expect(
+          AppTokens.contrast(scheme.primary, scheme.surface),
+          greaterThanOrEqualTo(4.5),
+        );
+      });
     });
   }
 
