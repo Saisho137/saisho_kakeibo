@@ -6,13 +6,11 @@ import 'package:mocktail/mocktail.dart';
 import 'package:saisho_kakeibo/core/money/currency.dart';
 import 'package:saisho_kakeibo/core/money/currency_format.dart';
 import 'package:saisho_kakeibo/core/settings/app_settings.dart';
-import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/time/local_date.dart';
 import 'package:saisho_kakeibo/features/accounts/domain/entities/account.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/category.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
-import 'package:saisho_kakeibo/features/home/presentation/widgets/balance_pill.dart';
-import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/history_view.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/payees/domain/entities/payee.dart';
 
@@ -91,18 +89,15 @@ void main() {
     await tester.pumpApp(
       BlocProvider<HomeCubit>.value(
         value: cubit,
-        child: Builder(
-          builder: (context) => TextButton(
-            onPressed: () =>
-                showHistorySheet(context, categoryType: categoryType),
-            child: const Text('open'),
+        child: Scaffold(
+          body: HistoryView(
+            byCategory: categoryType != null,
+            categoryType: categoryType,
           ),
         ),
       ),
       router: router,
     );
-    await tester.tap(find.text('open'));
-    await tester.pumpAndSettle();
   }
 
   /// A day's header as the history writes it.
@@ -151,26 +146,6 @@ void main() {
       expect(find.text('Uber'), findsOneWidget);
     });
 
-    testWidgets('the Balance is centered and closes it', (tester) async {
-      await open(tester);
-
-      final width =
-          tester.view.physicalSize.width / tester.view.devicePixelRatio;
-      expect(
-        tester.getCenter(find.byType(BalancePill)).dx,
-        closeTo(width / 2, 0.5),
-      );
-      // The switch's 48 dp target ends at the margin, as the grip starts.
-      expect(
-        tester.getCenter(find.byIcon(Icons.donut_small_outlined)).dx,
-        closeTo(width - AppSpacing.md - kMinInteractiveDimension / 2, 0.5),
-      );
-
-      await tester.tap(find.byTooltip('Close the history'));
-      await tester.pumpAndSettle();
-      expect(find.byType(HistoryView), findsNothing);
-    });
-
     testWidgets('groups by category, adding up to 100 %', (tester) async {
       await open(tester, categoryType: MovementType.expense);
 
@@ -191,21 +166,13 @@ void main() {
       await tester.tap(find.text('Income'));
       await tester.pumpAndSettle();
       expect(find.text('No movements in this period.'), findsOneWidget);
-
-      await tester.tap(find.byTooltip('By day'));
-      await tester.pumpAndSettle();
-      expect(find.text(fullDate(today)), findsOneWidget);
-
-      await tester.tap(find.byTooltip('By category'));
-      await tester.pumpAndSettle();
-      expect(find.text('Expenses'), findsOneWidget);
     });
 
     testWidgets('shows nothing before loading', (tester) async {
       when(() => cubit.state).thenReturn(const HomeState());
       await open(tester);
 
-      expect(find.byTooltip('By category'), findsNothing);
+      expect(find.byType(ListView), findsNothing);
     });
 
     testWidgets('an empty period says so', (tester) async {

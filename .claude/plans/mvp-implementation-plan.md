@@ -175,7 +175,8 @@ Fase intermedia larga, antes de OAuth, a partir del uso real en el teléfono y c
 - [x] Filas: punto de color del tipo (verde ingreso, rojo gasto, neutro transferencia), categoría arriba y entidad o nota debajo, y el monto a la derecha.
 - [x] El selector *By day / By category* pasa a ser un ícono a la derecha de la barra del Balance, visible solo con el historial abierto.
 - [x] **Error (ANR en el Poco X7):** la app dejaba de responder al animar el cambio de tema. `AppTokens.readable` (10e) buscaba el contraste en un ciclo sin tope y, sobre una superficie gris media de la animación, ningún color lo alcanza: en release los canales se recortan a [0, 1] y el ciclo no terminaba. Ahora da como mucho 10 pasos hacia el extremo de más contraste; prueba de regresión sobre toda la transición crema → noche.
-- [ ] Pendiente de la próxima ronda: Monefy deja los botones − ⇄ + visibles sobre el historial abierto; el nuestro es un panel modal que los tapa.
+- [x] Los botones − ⇄ + quedan visibles con el historial abierto, como en Monefy: el historial deja de ser un panel modal y vive dentro del Home (`HistoryPanel`). El Balance sube hasta arriba siguiendo el dedo, con el historial debajo; tocarlo, arrastrarlo hacia abajo o *Atrás* lo cierran.
+- [x] Cuatro íconos del catálogo seguían rellenos aunque eran *outlined* (corazón, maletín, ayuda y estrella): pasan a sus versiones de línea.
 
 ## Fase 11 — Google Sign-In y respaldo en Drive
 

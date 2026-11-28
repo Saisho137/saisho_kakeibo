@@ -10,8 +10,8 @@ import 'package:saisho_kakeibo/core/theme/app_spacing.dart';
 import 'package:saisho_kakeibo/core/theme/app_typography.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/donut/donut_chart.dart';
-import 'package:saisho_kakeibo/features/home/presentation/widgets/history_sheet.dart';
-import 'package:saisho_kakeibo/features/home/presentation/widgets/home_balance_bar.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/history_panel.dart';
+import 'package:saisho_kakeibo/features/home/presentation/widgets/home_actions.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/navigation_menu.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/period_totals_view.dart';
 import 'package:saisho_kakeibo/features/home/presentation/widgets/quick_menu.dart';
@@ -22,7 +22,8 @@ import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_page
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
 /// The Home: one period per page with its donut and totals, then the
-/// Balance and the entry buttons. ☰ opens the quick menu and ⋮ the navigation.
+/// Balance, which pulls the history up, and the entry buttons. ☰ opens
+/// the quick menu and ⋮ the navigation.
 class HomePage extends StatelessWidget {
   const new({super.key});
 
@@ -76,23 +77,28 @@ class HomeView extends StatelessWidget {
               Column(
                 children: [
                   Expanded(
-                    // A new period type or cutoff day starts over on today.
-                    child: PeriodPageView(
-                      key: ValueKey((
-                        state.settings?.periodType,
-                        state.settings?.cutoffDay,
-                      )),
-                      periods: state.periods,
-                      initialIndex: state.currentIndex,
-                      onPageChanged: context.read<HomeCubit>().periodSelected,
-                      itemBuilder: (context, period) => _PeriodPage(
-                        period: period,
-                        state: state,
-                        currency: currency,
+                    child: HistoryPanel(
+                      balance: balance,
+                      currency: currency,
+                      // A new period type or cutoff day starts over on today.
+                      pageBuilder: (context, openHistory) => PeriodPageView(
+                        key: ValueKey((
+                          state.settings?.periodType,
+                          state.settings?.cutoffDay,
+                        )),
+                        periods: state.periods,
+                        initialIndex: state.currentIndex,
+                        onPageChanged: context.read<HomeCubit>().periodSelected,
+                        itemBuilder: (context, period) => _PeriodPage(
+                          period: period,
+                          state: state,
+                          currency: currency,
+                          openHistory: openHistory,
+                        ),
                       ),
                     ),
                   ),
-                  HomeBalanceBar(balance: balance, currency: currency),
+                  const HomeActions(),
                 ],
               ),
             _ => Center(child: Text(l10n.genericError)),
@@ -144,11 +150,13 @@ class _PeriodPage extends StatelessWidget {
     required this.period,
     required this.state,
     required this.currency,
+    required this.openHistory,
   });
 
   final Period period;
   final HomeState state;
   final Currency currency;
+  final OpenHistory openHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +177,7 @@ class _PeriodPage extends StatelessWidget {
               center: PeriodTotalsView(
                 totals: state.totalsOf(period),
                 currency: currency,
-                onTap: (type) => showHistorySheet(context, categoryType: type),
+                onTap: (type) => openHistory(categoryType: type),
               ),
               // A debt's section starts its payment ("Pay", RF-09).
               onCategoryTap: (section) => context.push(

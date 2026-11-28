@@ -48,15 +48,16 @@ void main() {
     // Two periods: since yesterday, and from 2025 to the day before.
     periodStarts: [LocalDate(2025, 1, 1), today.addDays(-1)],
     movements: [
-      movement(type: MovementType.income, amount: 5000000, date: today),
-      movement(amount: 2040000, date: today, categoryId: 10),
+      movement(id: 1, type: MovementType.income, amount: 5000000, date: today),
+      movement(id: 2, amount: 2040000, date: today, categoryId: 10),
       movement(
+        id: 3,
         type: MovementType.transfer,
         toAccountId: 2,
         amount: 1200000,
         date: today,
       ),
-      movement(amount: 777, date: LocalDate(2025, 1, 5)),
+      movement(id: 4, amount: 777, date: LocalDate(2025, 1, 5)),
     ],
   );
 
@@ -285,17 +286,10 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byTooltip('By category'), findsOneWidget);
       expect(find.text('Food'), findsWidgets);
-      await tester.tapAt(const Offset(10, 10));
-      await tester.pumpAndSettle();
-
-      await tester.fling(
-        find.byTooltip('History'),
-        const Offset(0, -300),
-        1000,
-      );
-      await tester.pumpAndSettle();
-      expect(find.byTooltip('By category'), findsOneWidget);
-      await tester.tapAt(const Offset(10, 10));
+      // The entry buttons stay in sight over the history.
+      await tester.tap(find.byTooltip('Expense'));
+      verify(() => router.push<Object?>('/entry/expense')).called(1);
+      await tester.tap(find.byTooltip('Close the history'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('1.200.000'));

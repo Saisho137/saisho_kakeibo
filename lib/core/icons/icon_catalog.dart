@@ -255,7 +255,7 @@ abstract final class IconCatalog {
     ),
     CatalogIcon(
       key: 'favorite',
-      icon: Icons.favorite_outlined,
+      icon: Icons.favorite_border,
       color: _red,
       group: IconGroup.health,
     ),
@@ -409,7 +409,7 @@ abstract final class IconCatalog {
     ),
     CatalogIcon(
       key: 'work',
-      icon: Icons.work_outlined,
+      icon: Icons.work_outline,
       color: _brown,
       group: IconGroup.finance,
     ),
@@ -549,7 +549,7 @@ abstract final class IconCatalog {
     // Other
     CatalogIcon(
       key: 'help',
-      icon: Icons.help_outlined,
+      icon: Icons.help_outline,
       color: _grey,
       group: IconGroup.other,
     ),
@@ -567,7 +567,7 @@ abstract final class IconCatalog {
     ),
     CatalogIcon(
       key: 'star',
-      icon: Icons.star_outlined,
+      icon: Icons.star_border,
       color: _amber,
       group: IconGroup.other,
     ),

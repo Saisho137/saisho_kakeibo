@@ -17,45 +17,19 @@ import 'package:saisho_kakeibo/features/accounts/domain/entities/accounts_x.dart
 import 'package:saisho_kakeibo/features/accounts/presentation/widgets/movement_tile.dart';
 import 'package:saisho_kakeibo/features/categories/domain/entities/categories_x.dart';
 import 'package:saisho_kakeibo/features/home/presentation/cubit/home_cubit.dart';
-import 'package:saisho_kakeibo/features/home/presentation/widgets/balance_pill.dart';
 import 'package:saisho_kakeibo/features/movements/domain/entities/movement.dart';
 import 'package:saisho_kakeibo/features/periods/domain/entities/period.dart';
 import 'package:saisho_kakeibo/features/periods/presentation/widgets/period_label.dart';
 import 'package:saisho_kakeibo/l10n/l10n.dart';
 
-/// Opens the history of the period on screen from the bottom, by day or,
-/// with [categoryType], by category of that type.
-Future<void> showHistorySheet(
-  BuildContext context, {
-  MovementType? categoryType,
-}) {
-  final cubit = context.read<HomeCubit>();
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    useSafeArea: true,
-    builder: (_) => BlocProvider.value(
-      value: cubit,
-      child: DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.75,
-        minChildSize: 0.4,
-        maxChildSize: 1,
-        builder: (context, controller) =>
-            HistoryView(controller: controller, categoryType: categoryType),
-      ),
-    ),
-  );
-}
-
-/// The period's movements by day, newest first, or its categories of one
-/// type by amount (RF-14). Pending movements are dimmed.
+/// The period's movements by day, newest first, or, [byCategory], its
+/// categories of one type by amount (RF-14). Pending movements are dimmed.
 class HistoryView extends StatefulWidget {
-  const new({this.controller, this.categoryType, super.key});
+  const new({required this.byCategory, this.categoryType, super.key});
 
-  final ScrollController? controller;
+  final bool byCategory;
 
-  /// Opens the view by category of this type; the view by day otherwise.
+  /// The type the view by category starts on; expenses otherwise.
   final MovementType? categoryType;
 
   @override
@@ -63,7 +37,6 @@ class HistoryView extends StatefulWidget {
 }
 
 class _HistoryViewState extends State<HistoryView> {
-  late bool _byCategory = widget.categoryType != null;
   late MovementType _type = widget.categoryType ?? MovementType.expense;
 
   /// Days folded in the view by day.
@@ -76,13 +49,11 @@ class _HistoryViewState extends State<HistoryView> {
     final period = state.visiblePeriod;
     final currency = state.currency;
     if (period == null || currency == null) return const SizedBox.shrink();
-    final balance = state.balance;
     return ListView(
-      controller: widget.controller,
       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: AppSpacing.sm),
+          padding: const EdgeInsets.only(bottom: AppSpacing.xs),
           child: Text(
             periodLabel(context, period),
             textAlign: TextAlign.center,
@@ -91,41 +62,11 @@ class _HistoryViewState extends State<HistoryView> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
-          ),
-          child: BalanceRow(
-            leading: const BalanceGrip(),
-            pill: balance == null
-                ? const SizedBox.shrink()
-                : BalancePill(
-                    balance: balance,
-                    currency: currency,
-                    tooltip: l10n.historyCloseTooltip,
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-            // By day or by category, only here (RF-14).
-            trailing: IconButton(
-              tooltip: _byCategory ? l10n.historyByDay : l10n.historyByCategory,
-              icon: Icon(
-                _byCategory
-                    ? Icons.calendar_month_outlined
-                    : Icons.donut_small_outlined,
-                color: context.colors.primary,
-              ),
-              onPressed: () => setState(() => _byCategory = !_byCategory),
-            ),
-          ),
-        ),
-        if (_byCategory) ...[
+        if (widget.byCategory) ...[
           Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
-              AppSpacing.sm,
-              AppSpacing.md,
-              AppSpacing.sm,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
             ),
             child: SegmentedButton<MovementType>(
               showSelectedIcon: false,
