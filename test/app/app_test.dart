@@ -454,7 +454,7 @@ void main() {
       await tester.tap(find.byTooltip('History'));
       await tester.pumpAndSettle();
       expect(find.text('Parking · Pending'), findsOneWidget);
-      await tester.tapAt(const Offset(10, 10));
+      await tester.tap(find.byTooltip('Close the history'));
       await tester.pumpAndSettle();
 
       // Undoing that start takes its pending movement away too.

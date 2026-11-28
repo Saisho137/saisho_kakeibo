@@ -200,7 +200,7 @@ void main() {
         'open the history',
         () => tester.tap(find.byTooltip('History')),
       );
-      await tester.tapAt(const Offset(10, 10));
+      await tester.tap(find.byTooltip('Close the history'));
       await tester.pumpAndSettle();
       await step(
         'open the quick entry',
